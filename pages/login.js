@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Divider from '@mui/material/Divider';
 
 
 function Copyright(props) {
@@ -71,6 +72,16 @@ export default function login() {
             <Typography component="h1" variant="h5">
               Masuk ke akun anda
             </Typography>
+            <Button
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Masuk dengan Google
+            </Button>
+            <Divider orientation="horizontal" flexItem>
+              atau
+            </Divider>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
@@ -97,7 +108,6 @@ export default function login() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                style ={{backgroudColor:"black"}}
               >
                 Sign In
               </Button>
