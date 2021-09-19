@@ -1,9 +1,6 @@
-import * as React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -11,33 +8,14 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
+import { Copyright } from '../component/Copyright';
 
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Markaz Pillar
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import RegistrationL from '../logic/registrationL';
 
 const theme = createTheme();
 
-export default function login() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-
+export default function Registration() {
+  const {value, handleChange, handleSubmit} = RegistrationL();
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -91,6 +69,8 @@ export default function login() {
                   name="email"
                   autoComplete="email"
                   autoFocus
+                  onChange={handleChange}
+                  value={value.email}
                 />
                 <TextField
                   margin="normal"
@@ -98,8 +78,10 @@ export default function login() {
                   fullWidth
                   name="username"
                   label="Username"
-                  type="username"
+                  type="text"
                   id="username"
+                  onChange={handleChange}
+                  value={value.username}
                 />
                 <TextField
                   margin="normal"
@@ -109,6 +91,8 @@ export default function login() {
                   label="Nama Lengkap"
                   type="text"
                   id="namaLengkap"
+                  onChange={handleChange}
+                  value={value.namaLengkap}
                 />
                 <TextField
                   margin="normal"
@@ -118,6 +102,9 @@ export default function login() {
                   label="Nomor Telpon"
                   type="tel"
                   id="nomorTelpon"
+                  onChange={handleChange}
+                  value={value.nomorTelepon}
+
                 />
                 <TextField
                   margin="normal"
@@ -127,6 +114,8 @@ export default function login() {
                   label="Alamat"
                   type="text"
                   id="alamat"
+                  onChange={handleChange}
+                  value={value.alamat}
                 />
                 <TextField
                   margin="normal"
@@ -136,12 +125,17 @@ export default function login() {
                   label="Password"
                   type="password"
                   id="password"
+                  onChange={handleChange}
+                  value={value.password}
+                  error={value.password.length < 8}
+                  helperText={value.password.length < 8 && "Password harus terdiri dari 8 karakter"}
                 />
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
+                  disabled={value.password.length < 8}
                 >
                   Daftar
                 </Button>
