@@ -5,7 +5,7 @@ import layout from '../styles/Home.module.css'
 export default function Layout({children}){
 
     const [isOpen,setIsOpen] = useState(false);
-    const openMenu= ()=> setIsOpen(!isOpen);
+    const toggleMenu= ()=> setIsOpen(!isOpen);
     return <>
             <header className={layout.header}>
                 <nav className={styles.navbar}>
@@ -18,41 +18,41 @@ export default function Layout({children}){
                        <Link href='/markaz'>
                          <a className={isOpen === false ?
                                     styles.navlink : styles.navlink+' '+styles.active}
-                                    onClick={openMenu}>Markaz</a>
+                                    onClick={toggleMenu}>Markaz</a>
                         </Link>
                     </li>
                     <li className={styles.navitem}>
                         <Link href='/santri'>
                           <a className={isOpen === false ?
                                     styles.navlink : styles.navlink+' '+styles.active}
-                                    onClick={openMenu}>Santri</a>
+                                    onClick={toggleMenu}>Santri</a>
                         </Link>
                     </li>
                     <li className={styles.navitem}>
                         <Link href='/volunteer'>
                          <a className={isOpen === false ?
                                     styles.navlink : styles.navlink+' '+styles.active}
-                                    onClick={openMenu}>Volunteer</a>
+                                    onClick={toggleMenu}>Volunteer</a>
                         </Link>
                     </li>
                     <li className={styles.navitem}>
                         <Link href='/pengajar'>
                          <a className={isOpen === false ?
                                     styles.navlink : styles.navlink+' '+styles.active}
-                                    onClick={openMenu}>Pengajar</a>
+                                    onClick={toggleMenu}>Pengajar</a>
                         </Link>
                     </li>
                     <li className={styles.navitem}>
                         <Link href='/kelas'>
                          <a className={isOpen === false ?
                                     styles.navlink : styles.navlink+' '+styles.active}
-                                    onClick={openMenu}>Kelas</a>
+                                    onClick={toggleMenu}>Kelas</a>
                         </Link>
                     </li>
                 </ul>
                 <button className={isOpen === false ?
                                     styles.hamburger : styles.hamburger+' '+styles.active}
-                                    onClick={openMenu}
+                                    onClick={toggleMenu}
                                     >
                     <span className={styles.bar}></span>
                     <span className={styles.bar}></span>
@@ -61,11 +61,5 @@ export default function Layout({children}){
                 </nav>
             </header>
         {children}
-        {/* {footer} */}
-        <div className={layout.container}>
-            <footer className={styles.footer}>
-            PPL 2021
-        </footer>
-      </div>
      </>
 }
