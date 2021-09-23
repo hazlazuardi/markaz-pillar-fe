@@ -118,3 +118,29 @@
     flex-direction: column;
   }
 }
+
+.container2{
+  /* min-height: 100vh; */
+  padding: 48px 163px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* height: 100vh; */
+}
+
+.kegiatan{
+  font-size: 14px;
+}
+
+.list{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.listitem{
+  margin-right: 2rem;
+}
