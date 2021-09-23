@@ -243,3 +243,36 @@
     margin: 4px 2px;
     font-weight: bold;
 }
+
+.tablehead {
+    background-color: #004f5d;
+    color: white;
+    text-align: left;
+}
+
+.padding {
+    padding: 5%;
+}
+
+.btn2 {
+    color: white;
+    background-color: #004F5D;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    cursor: pointer;
+    border: none;
+    padding: 1vh 2vh 1vh 2vh;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    font-weight: bold;
+}
+
+.search {
+    border-color:  #004F5D;
+    width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+}
