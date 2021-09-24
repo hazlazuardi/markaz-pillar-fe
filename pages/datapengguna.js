@@ -15,17 +15,19 @@ export default function DataPengguna() {
             <Table striped bordered hover>
               <thead className={styles.tablehead}>
                 <tr>
-                  <th>Nama</th>
-                  <th>Username</th>
-                  <th>Email</th>
-                  <th>Nomor Telepon</th>
-                  <th>Alamat</th>
-                  <th>Action</th>
+                  <th className={styles.pad}>Nama</th>
+                  <th className={styles.pad}>Username</th>
+                  <th className={styles.pad}>Email</th>
+                  <th className={styles.pad}>Nomor Telepon</th>
+                  <th className={styles.pad}>Alamat</th>
+                  <th className={styles.pad}>Action</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className={styles.sub}><u><b>Roni Wijaya</b></u></td>
+                  <Link href='/datapengguna-detail'>
+                    <td className={styles.sub}><u><b>Roni Wijaya</b></u></td>
+                  </Link>
                   <td>@roniwijaya</td>
                   <td>roniwijaya@gmail.com</td>
                   <td>+6212345678</td>
