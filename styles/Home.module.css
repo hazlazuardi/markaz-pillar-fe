@@ -121,7 +121,7 @@
 
 .container2{
   /* min-height: 100vh; */
-  padding: 48px 163px;
+  padding: 48px 5vw;
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
@@ -148,7 +148,13 @@
 }
 
 .listitem{
-  margin-right: 2rem;
+  margin-right: 3vw;
+}
+
+@media (max-width: 355px) {
+  .list{
+    display: grid;
+  }
 }
 
 .kartu_container{
@@ -158,8 +164,6 @@
   position: relative;
   height: 230px;
   color: #737B7D;
-  /* background: #0070f3; */
-  /* border-radius: 20px; */
   grid-template-areas:
   "image type target status"
   "image date donat markaz";
@@ -214,4 +218,52 @@
   position: absolute;
   top: 70%;
   left: 60%;
+}
+
+@media (max-width: 1800px) {
+  .kartu_item_markaz{
+    top: 50%;
+  }
+}
+
+@media (max-width: 1070px) {
+  .kartu_item_markaz{
+    top: 30%;
+  }
+}
+
+@media (max-width: 700px) {
+  .kartu_container{
+    grid-template-columns: auto;
+    grid-template-areas:
+    "image image"
+    "type target"
+    "status date"
+    "donat markaz";
+    min-height: 400px;
+    height: 50vh;
+  }
+  .kartu_item_markaz{
+    top: 30%;
+    left: 50%;
+  }
+  .kartu_item_type{
+    top: 30%;
+  }
+
+  .kartu_item_target{
+    top: 30%;
+  }
+
+  .kartu_item_status{
+    top: 30%;
+  }
+
+  .kartu_item_date{
+    top: 30%;
+  }
+
+  .kartu_item_donat{
+    top: 30%;
+  }
 }

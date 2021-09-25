@@ -70,7 +70,7 @@ export default function Activity() {
                 <button>Delete</button>
               </div>
             </div>
-          </Grid>  
+          </Grid>   
         </Grid> 
       </Grid>
     </div>
