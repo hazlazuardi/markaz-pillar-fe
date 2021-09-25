@@ -131,6 +131,7 @@
 
 .kegiatan{
   font-size: 14px;
+  color: #004F5D;
 }
 
 .list{
@@ -139,8 +140,78 @@
   margin: 0;
   display: flex;
   flex-direction: row;
+  color: #828282;
+}
+
+.listitem:hover{
+  color: #004F5D;
 }
 
 .listitem{
   margin-right: 2rem;
+}
+
+.kartu_container{
+  display: grid;
+  grid-template-columns: repeat(4, 21vw);
+  justify-items: center;
+  position: relative;
+  height: 230px;
+  color: #737B7D;
+  /* background: #0070f3; */
+  /* border-radius: 20px; */
+  grid-template-areas:
+  "image type target status"
+  "image date donat markaz";
+  border: #E2E5E6 1px;
+  border-style: solid;
+  top: 1rem;
+}
+
+.kartu_item_image{
+  grid-area: image;
+  position: absolute;
+  top: 45%;
+}
+
+.kartu_item_type{
+  grid-area: type;
+  position: absolute;
+  top: 50%;
+  left: 15%;
+}
+
+.kartu_item_target{
+  grid-area: target;
+  position: absolute;
+  top: 50%;
+  left: 15%;
+}
+
+.kartu_item_status{
+  grid-area: status;
+  position: absolute;
+  top: 50%;
+  left: 15%;
+}
+
+.kartu_item_date{
+  grid-area: date;
+  position: absolute;
+  top: 20%;
+  left: 15%;
+}
+
+.kartu_item_donat{
+  grid-area: donat;
+  position: absolute;
+  top: 20%;
+  left: 15%;
+}
+
+.kartu_item_markaz{
+  grid-area: markaz;
+  position: absolute;
+  top: 70%;
+  left: 60%;
 }
