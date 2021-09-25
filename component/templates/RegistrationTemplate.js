@@ -8,14 +8,13 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
-import { Copyright } from '../component/Copyright';
+import { Copyright } from '../Copyright';
 
-import RegistrationL from '../logic/registrationL';
 
 const theme = createTheme();
 
-export default function Registration() {
-  const {value, handleChange, handleSubmit} = RegistrationL();
+export default function RegistrationTemplate(props) {
+  const {value, handleChange, handleSubmit} = props;
   return (
     <div>
       <ThemeProvider theme={theme}>

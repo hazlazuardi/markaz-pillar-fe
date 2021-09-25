@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import RegistrationTemplate from '../component/templates/RegistrationTemplate';
 
-export default function RegistrationL() {
+export default function useRegistration() {
     const [value, setValue] = useState({
         email: '',
         username: '',
@@ -35,9 +36,10 @@ export default function RegistrationL() {
         // });
     };
 
-    return {
-        value,
-        handleChange,
-        handleSubmit
-    }
+    return (
+        <>
+            <RegistrationTemplate value={value} handleChange={handleChange} handleSubmit={handleSubmit} />
+        </>
+    )
+
 }
