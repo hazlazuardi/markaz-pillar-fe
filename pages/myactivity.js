@@ -1,10 +1,10 @@
 //import Head from 'next/head'
-import Link from 'next/link'
-import { useState } from "react"
+import * as React from 'react';
 import styles from '../styles/Home.module.css'
 import Layout from "../component/layout"
 import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Activity() {
   return (
@@ -14,7 +14,8 @@ export default function Activity() {
         direction="column"
         spacing={2}
         // justifyContent="space-around"
-        alignItems="stretch">
+        // alignItems="stretch"
+        >
         <Grid item>
           <h1 className={styles.kegiatan}>
             KEGIATAN SAYA
@@ -66,8 +67,10 @@ export default function Activity() {
                 <a>Rp50.000,00</a>
               </div>
               <div className={styles.kartu_item_markaz}>
-                <a>Lihat Markaz </a>
-                <button>Delete</button>
+                <a href="">Lihat Markaz </a>
+                <IconButton aria-label="delete">
+                <DeleteIcon />
+                </IconButton>
               </div>
             </div>
           </Grid>   
@@ -97,8 +100,10 @@ export default function Activity() {
                 <a>Rp50.000,00</a>
               </div>
               <div className={styles.kartu_item_markaz}>
-                <a>Lihat Santri </a>
-                <button>Delete</button>
+                <a href="">Lihat Santri </a>
+                <IconButton aria-label="delete">
+                <DeleteIcon />
+                </IconButton>
               </div>
             </div>
           </Grid>  
@@ -128,12 +133,23 @@ export default function Activity() {
                 <a>Senin dan Rabu, 13.00-14.00</a>
               </div>
               <div className={styles.kartu_item_markaz}>
-                <a>Lihat Markaz </a>
-                <button>Delete</button>
+                <a href="">Lihat Kegiatan</a>
+                <IconButton aria-label="delete">
+                <DeleteIcon />
+                </IconButton>
               </div>
             </div>
           </Grid>  
         </Grid> 
+        <Grid item>
+          <ul className={styles.pagebutton}>
+            <button className={styles.buttons}><li>1</li></button>
+            <button className={styles.buttons}><li>2</li></button>
+            <button className={styles.buttons}><li>3</li></button>
+            <button className={styles.buttons}><li>4</li></button>
+            <button className={styles.buttons}><li>5</li></button>
+          </ul>
+        </Grid>
       </Grid>
     </div>
   </Layout>

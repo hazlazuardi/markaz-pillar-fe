@@ -121,7 +121,7 @@
 
 .container2{
   /* min-height: 100vh; */
-  padding: 48px 5vw;
+  padding: 3vh 5vw;
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
@@ -218,6 +218,41 @@
   position: absolute;
   top: 70%;
   left: 60%;
+  color: #004F5D;
+}
+
+.pagebutton{
+  position: relative;
+  top: 5vh;
+  text-align: right;
+}
+
+.buttons{
+  padding: 10px 13px;
+  border-radius: 100%;
+  /* color: #004F5D; */
+  font-weight: 600;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  transition: all 200ms ease;
+  cursor: pointer;
+  box-shadow: 0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 0 rgba(0, 127, 255, 0);
+  border: none;
+  position: relative;
+  /* outline-style: solid; */
+  outline: #004F5D solid 1px;
+  list-style-type: none;
+  margin-left: 10px;
+  /* background-color: #004F5D; */
+}
+
+.buttons{
+  color: #004F5D;
+}
+
+.buttons:hover{
+  color: white;
+  background-color: #004F5D;
 }
 
 @media (max-width: 1800px) {
@@ -226,7 +261,7 @@
   }
 }
 
-@media (max-width: 1070px) {
+@media (max-width: 1200px) {
   .kartu_item_markaz{
     top: 30%;
   }
@@ -240,12 +275,13 @@
     "type target"
     "status date"
     "donat markaz";
-    min-height: 400px;
+    min-height: 500px;
     height: 50vh;
+    /* max-height: 52vh; */
   }
   .kartu_item_markaz{
     top: 30%;
-    left: 50%;
+    left: 40%;
   }
   .kartu_item_type{
     top: 30%;
@@ -265,5 +301,11 @@
 
   .kartu_item_donat{
     top: 30%;
+  }
+
+  .pagebutton{
+    text-align: center;
+    position: relative;
+    right: 5vw;
   }
 }
