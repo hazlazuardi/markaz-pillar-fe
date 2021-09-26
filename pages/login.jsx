@@ -71,7 +71,7 @@ export default function Login() {
             "statusText": ""
           })
           response.json();
-          // router.push("/landing")
+          router.push("/landing")
         } else {
           console.log("Error", response.status)
           setError({
