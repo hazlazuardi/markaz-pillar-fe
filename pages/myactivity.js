@@ -71,6 +71,68 @@ export default function Activity() {
               </div>
             </div>
           </Grid>   
+          <Grid item>
+            <div className={styles.kartu_container}>
+              <div className={styles.kartu_item_image}>
+                gambar
+              </div>
+              <div className={styles.kartu_item_type}>
+                <a>Jenis kegiatan</a><br />
+                <a>Donasi</a>
+              </div>
+              <div className={styles.kartu_item_target}>
+                <a>Target donasi</a><br />
+                <a>Fatimah Azzahra</a>
+              </div>
+              <div className={styles.kartu_item_status}>
+                <a>Status</a><br />
+                <a>Donasi diterima</a>
+              </div>
+              <div className={styles.kartu_item_date}>
+                <a>Tanggal kegiatan</a><br />
+                <a>14/08/2021</a>
+              </div>
+              <div className={styles.kartu_item_donat}>
+                <a>Jumlah donasi</a><br />
+                <a>Rp50.000,00</a>
+              </div>
+              <div className={styles.kartu_item_markaz}>
+                <a>Lihat Santri </a>
+                <button>Delete</button>
+              </div>
+            </div>
+          </Grid>  
+          <Grid item>
+            <div className={styles.kartu_container}>
+              <div className={styles.kartu_item_image}>
+                gambar
+              </div>
+              <div className={styles.kartu_item_type}>
+                <a>Jenis kegiatan</a><br />
+                <a>Volunteer</a>
+              </div>
+              <div className={styles.kartu_item_target}>
+                <a>Kegiatan volunteer</a><br />
+                <a>Bercocok Tanam</a>
+              </div>
+              <div className={styles.kartu_item_status}>
+                <a>Status</a><br />
+                <a>Menunggu konfirmasi</a>
+              </div>
+              <div className={styles.kartu_item_date}>
+                <a>Tanggal kegiatan</a><br />
+                <a>14/08/2021</a>
+              </div>
+              <div className={styles.kartu_item_donat}>
+                <a>Jadwal donasi</a><br />
+                <a>Senin dan Rabu, 13.00-14.00</a>
+              </div>
+              <div className={styles.kartu_item_markaz}>
+                <a>Lihat Markaz </a>
+                <button>Delete</button>
+              </div>
+            </div>
+          </Grid>  
         </Grid> 
       </Grid>
     </div>
