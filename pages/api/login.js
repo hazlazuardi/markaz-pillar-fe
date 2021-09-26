@@ -13,16 +13,22 @@ export default handler
             },
             body: JSON.stringify(data),
         }).then(r => {
+            console.log("api res before", r)
             if (r.status === 200) {
-                r.json();
-                console.log(r)
+                console.log("api res error before", r)
+                r.json().then(data => {
+                    console.log("api res error after", data)
+                    res.status(200).send(data)
+                    console.log("api", data)
+                })
             } else {
-                res.status(401).json(r)
-                console.log(r)
+                console.log("api res error before", r)
+                r.json().then(data => {
+                    console.log("api res error after", data)
+                    res.status(data.statusCode).send(data)
+                    console.log("api", data)
+                })
             }
-        }).then(data => {
-            res.status(200).json(data)
-            console.log("data", data)
         })
             .catch(error => {
                 console.log(error)
