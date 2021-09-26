@@ -11,7 +11,11 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
+import { useRouter } from 'next/dist/client/router';
+import { useState } from 'react';
 
+
+const BASE_URL = process.env.BACKEND_HOST;
 
 function Copyright(props) {
     return (
@@ -29,15 +33,59 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function login() {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-    };
+  const router = useRouter();
+
+  const [value, setValue] = useState({
+    "email": "",
+    "username": "",
+    "fullName": "",
+    "password": "",
+    "phoneNum": "",
+    "address": ""
+  });
+  const [error, setError] = useState({
+    "status": 201,
+    "statusText": ""
+  })
+
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+    setValue((prev) => ({
+        ...prev,
+        [name]: value
+    }));
+  };
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    await fetch(`http://localhost:8080/authenticate`, {
+        body: JSON.stringify(value),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST'
+    })
+        .then(response => {
+            if (response.status === 201) {
+                console.log("Logged In", response)
+                setError({
+                    "status": 201,
+                    "statusText": ""
+                })
+                router.push("/landing")
+            } else {
+                console.log("Error", response.status)
+                setError({
+                    "status": response.status,
+                    "statusText": response.statusText
+                })
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
+};
 
     return (
         <div>
@@ -92,6 +140,10 @@ export default function login() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={handleChange}
+                value={value.email}
+                error={error.status !== 201 && value !== ""}
+                helperText={error.status !== 201 && value !== "" && "Email belum terdaftar"}
               />
               <TextField
                 margin="normal"
@@ -102,6 +154,10 @@ export default function login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={handleChange}
+                value={value.password}
+                error={error.status !== 201 && value !== ""}
+                helperText={error.status !== 201 && value !== "" && "Password dan email tidak cocok"}
               />
               <Button
                 type="submit"
