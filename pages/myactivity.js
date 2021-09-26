@@ -1,6 +1,6 @@
 //import Head from 'next/head'
 import * as React from 'react';
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Activity.module.css'
 import Layout from "../component/layout"
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@mui/material/IconButton';
