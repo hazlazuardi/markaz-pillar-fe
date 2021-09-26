@@ -8,13 +8,13 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
-import { Copyright } from '../Copyright';
+import { Copyright } from '../../modules/Copyright';
 
 
 const theme = createTheme();
 
 export default function RegistrationTemplate(props) {
-  const {value, handleChange, handleSubmit} = props;
+  const { value, error, handleChange, handleSubmit } = props;
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -70,6 +70,8 @@ export default function RegistrationTemplate(props) {
                   autoFocus
                   onChange={handleChange}
                   value={value.email}
+                  error={error.status !== 201 && value !== ""}
+                  helperText={error.status !== 201 && value !== "" && "Email yang anda masukkan sudah ada"}
                 />
                 <TextField
                   margin="normal"
@@ -86,35 +88,35 @@ export default function RegistrationTemplate(props) {
                   margin="normal"
                   required
                   fullWidth
-                  name="namaLengkap"
+                  name="fullName"
                   label="Nama Lengkap"
                   type="text"
-                  id="namaLengkap"
+                  id="fullName"
                   onChange={handleChange}
-                  value={value.namaLengkap}
+                  value={value.fullName}
                 />
                 <TextField
                   margin="normal"
                   required
                   fullWidth
-                  name="nomorTelepon"
+                  name="phoneNum"
                   label="Nomor Telpon"
                   type="tel"
-                  id="nomorTelpon"
+                  id="phoneNum"
                   onChange={handleChange}
-                  value={value.nomorTelepon}
+                  value={value.phoneNum}
 
                 />
                 <TextField
                   margin="normal"
                   required
                   fullWidth
-                  name="alamat"
+                  name="address"
                   label="Alamat"
                   type="text"
-                  id="alamat"
+                  id="address"
                   onChange={handleChange}
-                  value={value.alamat}
+                  value={value.address}
                 />
                 <TextField
                   margin="normal"

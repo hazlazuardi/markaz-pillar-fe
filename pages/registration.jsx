@@ -1,15 +1,22 @@
 import { useState } from 'react';
-import RegistrationTemplate from '../component/templates/RegistrationTemplate';
+import RegistrationTemplate from '../component/templates/registration';
+import { useRouter } from 'next/dist/client/router';
 
-export default function useRegistration() {
+export default function Registration() {
+    const router = useRouter();
+
     const [value, setValue] = useState({
-        email: '',
-        username: '',
-        namaLengkap: '',
-        nomorTelepon: '',
-        alamat: '',
-        password: '',
+        "email": "",
+        "username": "",
+        "fullName": "",
+        "password": "",
+        "phoneNum": "",
+        "address": ""
     });
+    const [error, setError] = useState({
+        "status": 201,
+        "statusText": ""
+    })
 
     const handleChange = ({ target }) => {
         const { name, value } = target;
@@ -19,26 +26,41 @@ export default function useRegistration() {
         }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(value);
-        // register(value).then((res) => {
-        //   dispatch({ type: 'snackbarSuccess', payload: `Welcome, ${value.username}` })
-        //   redirectImmediate("/login");
-        // }).catch((error) => {
-        //   console.log('salah login', error);
-        //   if (error.response.status === 400) {
-        //     dispatch({ type: 'snackbarError', payload: 'Please fill all of the fields' })
-        //   }
-        //   if (error.response.status === 403) {
-        //     dispatch({ type: 'snackbarError', payload: 'User already exists' })
-        //   }
-        // });
+        await fetch('/api/registration', {
+            body: JSON.stringify(value),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST'
+        })
+            .then(response => {
+                if (response.status === 201) {
+                    console.log("Created", response)
+                    setError({
+                        "status": 201,
+                        "statusText": ""
+                    })
+                    router.push("/login")
+                } else {
+                    console.log("Error", response.status)
+                    setError({
+                        "status": response.status,
+                        "statusText": response.statusText
+                    })
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
     };
+
+    console.log("errorState", error)
 
     return (
         <>
-            <RegistrationTemplate value={value} handleChange={handleChange} handleSubmit={handleSubmit} />
+            <RegistrationTemplate value={value} error={error} handleChange={handleChange} handleSubmit={handleSubmit} />
         </>
     )
 
