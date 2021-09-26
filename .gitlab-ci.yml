@@ -1,0 +1,33 @@
+stages:
+  - deploy
+
+image: node:latest
+
+cache:
+  paths:
+    - ./node_modules/
+
+before_script:
+  - rm -rf ./build     # remove the existing build
+  - CI=false npm install     # install required packages
+
+production:
+  stage: deploy
+  environment: Production
+  variables:
+    SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY
+  before_script:
+    - apt-get update -qq
+    # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - 'which rsync || ( apt-get install -qq rsync )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - CI=false npm run build     # build the React app, set CI=false because CI=true treats all warnings as errors
+    - rsync -auv --delete -e ./build/* deploy-ci@markazpillar.afriza.co:/var/www/markazpillar.afriza.co/html/
+    - ssh deploy-ci@markazpillar.afriza.co "systemctl restart nginx"
+  only:
+    - master       # deploy contents in master branch
