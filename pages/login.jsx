@@ -70,18 +70,23 @@ export default function Login() {
             "status": 200,
             "statusText": ""
           })
-          response.json();
+          response.json().then(data => {
+            console.log("page", data)
+            localStorage.setItem("accessToken", data.result.accessToken);
+            localStorage.setItem("refreshToken", data.result.refreshToken);
+          })
           router.push("/landing")
         } else {
-          console.log("Error", response.status)
+          response.json().then(data => {
+            console.log("page", data)
+            console.log("Error", response.status)
+          })
+
           setError({
             "status": response.status,
             "statusText": response.statusText
           })
         }
-      })
-      .then(data => {
-        console.log("data", data)
       })
       .catch(error => {
         console.log(error)
@@ -170,7 +175,7 @@ export default function Login() {
                 </Button>
                 <Grid container>
                   <Grid item>
-                    <Link href="#" variant="body2">
+                    <Link href="/registration" variant="body2">
                       {"Belum memiliki akun? Registrasi"}
                     </Link>
                   </Grid>

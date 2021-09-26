@@ -8,16 +8,21 @@ export default handler
         await fetch(`${BASE_URL}/register`, {
             method: 'POST',
             headers: {
+                'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data),
         }).then(r => {
+            console.log("api res before", r)
             if (r.status === 201) {
-                res.status(201).json(r);
-                console.log(r)
+                res.status(201).json(r)
             } else {
-                res.status(400).json(r)
-                console.log(r)
+                console.log("api res error before", r)
+                r.json().then(data => {
+                    console.log("api res error after", data)
+                    res.status(data.statusCode).send(data)
+                    console.log("api", data)
+                })
             }
         })
             .catch(error => {

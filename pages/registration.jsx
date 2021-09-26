@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import RegistrationTemplate from '../component/templates/registration';
 import { useRouter } from 'next/dist/client/router';
 
@@ -31,33 +31,35 @@ export default function Registration() {
         await fetch('/api/registration', {
             body: JSON.stringify(value),
             headers: {
+                'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
             method: 'POST'
         })
             .then(response => {
                 if (response.status === 201) {
-                    console.log("Created", response)
+                    console.log("Success before", response)
                     setError({
                         "status": 201,
                         "statusText": ""
                     })
+                    console.log("Success register", response)
                     router.push("/login")
                 } else {
-                    console.log("Error", response.status)
-                    setError({
-                        "status": response.status,
-                        "statusText": response.statusText
+                    response.json().then(data => {
+                        console.log("page", data)
+                        setError({
+                            "status": data.statusCode,
+                            "statusText": data.result.message
+                        })
                     })
                 }
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    };
+            });
 
-    console.log("errorState", error)
-
+    }
+    useEffect(() => {
+        localStorage.clear();
+    }, [])
     return (
         <>
             <RegistrationTemplate value={value} error={error} handleChange={handleChange} handleSubmit={handleSubmit} />
