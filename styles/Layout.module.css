@@ -5,9 +5,7 @@
 
 .navbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 1%;
     box-shadow: 5px 5px 10px grey;
 }
 
@@ -27,13 +25,12 @@
 
 .navmenu {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    list-style-type: none;
 }
 
 .navitem {
-    margin-left: 5rem;
+    margin-left: 7rem;
+    margin-left: 7rem;
+    list-style-type: none;
 }
 
 .navlink{
@@ -41,7 +38,6 @@
     font-weight: 500;
     color: #373F41;
     font-family: 'Helvetica', 'Arial', sans-serif;
-
 }
 
 .navlink:hover{
@@ -51,6 +47,9 @@
 .navlogo {
     font-size: 1.75rem;
     font-weight: 500;
+    color: #00000;
+    padding: 1%;
+    padding-left: 2%;
 }
 
 @media only screen and (max-width: 768px) {
