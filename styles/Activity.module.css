@@ -1,0 +1,190 @@
+.container2{
+    /* min-height: 100vh; */
+    padding: 3vh 5vw;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* height: 100vh; */
+  }
+  
+  .kegiatan{
+    font-size: 14px;
+    color: #004F5D;
+  }
+  
+  .list{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    color: #828282;
+  }
+  
+  .listitem:hover{
+    color: #004F5D;
+  }
+  
+  .listitem{
+    margin-right: 3vw;
+  }
+  
+  @media (max-width: 355px) {
+    .list{
+      display: grid;
+    }
+  }
+  
+  .kartu_container{
+    display: grid;
+    grid-template-columns: repeat(4, 21vw);
+    justify-items: center;
+    position: relative;
+    height: 230px;
+    color: #737B7D;
+    grid-template-areas:
+    "image type target status"
+    "image date donat markaz";
+    border: #E2E5E6 1px;
+    border-style: solid;
+    top: 1rem;
+  }
+  
+  .kartu_item_image{
+    grid-area: image;
+    position: absolute;
+    top: 45%;
+  }
+  
+  .kartu_item_type{
+    grid-area: type;
+    position: absolute;
+    top: 50%;
+    left: 15%;
+  }
+  
+  .kartu_item_target{
+    grid-area: target;
+    position: absolute;
+    top: 50%;
+    left: 15%;
+  }
+  
+  .kartu_item_status{
+    grid-area: status;
+    position: absolute;
+    top: 50%;
+    left: 15%;
+  }
+  
+  .kartu_item_date{
+    grid-area: date;
+    position: absolute;
+    top: 20%;
+    left: 15%;
+  }
+  
+  .kartu_item_donat{
+    grid-area: donat;
+    position: absolute;
+    top: 20%;
+    left: 15%;
+  }
+  
+  .kartu_item_markaz{
+    grid-area: markaz;
+    position: absolute;
+    top: 70%;
+    left: 60%;
+    color: #004F5D;
+  }
+  
+  .pagebutton{
+    position: relative;
+    top: 1vh;
+    text-align: right;
+  }
+  
+  .buttons{
+    padding: 10px 13px;
+    border-radius: 100%;
+    /* color: #004F5D; */
+    font-weight: 600;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    transition: all 200ms ease;
+    cursor: pointer;
+    box-shadow: 0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 0 rgba(0, 127, 255, 0);
+    border: none;
+    position: relative;
+    /* outline-style: solid; */
+    outline: #004F5D solid 1px;
+    list-style-type: none;
+    margin-left: 10px;
+    /* background-color: #004F5D; */
+  }
+  
+  .buttons{
+    color: #004F5D;
+  }
+  
+  .buttons:hover{
+    color: white;
+    background-color: #004F5D;
+  }
+  
+  @media (max-width: 1800px) {
+    .kartu_item_markaz{
+      top: 50%;
+    }
+  }
+  
+  @media (max-width: 1200px) {
+    .kartu_item_markaz{
+      top: 30%;
+    }
+  }
+  
+  @media (max-width: 700px) {
+    .kartu_container{
+      grid-template-columns: auto;
+      grid-template-areas:
+      "image image"
+      "type target"
+      "status date"
+      "donat markaz";
+      min-height: 500px;
+      height: 50vh;
+      /* max-height: 52vh; */
+    }
+    .kartu_item_markaz{
+      top: 30%;
+      left: 40%;
+    }
+    .kartu_item_type{
+      top: 30%;
+    }
+  
+    .kartu_item_target{
+      top: 30%;
+    }
+  
+    .kartu_item_status{
+      top: 30%;
+    }
+  
+    .kartu_item_date{
+      top: 30%;
+    }
+  
+    .kartu_item_donat{
+      top: 30%;
+    }
+  
+    .pagebutton{
+      text-align: center;
+      position: relative;
+      right: 5vw;
+    }
+  }
