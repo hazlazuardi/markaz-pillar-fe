@@ -33,5 +33,11 @@ export const theme = createTheme({
       secondary: '#737B7D'
     }
   },
-    
+  typography: {
+    fontFamily: "'Work Sans','Helvetica'",
+    fontWeightLight: 200,
+    fontWeightRegular: 400,
+    fontWeightMedium: 600,
+    fontWeightBold: 800,
+  }
 });

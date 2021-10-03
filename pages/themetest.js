@@ -12,7 +12,10 @@ export default function BasicButtons(){
              test
             </Button>
             <Typography 
-                color="text">
+                variant="h2"
+                fontFamily="helvetica"
+                color="textSecondary"
+                fontWeight="light">
                     test
                 </Typography>
         </ThemeProvider>
