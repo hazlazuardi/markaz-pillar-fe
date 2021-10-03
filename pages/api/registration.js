@@ -27,11 +27,5 @@ export default handler
         })
             .catch(error => {
                 console.log(error)
-                console.log("api res error before", r)
-                r.json().then(data => {
-                    console.log("api res error after", data)
-                    res.status(500).send(data)
-                    console.log("api", data)
-                })
             });
     });
