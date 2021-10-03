@@ -6,7 +6,7 @@ export default function Registration() {
     const router = useRouter();
 
     const [value, setValue] = useState({
-        "email": "",
+        "email": "dadada",
         "username": "",
         "fullName": "",
         "password": "",
@@ -49,8 +49,8 @@ export default function Registration() {
                     response.json().then(data => {
                         console.log("page", data)
                         setError({
-                            "status": data.statusCode,
-                            "statusText": data.result.message
+                            "status": 500,
+                            "statusText": "Server Error"
                         })
                     })
                 }

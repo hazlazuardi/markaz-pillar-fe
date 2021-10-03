@@ -71,14 +71,14 @@ export default function Login() {
             "statusText": ""
           })
           response.json().then(data => {
-            console.log("page", data)
+            console.log("page success", data)
             localStorage.setItem("accessToken", data.result.accessToken);
             localStorage.setItem("refreshToken", data.result.refreshToken);
           })
           router.push("/landing")
         } else {
           response.json().then(data => {
-            console.log("page", data)
+            console.log("page error", data)
             console.log("Error", response.status)
           })
 
