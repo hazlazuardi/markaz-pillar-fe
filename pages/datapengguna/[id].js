@@ -1,8 +1,6 @@
-import Table from 'react-bootstrap/Table'
-import Layout from "../component/layout"
-import styles from '../styles/Home.module.css'
+import Layout from '../../component/layout'
+import styles from '../../styles/Home.module.css'
 import Link from 'next/link'
-import Search from "../component/searchbar"
 
 export default function DetailPengguna() {
     return (

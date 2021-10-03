@@ -6,7 +6,7 @@ export default function Registration() {
     const router = useRouter();
 
     const [value, setValue] = useState({
-        "email": "dadada",
+        "email": "",
         "username": "",
         "fullName": "",
         "password": "",
@@ -28,6 +28,7 @@ export default function Registration() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        // API Route usage
         await fetch('/api/registration', {
             body: JSON.stringify(value),
             headers: {
@@ -46,6 +47,7 @@ export default function Registration() {
                     console.log("Success register", response)
                     router.push("/login")
                 } else {
+                    // Update the helper text if server error
                     response.json().then(data => {
                         console.log("page", data)
                         setError({
