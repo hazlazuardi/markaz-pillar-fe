@@ -15,7 +15,7 @@ export default function BasicButtons(){
                 variant="h2"
                 fontFamily="helvetica"
                 color="textSecondary"
-                fontWeight="light">
+                fontWeight="bold">
                     test
                 </Typography>
         </ThemeProvider>
