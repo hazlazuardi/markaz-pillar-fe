@@ -39,6 +39,6 @@ describe('Navigation', () => {
 
         cy.get('a').contains("Sudah memiliki akun? Masuk").click()
 
-        cy.url().should('not.include', '/')
+        cy.url().should('not.include', '/landing')
     })
 })
