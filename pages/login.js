@@ -52,7 +52,7 @@ export default function Login() {
         console.log("Pre response", preResponse)
         preResponse.json()
           .then(response => {
-            if (response.statusCode === 200) {
+            if (preResponse.status === 200) {
               console.log("page success", response)
               dispatch({
                 type: dispatchTypes.LOGIN_SUCCEED,

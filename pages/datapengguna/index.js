@@ -25,7 +25,7 @@ export default function DataPengguna() {
               </thead>
               <tbody>
                 <tr>
-                  <Link href='/datapengguna-detail'>
+                  <Link href='/datapengguna-detail' passHref>
                     <td className={styles.sub}><u><b>Roni Wijaya</b></u></td>
                   </Link>
                   <td>@roniwijaya</td>

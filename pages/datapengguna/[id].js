@@ -6,7 +6,7 @@ export default function DetailPengguna() {
     return (
     <Layout>
         <div className={styles.container}>
-            <Link href='/datapengguna'>
+            <Link href='/datapengguna' passHref>
                 <p className={[styles.sub, styles.item1].join(" ")}><b>DETAIL PENGGUNA</b></p>
             </Link>
             <div className={styles.detailgrid}>
