@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import RegistrationTemplate from '../component/templates/registration';
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/router'
 import { useAppContext } from '../context/AppContext';
 
 export default function Registration() {

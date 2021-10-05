@@ -5,7 +5,8 @@ export const dispatchTypes = {
     LOGIN_FAIL: "login_fail",
     REGISTRATION_SUCCEED: "registration_succeed",
     REGISTRATION_FAIL: "registration_fail",
-    AUTHENTICATED: "authenticated"
+    AUTHENTICATED: "authenticated",
+    SNACKBAR_CLOSE: "snackbar_close"
 }
 
 // Initialize variables
@@ -13,12 +14,16 @@ export const initialFunction = initialState => {
     let {
         currentUser,
         currentAccessToken,
-        currentRefreshToken
+        currentRefreshToken,
+        snackbarStatus,
+        snackbarMessage
     } = initialState;
     return {
         currentUser,
         currentAccessToken,
-        currentRefreshToken
+        currentRefreshToken,
+        snackbarStatus,
+        snackbarMessage
 
     }
 }
@@ -27,7 +32,10 @@ export const initialFunction = initialState => {
 export const initialState = {
     currentUser: "",
     currentAccessToken: "",
-    currentRefreshToken: ""
+    currentRefreshToken: "",
+    snackbarStatus: false,
+    snackbarMessage: ""
+
 }
 
 
@@ -39,7 +47,9 @@ export const AppReducer = (state, action) => {
                 ...state,
                 currentUser: action.payload.currentUser,
                 currentAccessToken: action.payload.currentAccessToken,
-                currentRefreshToken: action.payload.currentRefreshToken
+                currentRefreshToken: action.payload.currentRefreshToken,
+                snackbarStatus: true,
+                snackbarMessage: `Welcome back, ${action.payload.currentUser}`
             }
         }
         case dispatchTypes.AUTHENTICATED: {
@@ -47,7 +57,15 @@ export const AppReducer = (state, action) => {
                 ...state,
                 currentUser: action.payload.currentUser,
                 currentAccessToken: action.payload.currentAccessToken,
-                currentRefreshToken: action.payload.currentRefreshToken
+                currentRefreshToken: action.payload.currentRefreshToken,
+                snackbarStatus: true,
+                snackbarMessage: `Welcome back, ${action.payload.currentUser}`
+            }
+        }
+        case dispatchTypes.SNACKBAR_CLOSE: {
+            return {
+                ...state,
+                snackbarStatus: false
             }
         }
         default:

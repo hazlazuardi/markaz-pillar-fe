@@ -3,7 +3,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useRouter } from 'next/dist/client/router';
+import {useRouter} from 'next/router'
 import { useState } from 'react';
 import LoginForm from '../component/modules/LoginForm';
 import { useAppContext } from '../context/AppContext'
