@@ -33,13 +33,13 @@ export default function index({children}) {
 
     return (
         <Container maxWidth="lg" className={styles.container}>
-            <Grid container spacing={3}>
+            <Grid container spacing={3} sx={{display: 'flex', justifyContent:"center"}}>
                 <Grid item xs={12}>
                 <Typography variant="h6" component="h2">
                     Daftar Santri <FilterAltOutlinedIcon/>
                 </Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item lg={6} sm={12}>
                 <Typography variant="subtitle1" component="subtitle1">
                     Show
                     <FormControl sx={{ m: 1}}>
@@ -59,7 +59,7 @@ export default function index({children}) {
                     Entries
                 </Typography>
                 </Grid>
-                <Grid item xs={6} className={styles.flexEnd} pr={2}>
+                <Grid item lg={6} sm={12} className={styles.flexEnd} pr={2}>
                     <SearchBar></SearchBar>
                 </Grid>
                 {children}
