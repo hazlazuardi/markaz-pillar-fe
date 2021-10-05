@@ -8,7 +8,6 @@ import styles from '../../../styles/Home.module.css';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
-import { makeStyles } from '@material-ui/core';
 
 import { styled } from '@mui/material/styles';
 
@@ -26,19 +25,6 @@ export default function index({children}) {
         },
       }));
 
-      const useStyles = makeStyles(theme => ({
-        imgSize : {
-            width: "auto",
-            height: 300,
-            [theme.breakpoints.up('lg')]: {
-                width: "auto",
-                height: 450,
-            },
-        }
-      }));
-
-      const classes = useStyles();
-
     return (
         <div>
         <Grid container spacing={2}>
@@ -50,7 +36,7 @@ export default function index({children}) {
                                 <ArrowBackIcon/> Santri 1
                             </Typography>
                         </Grid>
-                        <Grid item sm={12} lg={6}>
+                        <Grid item sm={12} lg={6} sx={{width: "100%"}}>
                             <Grid container spacing={3} mb={3}>
                                 <Grid item xs={12}>
                                     <Typography variant="h4" mb={5}>
@@ -91,165 +77,164 @@ export default function index({children}) {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item sm={12} lg={6}>
-                            <Grid container spacing={2}>
-                                <Grid item sm={12}>
-                                    <Grid item sm={12}>
-                                        <Box
-                                            className={classes.imgSize}
-                                            sx={{
-                                                backgroundImage: 'url(https://source.unsplash.com/random)',
-                                                backgroundRepeat: 'no-repeat',
-                                                backgroundColor: (t) =>
-                                                    t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                                                backgroundSize: 'cover',
-                                                backgroundPosition: 'center'
-                                            }} mb={1}
-                                        />
-                                    </Grid>
-                                    <Grid item sm={12} sx={{textAlign:"center"}}>
-                                        <Typography variant="body2" mb={1}>
-                                            NOMINAL YANG DIBUTUHKAN
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item sm={12} mb={1} sx={{textAlign:"center"}}>
-                                        <Typography variant="body2" mb={1}>
-                                            50.000/100.000
-                                        </Typography>
-                                        <BorderLinearProgress variant="determinate" value={50} />
-                                    </Grid>
-                                    <Grid item sm={12}>
-                                        <Box sx={{textAlign: "center", width : "auto"}}>
-                                            <Button variant="contained">Donasi Sekarang</Button>
-                                        </Box>
-                                    </Grid>
+                        <Grid item sm={12} lg={6} sx={{width: "100%"}}>                         
+                            <Grid container spacing={2} sx={{width: "100%", display: "flex", justifyContent:"center"}}>
+                                <Grid item sm={12} sx={{width: "100%"}}>
+                                    <Box
+                                        sx={{
+                                            width: "auto",
+                                            height: 300,
+                                            backgroundImage: 'url(https://source.unsplash.com/random)',
+                                            backgroundRepeat: 'no-repeat',
+                                            backgroundColor: (t) =>
+                                                t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                                            backgroundSize: 'cover',
+                                            backgroundPosition: 'center'
+                                        }} mb={1}
+                                    />
                                 </Grid>
-                            </Grid> 
+                                <Grid item sm={12} sx={{textAlign:"center"}}>
+                                    <Typography variant="body2" mb={1}>
+                                        NOMINAL YANG DIBUTUHKAN
+                                    </Typography>
+                                </Grid>
+                                <Grid item sm={12} mb={1} sx={{textAlign:"center", width:"100%"}}>
+                                    <Typography variant="body2" mb={1}>
+                                        50.000/100.000
+                                    </Typography>
+                                    <BorderLinearProgress variant="determinate" value={50} />
+                                </Grid>
+                                <Grid item sm={12}>
+                                    <Box sx={{textAlign: "center", width : "auto"}}>
+                                        <Button variant="contained">Donasi Sekarang</Button>
+                                    </Box>
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Container>
             </Grid>
-        </Grid>
-        <Grid item xs={12} sx={{backgroundColor:"lightgray"}}>
-            <Container maxWidth="lg">
-                <Typography variant="body2" mb={2}>PROGRESS DONASI</Typography>
-                <Grid container spacing={2} sx={{display: "flex", justifyContent: "center"}}>
-                    <Grid item sm={12} lg={4}>
-                    <Box  sx={{
-                        width: 300,
-                        height: 300,
-                        border: '1px solid gray',
-                        display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)'
-                    }}>
-                        <Box sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
+            <Grid item xs={12} sx={{backgroundColor:"lightgray"}}>
+                <Container maxWidth="lg" className={styles.container}>
+                    <Typography variant="body2" mb={3}>PROGRESS DONASI</Typography>
+                    <Grid container spacing={2} sx={{display:"flex", justifyContent:"center"}}>
+                        <Grid item sm={12} lg={4} sx={{display:"flex", justifyContent:"center"}}>
+                        <Box  sx={{
+                            width: 300,
+                            height: 300,
+                            border: '1px solid gray',
+                            display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)'
                         }}>
-                            <Box sx={{ display: 'grid', gridTemplateRows: 'repeat(2, 1fr)' }}>
-                            <Box
-                            sx={{
-                                width: 60,
-                                height: 60,
-                                backgroundImage: 'url(https://source.unsplash.com/random)',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundColor: (t) =>
-                                    t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center'
-                            }}
-                            mb={2}
-                            /> 
-                            <Typography>Tanggal</Typography>
+                            <Box sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                            }}>
+                                <Box sx={{ display: 'grid', gridTemplateRows: 'repeat(2, 1fr)' }}>
+                                <Box
+                                sx={{
+                                    width: 60,
+                                    height: 60,
+                                    backgroundImage: 'url(https://source.unsplash.com/random)',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundColor: (t) =>
+                                        t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center'
+                                }}
+                                mb={2}
+                                /> 
+                                <Typography>Tanggal</Typography>
+                                </Box>
+                            </Box>
+                            <Box sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                            }}>
+                                Description of the donation
                             </Box>
                         </Box>
-                        <Box sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
+                        </Grid>
+                        <Grid item sm={12} lg={4} sx={{display:"flex", justifyContent:"center"}}>
+                        <Box  sx={{
+                            width: 300,
+                            height: 300,
+                            border: '1px solid gray',
+                            display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)'
                         }}>
-                            Description of the donation
-                        </Box>
-                    </Box>
-                    </Grid>
-                    <Grid item sm={12} lg={4}>
-                    <Box  sx={{
-                        width: 300,
-                        height: 300,
-                        border: '1px solid gray',
-                        display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)'
-                    }}>
-                        <Box sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                        }}>
-                            <Box sx={{ display: 'grid', gridTemplateRows: 'repeat(2, 1fr)' }}>
-                            <Box
-                            sx={{
-                                width: 60,
-                                height: 60,
-                                backgroundImage: 'url(https://source.unsplash.com/random)',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundColor: (t) =>
-                                    t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center'
-                            }}
-                            mb={2}
-                            /> 
-                            <Typography>Tanggal</Typography>
+                            <Box sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                            }}>
+                                <Box sx={{ display: 'grid', gridTemplateRows: 'repeat(2, 1fr)' }}>
+                                <Box
+                                sx={{
+                                    width: 60,
+                                    height: 60,
+                                    backgroundImage: 'url(https://source.unsplash.com/random)',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundColor: (t) =>
+                                        t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center'
+                                }}
+                                mb={2}
+                                /> 
+                                <Typography>Tanggal</Typography>
+                                </Box>
+                            </Box>
+                            <Box sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                            }}>
+                                Description of the donation
                             </Box>
                         </Box>
-                        <Box sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
+                        </Grid>
+                        <Grid item sm={12} lg={4} sx={{display:"flex", justifyContent:"center"}}>
+                        <Box  sx={{
+                            width: 300,
+                            height: 300,
+                            border: '1px solid gray',
+                            display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)'
                         }}>
-                            Description of the donation
-                        </Box>
-                    </Box>
-                    </Grid>
-                    <Grid item sm={12} lg={4}>
-                    <Box  sx={{
-                        width: 300,
-                        height: 300,
-                        border: '1px solid gray',
-                        display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)'
-                    }}>
-                        <Box sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                        }}>
-                            <Box sx={{ display: 'grid', gridTemplateRows: 'repeat(2, 1fr)' }}>
-                            <Box
-                            sx={{
-                                width: 60,
-                                height: 60,
-                                backgroundImage: 'url(https://source.unsplash.com/random)',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundColor: (t) =>
-                                    t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center'
-                            }}
-                            mb={2}
-                            /> 
-                            <Typography>Tanggal</Typography>
+                            <Box sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                            }}>
+                                <Box sx={{ display: 'grid', gridTemplateRows: 'repeat(2, 1fr)' }}>
+                                <Box
+                                sx={{
+                                    width: 60,
+                                    height: 60,
+                                    backgroundImage: 'url(https://source.unsplash.com/random)',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundColor: (t) =>
+                                        t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center'
+                                }}
+                                mb={2}
+                                /> 
+                                <Typography>Tanggal</Typography>
+                                </Box>
+                            </Box>
+                            <Box sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                            }}>
+                                Description of the donation
                             </Box>
                         </Box>
-                        <Box sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                        }}>
-                            Description of the donation
-                        </Box>
-                    </Box>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Container>
+                </Container>
+            </Grid>
         </Grid>
         </div>
     )

@@ -9,10 +9,10 @@ export default function Card(props) {
     const {image, santri_name, desc} = props
 
     return (
-        <Grid item xs={3}>
+        <Grid item sm={12} lg={3}>
             <Box
             sx={{
-                width: 250,
+                width: "auto",
                 height: 250,
                 backgroundImage: 'url(https://source.unsplash.com/random)',
                 backgroundRepeat: 'no-repeat',
