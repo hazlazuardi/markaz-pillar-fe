@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import RegistrationTemplate from '../component/templates/registration';
 import { useRouter } from 'next/dist/client/router';
+import { useAppContext } from '../context/AppContext';
 
 export default function Registration() {
     const router = useRouter();
+
+    const { state } = useAppContext();
+    const { currentUser } = state;
 
     const [value, setValue] = useState({
         "email": "",
@@ -15,7 +19,7 @@ export default function Registration() {
     });
     const [error, setError] = useState({
         "status": 201,
-        "statusText": ""
+        "statusText": {}
     })
 
     const handleChange = ({ target }) => {
@@ -37,31 +41,39 @@ export default function Registration() {
             },
             method: 'POST'
         })
-            .then(response => {
-                if (response.status === 201) {
-                    console.log("Success before", response)
-                    setError({
-                        "status": 201,
-                        "statusText": ""
-                    })
-                    console.log("Success register", response)
+            .then(preResponse => {
+                console.log("pre Response", preResponse)
+                if (preResponse.status === 201) {
+                    console.log("registered", preResponse)
                     router.push("/login")
                 } else {
-                    // Update the helper text if server error
-                    response.json().then(data => {
-                        console.log("page", data)
-                        setError({
-                            "status": 500,
-                            "statusText": "Server Error"
+                    preResponse.json()
+                        .then(response => {
+                            console.log("post Response", response)
+                            if (response.statusCode === 400) {
+                                console.log("Bad request", response)
+                                setError({
+                                    status: response.statusCode,
+                                    statusText: response.result
+                                })
+                            } else {
+                                console.log("Unknown error", response)
+                            }
+                        }).catch(error => {
+                            console.log("post error", error);
                         })
-                    })
                 }
-            });
+            })
+            .catch(error => {
+                console.log("Server error", error)
+            })
 
     }
     useEffect(() => {
-        localStorage.clear();
-    }, [])
+        if (currentUser) {
+            router.push("/landing")
+        }
+    }, [router, currentUser])
     return (
         <>
             <RegistrationTemplate value={value} error={error} handleChange={handleChange} handleSubmit={handleSubmit} />

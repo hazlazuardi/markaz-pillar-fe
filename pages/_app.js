@@ -1,11 +1,14 @@
 import '../styles/globals.css'
-import { AppStore } from '../context/state'
+import { AppWrapper } from '../context/AppContext'
+import Layout from '../component/layout'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <AppStore>
-      <Component {...pageProps} />
-    </AppStore>
+      <AppWrapper>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </AppWrapper>
   )
 }
 
