@@ -2,7 +2,6 @@ stages:
   - build
   - test
   - deploy
-  - sonar
 
 image: node:latest
 
@@ -23,9 +22,7 @@ build:
     paths:
       - ./node_modules/
       - ./.next/
-      - ./.cache
       - ./cache/Cypress
-      - ./build
 
 
 linter:
@@ -50,10 +47,10 @@ variables:
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - ./.cache/*
     - ./cache/Cypress
     - ./node_modules
-    - ./build
+    - ./.next/
+
 
 cypress:
   image: node:latest
@@ -62,17 +59,7 @@ cypress:
   before_script:
     - apt-get update
     - apt-get -y install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-  
-  cache:
-    key: $CI_COMMIT_REF_NAME
-    policy: pull
-    paths:
-      - ./node_modules/
-      - ./.next/
-      - ./.cache
-      - ./cache/Cypress
-      - ./build
-  
+    
   script:
     - npm ci
     # check Cypress binary path and cached versions
@@ -143,7 +130,7 @@ staging:
     - master
 
 sonarCheck:
-  stage: sonar
+  stage: test
   needs:
     - job: build
   variables:
