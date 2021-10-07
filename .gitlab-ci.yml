@@ -69,14 +69,8 @@ test:
     - npx cypress cache list
     - npm run build
     - npm run start & npx wait-on http://localhost:3000
-    - npx cypress run --record --parallel --browser chrome --group "UI - Chrome" --spec "cypress/tests/ui/*"
+    - npx cypress run"
 
-ui-chrome:
-  image: cypress/browsers:node14.17.0-chrome88-ff89
-  stage: test
-  script:
-    - npm run start & npx wait-on http://localhost:3000
-    - npx cypress run --record --parallel --browser chrome --group "UI - Chrome" --spec "cypress/tests/ui/*"
 
 staging:
   stage: deploy
