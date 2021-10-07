@@ -2,7 +2,8 @@ import handler from '../../handler';
 
 const BASE_URL = process.env.BACKEND_HOST;
 
-export default handler
+    // Backup
+    export default handler
     .post(async (req, res) => {
         const data = req.body;
         await fetch(`${BASE_URL}/register`, {
@@ -12,17 +13,18 @@ export default handler
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data),
-        }).then(r => {
-            console.log("api res before", r)
-            if (r.status === 201) {
-                res.status(201).json(r)
+        }).then(preResponse => {
+            console.log(preResponse)
+            if (preResponse.status === 201) {
+                res.status(201).send(preResponse);
             } else {
-                console.log("api res error before", r)
-                r.json().then(data => {
-                    console.log("api res error after", data)
-                    res.status(data.statusCode).send(data)
-                    console.log("api", data)
-                })
+                preResponse.json()
+                    .then(response => {
+                        res.status(response.statusCode).send(response);
+                    })
+                    .catch(error => {
+                        console.log("api error", error)
+                    })
             }
         })
             .catch(error => {

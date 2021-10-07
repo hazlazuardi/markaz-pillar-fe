@@ -1,26 +1,44 @@
-// registration.spec.js created with Cypress
-//
-// Start writing your Cypress tests below!
-// If you're unfamiliar with how Cypress works,
-// check out the link below and learn how to write your first test:
-// https://on.cypress.io/writing-first-test
-const BASE_URL = process.env.BACKEND_HOST
+describe('Test it is in the correct page', () => {
+    it('Test if registration.js contains "Daftarkan diri anda" or not', () => {
+        cy.visit('http://localhost:3000/registration')
+        cy.get('h1').contains('Daftarkan diri anda').should('exist')
+    })
 
-describe('RedirectAfterSubmit', () => {
-    it('should navigate to the login page', () => {
+    it('Test if registration.js contains "hi" or not', () => {
+        cy.visit('http://localhost:3000/registration')
+        cy.get('p').contains('hi').should('not.exist')
+    })
+})
+
+describe('Test it has all the fields', () => {
+    it('Test if registration.js contains all fields', () => {
+        cy.visit('http://localhost:3000/registration')
+        cy.get('#email').should('exist')
+        cy.get('#username').should('exist')
+        cy.get('#fullName').should('exist')
+        cy.get('#phoneNum').should('exist')
+        cy.get('#address').should('exist')
+        cy.get('#password').should('exist')
+    })
+
+})
+
+describe('Navigation', () => {
+    it('Should navigate to the login.js page', () => {
         // Start from the index page
         cy.visit('http://localhost:3000/registration')
 
-        //   Fill the fields
-        cy.request(`${BASE_URL}/register`, )
+        cy.get('a').contains("Sudah memiliki akun? Masuk").click()
 
-        // Find a link with an href attribute containing "about" and click it
-        cy.get('a[href*="about"]').click()
+        cy.url().should('include', '/login')
+    })
 
-        // The new url should include "/about"
-        cy.url().should('include', '/about')
+    it('Should not navigate to the landing page', () => {
+        // Start from the index page
+        cy.visit('http://localhost:3000/registration')
 
-        // The new page should contain an h1 with "About page"
-        cy.get('h1').contains('About Page')
+        cy.get('a').contains("Sudah memiliki akun? Masuk").click()
+
+        cy.url().should('not.include', '/landing')
     })
 })

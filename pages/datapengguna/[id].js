@@ -1,14 +1,12 @@
-import Table from 'react-bootstrap/Table'
-import Layout from "../component/layout"
-import styles from '../styles/Home.module.css'
+import Layout from '../../component/layout'
+import styles from '../../styles/Home.module.css'
 import Link from 'next/link'
-import Search from "../component/searchbar"
 
 export default function DetailPengguna() {
     return (
     <Layout>
         <div className={styles.container}>
-            <Link href='/datapengguna'>
+            <Link href='/datapengguna' passHref>
                 <p className={[styles.sub, styles.item1].join(" ")}><b>DETAIL PENGGUNA</b></p>
             </Link>
             <div className={styles.detailgrid}>
