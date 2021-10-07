@@ -1,5 +1,5 @@
 import React from 'react'
-import ShowAllTemplate from '../../component/templates/show_all'
+import ShowAllTemplate from '../../component/templates/show_all/ShowAll'
 import Layout from "../../component/layout"
 import Card from '../../component/modules/Card';
 import { useState } from 'react';
