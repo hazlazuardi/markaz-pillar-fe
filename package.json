@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "cypress": "cypress open",
-    "test": "jest"
+    "cy:run": "cypress run",
+    "test": "start-server-and-test start http://localhost:3000 cy:run"
   },
   "dependencies": {
     "@emotion/react": "^11.4.1",
@@ -33,6 +33,7 @@
     "eslint-config-next": "11.1.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.2.2",
-    "react-test-renderer": "^17.0.2"
+    "react-test-renderer": "^17.0.2",
+    "start-server-and-test": "^1.14.0"
   }
 }
