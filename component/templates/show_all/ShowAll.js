@@ -1,7 +1,7 @@
 import React from 'react'
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import SearchBar from "/component/searchbar"
+import SearchBar from "/component/Searchbar"
 import Pagination from '@mui/material/Pagination';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -12,7 +12,7 @@ import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 
 import { useState } from 'react';
 
-export default function index({children}) {
+export default function ShowAll({children}) {
 
     const handleChange = ({ target }) => {
         const { name, value } = target;
