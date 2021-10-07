@@ -8,6 +8,8 @@ import styles from '../../../styles/Home.module.css';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { styled } from '@mui/material/styles';
 
@@ -24,21 +26,25 @@ export default function index({children}) {
           backgroundColor: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
         },
       }));
+    
+    const theme = useTheme();
+    const mediumScreen = useMediaQuery(theme.breakpoints.up('md'));
+    const largeScreen = useMediaQuery(theme.breakpoints.up('lg'));
 
     return (
         <div>
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <Container maxWidth="lg" className={styles.container}>
-                    <Grid container spacing={3}>
-                        <Grid item sm={12} lg={12} mb={8}>
+                    <Grid container spacing={3} direction={largeScreen? "row":"column-reverse"}>
+                        <Grid item sm={12} lg={12} mb={8} sx={{display: largeScreen? "block":"none"}}>
                             <Typography variant="body1">
                                 <ArrowBackIcon/> Santri 1
                             </Typography>
                         </Grid>
                         <Grid item sm={12} lg={6} sx={{width: "100%"}}>
                             <Grid container spacing={3} mb={3}>
-                                <Grid item xs={12}>
+                                <Grid item xs={12} sx={{display: largeScreen? "block":"none"}}>
                                     <Typography variant="h4" mb={5}>
                                         Santri 1
                                     </Typography>
@@ -79,11 +85,16 @@ export default function index({children}) {
                         </Grid>
                         <Grid item sm={12} lg={6} sx={{width: "100%"}}>                         
                             <Grid container spacing={2} sx={{width: "100%", display: "flex", justifyContent:"center"}}>
-                                <Grid item sm={12} sx={{width: "100%"}}>
+                                <Grid item xs={12} sx={{display: largeScreen? "none":"block"}}>
+                                    <Typography variant="h4" mb={2}>
+                                        Santri 1
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12} sx={{width: "100%", display:"flex", justifyContent:"center"}}>
                                     <Box
                                         sx={{
-                                            width: "auto",
-                                            height: 300,
+                                            width: 400,
+                                            height: 400,
                                             backgroundImage: 'url(https://source.unsplash.com/random)',
                                             backgroundRepeat: 'no-repeat',
                                             backgroundColor: (t) =>
@@ -98,7 +109,7 @@ export default function index({children}) {
                                         NOMINAL YANG DIBUTUHKAN
                                     </Typography>
                                 </Grid>
-                                <Grid item sm={12} mb={1} sx={{textAlign:"center", width:"100%"}}>
+                                <Grid item mb={1} sx={{textAlign:"center", width:400}}>
                                     <Typography variant="body2" mb={1}>
                                         50.000/100.000
                                     </Typography>
@@ -118,7 +129,7 @@ export default function index({children}) {
                 <Container maxWidth="lg" className={styles.container}>
                     <Typography variant="body2" mb={3}>PROGRESS DONASI</Typography>
                     <Grid container spacing={2} sx={{display:"flex", justifyContent:"center"}}>
-                        <Grid item sm={12} lg={4} sx={{display:"flex", justifyContent:"center"}}>
+                        <Grid item sm={12} lg={4} md={4} sx={{display:"flex", justifyContent:"center"}}>
                         <Box  sx={{
                             width: 300,
                             height: 300,
@@ -156,7 +167,7 @@ export default function index({children}) {
                             </Box>
                         </Box>
                         </Grid>
-                        <Grid item sm={12} lg={4} sx={{display:"flex", justifyContent:"center"}}>
+                        <Grid item sm={12} lg={4} md={4} sx={{display:"flex", justifyContent:"center"}}>
                         <Box  sx={{
                             width: 300,
                             height: 300,
@@ -194,7 +205,7 @@ export default function index({children}) {
                             </Box>
                         </Box>
                         </Grid>
-                        <Grid item sm={12} lg={4} sx={{display:"flex", justifyContent:"center"}}>
+                        <Grid item sm={12} lg={4} md={4} sx={{display:"flex", justifyContent:"center"}}>
                         <Box  sx={{
                             width: 300,
                             height: 300,
