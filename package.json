@@ -14,7 +14,7 @@
     "cy:verify": "cypress verify",
     "cy:info": "cypress info",
     "e2e": "cypress run",
-    "e2e:record:parallel": "cypress run --record --parallel"
+    "e2e:record": "cypress run --record"
   },
   "dependencies": {
     "@emotion/react": "^11.4.1",
