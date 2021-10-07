@@ -1,10 +1,26 @@
 import Table from 'react-bootstrap/Table'
-import Layout from "../component/layout"
-import styles from '../styles/Home.module.css'
+import Layout from '../../component/layout'
+import styles from '../../styles/Home.module.css'
 import Link from 'next/link'
-import Search from "../component/searchbar"
+import Search from "../../component/searchbar"
+import { useEffect } from 'react'
+import { useAppContext } from '../../context/AppContext'
+import { useRouter } from 'next/router'
+
+
+
 
 export default function DataPengguna() {
+    const {state, dispatch} = useAppContext();
+    const {currentUserRole} = state;
+
+    const router = useRouter();
+    useEffect(() => {
+        if (currentUserRole !== 'ROLE_SUPERUSER') {
+            router.push("/landing")
+        }
+    }, [currentUserRole, router])
+
     return (
     <Layout>
         <div className={styles.container}>
@@ -25,7 +41,7 @@ export default function DataPengguna() {
               </thead>
               <tbody>
                 <tr>
-                  <Link href='/datapengguna-detail'>
+                  <Link href='/datapengguna-detail' passHref>
                     <td className={styles.sub}><u><b>Roni Wijaya</b></u></td>
                   </Link>
                   <td>@roniwijaya</td>

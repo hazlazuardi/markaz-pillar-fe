@@ -12,23 +12,17 @@ export default handler
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data),
-        }).then(r => {
-            console.log("api res before", r)
-            if (r.status === 200) {
-                console.log("api res error before", r)
-                r.json().then(data => {
-                    console.log("api res error after", data)
-                    res.status(200).send(data)
-                    console.log("api", data)
+        }).then(preResponse => {
+            console.log("api res before", preResponse)
+            preResponse.json()
+                .then(response => {
+                    console.log("api res after", response)
+                    // use preResponse status since it's consistent (Note for BE team!)
+                    res.status(preResponse.status).json(response);
                 })
-            } else {
-                console.log("api res error before", r)
-                r.json().then(data => {
-                    console.log("api res error after", data)
-                    res.status(data.statusCode).send(data)
-                    console.log("api", data)
-                })
-            }
+                .catch(error => {
+                    console.log("api error", error)
+                });
         })
             .catch(error => {
                 console.log(error)
