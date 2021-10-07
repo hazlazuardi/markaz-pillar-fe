@@ -2,7 +2,6 @@ stages:
   - build
   - test
   - deploy
-  - sonar
 
 image: node:latest
 
@@ -23,9 +22,7 @@ build:
     paths:
       - ./node_modules/
       - ./.next/
-      - ./.cache
       - ./cache/Cypress
-      - ./build
 
 
 linter:
@@ -50,10 +47,8 @@ variables:
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - ./.cache/*
     - ./cache/Cypress
     - ./node_modules
-    - ./build
 
 cypress:
   image: node:latest
@@ -69,9 +64,7 @@ cypress:
     paths:
       - ./node_modules/
       - ./.next/
-      - ./.cache
       - ./cache/Cypress
-      - ./build
   
   script:
     - npm ci
@@ -143,7 +136,7 @@ staging:
     - master
 
 sonarCheck:
-  stage: sonar
+  stage: test
   needs:
     - job: build
   variables:
