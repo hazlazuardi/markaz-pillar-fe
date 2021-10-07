@@ -1,7 +1,6 @@
 stages:
   - build
-  - linter
-  - test
+  - linter/test
   - deploy
   - sonar
 
@@ -26,7 +25,7 @@ build:
       - ./.next/
 
 linter:
-  stage: linter
+  stage: linter/test
   script:
     - npm run lint
   cache:
@@ -39,8 +38,10 @@ linter:
 
 test:
   image: node:latest
-  stage: test
+  stage: linter/test
   script:
+    # install dependency in clean slate
+    - npm ci
     - npm run test
 
 
