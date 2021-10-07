@@ -37,7 +37,7 @@ linter:
 
 
 test:
-  image: node:latest
+  image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: linter/test
   script:
     # install dependency in clean slate
