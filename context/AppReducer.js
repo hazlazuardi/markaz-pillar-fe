@@ -13,6 +13,7 @@ export const dispatchTypes = {
 export const initialFunction = initialState => {
     let {
         currentUser,
+        currentUserRole,
         currentAccessToken,
         currentRefreshToken,
         snackbarStatus,
@@ -20,6 +21,7 @@ export const initialFunction = initialState => {
     } = initialState;
     return {
         currentUser,
+        currentUserRole,
         currentAccessToken,
         currentRefreshToken,
         snackbarStatus,
@@ -31,6 +33,7 @@ export const initialFunction = initialState => {
 // Initialize the initial state
 export const initialState = {
     currentUser: "",
+    currentUserRole: "",
     currentAccessToken: "",
     currentRefreshToken: "",
     snackbarStatus: false,
@@ -46,6 +49,7 @@ export const AppReducer = (state, action) => {
             return {
                 ...state,
                 currentUser: action.payload.currentUser,
+                currentUserRole: action.payload.currentUserRole,
                 currentAccessToken: action.payload.currentAccessToken,
                 currentRefreshToken: action.payload.currentRefreshToken,
                 snackbarStatus: true,
@@ -56,6 +60,7 @@ export const AppReducer = (state, action) => {
             return {
                 ...state,
                 currentUser: action.payload.currentUser,
+                currentUserRole: action.payload.currentUserRole,
                 currentAccessToken: action.payload.currentAccessToken,
                 currentRefreshToken: action.payload.currentRefreshToken,
                 snackbarStatus: true,

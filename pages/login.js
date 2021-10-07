@@ -54,10 +54,12 @@ export default function Login() {
           .then(response => {
             if (preResponse.status === 200) {
               console.log("page success", response)
+              const decodedJWT = jwtDecode(response.result.accessToken)
               dispatch({
                 type: dispatchTypes.LOGIN_SUCCEED,
                 payload: {
-                  currentUser: jwtDecode(response.result.accessToken).sub,
+                  currentUser: decodedJWT.sub,
+                  currentUserRole: decodedJWT.role,
                   currentAccessToken: response.result.accessToken,
                   currentRefreshToken: response.result.refreshToken
                 }

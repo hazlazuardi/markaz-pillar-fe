@@ -14,6 +14,7 @@ export function AppWrapper({ children }) {
   useEffect(() => {
     // Get user and tokens from localStorage
     const parsedLoggedUsername = JSON.parse(localStorage.getItem("currentUser"));
+    const parsedLoggedUserRole = JSON.parse(localStorage.getItem("currentUserRole"));
     const parsedAccessToken = JSON.parse(localStorage.getItem("currentAccessToken"));
     const parsedRefreshToken = JSON.parse(localStorage.getItem("currentRefreshToken"));
     
@@ -24,6 +25,7 @@ export function AppWrapper({ children }) {
         type: dispatchTypes.AUTHENTICATED,
         payload: {
           currentUser: parsedLoggedUsername,
+          currentUserRole: parsedLoggedUserRole,
           currentAccessToken: parsedAccessToken,
           currentRefreshToken: parsedRefreshToken
         }
@@ -35,6 +37,7 @@ export function AppWrapper({ children }) {
     // If there's an update in the state, update the localStorage
     if(state !== initialState) {
       localStorage.setItem("currentUser", JSON.stringify(state.currentUser))
+      localStorage.setItem("currentUserRole", JSON.stringify(state.currentUserRole))
       localStorage.setItem("currentAccessToken", JSON.stringify(state.currentAccessToken))
       localStorage.setItem("currentRefreshToken", JSON.stringify(state.currentRefreshToken))
     }
