@@ -2,7 +2,7 @@ import Table from 'react-bootstrap/Table'
 import Layout from '../../component/layout'
 import styles from '../../styles/Home.module.css'
 import Link from 'next/link'
-import SearchBar from '../../component/SearchBar'
+import SearchBar from '../../component/searchBar'
 import { useEffect } from 'react'
 import { useAppContext } from '../../context/AppContext'
 import { useRouter } from 'next/router'
@@ -15,11 +15,11 @@ export default function DataPengguna() {
     const {currentUserRole} = state;
 
     const router = useRouter();
-    useEffect(() => {
-        if (currentUserRole !== 'ROLE_SUPERUSER') {
-            router.push("/landing")
-        }
-    }, [currentUserRole, router])
+    // useEffect(() => {
+    //     if (currentUserRole !== 'ROLE_SUPERUSER') {
+    //         router.push("/landing")
+    //     }
+    // }, [currentUserRole, router])
 
     return (
     <Layout>
