@@ -36,17 +36,20 @@ linter:
       - ./.next/
 
 
+# Set environment variables for folders in "cache" job settings for npm modules and Cypress binary
 variables:
   npm_config_cache: "$CI_PROJECT_DIR/.npm"
   CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
 
-# cache using branch name
+# Cache using branch name
 # https://gitlab.com/help/ci/caching/index.md
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - .npm
+    - .cache/*
     - cache/Cypress
+    - node_modules
+    - build
 
 test:
   image: node:latest
@@ -60,9 +63,19 @@ test:
     - npm run cy:install
 
   script:
+    - npm ci
+    # check Cypress binary path and cached versions
     - npx cypress cache path
     - npx cypress cache list
-    - npm run test
+    - npm run build
+
+
+ui-chrome:
+  image: cypress/browsers:node14.17.0-chrome88-ff89
+  stage: test
+  script:
+    - npm run start:ci & npx wait-on http://localhost:3000
+    - npx cypress run --record --parallel --browser chrome --group "UI - Chrome" --spec "cypress/tests/ui/*"
 
 staging:
   stage: deploy
