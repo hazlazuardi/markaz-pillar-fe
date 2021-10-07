@@ -38,7 +38,7 @@ linter:
 
 
 test:
-  image: cypress/browsers:node12.14.1-chrome85-ff81
+  image: node:latest
   stage: test
   script:
     # install dependencies
@@ -46,14 +46,7 @@ test:
     # start the server in the background
     - npm run start:ci &
     # run Cypress tests
-    - npx cypress run --browser firefox
-  cache:
-    key: $CI_COMMIT_REF_NAME
-    policy: pull
-    paths:
-      - ./node_modules/
-      - ./.next/
-
+    - npm run e2e
 
 
 staging:
