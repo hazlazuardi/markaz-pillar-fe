@@ -1,4 +1,4 @@
-import NavbarDesktop from './modules/navbarDesktop';
+import NavbarDesktop from './modules/NavbarDesktop';
 import { useRouter } from 'next/router'
 import { Snackbar } from '@mui/material';
 import { useAppContext } from '../context/AppContext';
