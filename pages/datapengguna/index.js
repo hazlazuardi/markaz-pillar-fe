@@ -2,7 +2,7 @@ import Table from 'react-bootstrap/Table'
 import Layout from '../../component/layout'
 import styles from '../../styles/Home.module.css'
 import Link from 'next/link'
-import SearchBar from "../../component/SearchBar"
+import SearchBar from '../../component/SearchBar'
 import { useEffect } from 'react'
 import { useAppContext } from '../../context/AppContext'
 import { useRouter } from 'next/router'
