@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { Snackbar } from '@mui/material';
 import { useAppContext } from '../context/AppContext';
 import { dispatchTypes } from '../context/AppReducer';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function Layout({ children }) {
     const router = useRouter();

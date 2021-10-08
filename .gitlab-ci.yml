@@ -74,7 +74,6 @@ cypress:
     - npm run start & npx wait-on http://localhost:3000
     - npx cypress run
 
-
 staging:
   stage: deploy
   environment: Staging
