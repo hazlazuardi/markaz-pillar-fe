@@ -35,6 +35,9 @@ linter:
     paths:
       - ./node_modules/
       - ./.next/
+  except:
+    - configure-sonar
+
 
 
 # Set environment variables for folders in "cache" job settings for npm modules and Cypress binary
@@ -73,6 +76,8 @@ cypress:
     - npx cypress cache list
     - npm run start & npx wait-on http://localhost:3000
     - npx cypress run
+  except:
+    - configure-sonar
 
 staging:
   stage: deploy
@@ -141,7 +146,7 @@ sonarCheck:
   variables:
     SONARQUBE_URL: $SONARQUBE_URL
     SONARQUBE_PROJECT_KEY: $SONARQUBE_PROJECT_KEY
-    SONAR_TOKEN: $SONAR_TOKEN
+    SONARQUBE_TOKEN: $SONARQUBE_TOKEN
   cache:
     key: $CI_COMMIT_REF_NAME
     policy: pull
@@ -151,6 +156,10 @@ sonarCheck:
   before_script:
     - npm install -g sonarqube-scanner
   script:
-    - sonar-scanner -Dsonar.projectName="Markazpillar FE App" -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=$SONARQUBE_URL -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY
-  only:    
+    - echo "$SONARQUBE_URL"
+    - echo "$SONARQUBE_PROJECT_KEY"
+    - echo "$SONARQUBE_TOKEN"
+    - sonar-scanner -Dsonar.projectName="Markazpillar FE App" -Dsonar.login=$SONARQUBE_TOKEN -Dsonar.host.url=$SONARQUBE_URL -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY
+  only:  
+    - configure-sonar  
     - master
