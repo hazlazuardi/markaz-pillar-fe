@@ -6,18 +6,40 @@ import { Typography } from '@mui/material';
 export default function BasicButtons(){
     return(
         <ThemeProvider theme={theme}>
-            <Button 
+            {/* <Button 
             color="primary" 
             variant="contained">
              test
-            </Button>
+            </Button> */}
             <Typography 
                 variant="h2"
-                fontFamily="helvetica"
+                color="textPrimary">
+                    Primary Text Color
+            </Typography><Typography 
+                variant="h2"
+                color="textSecondary">
+                    Secondary Text Color
+            </Typography>
+            <br />
+            <Typography 
+                variant="h2"
+                fontFamily="Poppins">
+                    Poppins
+            </Typography>
+            <Typography 
+                variant="h2"
+                fontFamily="Poppins"
+                fontWeight="Light">
+                    Light
+            </Typography>
+            <Typography 
+                variant="h2"
+                fontFamily="Poppins"
+                fontStyle="italic"
                 color="textSecondary"
-                fontWeight="bold">
+                fontWeight="Bold">
                     test
-                </Typography>
+            </Typography>
         </ThemeProvider>
     )
 }

@@ -29,12 +29,12 @@ export const theme = createTheme({
     },
     
     text: {
-      primary: '#0000',
+      primary: '#000000',
       secondary: '#737B7D'
     }
   },
   typography: {
-    fontFamily: "'Work Sans','Helvetica'",
+    fontFamily: "'Poppins','Helvetica'",
     fontWeightLight: 200,
     fontWeightRegular: 400,
     fontWeightMedium: 600,
