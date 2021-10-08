@@ -6,9 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "start:ci": "next start --no-clipboard --listen ${PORT:-3000}",
     "lint": "next lint",
-    "cypress": "cypress open",
-    "test": "jest"
+    "test": "start-server-and-test start http://localhost:3000 cy:run",
+    "cy:run": "cypress run",
+    "cy:install": "cypress install",
+    "cy:verify": "cypress verify",
+    "cy:info": "cypress info",
+    "e2e": "cypress run",
+    "e2e:record": "cypress run --record"
   },
   "dependencies": {
     "@emotion/react": "^11.4.1",
@@ -33,6 +39,7 @@
     "eslint-config-next": "11.1.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.2.2",
-    "react-test-renderer": "^17.0.2"
+    "react-test-renderer": "^17.0.2",
+    "start-server-and-test": "^1.14.0"
   }
 }

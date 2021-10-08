@@ -9,6 +9,11 @@ export const dispatchTypes = {
     SNACKBAR_CLOSE: "snackbar_close"
 }
 
+export const roleType = {
+    ROLE_SUPERUSER: "ROLE_SUPERUSER",
+    ROLE_MEMBER: "ROLE_MEMBER"
+}
+
 // Initialize variables
 export const initialFunction = initialState => {
     let {

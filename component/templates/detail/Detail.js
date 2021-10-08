@@ -7,10 +7,10 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import DonationProgress from '../../modules/DonationProgress';
 import Profile from '../../modules/Profile';
-import ArrowBack from '../../modules/arrowBack';
+import ArrowBack from '../../modules/ArrowBack';
 import DetailPic from '../../modules/DetailPic';
 
-export default function index({children}) {
+export default function Detail({children}) {
     
     const theme = useTheme();
     const mediumScreen = useMediaQuery(theme.breakpoints.up('md'));
