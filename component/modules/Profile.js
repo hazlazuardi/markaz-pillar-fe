@@ -58,7 +58,7 @@ export default function Profile(props) {
             )
         )}
 
-        {Object.keys(santriObject).map(
+        {/* {Object.keys(santriObject).map(
           (key, index) =>
             santriObject[key] && (
               <Grid item xs={6}>
@@ -68,7 +68,7 @@ export default function Profile(props) {
                 <Typography variant="body2">{santriObject[key]}</Typography>
               </Grid>
             )
-        )}
+        )} */}
       </Grid>
     </Grid>
   );

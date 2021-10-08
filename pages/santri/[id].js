@@ -29,16 +29,17 @@ const santri = {
 // karena data yang konsisten itu name dan background,
 // kita bagi nya jadi -> data_consistent & data_inconsistent aja
 const consistent = {
-    name: markaz.markaz_name,
-    background: markaz.markaz_background
+    name: santri.santri_name,
+    background: santri.santri_background
 }
 
 // Ini yang ada truk-truk nya itu
 const inconsistent = {
-    "Alamat": markaz.markaz_address,
-    "Contact Person": markaz.markaz_cp,
-    "Kategori": markaz.markaz_category,
-    "Kebutuhan Fasilitas": markaz.markaz_needs
+    "Tempat Markaz": santri.santri_markaz,
+    "Jenis Kelamin": santri.santri_sex,
+    "Domisili Asal": santri.santri_domisili,
+    "Kebutuhan Beasiswa": santri.santri_needs,
+    "Tempat & Tanggal Lahir": santri.santri_birth
 }
 
 // jadi kita pass ke template ya dua objects ini
