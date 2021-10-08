@@ -1,19 +1,112 @@
 stages:
+  - build
+  - test
   - deploy
 
 image: node:latest
 
+build:
+  stage: build
+  script:
+    - rm -rf ./.next/
+    - CI=false npm install     # install required packages
+    - npm run build
+  artifacts:
+    when: on_success
+    paths:
+      - ./.next/
+    expire_in: 1 week
+  cache:
+    key: $CI_COMMIT_REF_NAME
+    policy: push
+    paths:
+      - ./node_modules/
+      - ./.next/
+      - ./cache/Cypress
+
+
+linter:
+  stage: test
+  script:
+    - npm run lint
+  cache:
+    key: $CI_COMMIT_REF_NAME
+    policy: pull
+    paths:
+      - ./node_modules/
+      - ./.next/
+
+
+# Set environment variables for folders in "cache" job settings for npm modules and Cypress binary
+variables:
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+  CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
+
+# Cache using branch name
+# https://gitlab.com/help/ci/caching/index.md
 cache:
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - ./node_modules/
+    - ./cache/Cypress
+    - ./node_modules
 
-before_script:
-  - rm -rf ./build     # remove the existing build
-  - CI=false npm install     # install required packages
+cypress:
+  image: node:latest
+  stage: test
+  
+  before_script:
+    - apt-get update
+    - apt-get -y install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+  
+  cache:
+    key: $CI_COMMIT_REF_NAME
+    policy: pull
+    paths:
+      - ./node_modules/
+      - ./.next/
+      - ./cache/Cypress
+  
+  script:
+    - npm ci
+    # check Cypress binary path and cached versions
+    - npx cypress cache path
+    - npx cypress cache list
+    - npm run start & npx wait-on http://localhost:3000
+    - npx cypress run
 
-production:
+staging:
   stage: deploy
-  environment: Production
+  environment: Staging
+  variables:
+    SSH_PRIVATE_KEY: $SSH_STAGING_PRIVATE_KEY
+  before_script:
+    - apt-get update -qq
+    # Setup SSH deploy keys
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - 'which rsync || ( apt-get install -qq rsync )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_STAGING_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  cache:
+    key: $CI_COMMIT_REF_NAME
+    policy: pull
+    paths:
+      - ./node_modules/
+      - ./.next/
+  script:
+    - rsync -hvrPt ./.env deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
+    - rsync -hvrPt ./package.json deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
+    - rsync -hvrPt ./next.config.js deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
+    - rsync -hvrPt ./node_modules/* deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/node_modules/
+    - rsync -hvrPt ./.next/* deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/.next/
+    - ssh deploy-ci@staging.markazpillar.afriza.co "sudo systemctl restart nginx && sudo systemctl restart frontend"
+  only:
+    - staging
+
+staging:
+  stage: deploy
+  environment: Staging
   variables:
     SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY
   before_script:
@@ -25,9 +118,39 @@ production:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  cache:
+    key: $CI_COMMIT_REF_NAME
+    policy: pull
+    paths:
+      - ./node_modules/
+      - ./.next/
   script:
-    - CI=false npm run build     # build the React app, set CI=false because CI=true treats all warnings as errors
-    - rsync -auv --delete -e ./build/* deploy-ci@markazpillar.afriza.co:/var/www/markazpillar.afriza.co/html/
-    - ssh deploy-ci@markazpillar.afriza.co "systemctl restart nginx"
+    - rsync -hvrPt ./.env deploy-ci@markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
+    - rsync -hvrPt ./package.json deploy-ci@markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
+    - rsync -hvrPt ./next.config.js deploy-ci@markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
+    - rsync -hvrPt ./node_modules/* deploy-ci@markazpillar.afriza.co:/home/deploy-ci/apps/frontend/node_modules/
+    - rsync -hvrPt ./.next/* deploy-ci@markazpillar.afriza.co:/home/deploy-ci/apps/frontend/.next/
+    - ssh deploy-ci@markazpillar.afriza.co "sudo systemctl restart nginx && sudo systemctl restart frontend"
   only:
-    - master       # deploy contents in master branch
+    - master
+
+sonarCheck:
+  stage: test
+  needs:
+    - job: build
+  variables:
+    SONARQUBE_URL: $SONARQUBE_URL
+    SONARQUBE_PROJECT_KEY: $SONARQUBE_PROJECT_KEY
+    SONAR_TOKEN: $SONAR_TOKEN
+  cache:
+    key: $CI_COMMIT_REF_NAME
+    policy: pull
+    paths:
+      - ./node_modules/
+      - ./.next/
+  before_script:
+    - npm install -g sonarqube-scanner
+  script:
+    - sonar-scanner -Dsonar.projectName="Markazpillar FE App" -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=$SONARQUBE_URL -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY
+  only:    
+    - master

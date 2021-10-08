@@ -1,16 +1,33 @@
 import Table from 'react-bootstrap/Table'
-import Layout from "../component/layout"
-import styles from '../styles/Home.module.css'
+import Layout from '../../component/layout'
+import styles from '../../styles/Home.module.css'
 import Link from 'next/link'
-import Search from "../component/searchbar"
+import SearchBar from '../../component/searchbar'
+import { useEffect } from 'react'
+import { useAppContext } from '../../context/AppContext'
+import { useRouter } from 'next/router'
+import { roleType } from '../../context/AppReducer'
+
+
+
 
 export default function DataPengguna() {
+    const {state, dispatch} = useAppContext();
+    const {currentUserRole} = state;
+
+    const router = useRouter();
+    useEffect(() => {
+        if (currentUserRole == roleType.ROLE_MEMBER) {
+            router.push("/landing")
+        }
+    }, [currentUserRole, router])
+
     return (
     <Layout>
         <div className={styles.container}>
             <div className={styles.gridnav}>
                 <p className={[styles.sub, styles.item1].join(" ")}><b>DATA PENGGUNA</b></p>
-                <Search className={styles.item3}/>
+                <SearchBar className={styles.item3}/>
             </div>
             <Table striped bordered hover>
               <thead className={styles.tablehead}>
@@ -25,7 +42,7 @@ export default function DataPengguna() {
               </thead>
               <tbody>
                 <tr>
-                  <Link href='/datapengguna-detail'>
+                  <Link href='/datapengguna-detail' passHref>
                     <td className={styles.sub}><u><b>Roni Wijaya</b></u></td>
                   </Link>
                   <td>@roniwijaya</td>

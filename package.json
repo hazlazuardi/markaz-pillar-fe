@@ -6,8 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "start:ci": "next start --no-clipboard --listen ${PORT:-3000}",
     "lint": "next lint",
-    "cypress": "cypress open"
+    "test": "start-server-and-test start http://localhost:3000 cy:run",
+    "cy:run": "cypress run",
+    "cy:install": "cypress install",
+    "cy:verify": "cypress verify",
+    "cy:info": "cypress info",
+    "e2e": "cypress run",
+    "e2e:record": "cypress run --record"
   },
   "dependencies": {
     "@emotion/react": "^11.4.1",
@@ -16,18 +23,23 @@
     "@mui/icons-material": "^5.0.1",
     "@mui/material": "^5.0.0",
     "bootstrap": "^5.1.1",
+    "jwt-decode": "^3.1.2",
     "next": "11.1.2",
     "next-connect": "^0.10.2",
     "react": "17.0.2",
     "react-bootstrap": "^2.0.0-rc.0",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "swr": "^1.0.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.1.1",
     "cypress": "^8.4.1",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.2.2",
-    "react-test-renderer": "^17.0.2"
+    "react-test-renderer": "^17.0.2",
+    "start-server-and-test": "^1.14.0"
   }
 }
