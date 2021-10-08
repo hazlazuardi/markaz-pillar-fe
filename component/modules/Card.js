@@ -7,7 +7,7 @@ import Paper from '@mui/material/Paper';
 import styles from '../../styles/Home.module.css';
 
 export default function Card(props) {
-    const {image, santri_name, desc} = props
+    const {image, name, desc} = props
 
     return (
         <Grid item>
@@ -27,7 +27,7 @@ export default function Card(props) {
                 <Grid container spacing={2} className={styles.textCenter}>
                     <Grid item xs={12} mt={2}>
                         <Typography variant="h6">
-                            {santri_name}
+                            {name}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{ width: 300, height:50, overflow: "hidden", textOverflow: "ellipsis"}}>
