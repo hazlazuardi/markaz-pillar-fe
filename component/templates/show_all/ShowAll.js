@@ -12,7 +12,9 @@ import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 
 import { useState } from 'react';
 
-export default function ShowAll({children}) {
+export default function ShowAll(props) {
+
+    const {children, searchBarName} = props;
 
     const handleChange = ({ target }) => {
         const { name, value } = target;
@@ -60,7 +62,7 @@ export default function ShowAll({children}) {
                 </Typography>
                 </Grid>
                 <Grid item lg={6} sm={12} className={styles.flexEnd} pr={2}>
-                    <SearchBar></SearchBar>
+                    <SearchBar searchName = {searchBarName}></SearchBar>
                 </Grid>
                 {children}
                 <Grid item xs={12} mt={5} className={styles.flexEnd}>

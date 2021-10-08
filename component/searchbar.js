@@ -1,6 +1,11 @@
 import layout from '../styles/Home.module.css'
 
-export default function Searchbar() {
+    
+
+export default function Searchbar(props) {
+
+    const {searchName} = props;
+
     return (
         <>
             <form action="/" method="get">
@@ -10,7 +15,7 @@ export default function Searchbar() {
                 <input
                     type="text"
                     id="header-search"
-                    placeholder="Cari pengguna"
+                    placeholder={searchName}
                     name="s"
                     className="search"
                 />

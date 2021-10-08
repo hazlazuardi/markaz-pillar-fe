@@ -7,7 +7,7 @@ import Paper from '@mui/material/Paper';
 import styles from '../../styles/Home.module.css';
 
 export default function Card(props) {
-    const {image, santri_name, desc} = props
+    const {image, santri_name, desc, intr_1, intr_2} = props
 
     return (
         <Grid item>
@@ -39,8 +39,8 @@ export default function Card(props) {
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{ display:"flex", justifyContent:"space-around" }}>
-                        <Button variant="contained">Donasi</Button>
-                        <Button variant="outlined">Lihat Detail</Button>
+                        <Button variant="contained">{intr_1}</Button>
+                        <Button variant="outlined">{intr_2}</Button>
                     </Grid>
                 </Grid>
             </Paper>
