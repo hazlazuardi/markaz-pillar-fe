@@ -69,7 +69,7 @@ export default function Login() {
             }
           })
           .catch(error => {
-            console.log("response error", error)
+            console.log("Response error", error)
           });
       })
       .catch(error => {
