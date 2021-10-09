@@ -1,6 +1,7 @@
 stages:
   - build
   - test
+  - sonar
   - deploy
 
 image: node:latest
@@ -68,16 +69,16 @@ cypress:
       - ./node_modules/
       - ./.next/
       - ./cache/Cypress
-  
+  artifacts:
+    paths:
+      - coverage/
   script:
     - npm ci
     # check Cypress binary path and cached versions
     - npx cypress cache path
     - npx cypress cache list
-    - npm run start & npx wait-on http://localhost:3000
-    - npx cypress run
-  except:
-    - configure-sonar
+    - npm run test
+
 
 staging:
   stage: deploy
@@ -140,9 +141,9 @@ staging:
     - master
 
 sonarCheck:
-  stage: test
+  stage: sonar
   needs:
-    - job: build
+    - job: cypress
   variables:
     SONARQUBE_URL: $SONARQUBE_URL
     SONARQUBE_PROJECT_KEY: $SONARQUBE_PROJECT_KEY
@@ -159,7 +160,7 @@ sonarCheck:
     - echo "$SONARQUBE_URL"
     - echo "$SONARQUBE_PROJECT_KEY"
     - echo "$SONARQUBE_TOKEN"
-    - sonar-scanner -Dsonar.projectName="Markazpillar FE App" -Dsonar.login=$SONARQUBE_TOKEN -Dsonar.host.url=$SONARQUBE_URL -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY
+    - sonar-scanner -Dsonar.projectName="Markazpillar FE App" -Dsonar.login=$SONARQUBE_TOKEN -Dsonar.host.url=$SONARQUBE_URL -Dsonar.projectKey=$SONARQUBE_PROJECT_KEY -Dsonar.sources=src
   only:  
     - configure-sonar  
     - master
