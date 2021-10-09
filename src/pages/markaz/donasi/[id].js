@@ -14,7 +14,7 @@ export default function MarkazDonasi() {
     <Container maxWidth="lg" className={styles.container}>
       <Grid Grid container spacing={3} justify="center" mb={10}>
         <Grid item xs={12}>
-          <ArrowBack /> DONASI
+          <ArrowBack name="DONASI"/> 
         </Grid>
         <Grid item xs={4} align="center" color="green">
           Informasi Donasi
