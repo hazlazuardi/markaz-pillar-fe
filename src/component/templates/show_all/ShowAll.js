@@ -14,7 +14,11 @@ import { useState } from 'react';
 
 export default function ShowAll(props) {
 
+<<<<<<< HEAD:component/templates/show_all/ShowAll.js
     const {children, searchBarName} = props;
+=======
+    const {children, searchBarName, markazOrSantri} = props;
+>>>>>>> c4be19b9744cb19c76febc2dfcbc7a42c0c6c2f3:src/component/templates/show_all/ShowAll.js
 
     const handleChange = ({ target }) => {
         const { name, value } = target;
@@ -38,7 +42,7 @@ export default function ShowAll(props) {
             <Grid container spacing={3} sx={{display: 'flex', justifyContent:"center"}}>
                 <Grid item xs={12}>
                 <Typography variant="h6" component="h2">
-                    Daftar Santri <FilterAltOutlinedIcon/>
+                    Daftar {markazOrSantri} <FilterAltOutlinedIcon/>
                 </Typography>
                 </Grid>
                 <Grid item lg={6} sm={12}>
