@@ -10,19 +10,9 @@ import Profile from "../../modules/Profile";
 import ArrowBack from "../../modules/ArrowBack";
 import DetailPic from "../../modules/DetailPic";
 
-export default function Detail(props) {
-  const {
-    children,
-    arrowBackName,
-    markazObject,
-    background,
-    placeholderMarkaz,
-    santriObject,
-    placeholderSantri,
-  } = props;
-
+function DetailWis(props) {
+  const { consistent, inconsistent } = props;
   const theme = useTheme();
-  const mediumScreen = useMediaQuery(theme.breakpoints.up("md"));
   const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
@@ -35,20 +25,10 @@ export default function Detail(props) {
               spacing={3}
               direction={largeScreen ? "row" : "column-reverse"}
             >
-              <ArrowBack name={arrowBackName} />
-              <Profile
-                name="Abimanyu"
-                markazObject={markazObject}
-                placeholderMarkaz={placeholderMarkaz}
-                background={background}
-                santriObject={santriObject}
-                placeholderSantri={placeholderSantri}
-                desc="Hello, My name is Abimanyu, I'm 20 years old, Currently studying computer
-                            science in my 5th semester. Ich spreche Indonesisch, English, und einbisschen Deutsch"
-              
-              />
+              <ArrowBack name={consistent.name} />
+              <Profile consistent={consistent} inconsistent={inconsistent} />
               <DetailPic
-                name="Abi Ganteng"
+                name={consistent.name}
                 nominal="500.000/1.000.000"
                 progress={50}
               />
@@ -87,3 +67,5 @@ export default function Detail(props) {
     </div>
   );
 }
+
+export default DetailWis;

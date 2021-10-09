@@ -12,8 +12,16 @@ export default function MarkazLayout() {
         name="Markaz Depok"
         desc="Markaz ini dibangun pada tahun 2022"
       />
-      <Card image="image" name="markaz 2" desc="Psycho" />
-      <Card image="image" name="markaz 3" desc="Beautiful Pain" />
+      <Card
+        image="image"
+        name="Markaz Sabang"
+        desc="Markaz ini dibangun pada tahun 2012"
+      />
+      <Card
+        image="image"
+        name="Markaz Merauke"
+        desc="Markaz ini dibangun pada tahun 2002"
+      />
       <Card image="image" name="markaz 4" desc="Beautiful" />
       <Card image="image" name="Wendy" desc="Goodbye" />
       <Card image="image" name="Imagine Dragons" desc="Bad Liar" />

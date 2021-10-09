@@ -6,23 +6,10 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function Profile(props) {
-  const {
-    name,
-    desc,
-    background,
-    markaz,
-    asal,
-    gender,
-    ttl,
-    scholarship,
-    placeholderMarkaz,
-    markazObject,
-    santriObject,
-    placeholderSantri,
-  } = props;
+  const { consistent, inconsistent } = props;
+  const { name, background } = consistent;
 
   const theme = useTheme();
-  const mediumScreen = useMediaQuery(theme.breakpoints.up("md"));
   const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
@@ -34,41 +21,25 @@ export default function Profile(props) {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="h6">{background}</Typography>
+          <Typography variant="h6">Background</Typography>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="h5">{desc}</Typography>
+          <Typography variant="h5">{background}</Typography>
         </Grid>
       </Grid>
 
       <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Typography variant="body1">Background</Typography>
-        </Grid>
-
-        {Object.keys(markazObject).map(
+        {Object.keys(inconsistent).map(
           (key, index) =>
-            markazObject[key] && (
+            inconsistent[key] && (
               <Grid item xs={6}>
                 <Typography variant="body1">
-                  <LocalShippingOutlinedIcon /> {placeholderMarkaz[key]}
+                  <LocalShippingOutlinedIcon /> {key}
                 </Typography>
-                <Typography variant="body2">{markazObject[key]}</Typography>
+                <Typography variant="body2">{inconsistent[key]}</Typography>
               </Grid>
             )
         )}
-
-        {/* {Object.keys(santriObject).map(
-          (key, index) =>
-            santriObject[key] && (
-              <Grid item xs={6}>
-                <Typography variant="body1">
-                  <LocalShippingOutlinedIcon /> {placeholderSantri[key]}
-                </Typography>
-                <Typography variant="body2">{santriObject[key]}</Typography>
-              </Grid>
-            )
-        )} */}
       </Grid>
     </Grid>
   );

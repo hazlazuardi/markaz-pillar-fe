@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import styles from "../../../styles/Home.module.css";
 import ArrowBack from "../../../component/modules/ArrowBack";
 
-export default function markaz_donasi() {
+export default function MarkazDonasi() {
   return (
     <Container maxWidth="lg" className={styles.container}>
       <Grid Grid container spacing={3} justify="center" mb={10}>
