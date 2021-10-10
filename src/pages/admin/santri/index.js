@@ -40,7 +40,7 @@ export default function AdminSantri(props) {
     return (
         <ShowAllTemplate searchBarName="Cari Santri" view1={gridview} view2={tableview}>
             <div>
-                {gridView ? <GridView data={responseUsers} /> : <TableView />}
+                {gridView ? <GridView data={responseUsers} /> : <TableView data={responseUsers} />}
             </div>
         
         </ShowAllTemplate>

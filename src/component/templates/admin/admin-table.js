@@ -6,13 +6,17 @@ import TableDataRow from '../../modules/TableDataRow'
 
 // const action = <Button variant="outlined">Primary</Button>;
 
-export default function TableView() {
+export default function TableView(props) {
+    const { data } = props
+    // array of objects
+    const users = data.result
+    console.log(data.result)
+
     return (
         <TableData>
-            <TableDataRow nama = "test" markaz = "test" domisili = "test" kelamin = "test" tanggal = "test" />
-            <TableDataRow nama = "test" markaz = "test" domisili = "test" kelamin = "test" tanggal = "test" />
-            <TableDataRow nama = "test" markaz = "test" domisili = "test" kelamin = "test" tanggal = "test" />
-            <TableDataRow nama = "test" markaz = "test" domisili = "test" kelamin = "test" tanggal = "test" />
+            {users.map(user => (
+                <TableDataRow key={user.id} nama={user.name} markaz="" domisili={user.birthPlace} kelamin={user.gender} tanggal={user.birthDate}/>
+            ))}
         </TableData>
     )
 }
