@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import { ThemeProvider } from '@mui/material/styles';
-import { theme } from './index'
+import { theme } from '../theme'
 import { Typography } from '@mui/material';
    
 export default function BasicButtons(){
