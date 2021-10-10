@@ -5,7 +5,7 @@ import layout from '../../styles/Home.module.css'
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@mui/icons-material/Menu';
 import {useAppContext} from '../../context/AppContext'
-import { roleType } from '../../context/AppReducer';
+import { roleType, enumRoutes } from '../../context/AppReducer';
 
 
 function NavbarDesktop() {
@@ -55,6 +55,13 @@ function NavbarDesktop() {
                             <a className={isOpen === false ?
                                 styles.navlink : styles.navlink + ' ' + styles.active}
                                 onClick={toggleMenu}>Kelas</a>
+                        </Link>
+                    </li>
+                    <li className={styles.navitem}>
+                        <Link href={enumRoutes.PROFILE}>
+                            <a className={isOpen === false ?
+                                styles.navlink : styles.navlink + ' ' + styles.active}
+                                onClick={toggleMenu}>Profile</a>
                         </Link>
                     </li>
                 </ul>
