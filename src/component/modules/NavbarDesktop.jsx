@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import styles from "../../styles/Layout.module.css";
 import layout from '../../styles/Home.module.css'
-
+import Button from '@material-ui/core/Button';
+import MenuIcon from '@mui/icons-material/Menu';
 
 function NavbarDesktop() {
     const [isOpen, setIsOpen] = useState(false);
@@ -52,14 +53,14 @@ function NavbarDesktop() {
                         </Link>
                     </li>
                 </ul>
-                <button className={isOpen === false ?
+                <MenuIcon className={isOpen === false ?
                     styles.hamburger : styles.hamburger + ' ' + styles.active}
                     onClick={toggleMenu}
                 >
                     <span className={styles.bar}></span>
                     <span className={styles.bar}></span>
                     <span className={styles.bar}></span>
-                </button>
+                </MenuIcon>
             </nav>
         </header>
     )

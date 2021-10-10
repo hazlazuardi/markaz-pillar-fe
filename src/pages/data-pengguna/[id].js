@@ -4,7 +4,6 @@ import Link from 'next/link'
 
 export default function DetailPengguna() {
     return (
-    <Layout>
         <div className={styles.container}>
             <Link href='/datapengguna' passHref>
                 <p className={[styles.sub, styles.item1].join(" ")}><b>DETAIL PENGGUNA</b></p>
@@ -29,6 +28,5 @@ export default function DetailPengguna() {
                 </div>
             </div>
         </div>
-    </Layout>
     )
 }
