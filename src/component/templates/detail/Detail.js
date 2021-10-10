@@ -67,10 +67,11 @@ function Detail(props) {
             </Grid>
           </Container>
         </Grid>
-      </div>
-    );
-  }
-  
+      </Grid >
+    </div>
+  );
 }
+
+
 
 export default Detail;

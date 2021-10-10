@@ -1,6 +1,7 @@
 
 // Enums for dispatch types
 export const dispatchTypes = {
+    LOGOUT: "logout",
     LOGIN_SUCCEED: "login_succeed",
     LOGIN_FAIL: "login_fail",
     REGISTRATION_SUCCEED: "registration_succeed",
@@ -23,6 +24,7 @@ export const markazCategory = {
 export const enumRoutes = {
     LANDING: "/landing",
     LOGIN: "/login",
+    PROFILE: "/profile",
     REGISTRATION: "/registration",
     MEMBER_SANTRI: "/santri",
     MEMBER_MARKAZ: "/markaz",
@@ -97,6 +99,17 @@ export const AppReducer = (state, action) => {
             return {
                 ...state,
                 snackbarStatus: false
+            }
+        }
+        case dispatchTypes.LOGOUT: {
+            return {
+                ...state,
+                currentUser: "",
+                currentUserRole: "",
+                currentAccessToken: "",
+                currentRefreshToken: "",
+                snackbarStatus: true,
+                snackbarMessage: `Good bye`
             }
         }
         default:
