@@ -4,11 +4,16 @@ import styles from "../../styles/Layout.module.css";
 import layout from '../../styles/Home.module.css'
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@mui/icons-material/Menu';
+import {useAppContext} from '../../context/AppContext'
+import { roleType } from '../../context/AppReducer';
+
 
 function NavbarDesktop() {
     const [isOpen, setIsOpen] = useState(false);
     const toggleMenu = () => setIsOpen(!isOpen);
-
+    const {state} = useAppContext();
+    const {currentUserRole} = state;
+  
     return (
         <header className={layout.header}>
             <nav className={styles.navbar}>
@@ -18,14 +23,14 @@ function NavbarDesktop() {
                 <ul className={isOpen === false ?
                     styles.navmenu : styles.navmenu + ' ' + styles.active}>
                     <li className={styles.navitem}>
-                        <Link href='/markaz'>
+                        <Link href={currentUserRole === roleType.ROLE_MEMBER ? '/markaz' : '/admin/markaz' }>
                             <a className={isOpen === false ?
                                 styles.navlink : styles.navlink + ' ' + styles.active}
                                 onClick={toggleMenu}>Markaz</a>
                         </Link>
                     </li>
                     <li className={styles.navitem}>
-                        <Link href='/santri'>
+                    <Link href={currentUserRole === roleType.ROLE_MEMBER ? '/santri' : '/admin/santri' }>
                             <a className={isOpen === false ?
                                 styles.navlink : styles.navlink + ' ' + styles.active}
                                 onClick={toggleMenu}>Santri</a>
