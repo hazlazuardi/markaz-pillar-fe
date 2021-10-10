@@ -1,26 +1,50 @@
 import React from "react";
 import DetailTemplate from "../../component/templates/detail/Detail";
 
-export default function MarkazLayoutDetail() {
-  const markaz = {
-    markaz_name: "Markaz Depok",
-    markaz_background: "Lorem Ipsum Dolor Kolor",
-    markaz_address: "Depok",
-    markaz_cp: "Dodi 0811",
-    markaz_category: "Makanan",
-    markaz_needs: "Makanan",
+const BASE_URL = process.env.BACKEND_HOST;
+
+export async function getStaticProps(context) {
+  const id = context.params.id;
+  console.log(id);
+  const response = await fetch(`${BASE_URL}/markaz?id=` + id);
+  const data = await response.json();
+  const markaz = data.result;
+
+  return {
+    props: {
+      markaz: markaz,
+    },
   };
+}
+
+export async function getStaticPaths() {
+  const response = await fetch(`${BASE_URL}/markaz/search`);
+  const data = await response.json();
+  const markaz = data.result;
+
+  const paths = markaz.map((markaz) => ({
+    params: { id: markaz.id.toString() },
+  }));
+
+  return {
+    paths: paths,
+    fallback: false,
+  };
+}
+
+export default function MarkazLayoutDetail(props) {
+  const markaz = props.markaz;
 
   const consistent = {
-    name: markaz.markaz_name,
-    background: markaz.markaz_background,
+    name: markaz.name,
+    background: markaz.background,
   };
 
   const inconsistent = {
-    Alamat: markaz.markaz_address,
-    "Contact Person": markaz.markaz_cp,
-    Kategori: markaz.markaz_category,
-    "Kebutuhan Fasilitas": markaz.markaz_needs,
+    Alamat: markaz.address,
+    "Contact Person": markaz.contactPerson,
+    Kategori: markaz.category,
+    "Kebutuhan Fasilitas": markaz.description,
   };
 
   return <DetailTemplate consistent={consistent} inconsistent={inconsistent} />;

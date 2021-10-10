@@ -15,8 +15,8 @@ import { useState } from 'react';
 
 const BASE_URL = process.env.BACKEND_HOST;
 
-function DetailWis(props) {
-  const {markazOrSantri} = props
+function Detail(props) {
+  const { consistent, inconsistent } = props;
   const theme = useTheme();
   const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
@@ -113,4 +113,4 @@ function DetailWis(props) {
   
 }
 
-export default DetailWis;
+export default Detail;
