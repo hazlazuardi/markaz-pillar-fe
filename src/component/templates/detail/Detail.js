@@ -65,7 +65,7 @@ function Detail(props) {
             </Grid>
           </Container>
         </Grid>
-      </Grid >
+      </Grid>
     </div>
   );
 }
