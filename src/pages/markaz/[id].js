@@ -49,5 +49,12 @@ export default function MarkazLayoutDetail(props) {
     "Kebutuhan Fasilitas": markaz.description,
   };
 
-  return <DetailTemplate consistent={consistent} inconsistent={inconsistent} image={image}/>;
+  return (
+    <DetailTemplate
+      consistent={consistent}
+      inconsistent={inconsistent}
+      image={image}
+      donatetext="Donasi Sekarang"
+    />
+  );
 }

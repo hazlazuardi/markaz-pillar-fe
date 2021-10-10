@@ -21,22 +21,25 @@ export default function Profile(props) {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="h6">Background</Typography>
+          <Typography variant="h6" color="primary" fontWeight="medium">
+            Background
+          </Typography>
         </Grid>
         <Grid item xs={12}>
           <Typography variant="h5">{background}</Typography>
         </Grid>
       </Grid>
-
       <Grid container spacing={3}>
         {Object.keys(inconsistent).map(
           (key, index) =>
             inconsistent[key] && (
               <Grid item xs={6}>
-                <Typography variant="body1">
+                <Typography variant="body1" color="primary" fontWeight="medium">
                   <LocalShippingOutlinedIcon /> {key}
                 </Typography>
-                <Typography variant="body2">{inconsistent[key]}</Typography>
+                <Typography variant="body2" color="textSecondary">
+                  {inconsistent[key]}
+                </Typography>
               </Grid>
             )
         )}
