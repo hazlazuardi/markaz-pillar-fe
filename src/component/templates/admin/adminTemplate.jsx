@@ -126,26 +126,9 @@ export default function AdminTemplate(props) {
                         </Grid>
                     </Grid>
                 </Grid>
-                {
-                    allData.filter((val) => {
-                        if(searchTerm == "") {
-                            return val
-                        }
-                        else if(val.name.toLowerCase().includes(searchTerm.toLowerCase())){
-                            return val
-                        }
-                    }).map((val, key) => {
-                        return(
-                            <Card key={val.id} 
-                            image={val.thumbnailURL} 
-                            name={val.name} 
-                            desc={val.background}
-                            intr_1="Edit"
-                            intr_2="Delete"
-                            />
-                        )
-                    })
-                }
+                        
+                {children}
+
                 <Grid item xs={12} mt={5} className={styles.flexEnd}>
                     <Pagination count={5} page={page + 1} onChange={(event, value) => {
                             setSearchTerm("")
