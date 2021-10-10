@@ -7,11 +7,7 @@ import Paper from '@mui/material/Paper';
 import styles from '../../styles/Home.module.css';
 
 export default function Card(props) {
-<<<<<<< HEAD:component/modules/Card.js
-    const {image, santri_name, desc, intr_1, intr_2} = props
-=======
-    const {image, name, desc} = props
->>>>>>> c4be19b9744cb19c76febc2dfcbc7a42c0c6c2f3:src/component/modules/Card.js
+    const {image, name, desc, intr_1, intr_2} = props
 
     return (
         <Grid item>

@@ -308,6 +308,14 @@
   text-align: left;
 }
 
+.flexing{
+  display: grid;
+}
+
+/* .flexing_view{
+  color: #004f5d;
+} */
+
 .flexEnd {
   display: flex;
   justify-content: flex-end;
