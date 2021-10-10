@@ -7,8 +7,13 @@ import FormLabel from '@mui/material/FormLabel'
 import FormHelperText from '@mui/material/FormHelperText'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
+import {useAppContext} from '../../../../context/AppContext'
+
+const BASE_URL = process.env.BACKEND_HOST;
 
 function AdminMarkazEdit() {
+  const {state, dispatch} = useAppContext()
+  const { currentAccessToken } = state;
   const [thumbnail, setThumbnail] = useState();
   const [markaz, setMarkaz] = useState({
     name: "",
@@ -22,7 +27,7 @@ function AdminMarkazEdit() {
     console.log('acceptedFiles', acceptedFiles[0])
     const reader = new FileReader();
     reader.onload = function (e) {
-      setThumbnail(e.target.result);
+      setThumbnail(acceptedFiles[0]);
     };
     reader.readAsDataURL(acceptedFiles[0]);
     console.log('file', acceptedFiles[0])
@@ -44,16 +49,20 @@ function AdminMarkazEdit() {
 
     // API Route usage
     const data = new FormData()
+    const markazBlob = new Blob([JSON.stringify(markaz)], {type : 'application/json'});
     data.append("thumbnail", thumbnail)
-    data.append("markaz", JSON.stringify(markaz))
+    data.append("markaz", markazBlob)
     // Display the key/value pairs
     for (var pair of data.entries()) {
       console.log(pair[0] + ', ' + pair[1]);
-    } await fetch('/api/admin/markaz/edit', {
+    } 
+    
+    console.log(BASE_URL)
+    await fetch(`${BASE_URL}/admin/markaz`, {
       body: data,
       headers: {
         'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'multipart/form-data'
+        'Authorization': `Bearer ${currentAccessToken}`
       },
       method: 'POST'
     }).then(preResponse => {

@@ -14,6 +14,12 @@ export const roleType = {
     ROLE_MEMBER: "ROLE_MEMBER"
 }
 
+export const markazCategory = {
+    MARKAZ_UMUM: "markaz_umum", 
+    MARKAZ_AKHWAT: "markaz_akhwat", 
+    MARKAZ_IKHWAN: "markaz_ikhwan"
+}
+
 // Initialize variables
 export const initialFunction = initialState => {
     let {
