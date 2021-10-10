@@ -1,6 +1,19 @@
 import React from 'react'
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Pagination from '@mui/material/Pagination';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
+import styles from '../../../styles/Home.module.css';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import Card from "../../modules/Card";
+import { useEffect } from 'react';
+import { useState } from 'react';
 
-export default function adminTemplate(props) {
+const BASE_URL = process.env.BACKEND_HOST;
+export default function AdminTemplate(props) {
     const {children, searchBarName, markazOrSantri, view1, view2} = props;
       
     const [value, setValue] = useState(10);
@@ -17,43 +30,6 @@ export default function adminTemplate(props) {
     const [allData, setAllData] = useState([])
 
     const [data, setData] = useState([])
-
-    const getAllData = async (event) => {
-        await fetch(`${BASE_URL}/${markazOrSantri.toLowerCase()}/search`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-        }
-        }).then(preResponse => {
-            preResponse.json().then(data => {
-                setAllData(data.result)
-            })
-        })
-    }
-
-    const getData = async (event) => {
-        await fetch(`${BASE_URL}/${markazOrSantri.toLowerCase()}/search?page=${page}&n=${value}`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-        }
-        }).then(preResponse => {
-            preResponse.json().then(data => {
-                setData(data)
-            })
-        })
-    }
-
-    useEffect(() => {
-        if(allData.length == 0){
-            getAllData()
-        }
-        getData()
-      }, [page, value])
-
-    
 
     return (
         <Container maxWidth="lg" className={styles.container}>
@@ -113,24 +89,9 @@ export default function adminTemplate(props) {
                         </Grid>
                     </Grid>
                 </Grid>
-                {
-                    allData.filter((val) => {
-                        if(searchTerm == "") {
-                            return val
-                        }
-                        else if(val.name.toLowerCase().includes(searchTerm.toLowerCase())){
-                            return val
-                        }
-                    }).map((val, key) => {
-                        return(
-                            <Card key={val.id} 
-                            image={val.thumbnailURL} 
-                            name={val.name} 
-                            desc={val.background}
-                            />
-                        )
-                    })
-                }
+                        
+                {children}
+
                 <Grid item xs={12} mt={5} className={styles.flexEnd}>
                     <Pagination count={5} page={page + 1} onChange={(event, value) => {
                             setSearchTerm("")
