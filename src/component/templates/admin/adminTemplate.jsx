@@ -31,9 +31,6 @@ export default function AdminTemplate(props) {
 
     const [data, setData] = useState([])
 
-
-    
-
     return (
         <Container maxWidth="lg" className={styles.container}>
             <Grid container spacing={3} sx={{display: 'flex', justifyContent:"center"}}>
