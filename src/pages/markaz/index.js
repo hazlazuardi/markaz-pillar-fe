@@ -17,13 +17,17 @@ export async function getStaticProps({}) {
 
 export default function MarkazLayout(props) {
   return (
-    <ShowAllTemplate searchBarName="Cari Markaz" markazOrSantri="Markaz">
+    <ShowAllTemplate 
+    searchBarName="Cari Markaz" 
+    markazOrSantri="Markaz">
       {props.markaz.map((key) => (
         <Card
           key={key.id}
           image={key.thumbnailURL}
           name={key.name}
           desc={key.background}
+          intr_1="Donasi"
+          intr_2="Lihat Detail"
         />
       ))}
     </ShowAllTemplate>

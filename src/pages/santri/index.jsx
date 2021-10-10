@@ -5,41 +5,27 @@ import { useState } from 'react';
 
 const BASE_URL = process.env.BACKEND_HOST;
 
+export async function getStaticProps({}) {
+  const response = await fetch(`${BASE_URL}/markaz/search`);
+  const data = await response.json();
+  const santris = data.result;
+  return {
+    props: {
+      santris: santris,
+    },
+  };
+}
 
 export default function SantriLayout(props) {
+  const {santris} = props
   const [page, setPage] = useState(0)
 
   const [searchTerm, setSearchTerm] = useState("")
 
   const [value, setValue] = useState(10);
 
-  const [data, setData] = useState([])
-
-  const getData =
-    useCallback(
-      () => {
-        async (event) => {
-          await fetch(`${BASE_URL}/santri/search?page=${page}&n=${value}`, {
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json, text/plain, */*',
-              'Content-Type': 'application/json'
-            }
-          }).then(preResponse => {
-            preResponse.json().then(data => {
-              setData(data.result)
-            })
-            console.log(data)
-          })
-        }
-      },
-      [data, page, value],
-    )
-  useEffect(() => {
-    getData()
-  }, [getData])
-
-  if (data.length == 0) {
+  
+  if (santris.length == 0) {
     return (
       <p>Loading...</p>
     )
@@ -54,7 +40,7 @@ export default function SantriLayout(props) {
         setValue={setValue}
         setSearchTerm={setSearchTerm}
       >
-        {data.filter(val => {
+        {santris.filter(val => {
           if (searchTerm == "") {
             return val
           } else if (val.name.toLowerCase().includes(searchTerm.toLowerCase())) {
