@@ -25,5 +25,5 @@ export default function SantriLayoutDetail() {
     "Tempat & Tanggal Lahir": santri.santri_birth,
   };
 
-  return <DetailTemplate consistent={consistent} inconsistent={inconsistent} />;
+  return <DetailTemplate consistent={consistent} inconsistent={inconsistent} markazOrSantri="Santri"/>;
 }

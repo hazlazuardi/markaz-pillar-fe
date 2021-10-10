@@ -1,7 +1,6 @@
 import React from 'react'
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import SearchBar from '../../searchbar';
 import Pagination from '@mui/material/Pagination';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -9,30 +8,72 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import styles from '../../../styles/Home.module.css';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import Card from "../../modules/Card";
+import { useEffect } from 'react';
+import Button from '@mui/material/Button';
 
 
 import { useState } from 'react';
+
+const BASE_URL = process.env.BACKEND_HOST;
 
 export default function ShowAll(props) {
 
     const {children, searchBarName, markazOrSantri, view1, view2} = props;
 
-    const handleChange = ({ target }) => {
-        const { name, value } = target;
-        setValue((prev) => ({
-            ...prev,
-            [name]: value
-        }));
-    };
+    const {searchBarName, markazOrSantri} = props;
       
-    const [value, setValue] = useState({
-    "numOfEntries": 10,
-    });
+    const [value, setValue] = useState(10);
 
     const [error, setError] = useState({
     "status": 201,
     "statusText": ""
     })
+
+    const [page, setPage] = useState(0)
+
+    const [searchTerm, setSearchTerm] = useState("")
+
+    const [allData, setAllData] = useState([])
+
+    const [data, setData] = useState([])
+
+    const getAllData = async (event) => {
+        await fetch(`${BASE_URL}/${markazOrSantri.toLowerCase()}/search`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        }
+        }).then(preResponse => {
+            preResponse.json().then(data => {
+                setAllData(data.result)
+            })
+        })
+    }
+
+    const getData = async (event) => {
+        await fetch(`${BASE_URL}/${markazOrSantri.toLowerCase()}/search?page=${page}&n=${value}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+        }
+        }).then(preResponse => {
+            preResponse.json().then(data => {
+                setData(data)
+            })
+        })
+    }
+
+    useEffect(() => {
+        if(allData.length == 0){
+            getAllData()
+        }
+        getData()
+      }, [page, value])
+
+    
 
     return (
         <Container maxWidth="lg" className={styles.container}>
@@ -47,8 +88,11 @@ export default function ShowAll(props) {
                     Show
                     <FormControl sx={{ m: 1}}>
                         <Select
-                        value={value.numOfEntries}
-                        onChange={handleChange}
+                        value={value}
+                        onChange={e => {
+                            setSearchTerm("")
+                            setValue(e.target.value)
+                        }}
                         displayEmpty
                         name="numOfEntries"
                         inputProps={{ 'aria-label': 'Without label' }}
@@ -68,12 +112,50 @@ export default function ShowAll(props) {
                         {/* <Grid item xs={2}><Button>{view2}</Button></Grid> */}
                         {view1}
                         {view2}
-                        <Grid item xs={8} align='Right'><SearchBar className={styles.flexing_search} searchName = {searchBarName}></SearchBar></Grid>
+                        <Grid item xs={8} align='Right'>
+                            <form action="/" method="get">
+                                <label htmlFor="header-search">
+                                    <span className="visually-hidden"></span>
+                                </label>
+                                <input
+                                    type="text"
+                                    id="header-search"
+                                    placeholder={searchBarName}
+                                    name="s"
+                                    className="search"
+                                    value={searchTerm}
+                                    onChange={(event) => {setSearchTerm(event.target.value)}}
+                                />
+                                <button type="submit" className={styles.btn2}>
+                                    Cari
+                                </button>
+                            </form>
+                        </Grid>
                     </Grid>
                 </Grid>
-                {children}
+                {
+                    allData.filter((val) => {
+                        if(searchTerm == "") {
+                            return val
+                        }
+                        else if(val.name.toLowerCase().includes(searchTerm.toLowerCase())){
+                            return val
+                        }
+                    }).map((val, key) => {
+                        return(
+                            <Card key={val.id} 
+                            image={val.thumbnailURL} 
+                            name={val.name} 
+                            desc={val.background}
+                            />
+                        )
+                    })
+                }
                 <Grid item xs={12} mt={5} className={styles.flexEnd}>
-                    <Pagination count={5} />
+                    <Pagination count={5} page={page + 1} onChange={(event, value) => {
+                            setSearchTerm("")
+                            setPage(value-1)}
+                        }/>
                 </Grid>
             </Grid>
         </Container>
