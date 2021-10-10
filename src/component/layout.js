@@ -15,18 +15,18 @@ export default function Layout({ children }) {
 
     useEffect(() => {
 
-    },[snackbarStatus])
+    }, [snackbarStatus])
     return (
         <>
             {showHeader && <NavbarDesktop />}
             <Snackbar
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 open={snackbarStatus}
-                onClose={() => dispatch({type: dispatchTypes.SNACKBAR_CLOSE})}
+                onClose={() => dispatch({ type: dispatchTypes.SNACKBAR_CLOSE })}
                 message={snackbarMessage}
                 key={"bottom" + "center"}
             />
-            <Box sx={{height: '3em'}} />
+            {showHeader && <Box sx={{ height: '3em' }} />}
             {children}
         </>
     )
