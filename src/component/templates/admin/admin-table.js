@@ -15,7 +15,7 @@ export default function TableView(props) {
     return (
         <TableData>
             {users.map(user => (
-                <TableDataRow key={user.id} nama={user.name} markaz="" domisili={user.birthPlace} kelamin={user.gender} tanggal={user.birthDate}/>
+                <TableDataRow key={user.id} id={user.id} nama={user.name} markaz="" domisili={user.birthPlace} kelamin={user.gender} tanggal={user.birthDate}/>
             ))}
         </TableData>
     )
