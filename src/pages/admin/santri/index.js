@@ -1,34 +1,46 @@
 import React from 'react'
 import ShowAllTemplate from '../../../component/templates/show_all/ShowAll'
 import { useState } from 'react';
-import Grid from '../../../component/templates/admin/admin-grid'
-import Table from '../../../component/templates/admin/admin-table'
 import Button from '@mui/material/Button';
+import GridView from '../../../component/templates/admin/admin-grid';
+import TableView from '../../../component/templates/admin/admin-table';
 
-export const getStaticProps = async () => {
-    const res = await fetch('http://localhost:8080/santri/search?sortedAge=DESC');
-}
+const BASE_URL = process.env.BACKEND_HOST;
 
-export default function admin_data_santri_all() {
-
-    const [View, setView] = useState(Grid)
-
-    function setTable(){
-        setView(Table)
+export async function getStaticProps(context) {
+    const res = await fetch(`${BASE_URL}/santri/search?sortedAge=DESC`)
+    const data = await res.json()
+  
+    if (!data) {
+      return {
+        notFound: true,
+      }
+    }
+  
+    return {
+      props: { responseUsers: data }, // will be passed to the page component as props
+    }
+  }
+export default function AdminSantri(props) {
+    const {responseUsers} = props
+    console.log('res', responseUsers)
+    const [gridView, setGridView] = useState(true)
+    const notFound = false;
+    try {
+      notFound = props.notFound
+    } catch {
+      console.log(responseUsers)
     }
 
-    function setGrid(){
-        setView(Grid)
-    }
 
-    const gridview = (<Button style={{ color: "#004f5d", backgroundColor: "#ffffff", fontWeight: "bold", textDecoration: "underline" }} onClick = {setGrid}>Grid View</Button>)
-    const tableview = (<Button style={{ color: "#004f5d", backgroundColor: "#ffffff", fontWeight: "bold", textDecoration: "underline" }} onClick = {setTable}>Table View</Button>)
+    const gridview = (<Button style={{ color: "#004f5d", backgroundColor: "#ffffff", fontWeight: "bold", textDecoration: "underline" }} onClick = {() => setGridView(true)}>Grid View</Button>)
+    const tableview = (<Button style={{ color: "#004f5d", backgroundColor: "#ffffff", fontWeight: "bold", textDecoration: "underline" }} onClick = {() => setGridView(false)}>Table View</Button>)
     
 
     return (
         <ShowAllTemplate searchBarName="Cari Santri" view1={gridview} view2={tableview}>
             <div>
-                {View}
+                {gridView ? <GridView data={responseUsers} /> : <TableView />}
             </div>
         
         </ShowAllTemplate>

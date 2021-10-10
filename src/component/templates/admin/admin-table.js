@@ -6,7 +6,7 @@ import TableDataRow from '../../modules/TableDataRow'
 
 // const action = <Button variant="outlined">Primary</Button>;
 
-export default function admin_data_santri_all() {
+export default function TableView() {
     return (
         <TableData>
             <TableDataRow nama = "test" markaz = "test" domisili = "test" kelamin = "test" tanggal = "test" />
