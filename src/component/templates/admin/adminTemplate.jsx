@@ -1,24 +1,6 @@
 import React from 'react'
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Pagination from '@mui/material/Pagination';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
-import styles from '../../../styles/Home.module.css';
-import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
-import Card from "../../modules/Card";
-import { useEffect } from 'react';
-import Button from '@mui/material/Button';
 
-
-import { useState } from 'react';
-
-const BASE_URL = process.env.BACKEND_HOST;
-
-export default function ShowAll(props) {
-
+export default function adminTemplate(props) {
     const {children, searchBarName, markazOrSantri, view1, view2} = props;
       
     const [value, setValue] = useState(10);
@@ -81,7 +63,7 @@ export default function ShowAll(props) {
                     Daftar {markazOrSantri} <FilterAltOutlinedIcon/>
                 </Typography>
                 </Grid>
-                <Grid item lg={6} sm={12}>
+                <Grid item align='Left' lg={12} sm={12}>
                 <Typography variant="subtitle1" component="subtitle1">
                     Show
                     <FormControl sx={{ m: 1}}>
@@ -104,26 +86,33 @@ export default function ShowAll(props) {
                     Entries
                 </Typography>
                 </Grid>
-                <Grid item lg={6} sm={12} className={styles.flexEnd} pr={2}>
-                    <form action="/" method="get">
-                        <label htmlFor="header-search">
-                            <span className="visually-hidden"></span>
-                        </label>
-                        <input
-                            type="text"
-                            id="header-search"
-                            placeholder={searchBarName}
-                            name="s"
-                            className="search"
-                            value={searchTerm}
-                            onChange={(event) => {setSearchTerm(event.target.value)}}
-                        />
-                        <button type="submit" className={styles.btn2}>
-                            Cari
-                        </button>
-                    </form>
+                <Grid item lg={12} sm={12} className={styles.flexing} pr={2}>
+                    <Grid container spacing={0}>
+                        {/* <Grid item xs={2}><Button>{view1}</Button></Grid> */}
+                        {/* <Grid item xs={2}><Button>{view2}</Button></Grid> */}
+                        {view1}
+                        {view2}
+                        <Grid item xs={8} align='Right'>
+                            <form action="/" method="get">
+                                <label htmlFor="header-search">
+                                    <span className="visually-hidden"></span>
+                                </label>
+                                <input
+                                    type="text"
+                                    id="header-search"
+                                    placeholder={searchBarName}
+                                    name="s"
+                                    className="search"
+                                    value={searchTerm}
+                                    onChange={(event) => {setSearchTerm(event.target.value)}}
+                                />
+                                <button type="submit" className={styles.btn2}>
+                                    Cari
+                                </button>
+                            </form>
+                        </Grid>
+                    </Grid>
                 </Grid>
-
                 {
                     allData.filter((val) => {
                         if(searchTerm == "") {
@@ -138,8 +127,6 @@ export default function ShowAll(props) {
                             image={val.thumbnailURL} 
                             name={val.name} 
                             desc={val.background}
-                            intr_1="Donasi"
-                            intr_2="Lihat Detail"
                             />
                         )
                     })
