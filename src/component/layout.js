@@ -4,6 +4,7 @@ import { Snackbar } from '@mui/material';
 import { useAppContext } from '../context/AppContext';
 import { dispatchTypes } from '../context/AppReducer';
 import { useEffect } from 'react';
+import { Box } from '@mui/system';
 
 export default function Layout({ children }) {
     const router = useRouter();
@@ -25,6 +26,7 @@ export default function Layout({ children }) {
                 message={snackbarMessage}
                 key={"bottom" + "center"}
             />
+            <Box sx={{height: '3em'}} />
             {children}
         </>
     )
