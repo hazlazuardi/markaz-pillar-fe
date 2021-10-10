@@ -13,7 +13,6 @@ import Link from '@mui/material/Link';
 
 export default function Activity() {
   return (
-    <ThemeProvider theme={theme}>
     <div className={styles.container2}>
       <Grid container
         direction="column"
@@ -91,6 +90,5 @@ export default function Activity() {
         </Grid>
       </Grid>
     </div>
-    </ThemeProvider>
   )
 }
