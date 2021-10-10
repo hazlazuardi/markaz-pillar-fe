@@ -1,29 +1,52 @@
 import React from "react";
 import DetailTemplate from "../../component/templates/detail/Detail";
 
-export default function SantriLayoutDetail() {
-  const santri = {
-    santri_name: "Siti",
-    santri_background: "Lorem Ipsum Kolor Ahmet",
-    santri_markaz: "Markaz Depok",
-    santri_domisili: "Depok",
-    santri_sex: "F",
-    santri_birth: "Depok, 2001",
-    santri_needs: "Ayam",
+const BASE_URL = process.env.BACKEND_HOST;
+
+export async function getStaticProps(context) {
+  const id = context.params.id;
+  console.log(id)
+  const response = await fetch(`${BASE_URL}/santri?id=` + id);
+  const data = await response.json();
+  const santri = data.result;
+
+  return {
+    props: {
+      santri: santri,
+    },
   };
+}
+
+export async function getStaticPaths() {
+  const response = await fetch(`${BASE_URL}/santri/search`);
+  const data = await response.json();
+  const santri = data.result;
+
+  const paths = santri.map((santri) => ({
+    params: { id: santri.id.toString() },
+  }));
+
+  return {
+    paths: paths,
+    fallback: false,
+  };
+}
+
+export default function SantriLayoutDetail(props) {
+  const santri = props.santri;
 
   const consistent = {
-    name: santri.santri_name,
-    background: santri.santri_background,
+    name: santri.name,
+    background: santri.background,
   };
 
   const inconsistent = {
-    "Tempat Markaz": santri.santri_markaz,
-    "Jenis Kelamin": santri.santri_sex,
-    "Domisili Asal": santri.santri_domisili,
-    "Kebutuhan Beasiswa": santri.santri_needs,
-    "Tempat & Tanggal Lahir": santri.santri_birth,
+    "Tempat Markaz": santri.markaz.name,
+    "Jenis Kelamin": santri.gender,
+    "Domisili Asal": santri.birthPlace,
+    "Kebutuhan Beasiswa": santri.desc,
+    "Tempat & Tanggal Lahir": `${santri.birthPlace} & ${santri.birthdate}` ,
   };
 
-  return <DetailTemplate consistent={consistent} inconsistent={inconsistent} markazOrSantri="Santri"/>;
+  return <DetailTemplate consistent={consistent} inconsistent={inconsistent} nominal={santri.nominal} donated = {santri.donated} image = {santri.thumnailURL} />;
 }
