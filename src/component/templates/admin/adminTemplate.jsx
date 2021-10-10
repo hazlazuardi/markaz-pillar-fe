@@ -31,40 +31,6 @@ export default function AdminTemplate(props) {
 
     const [data, setData] = useState([])
 
-    const getAllData = async (event) => {
-        await fetch(`${BASE_URL}/${markazOrSantri.toLowerCase()}/search`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-        }
-        }).then(preResponse => {
-            preResponse.json().then(data => {
-                setAllData(data.result)
-            })
-        })
-    }
-
-    const getData = async (event) => {
-        await fetch(`${BASE_URL}/${markazOrSantri.toLowerCase()}/search?page=${page}&n=${value}`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-        }
-        }).then(preResponse => {
-            preResponse.json().then(data => {
-                setData(data)
-            })
-        })
-    }
-
-    useEffect(() => {
-        if(allData.length == 0){
-            getAllData()
-        }
-        getData()
-      }, [page, value])
 
     
 
