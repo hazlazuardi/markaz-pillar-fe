@@ -1,15 +1,15 @@
 import React from "react";
+import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
 import DetailTemplate from "../../../component/templates/detail/Detail";
 
 const BASE_URL = process.env.BACKEND_HOST;
 
 export async function getStaticProps(context) {
   const id = context.params.id;
-  console.log(id);
   const response = await fetch(`${BASE_URL}/santri?id=` + id);
   const data = await response.json();
   const santri = data.result;
-  console.log(santri);
 
   return {
     props: {
@@ -43,6 +43,18 @@ export default function santriLayoutDetail(props) {
     background: santri.background,
   };
 
+  const edit = "edit/" + santri.id;
+  const button = (
+    <div>
+      <Button>
+        <Link href={edit} underline="none">
+          Edit
+        </Link>
+      </Button>
+      <Button>Delete</Button>
+    </div>
+  );
+
   const ttl = santri.birthPlace + ", " + santri.birthDate;
 
   const inconsistent = {
@@ -59,6 +71,7 @@ export default function santriLayoutDetail(props) {
       inconsistent={inconsistent}
       image={image}
       donatetext="Kelola Donasi"
+      adminbutton={button}
     />
   );
 }
