@@ -6,8 +6,7 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function Profile(props) {
-  const { consistent, inconsistent } = props;
-  const { name, background } = consistent;
+  const { name, background, gender, btd, scholarship, markaz} = props;
 
   const theme = useTheme();
   const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
@@ -16,7 +15,7 @@ export default function Profile(props) {
     <Grid item sm={12} lg={6} sx={{ width: "100%" }}>
       <Grid container spacing={3} mb={3}>
         <Grid item xs={12} sx={{ display: largeScreen ? "block" : "none" }}>
-          <Typography variant="h4" mb={5}>
+          <Typography variant="h4" mb={5} sx={{textTransform : "uppercase"}}>
             {name}
           </Typography>
         </Grid>
@@ -29,17 +28,35 @@ export default function Profile(props) {
       </Grid>
 
       <Grid container spacing={3}>
-        {Object.keys(inconsistent).map(
-          (key, index) =>
-            inconsistent[key] && (
-              <Grid item xs={6}>
-                <Typography variant="body1">
-                  <LocalShippingOutlinedIcon /> {key}
-                </Typography>
-                <Typography variant="body2">{inconsistent[key]}</Typography>
-              </Grid>
-            )
-        )}
+
+        <Grid item xs={6}>
+          <Typography variant="body1">
+            <LocalShippingOutlinedIcon /> Tempat Markaz
+          </Typography> 
+          <Typography variant="body2" sx={{textTransform : "capitalize"}}> {markaz} </Typography>
+        </Grid>
+
+        <Grid item xs={6}>
+          <Typography variant="body1" sx={{textTransform : "capitalize"}}>
+            <LocalShippingOutlinedIcon /> Jenis Kelamin
+          </Typography> 
+          <Typography variant="body2"> {gender} </Typography>
+        </Grid>
+
+        <Grid item xs={6}>
+          <Typography variant="body1" sx={{textTransform : "capitalize"}}>
+            <LocalShippingOutlinedIcon /> Kebutuhan Beasiswa
+          </Typography> 
+          <Typography variant="body2"> {scholarship} </Typography>
+        </Grid>
+
+        <Grid item xs={6}>
+          <Typography variant="body1" sx={{textTransform : "capitalize"}}>
+            <LocalShippingOutlinedIcon /> Tempat & Tanggal Lahir
+          </Typography> 
+          <Typography variant="body2"> {btd} </Typography>
+        </Grid>
+
       </Grid>
     </Grid>
   );

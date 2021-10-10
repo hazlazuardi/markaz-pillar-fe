@@ -10,12 +10,13 @@ import styles from '../../../styles/Home.module.css';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import Card from "../../modules/Card";
 import { useEffect } from 'react';
-
 import { useState } from 'react';
 
 const BASE_URL = process.env.BACKEND_HOST;
 
 export default function ShowAll(props) {
+
+    const history = useHistory();
 
     const {searchBarName, markazOrSantri} = props;
       
@@ -131,7 +132,11 @@ export default function ShowAll(props) {
                         }
                     }).map((val, key) => {
                         return(
-                            <Card key={val.id} image={val.thumbnailURL} name={val.name} desc={val.background}/>
+                            <Card key={val.id} 
+                            image={val.thumbnailURL} 
+                            name={val.name} 
+                            desc={val.background}
+                            />
                         )
                     })
                 }

@@ -13,7 +13,7 @@ export default function ArrowBack(props) {
     const largeScreen = useMediaQuery(theme.breakpoints.up('lg'));
     return (
         <Grid item sm={12} lg={12} mb={8} sx={{display: largeScreen? "block":"none"}}>
-            <Typography variant="body1">
+            <Typography variant="body1" sx={{textTransform : "capitalize"}}>
                 <ArrowBackIcon/> {name}
             </Typography>
         </Grid>
