@@ -1,6 +1,19 @@
 import React from 'react'
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Pagination from '@mui/material/Pagination';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Typography from '@mui/material/Typography';
+import styles from '../../../styles/Home.module.css';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import Card from "../../modules/Card";
+import { useEffect } from 'react';
+import { useState } from 'react';
 
-export default function adminTemplate(props) {
+const BASE_URL = process.env.BACKEND_HOST;
+export default function AdminTemplate(props) {
     const {children, searchBarName, markazOrSantri, view1, view2} = props;
       
     const [value, setValue] = useState(10);
@@ -127,6 +140,8 @@ export default function adminTemplate(props) {
                             image={val.thumbnailURL} 
                             name={val.name} 
                             desc={val.background}
+                            intr_1="Edit"
+                            intr_2="Delete"
                             />
                         )
                     })

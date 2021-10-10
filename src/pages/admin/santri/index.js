@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Button from '@mui/material/Button';
 import GridView from '../../../component/templates/admin/admin-grid';
 import TableView from '../../../component/templates/admin/admin-table';
-import adminTemplate from '../../../component/templates/admin/adminTemplate';
+import AdminTemplate from '../../../component/templates/admin/AdminTemplate';
 
 const BASE_URL = process.env.BACKEND_HOST;
 
@@ -41,11 +41,11 @@ export default function AdminSantri(props) {
 
 
   return (
-    <adminTemplate searchBarName="Cari Santri" view1={gridview} view2={tableview}>
+    <AdminTemplate searchBarName="Cari Santri" view1={gridview} view2={tableview} markazOrSantri="Santri">
       <div>
         {gridView ? <GridView data={responseUsers} /> : <TableView data={responseUsers} />}
       </div>
 
-    </adminTemplate>
+    </AdminTemplate>
   )
 }
