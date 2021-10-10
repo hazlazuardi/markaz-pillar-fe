@@ -1,14 +1,17 @@
 import '../styles/globals.css'
 import { AppWrapper } from '../context/AppContext'
 import Layout from '../component/layout'
+import ProtectedRoutes from '../ProtectedRoutes'
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, router }) {
   return (
-      <AppWrapper>
+    <AppWrapper>
+      <ProtectedRoutes router={router}>
         <Layout>
           <Component {...pageProps} />
         </Layout>
-      </AppWrapper>
+      </ProtectedRoutes>
+    </AppWrapper>
   )
 }
 

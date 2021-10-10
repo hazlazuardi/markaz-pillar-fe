@@ -20,6 +20,21 @@ export const markazCategory = {
     MARKAZ_IKHWAN: "markaz_ikhwan"
 }
 
+export const enumRoutes = {
+    LANDING: "/landing",
+    LOGIN: "/login",
+    REGISTRATION: "/registration",
+    MEMBER_SANTRI: "/santri",
+    MEMBER_MARKAZ: "/markaz",
+    ADMIN_SANTRI: "/admin/santri",
+    ADMIN_MARKAZ: "/admin/markaz",
+};
+
+export const enumProtectedRoutes = [
+    enumRoutes.ADMIN_MARKAZ,
+    enumRoutes.ADMIN_SANTRI
+]
+
 // Initialize variables
 export const initialFunction = initialState => {
     let {
