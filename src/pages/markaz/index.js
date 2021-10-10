@@ -19,7 +19,7 @@ export default function MarkazLayout(props) {
   return (
     <ShowAllTemplate searchBarName="Cari Markaz" markazOrSantri="Markaz">
       {props.markaz.map((key) => (
-        <Card image={key.thumbnailURL} name={key.name} desc={key.background} />
+        <Card key={key.id} image={key.thumbnailURL} name={key.name} desc={key.background} />
       ))}
     </ShowAllTemplate>
   );
