@@ -14,7 +14,7 @@ import { useState } from 'react';
 
 const BASE_URL = process.env.BACKEND_HOST;
 export default function AdminTemplate(props) {
-    const {children, searchBarName, markazOrSantri, view1, view2} = props;
+    const {children, searchBarName, markazOrSantri, view1, view2, add} = props;
       
     const [value, setValue] = useState(10);
 
@@ -91,7 +91,9 @@ export default function AdminTemplate(props) {
                 </Grid>
                         
                 {children}
-
+                <Grid item className={styles.flexEnd}>
+                    {add}
+                </Grid>
                 <Grid item xs={12} mt={5} className={styles.flexEnd}>
                     <Pagination count={5} page={page + 1} onChange={(event, value) => {
                             setSearchTerm("")
