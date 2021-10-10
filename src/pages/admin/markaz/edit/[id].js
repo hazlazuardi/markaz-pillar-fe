@@ -1,16 +1,12 @@
 import { useCallback, useState, useRef } from "react";
 import Dropzone from "../../../../component/modules/Dropzone";
 import Container from "@mui/material/Container";
-import cuid from "cuid";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import FormHelperText from "@mui/material/FormHelperText";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useAppContext } from "../../../../context/AppContext";
 import Grid from "@mui/material/Grid";
 import Typography from '@mui/material/Typography'
-
+import { useRouter } from "next/router";
 
 
 const BASE_URL = process.env.BACKEND_HOST;
@@ -68,7 +64,7 @@ function AdminMarkazEdit() {
         Accept: "application/json, text/plain, */*",
         Authorization: `Bearer ${currentAccessToken}`,
       },
-      method: "POST",
+      method: "PUT",
     }).then((preResponse) => {
       preResponse.json().then((response) => {
         console.log(response);
