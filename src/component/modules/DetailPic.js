@@ -25,9 +25,7 @@ export default function DetailPic(props) {
     const mediumScreen = useMediaQuery(theme.breakpoints.up('md'));
     const largeScreen = useMediaQuery(theme.breakpoints.up('lg'));
 
-    const {name, nominal, progress, thumbnailURL} = props
-
-    const image = thumbnailURL? thumbnailURL : 'url(https://source.unsplash.com/random)'
+    const {name, nominal, progress, image} = props
 
     return (
         <Grid item sm={12} lg={6} sx={{width: "100%"}}>                         
@@ -42,7 +40,7 @@ export default function DetailPic(props) {
                         sx={{
                             width: 400,
                             height: 400,
-                            backgroundImage: image,
+                            backgroundImage: `url(${image})`,
                             backgroundRepeat: 'no-repeat',
                             backgroundColor: (t) =>
                                 t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],

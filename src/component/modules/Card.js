@@ -16,7 +16,7 @@ export default function Card(props) {
                 sx={{
                     width: "auto",
                     height: 250,
-                    backgroundImage: 'url(https://source.unsplash.com/random)',
+                    backgroundImage: `url(${ image })`,
                     backgroundRepeat: 'no-repeat',
                     backgroundColor: (t) =>
                         t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],

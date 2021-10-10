@@ -35,6 +35,8 @@ export async function getStaticPaths() {
 export default function MarkazLayoutDetail(props) {
   const markaz = props.markaz;
 
+  const image = markaz.thumbnailURL;
+
   const consistent = {
     name: markaz.name,
     background: markaz.background,
@@ -47,5 +49,5 @@ export default function MarkazLayoutDetail(props) {
     "Kebutuhan Fasilitas": markaz.description,
   };
 
-  return <DetailTemplate consistent={consistent} inconsistent={inconsistent} />;
+  return <DetailTemplate consistent={consistent} inconsistent={inconsistent} image={image}/>;
 }
