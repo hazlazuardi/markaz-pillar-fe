@@ -21,5 +21,12 @@ export const theme = createTheme({
       fontWeightRegular: 400,
       fontWeightMedium: 600,
       fontWeightBold: 800,
+    },
+    link: {
+      fontFamily: "'Poppins', 'Helvetica'",
+      fontWeightLight: 200,
+      fontWeightRegular: 400,
+      fontWeightMedium: 600,
+      fontWeightBold: 800,
     }
   });

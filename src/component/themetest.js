@@ -40,6 +40,12 @@ export default function BasicButtons(){
                 fontWeight="Bold">
                     test
             </Typography>
+            <Button color="primary">
+                primary color
+            </Button>
+            <Button color="secondary">
+                secondary color
+            </Button>
         </ThemeProvider>
     )
 }

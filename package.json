@@ -9,7 +9,9 @@
     "start:ci": "next start --no-clipboard --listen ${PORT:-3000}",
     "lint": "next lint",
     "test": "start-server-and-test start http://localhost:3000 cy:run",
+    "test:open": "start-server-and-test start http://localhost:3000 cy:open",
     "cy:run": "cypress run",
+    "cy:open": "cypress open",
     "cy:install": "cypress install",
     "cy:verify": "cypress verify",
     "cy:info": "cypress info",
@@ -32,8 +34,11 @@
     "swr": "^1.0.1"
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.9.11",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.1",
+    "babel-plugin-istanbul": "^6.0.0",
+    "check-code-coverage": "^1.10.0",
     "cypress": "^8.4.1",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
@@ -41,5 +46,10 @@
     "jest": "^27.2.2",
     "react-test-renderer": "^17.0.2",
     "start-server-and-test": "^1.14.0"
+  },
+  "nyc": {
+    "exclude": [
+      "pages/api/__coverage__.js"
+    ]
   }
 }
