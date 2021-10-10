@@ -29,7 +29,6 @@ export default function Profile(props) {
           <Typography variant="h5">{background}</Typography>
         </Grid>
       </Grid>
-
       <Grid container spacing={3}>
         {Object.keys(inconsistent).map(
           (key, index) =>

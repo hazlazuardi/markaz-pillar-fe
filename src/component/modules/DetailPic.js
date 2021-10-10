@@ -28,7 +28,7 @@ export default function DetailPic(props) {
   const mediumScreen = useMediaQuery(theme.breakpoints.up("md"));
   const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
-  const { name, nominal, progress, image, donasi } = props;
+  const { name, nominal, progress, image, donasi, admin } = props;
 
   return (
     <Grid item sm={12} lg={6} sx={{ width: "100%" }}>
@@ -42,6 +42,7 @@ export default function DetailPic(props) {
             {name}
           </Typography>
         </Grid>
+        {admin}
         <Grid
           item
           xs={12}
