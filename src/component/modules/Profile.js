@@ -41,6 +41,7 @@ export default function Profile(props) {
             )
         )}
       </Grid>
+
     </Grid>
   );
 }
