@@ -9,6 +9,9 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { useAppContext } from "../../../../context/AppContext";
 import Grid from "@mui/material/Grid";
+import Typography from '@mui/material/Typography'
+
+
 
 const BASE_URL = process.env.BACKEND_HOST;
 
@@ -86,48 +89,62 @@ function AdminMarkazEdit() {
             spacing={5}
           >
             <Grid item>
-              <Dropzone
-                name="thumbnail"
-                onDrop={onDrop}
-                accept={"application/pdf"}
-              />
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography variant="h5" color="initial">Upload an Image</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Dropzone
+                    name="thumbnail"
+                    onDrop={onDrop}
+                    accept={"application/pdf"}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item>
-              <TextField
-                name="name"
-                label="Markaz Name"
-                fullWidth
-                onChange={handleChangeMarkaz}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                name="background"
-                label="Background"
-                fullWidth
-                onChange={handleChangeMarkaz}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                name="category"
-                label="Markaz Category"
-                fullWidth
-                onChange={handleChangeMarkaz}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                name="address"
-                label="Markaz Address"
-                fullWidth
-                onChange={handleChangeMarkaz}
-              />
-            </Grid>
-            <Grid item>
-              <Button type="submit" variant="outlined" color="primary">
-                Save
-              </Button>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography variant="h5" color="initial">Edit Markaz Detail</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    name="name"
+                    label="Markaz Name"
+                    fullWidth
+                    onChange={handleChangeMarkaz}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    name="background"
+                    label="Background"
+                    fullWidth
+                    onChange={handleChangeMarkaz}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    name="category"
+                    label="Markaz Category"
+                    fullWidth
+                    onChange={handleChangeMarkaz}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    name="address"
+                    label="Markaz Address"
+                    fullWidth
+                    onChange={handleChangeMarkaz}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button type="submit" variant="contained" color="primary" fullWidth>
+                    Save
+                  </Button>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </form>
