@@ -10,6 +10,7 @@ import styles from '../../../styles/Home.module.css';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import Card from "../../modules/Card";
 import { useEffect } from 'react';
+<<<<<<< HEAD
 import { useState } from 'react';
 
 const BASE_URL = process.env.BACKEND_HOST;
@@ -17,6 +18,14 @@ const BASE_URL = process.env.BACKEND_HOST;
 export default function ShowAll(props) {
 
     const history = useHistory();
+=======
+
+import { useState } from 'react';
+
+const BASE_URL = process.env.BACKEND_HOST;
+
+export default function ShowAll(props) {
+>>>>>>> a5b7f4bba91c75272e450e07c7f4684578b45adc
 
     const {searchBarName, markazOrSantri} = props;
       
