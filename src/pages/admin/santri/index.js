@@ -5,6 +5,10 @@ import Grid from '../../../component/templates/admin/admin-grid'
 import Table from '../../../component/templates/admin/admin-table'
 import Button from '@mui/material/Button';
 
+export const getStaticProps = async () => {
+    const res = await fetch('http://localhost:8080/santri/search?sortedAge=DESC');
+}
+
 export default function admin_data_santri_all() {
 
     const [View, setView] = useState(Grid)
