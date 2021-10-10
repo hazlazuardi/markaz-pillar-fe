@@ -1,12 +1,12 @@
 import React from "react";
-import DetailTemplate from "../../component/templates/detail/Detail";
+import DetailTemplate from "../../../component/templates/detail/Detail";
 
 const BASE_URL = process.env.BACKEND_HOST;
 
 export async function getStaticProps(context) {
   const id = context.params.id;
   console.log(id);
-  const response = await fetch(`${BASE_URL}/markaz?id=` + id);
+  const response = await fetch(`${BASE_URL}/santri?id=` + id);
   const data = await response.json();
   const markaz = data.result;
 
@@ -18,7 +18,7 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  const response = await fetch(`${BASE_URL}/markaz/search`);
+  const response = await fetch(`${BASE_URL}/santri/search`);
   const data = await response.json();
   const markaz = data.result;
 
@@ -34,6 +34,8 @@ export async function getStaticPaths() {
 
 export default function MarkazLayoutDetail(props) {
   const markaz = props.markaz;
+
+  const image = markaz.thumbnailURL;
 
   const consistent = {
     name: markaz.name,
@@ -51,7 +53,8 @@ export default function MarkazLayoutDetail(props) {
     <DetailTemplate
       consistent={consistent}
       inconsistent={inconsistent}
-      donatetext="Donasi Sekarang"
+      image={image}
+      donatetext="Kelola Donasi"
     />
   );
 }

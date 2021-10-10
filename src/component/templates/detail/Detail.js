@@ -9,12 +9,12 @@ import DonationProgress from "../../modules/DonationProgress";
 import Profile from "../../modules/Profile";
 import ArrowBack from "../../modules/ArrowBack";
 import DetailPic from "../../modules/DetailPic";
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useState } from "react";
 
 function Detail(props) {
-  const { consistent, inconsistent, image } = props;
+  const { consistent, inconsistent, image, donatetext } = props;
   const theme = useTheme();
   const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
@@ -35,6 +35,7 @@ function Detail(props) {
                 name={consistent.name}
                 nominal="500.000/1.000.000"
                 progress={50}
+                donasi={donatetext}
               />
             </Grid>
           </Container>
@@ -67,10 +68,9 @@ function Detail(props) {
             </Grid>
           </Container>
         </Grid>
-      </div>
-    );
-  }
-  
+      </Grid>
+    </div>
+  );
 }
 
 export default Detail;
