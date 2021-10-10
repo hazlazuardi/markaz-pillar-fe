@@ -5,10 +5,14 @@ import Layout from "../component/layout"
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from '../theme'
+import Button from '@mui/material/Button';
+import { Typography } from '@mui/material';
+import Link from '@mui/material/Link';
 
 export default function Activity() {
   return (
-  <Layout>
     <div className={styles.container2}>
       <Grid container
         direction="column"
@@ -24,19 +28,19 @@ export default function Activity() {
         <Grid item>
           <ul className={styles.list}>
             <li className={styles.listitem}>
-              <a href=''>Semua kegiatan</a>
+              <Link fontFamily="Poppins" href=''>Semua kegiatan</Link>
             </li>
             <li className={styles.listitem}>
-              <a href=''>Donasi</a>
+              <Link fontFamily="Poppins" href=''>Donasi</Link>
             </li>
             <li className={styles.listitem}>
-              <a href=''>Volunteer</a>
+              <Link fontFamily="Poppins" href=''>Volunteer</Link>
             </li>
             <li className={styles.listitem}>
-              <a href=''>Pengajar</a>
+              <Link fontFamily="Poppins" href=''>Pengajar</Link>
             </li>
             <li className={styles.listitem}>
-              <a href=''>Kelas</a>
+              <Link fontFamily="Poppins" href=''>Kelas</Link>
             </li>
           </ul>
         </Grid>
@@ -47,99 +51,33 @@ export default function Activity() {
                 gambar
               </div>
               <div className={styles.kartu_item_type}>
-                <a>Jenis kegiatan</a><br />
-                <a>Donasi</a>
+                <Typography>Jenis kegiatan</Typography><br />
+                <Typography>Donasi</Typography>
               </div>
               <div className={styles.kartu_item_target}>
-                <a>Target donasi</a><br />
-                <a>Markaz Pillar</a>
+                <Typography>Target donasi</Typography><br />
+                <Typography>Markaz Pillar</Typography>
               </div>
               <div className={styles.kartu_item_status}>
-                <a>Status</a><br />
-                <a>Menunggu Pembayaran</a>
+                <Typography>Status</Typography><br />
+                <Typography>Menunggu Pembayaran</Typography>
               </div>
               <div className={styles.kartu_item_date}>
-                <a>Tanggal kegiatan</a><br />
-                <a>14/08/2021</a>
+                <Typography>Tanggal kegiatan</Typography><br />
+                <Typography>14/08/2021</Typography>
               </div>
               <div className={styles.kartu_item_donat}>
-                <a>Jumlah donasi</a><br />
-                <a>Rp50.000,00</a>
+                <Typography>Jumlah donasi</Typography><br />
+                <Typography>Rp50.000,00</Typography>
               </div>
               <div className={styles.kartu_item_markaz}>
-                <a href="">Lihat Markaz </a>
+                <Typography href="">Lihat Markaz </Typography>
                 <IconButton aria-label="delete">
                 <DeleteIcon />
                 </IconButton>
               </div>
             </div>
           </Grid>   
-          <Grid item>
-            <div className={styles.kartu_container}>
-              <div className={styles.kartu_item_image}>
-                gambar
-              </div>
-              <div className={styles.kartu_item_type}>
-                <a>Jenis kegiatan</a><br />
-                <a>Donasi</a>
-              </div>
-              <div className={styles.kartu_item_target}>
-                <a>Target donasi</a><br />
-                <a>Fatimah Azzahra</a>
-              </div>
-              <div className={styles.kartu_item_status}>
-                <a>Status</a><br />
-                <a>Donasi diterima</a>
-              </div>
-              <div className={styles.kartu_item_date}>
-                <a>Tanggal kegiatan</a><br />
-                <a>14/08/2021</a>
-              </div>
-              <div className={styles.kartu_item_donat}>
-                <a>Jumlah donasi</a><br />
-                <a>Rp50.000,00</a>
-              </div>
-              <div className={styles.kartu_item_markaz}>
-                <a href="">Lihat Santri </a>
-                <IconButton aria-label="delete">
-                <DeleteIcon />
-                </IconButton>
-              </div>
-            </div>
-          </Grid>  
-          <Grid item>
-            <div className={styles.kartu_container}>
-              <div className={styles.kartu_item_image}>
-                gambar
-              </div>
-              <div className={styles.kartu_item_type}>
-                <a>Jenis kegiatan</a><br />
-                <a>Volunteer</a>
-              </div>
-              <div className={styles.kartu_item_target}>
-                <a>Kegiatan volunteer</a><br />
-                <a>Bercocok Tanam</a>
-              </div>
-              <div className={styles.kartu_item_status}>
-                <a>Status</a><br />
-                <a>Menunggu konfirmasi</a>
-              </div>
-              <div className={styles.kartu_item_date}>
-                <a>Tanggal kegiatan</a><br />
-                <a>14/08/2021</a>
-              </div>
-              <div className={styles.kartu_item_donat}>
-                <a>Jadwal donasi</a><br />
-                <a>Senin dan Rabu, 13.00-14.00</a>
-              </div>
-              <div className={styles.kartu_item_markaz}>
-                <a href="">Lihat Kegiatan</a>
-                <IconButton aria-label="delete">
-                <DeleteIcon />
-                </IconButton>
-              </div>
-            </div>
-          </Grid>  
         </Grid> 
         <Grid item>
           <ul className={styles.pagebutton}>
@@ -152,6 +90,5 @@ export default function Activity() {
         </Grid>
       </Grid>
     </div>
-  </Layout>
   )
 }

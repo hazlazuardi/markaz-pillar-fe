@@ -10,11 +10,12 @@ import Typography from '@mui/material/Typography';
 import styles from '../../../styles/Home.module.css';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 
+
 import { useState } from 'react';
 
 export default function ShowAll(props) {
 
-    const {children, searchBarName, markazOrSantri} = props;
+    const {children, searchBarName, markazOrSantri, view1, view2} = props;
 
     const handleChange = ({ target }) => {
         const { name, value } = target;
@@ -41,7 +42,7 @@ export default function ShowAll(props) {
                     Daftar {markazOrSantri} <FilterAltOutlinedIcon/>
                 </Typography>
                 </Grid>
-                <Grid item lg={6} sm={12}>
+                <Grid item align='Left' lg={12} sm={12}>
                 <Typography variant="subtitle1" component="subtitle1">
                     Show
                     <FormControl sx={{ m: 1}}>
@@ -61,8 +62,14 @@ export default function ShowAll(props) {
                     Entries
                 </Typography>
                 </Grid>
-                <Grid item lg={6} sm={12} className={styles.flexEnd} pr={2}>
-                    <SearchBar searchName = {searchBarName}></SearchBar>
+                <Grid item lg={12} sm={12} className={styles.flexing} pr={2}>
+                    <Grid container spacing={0}>
+                        {/* <Grid item xs={2}><Button>{view1}</Button></Grid> */}
+                        {/* <Grid item xs={2}><Button>{view2}</Button></Grid> */}
+                        {view1}
+                        {view2}
+                        <Grid item xs={8} align='Right'><SearchBar className={styles.flexing_search} searchName = {searchBarName}></SearchBar></Grid>
+                    </Grid>
                 </Grid>
                 {children}
                 <Grid item xs={12} mt={5} className={styles.flexEnd}>
