@@ -5,6 +5,9 @@ import Button from "@mui/material/Button";
 import GridView from "../../../component/templates/admin/admin-grid";
 import TableView from "../../../component/templates/admin/admin-table";
 import AdminTemplate from "../../../component/templates/admin/AdminTemplate";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import Link from "@mui/material/Link";
 
 const BASE_URL = process.env.BACKEND_HOST;
 
@@ -106,12 +109,21 @@ export default function AdminMarkaz(props) {
     </Button>
   );
 
+  const create = (
+    <Link href="markaz/create" underline="none">
+      <Fab color="primary" aria-label="add">
+        <AddIcon />
+      </Fab>
+    </Link>
+  );
+
   return (
     <AdminTemplate
       searchBarName="Cari Markaz"
       view1={gridview}
       view2={tableview}
       markazOrSantri="Markaz"
+      add={create}
     >
       <div>
         {gridView ? (
