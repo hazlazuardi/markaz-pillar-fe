@@ -111,7 +111,11 @@ export default function AdminSantri(props) {
 
   const create = (
     <Link href="santri/create" underline="none">
-      <Fab sx={{position: 'fixed', right:'3em', bottom:'3em'}} color="primary" aria-label="add">
+      <Fab
+        sx={{ position: "fixed", right: "3em", bottom: "3em" }}
+        color="primary"
+        aria-label="add"
+      >
         <AddIcon />
       </Fab>
     </Link>
@@ -127,9 +131,13 @@ export default function AdminSantri(props) {
     >
       <div>
         {gridView ? (
-          <GridView data={responseUsers} />
+          <GridView
+            data={responseUsers}
+            intr1Butt="admin/santri/edit"
+            markazOrSantri="admin/santri/delete"
+          />
         ) : (
-          <TableView data={responseUsers} />
+          <TableView data={responseUsers} santriormarkaz="santri" />
         )}
       </div>
     </AdminTemplate>
