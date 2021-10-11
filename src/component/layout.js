@@ -28,6 +28,7 @@ export default function Layout({ children }) {
             />
             {showHeader && <Box sx={{ height: '3em' }} />}
             {children}
+            <Box sx={{height:'6em'}}></Box>
         </>
     )
 }

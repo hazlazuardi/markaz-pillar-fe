@@ -7,7 +7,8 @@ export const dispatchTypes = {
     REGISTRATION_SUCCEED: "registration_succeed",
     REGISTRATION_FAIL: "registration_fail",
     AUTHENTICATED: "authenticated",
-    SNACKBAR_CLOSE: "snackbar_close"
+    SNACKBAR_CLOSE: "snackbar_close",
+    SNACKBAR_CUSTOM: "snackbar_custom"
 }
 
 export const roleType = {
@@ -30,6 +31,9 @@ export const enumRoutes = {
     MEMBER_MARKAZ: "/markaz",
     ADMIN_SANTRI: "/admin/santri",
     ADMIN_MARKAZ: "/admin/markaz",
+    ADMIN_MARKAZ_CREATE: "/admin/markaz/create",
+    ADMIN_SANTRI_CREATE: "/admin/santri/create",
+
 };
 
 export const enumProtectedRoutes = [
@@ -91,8 +95,8 @@ export const AppReducer = (state, action) => {
                 currentUserRole: action.payload.currentUserRole,
                 currentAccessToken: action.payload.currentAccessToken,
                 currentRefreshToken: action.payload.currentRefreshToken,
-                snackbarStatus: true,
-                snackbarMessage: `Welcome back, ${action.payload.currentUser}`
+                snackbarStatus: false,
+                snackbarMessage: ``
             }
         }
         case dispatchTypes.SNACKBAR_CLOSE: {
@@ -110,6 +114,13 @@ export const AppReducer = (state, action) => {
                 currentRefreshToken: "",
                 snackbarStatus: true,
                 snackbarMessage: `Good bye`
+            }
+        }
+        case dispatchTypes.SNACKBAR_CUSTOM: {
+            return {
+                ...state,
+                snackbarStatus: true,
+                snackbarMessage: action.payload.message
             }
         }
         default:
