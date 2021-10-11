@@ -70,23 +70,26 @@ function AdminMarkazCreate() {
             },
             method: "POST",
         }).then((preResponse) => {
-            preResponse.json().then((response) => {
-                if (preResponse.status === 201) {
-                    console.log(response);
-                } else if (preResponse.status === 400) {
-                    dispatch({
-                        type: dispatchTypes.SNACKBAR_CUSTOM,
-                        payload: {
-                            message: "Please upload a correct information"
-                        }
-                    })
-                } else {
-                    dispatch({
-                        type: dispatchTypes.LOGOUT
-                    })
-                    router.push("/login")
-                }
-            });
+            preResponse.json()
+                .then((response) => {
+                    if (preResponse.statusCode === 201) {
+                        console.log(response);
+                        dispatch({
+                            type: dispatchTypes.SNACKBAR_CUSTOM,
+                            payload: {
+                                message: "Markaz Created"
+                            }
+                        })
+                    } else if (preResponse.status === 400) {
+                        console.log("err 400", response)
+                        dispatch({
+                            type: dispatchTypes.SNACKBAR_CUSTOM,
+                            payload: {
+                                message: "Incorrect information"
+                            }
+                        })
+                    }
+                });
         });
     };
 

@@ -10,6 +10,7 @@ import { FormControl } from "@mui/material";
 import { Select } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
+import { dispatchTypes } from "../../../context/AppReducer";
 
 const BASE_URL = process.env.BACKEND_HOST;
 
@@ -33,6 +34,8 @@ function AdminSantriCreate(props) {
         markaz_id: "",
         address: "",
         category: "",
+        birthDate: "",
+        birtPlace: ""
     });
     const form = useRef(null);
 
@@ -78,11 +81,34 @@ function AdminSantriCreate(props) {
                 Authorization: `Bearer ${currentAccessToken}`,
             },
             method: "POST",
-        }).then((preResponse) => {
-            preResponse.json().then((response) => {
-                console.log(response);
-            });
-        });
+        })
+            .then((preResponse) => {
+                preResponse.json()
+                    .then((response) => {
+                        if (preResponse.statusCode === 201) {
+                            console.log(response);
+                            dispatch({
+                                type: dispatchTypes.SNACKBAR_CUSTOM,
+                                payload: {
+                                    message: "Santri Created"
+                                }
+                            })
+                        } else if (preResponse.status === 400) {
+                            console.log("err 400", response)
+                            dispatch({
+                                type: dispatchTypes.SNACKBAR_CUSTOM,
+                                payload: {
+                                    message: "Incorrect information"
+                                }
+                            })
+                        }
+                    })
+                    .catch(e => {
+                        console.log(e)
+                    })
+            }).catch(e => {
+                console.log(e)
+            })
     };
 
     console.log("image", thumbnail);

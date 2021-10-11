@@ -1,25 +1,30 @@
 import { useCallback, useState, useRef } from "react";
-import Dropzone from "../../../../component/modules/Dropzone";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useAppContext } from "../../../../context/AppContext";
 import Grid from "@mui/material/Grid";
 import Typography from '@mui/material/Typography'
-import { useRouter } from "next/router";
-
+import Dropzone from "../../../../component/modules/Dropzone";
+import { useAppContext } from "../../../../context/AppContext";
+import { FormControl } from "@mui/material";
+import { Select } from "@mui/material";
+import { InputLabel } from "@mui/material";
+import { MenuItem } from "@mui/material";
+import { dispatchTypes } from "../../../../context/AppReducer";
+import router from "next/router";
 
 const BASE_URL = process.env.BACKEND_HOST;
 
-function AdminMarkazEdit() {
+function AdminMarkazEdit(props) {
+  const { responseMarkaz } = props
   const { state, dispatch } = useAppContext();
   const { currentAccessToken } = state;
-  const [thumbnail, setThumbnail] = useState();
+  const [thumbnail, setThumbnail] = useState({});
   const [markaz, setMarkaz] = useState({
-    name: "",
-    background: "",
-    category: "",
-    address: "",
+    name: responseMarkaz.name,
+    background: responseMarkaz.background,
+    category: responseMarkaz.category,
+    address: responseMarkaz.address,
   });
   const form = useRef(null);
 
@@ -58,7 +63,7 @@ function AdminMarkazEdit() {
     }
 
     console.log(BASE_URL);
-    await fetch(`${BASE_URL}/admin/markaz`, {
+    await fetch(`${BASE_URL}/admin/markaz?id=${responseMarkaz.id}`, {
       body: data,
       headers: {
         Accept: "application/json, text/plain, */*",
@@ -67,9 +72,29 @@ function AdminMarkazEdit() {
       method: "PUT",
     }).then((preResponse) => {
       preResponse.json().then((response) => {
-        console.log(response);
-      });
-    });
+        if (preResponse.status === 201) {
+          console.log(response);
+        } else if (preResponse.status === 400) {
+          console.log("kl 400", response)
+          dispatch({
+            type: dispatchTypes.SNACKBAR_CUSTOM,
+            payload: {
+              message: "Please upload a correct information"
+            }
+          })
+        } else {
+          dispatch({
+            type: dispatchTypes.LOGOUT
+          })
+          router.push("/login")
+        }
+      })
+        .catch(e => {
+          { console.log(e) }
+        })
+    }).catch(e => {
+      { console.log(e) }
+    })
   };
 
   console.log("image", thumbnail);
@@ -96,12 +121,17 @@ function AdminMarkazEdit() {
                     accept={"application/pdf"}
                   />
                 </Grid>
+                {thumbnail.name &&
+                  <Grid item xs={12}>
+                    <Typography variant="body1" color="initial">Uploaded: {thumbnail.name}</Typography>
+                  </Grid>
+                }
               </Grid>
             </Grid>
             <Grid item>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Typography variant="h5" color="initial">Edit Markaz Detail</Typography>
+                  <Typography variant="h5" color="initial">Edit Markaz {markaz.name}</Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -109,6 +139,8 @@ function AdminMarkazEdit() {
                     label="Markaz Name"
                     fullWidth
                     onChange={handleChangeMarkaz}
+                    value={markaz.name}
+
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -116,16 +148,26 @@ function AdminMarkazEdit() {
                     name="background"
                     label="Background"
                     fullWidth
+                    value={markaz.background}
                     onChange={handleChangeMarkaz}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    name="category"
-                    label="Markaz Category"
-                    fullWidth
-                    onChange={handleChangeMarkaz}
-                  />
+                  <FormControl fullWidth>
+                    <InputLabel id="category-label">Kategori</InputLabel>
+                    <Select
+                      labelId="category-label"
+                      id="category-select"
+                      name='category'
+                      value={markaz.category}
+                      label="Kategori"
+                      onChange={handleChangeMarkaz}
+                    >
+                      <MenuItem value={"MARKAZ_UMUM"}>Markaz Umum</MenuItem>
+                      <MenuItem value={"MARKAZ_IKHWAN"}>Markaz Ikhwan</MenuItem>
+                      <MenuItem value={"MARKAZ_AKHWAT"}>Markaz Akhwat</MenuItem>
+                    </Select>
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -133,6 +175,8 @@ function AdminMarkazEdit() {
                     label="Markaz Address"
                     fullWidth
                     onChange={handleChangeMarkaz}
+                    value={markaz.address}
+
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -150,3 +194,32 @@ function AdminMarkazEdit() {
 }
 
 export default AdminMarkazEdit;
+
+export async function getStaticProps(context) {
+  const id = context.params.id;
+  const response = await fetch(`${BASE_URL}/markaz?id=` + id);
+  const data = await response.json();
+  const markaz = data.result;
+
+  return {
+    props: {
+      responseMarkaz: markaz,
+    },
+  };
+}
+
+export async function getStaticPaths() {
+  const response = await fetch(`${BASE_URL}/markaz/search`);
+  const data = await response.json();
+  const markaz = data.result;
+
+  const paths = markaz.map((markaz) => ({
+    params: { id: markaz.id.toString() },
+  }));
+
+  return {
+    paths: paths,
+    fallback: false,
+  };
+}
+

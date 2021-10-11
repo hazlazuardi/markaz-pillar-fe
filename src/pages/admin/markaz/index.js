@@ -36,51 +36,6 @@ export default function AdminMarkaz(props) {
     console.log(responseUsers);
   }
 
-  const [value, setValue] = useState(10);
-
-  const [error, setError] = useState({
-    status: 201,
-    statusText: "",
-  });
-
-  const [page, setPage] = useState(0);
-
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const [allData, setAllData] = useState([]);
-
-  const [data, setData] = useState([]);
-
-  const getAllData = async (event) => {
-    await fetch(`${BASE_URL}/${markazOrSantri.toLowerCase()}/search`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-    }).then((preResponse) => {
-      preResponse.json().then((data) => {
-        setAllData(data.result);
-      });
-    });
-  };
-
-  const getData = async (event) => {
-    await fetch(
-      `${BASE_URL}/${markazOrSantri.toLowerCase()}/search?page=${page}&n=${value}`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((preResponse) => {
-      preResponse.json().then((data) => {
-        setData(data);
-      });
-    });
-  };
 
   const gridview = (
     <Button
