@@ -1,13 +1,13 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Button from "@mui/material/Button";
+import Link from "next/link";
 
 export default function ArrowBack(props) {
-  const { name, link } = props;
+  const { name, markazOrSantri } = props;
 
   const theme = useTheme();
   const mediumScreen = useMediaQuery(theme.breakpoints.up("md"));
@@ -20,9 +20,11 @@ export default function ArrowBack(props) {
       mb={8}
       sx={{ display: largeScreen ? "block" : "none" }}
     >
-      <Button variant="text" href>
-        <ArrowBackIcon /> {name}
-      </Button>
+      <Link href={`/${markazOrSantri}/`} passHref>
+        <Button variant="text" href>
+          <ArrowBackIcon /> {name}
+        </Button>
+      </Link>
     </Grid>
   );
 }
