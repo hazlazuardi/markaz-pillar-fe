@@ -6,7 +6,7 @@ import { useState } from 'react';
 const BASE_URL = process.env.BACKEND_HOST;
 
 export async function getStaticProps({}) {
-  const response = await fetch(`${BASE_URL}/markaz/search`);
+  const response = await fetch(`${BASE_URL}/santri/search`);
   const data = await response.json();
   const santris = data.result;
   return {
@@ -49,11 +49,13 @@ export default function SantriLayout(props) {
         }).map((val, key) => (
           <Card
             key={val.id}
+            id={val.id}
             image={val.thumbnailURL}
             name={val.name}
             desc={val.background}
             intr_1="Donasi"
             intr_2="Lihat Detail"
+            markazOrSantri="santri"
           />
         ))}
       </ShowAllTemplate>
