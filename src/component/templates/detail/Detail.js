@@ -9,6 +9,10 @@ import DonationProgress from "../../modules/DonationProgress";
 import Profile from "../../modules/Profile";
 import ArrowBack from "../../modules/ArrowBack";
 import DetailPic from "../../modules/DetailPic";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useState } from "react";
 
 function Detail(props) {
   const {
@@ -32,10 +36,9 @@ function Detail(props) {
               spacing={3}
               direction={largeScreen ? "row" : "column-reverse"}
             >
-              <ArrowBack
-                name={consistent.name}
-                markazOrSantri={markazOrSantri}
-              />
+              <Link href={`/${markazOrSantri}/`} passHref>
+                <ArrowBack name={consistent.name} />
+              </Link>
               <Profile consistent={consistent} inconsistent={inconsistent} />
               <DetailPic
                 image={image}

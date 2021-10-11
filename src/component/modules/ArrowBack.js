@@ -1,5 +1,6 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";

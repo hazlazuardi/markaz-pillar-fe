@@ -36,7 +36,6 @@ export default function AdminMarkaz(props) {
     console.log(responseUsers);
   }
 
-
   const gridview = (
     <Button
       style={{
@@ -66,7 +65,11 @@ export default function AdminMarkaz(props) {
 
   const create = (
     <Link href="markaz/create" underline="none">
-      <Fab sx={{position: 'fixed', right:'3em', bottom:'3em'}} color="primary" aria-label="add">
+      <Fab
+        sx={{ position: "fixed", right: "3em", bottom: "3em" }}
+        color="primary"
+        aria-label="add"
+      >
         <AddIcon />
       </Fab>
     </Link>
@@ -82,9 +85,13 @@ export default function AdminMarkaz(props) {
     >
       <div>
         {gridView ? (
-          <GridView data={responseUsers} />
+          <GridView
+            data={responseUsers}
+            intr1Butt="admin/markaz/edit"
+            markazOrSantri="admin/markaz/delete"
+          />
         ) : (
-          <TableView data={responseUsers} />
+          <TableView data={responseUsers} santriormarkaz="markaz" />
         )}
       </div>
     </AdminTemplate>

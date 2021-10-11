@@ -8,7 +8,8 @@ import styles from "../../styles/Home.module.css";
 import Link from "next/link";
 
 export default function Card(props) {
-  const { image, name, desc, intr_1, intr_2 , markazOrSantri, id} = props;
+  const { image, name, desc, intr_1, intr_2, markazOrSantri, id, intr1Butt } =
+    props;
 
   return (
     <Grid item>
@@ -50,7 +51,9 @@ export default function Card(props) {
             xs={12}
             sx={{ display: "flex", justifyContent: "space-around" }}
           >
-            <Button variant="contained">{intr_1}</Button>
+            <Link href={`/${intr1Butt}/` + id}>
+              <Button variant="contained">{intr_1}</Button>
+            </Link>
             <Link href={`/${markazOrSantri}/` + id}>
               <Button variant="outlined">{intr_2}</Button>
             </Link>
