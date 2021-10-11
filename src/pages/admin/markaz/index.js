@@ -96,6 +96,10 @@ export default function AdminMarkaz(props) {
             data={responseUsers}
             santriormarkaz="markaz"
             detail="admin/markaz"
+            tableTempatMarkaz="Kategori"
+            tableDomisili="Nominal"
+            tableJenisKelamin="Contact Person"
+            tableTanggalLahir="Kontak"
           />
         )}
       </div>

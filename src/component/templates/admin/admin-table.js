@@ -7,22 +7,41 @@ import Link from "@mui/material/Link";
 // const action = <Button variant="outlined">Primary</Button>;
 
 export default function TableView(props) {
-  const { data, santriormarkaz, detail } = props;
+  const {
+    data,
+    santriormarkaz,
+    detail,
+    tableTempatMarkaz,
+    tableDomisili,
+    tableJenisKelamin,
+    tableTanggalLahir,
+  } = props;
   // array of objects
   const users = data.result;
   console.log(data.result);
 
   return (
-    <TableData>
+    <TableData
+      tableTempatMarkaz={tableTempatMarkaz}
+      tableDomisili={tableDomisili}
+      tableJenisKelamin={tableJenisKelamin}
+      tableTanggalLahir={tableTanggalLahir}
+    >
       {users.map((user) => (
         <TableDataRow
           key={user.id}
           id={user.id}
           nama={user.name}
-          markaz=""
-          domisili={user.birthPlace}
-          kelamin={user.gender}
-          tanggal={user.birthDate}
+          markaz={
+            santriormarkaz === "santri" ? user.markaz.name : user.category
+          }
+          domisili={
+            santriormarkaz === "santri" ? user.birthPlace : user.nominal
+          }
+          kelamin={
+            santriormarkaz === "santri" ? user.gender : user.contactPerson
+          }
+          tanggal={santriormarkaz === "santri" ? user.birthDate : "Wisnu"}
           santriormarkaz={santriormarkaz}
           detail={detail}
         />

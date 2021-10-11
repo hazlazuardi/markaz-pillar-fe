@@ -16,6 +16,7 @@ export default function GridView(props) {
           <Card
             key={user.id}
             name={user.name}
+            image={user.thumbnailURL}
             desc={user.background}
             intr_1="edit"
             intr_2="delete"

@@ -142,6 +142,10 @@ export default function AdminSantri(props) {
             data={responseUsers}
             santriormarkaz="santri"
             detail="admin/santri"
+            tableTempatMarkaz="Tempat Markaz"
+            tableDomisili="Domisili"
+            tableJenisKelamin="Jenis Kelamin"
+            tableTanggalLahir="Tanggal Lahir"
           />
         )}
       </div>
