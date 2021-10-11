@@ -5,7 +5,7 @@ const BASE_URL = process.env.BACKEND_HOST;
 
 export async function getStaticProps(context) {
   const id = context.params.id;
-  console.log(id)
+  console.log(id);
   const response = await fetch(`${BASE_URL}/santri?id=` + id);
   const data = await response.json();
   const santri = data.result;
@@ -45,8 +45,17 @@ export default function SantriLayoutDetail(props) {
     "Jenis Kelamin": santri.gender,
     "Domisili Asal": santri.birthPlace,
     "Kebutuhan Beasiswa": santri.desc,
-    "Tempat & Tanggal Lahir": `${santri.birthPlace} & ${santri.birthdate}` ,
+    "Tempat & Tanggal Lahir": `${santri.birthPlace} & ${santri.birthdate}`,
   };
 
-  return <DetailTemplate consistent={consistent} inconsistent={inconsistent} nominal={santri.nominal} donated = {santri.donated} image = {santri.thumnailURL} />;
+  return (
+    <DetailTemplate
+      consistent={consistent}
+      inconsistent={inconsistent}
+      nominal={santri.nominal}
+      donated={santri.donated}
+      image={santri.thumbnailURL}
+      markazOrSantri="santri"
+    />
+  );
 }
