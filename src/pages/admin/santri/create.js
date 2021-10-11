@@ -101,6 +101,14 @@ function AdminSantriCreate(props) {
                                     message: "Incorrect information"
                                 }
                             })
+                        } else if (preResponse.status === 413) {
+                            console.log("err 400", response)
+                            dispatch({
+                                type: dispatchTypes.SNACKBAR_CUSTOM,
+                                payload: {
+                                    message: "File is too large"
+                                }
+                            })
                         }
                     })
                     .catch(e => {
