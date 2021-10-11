@@ -54,6 +54,7 @@ export default function MarkazLayoutDetail(props) {
       inconsistent={inconsistent}
       image={image}
       donatetext="Donasi Sekarang"
+      markazOrSantri="markaz"
     />
   );
 }
