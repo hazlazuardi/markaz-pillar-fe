@@ -5,15 +5,15 @@ import Button from "@mui/material/Button";
 import GridView from "../../../component/templates/admin/admin-grid";
 import TableView from "../../../component/templates/admin/admin-table";
 import AdminTemplate from "../../../component/templates/admin/AdminTemplate";
-import Link from "@mui/material/Link";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
+import Link from "@mui/material/Link";
 
 const BASE_URL = process.env.BACKEND_HOST;
 
 export async function getStaticProps(context) {
   try {
-    const res = await fetch(`${BASE_URL}/santri/search?sortedAge=DESC`);
+    const res = await fetch(`${BASE_URL}/markaz/search?sortedAge=DESC`);
     const data = await res.json();
 
     return {
@@ -25,7 +25,7 @@ export async function getStaticProps(context) {
     };
   }
 }
-export default function AdminSantri(props) {
+export default function AdminMarkaz(props) {
   const { responseUsers } = props;
   console.log("res", responseUsers);
   const [gridView, setGridView] = useState(true);
@@ -35,52 +35,6 @@ export default function AdminSantri(props) {
   } catch {
     console.log(responseUsers);
   }
-
-  const [value, setValue] = useState(10);
-
-  const [error, setError] = useState({
-    status: 201,
-    statusText: "",
-  });
-
-  const [page, setPage] = useState(0);
-
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const [allData, setAllData] = useState([]);
-
-  const [data, setData] = useState([]);
-
-  const getAllData = async (event) => {
-    await fetch(`${BASE_URL}/${markazOrSantri.toLowerCase()}/search`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-    }).then((preResponse) => {
-      preResponse.json().then((data) => {
-        setAllData(data.result);
-      });
-    });
-  };
-
-  const getData = async (event) => {
-    await fetch(
-      `${BASE_URL}/${markazOrSantri.toLowerCase()}/search?page=${page}&n=${value}`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((preResponse) => {
-      preResponse.json().then((data) => {
-        setData(data);
-      });
-    });
-  };
 
   const gridview = (
     <Button
@@ -110,8 +64,12 @@ export default function AdminSantri(props) {
   );
 
   const create = (
-    <Link href="santri/create" underline="none">
-      <Fab sx={{position: 'fixed', right:'3em', bottom:'3em'}} color="primary" aria-label="add">
+    <Link href="markaz/create" underline="none">
+      <Fab
+        sx={{ position: "fixed", right: "3em", bottom: "3em" }}
+        color="primary"
+        aria-label="add"
+      >
         <AddIcon />
       </Fab>
     </Link>
@@ -119,17 +77,21 @@ export default function AdminSantri(props) {
 
   return (
     <AdminTemplate
-      searchBarName="Cari Santri"
+      searchBarName="Cari Markaz"
       view1={gridview}
       view2={tableview}
-      markazOrSantri="Santri"
+      markazOrSantri="Markaz"
       add={create}
     >
       <div>
         {gridView ? (
-          <GridView data={responseUsers} />
+          <GridView
+            data={responseUsers}
+            intr1Butt="admin/markaz/edit"
+            markazOrSantri="admin/markaz/delete"
+          />
         ) : (
-          <TableView data={responseUsers} />
+          <TableView data={responseUsers} santriormarkaz="markaz" />
         )}
       </div>
     </AdminTemplate>

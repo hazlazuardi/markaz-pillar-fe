@@ -1,5 +1,7 @@
 import React from "react";
-import DetailTemplate from "../../component/templates/detail/Detail";
+import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
+import DetailTemplate from "../../../component/templates/detail/Detail";
 
 const BASE_URL = process.env.BACKEND_HOST;
 
@@ -31,7 +33,7 @@ export async function getStaticPaths() {
   };
 }
 
-export default function MarkazLayoutDetail(props) {
+export default function santriLayoutDetail(props) {
   const markaz = props.markaz;
 
   const image = markaz.thumbnailURL;
@@ -40,6 +42,18 @@ export default function MarkazLayoutDetail(props) {
     name: markaz.name,
     background: markaz.background,
   };
+
+  const edit = "edit/" + markaz.id;
+  const button = (
+    <div>
+      <Button>
+        <Link href={edit} underline="none">
+          Edit
+        </Link>
+      </Button>
+      <Button>Delete</Button>
+    </div>
+  );
 
   const inconsistent = {
     Alamat: markaz.address,
@@ -53,8 +67,8 @@ export default function MarkazLayoutDetail(props) {
       consistent={consistent}
       inconsistent={inconsistent}
       image={image}
-      donatetext="Donasi Sekarang"
-      markazOrSantri="markaz"
+      donatetext="Kelola Donasi"
+      adminbutton={button}
     />
   );
 }

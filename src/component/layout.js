@@ -4,6 +4,7 @@ import { Snackbar } from '@mui/material';
 import { useAppContext } from '../context/AppContext';
 import { dispatchTypes } from '../context/AppReducer';
 import { useEffect } from 'react';
+import { Box } from '@mui/system';
 
 export default function Layout({ children }) {
     const router = useRouter();
@@ -14,18 +15,20 @@ export default function Layout({ children }) {
 
     useEffect(() => {
 
-    },[snackbarStatus])
+    }, [snackbarStatus])
     return (
         <>
             {showHeader && <NavbarDesktop />}
             <Snackbar
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 open={snackbarStatus}
-                onClose={() => dispatch({type: dispatchTypes.SNACKBAR_CLOSE})}
+                onClose={() => dispatch({ type: dispatchTypes.SNACKBAR_CLOSE })}
                 message={snackbarMessage}
                 key={"bottom" + "center"}
             />
+            {showHeader && <Box sx={{ height: '3em' }} />}
             {children}
+            <Box sx={{height:'6em'}}></Box>
         </>
     )
 }

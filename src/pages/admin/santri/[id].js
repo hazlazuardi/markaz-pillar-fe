@@ -1,18 +1,19 @@
 import React from "react";
+import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
 import DetailTemplate from "../../../component/templates/detail/Detail";
 
 const BASE_URL = process.env.BACKEND_HOST;
 
 export async function getStaticProps(context) {
   const id = context.params.id;
-  console.log(id);
   const response = await fetch(`${BASE_URL}/santri?id=` + id);
   const data = await response.json();
-  const markaz = data.result;
+  const santri = data.result;
 
   return {
     props: {
-      markaz: markaz,
+      santri: santri,
     },
   };
 }
@@ -20,10 +21,10 @@ export async function getStaticProps(context) {
 export async function getStaticPaths() {
   const response = await fetch(`${BASE_URL}/santri/search`);
   const data = await response.json();
-  const markaz = data.result;
+  const santri = data.result;
 
-  const paths = markaz.map((markaz) => ({
-    params: { id: markaz.id.toString() },
+  const paths = santri.map((santri) => ({
+    params: { id: santri.id.toString() },
   }));
 
   return {
@@ -32,21 +33,36 @@ export async function getStaticPaths() {
   };
 }
 
-export default function MarkazLayoutDetail(props) {
-  const markaz = props.markaz;
+export default function santriLayoutDetail(props) {
+  const santri = props.santri;
 
-  const image = markaz.thumbnailURL;
+  const image = santri.thumbnailURL;
 
   const consistent = {
-    name: markaz.name,
-    background: markaz.background,
+    name: santri.name,
+    background: santri.background,
   };
 
+  const edit = "edit/" + santri.id;
+  const button = (
+    <div>
+      <Button>
+        <Link href={edit} underline="none">
+          Edit
+        </Link>
+      </Button>
+      <Button>Delete</Button>
+    </div>
+  );
+
+  const ttl = santri.birthPlace + ", " + santri.birthDate;
+
   const inconsistent = {
-    Alamat: markaz.address,
-    "Contact Person": markaz.contactPerson,
-    Kategori: markaz.category,
-    "Kebutuhan Fasilitas": markaz.description,
+    "Tempat Markaz": santri.address,
+    "Jenis Kelamin": santri.gender,
+    "Domisili Asal": santri.birthPlace,
+    "Tempat & Tanggal Lahir": ttl,
+    "Kebutuhan Beasiswa": santri.description,
   };
 
   return (
@@ -55,6 +71,7 @@ export default function MarkazLayoutDetail(props) {
       inconsistent={inconsistent}
       image={image}
       donatetext="Kelola Donasi"
+      adminbutton={button}
     />
   );
 }

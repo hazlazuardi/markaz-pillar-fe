@@ -4,36 +4,38 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Typography from '@mui/material/Typography'
-import Dropzone from "../../../../component/modules/Dropzone";
-import { useAppContext } from "../../../../context/AppContext";
+import Dropzone from "../../../component/modules/Dropzone";
+import { useAppContext } from "../../../context/AppContext";
 import { FormControl } from "@mui/material";
 import { Select } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
+import { dispatchTypes } from "../../../context/AppReducer";
 
 const BASE_URL = process.env.BACKEND_HOST;
 
 function AdminSantriCreate(props) {
-    const { responseSantri } = props
-    { console.log(responseSantri) }
+    const { markazs } = props
+    { console.log(markazs) }
     const notFound = false;
     try {
         notFound = props.notFound;
     } catch {
-        console.log(responseSantri);
+        console.log(markazs);
     }
 
     const { state, dispatch } = useAppContext();
     const { currentAccessToken } = state;
     const [thumbnail, setThumbnail] = useState({});
     const [santri, setSantri] = useState({
-        name: responseSantri.name,
-        background: responseSantri.background,
-        gender: responseSantri.gender,
-        address: responseSantri.address,
-        category: responseSantri.category,
-        birthDate: responseSantri.birthDate,
-        birthPlace: responseSantri.birthPlace,
+        name: "",
+        background: "",
+        gender: "",
+        markaz_id: "",
+        address: "",
+        category: "",
+        birthDate: "",
+        birtPlace: ""
     });
     const form = useRef(null);
 
@@ -72,18 +74,41 @@ function AdminSantriCreate(props) {
         }
 
         console.log(BASE_URL);
-        await fetch(`${BASE_URL}/admin/santri?id=${responseSantri.markaz.id}`, {
+        await fetch(`${BASE_URL}/admin/santri?markaz_id=${santri.markaz_id}`, {
             body: data,
             headers: {
                 Accept: "application/json, text/plain, */*",
                 Authorization: `Bearer ${currentAccessToken}`,
             },
-            method: "PUT",
-        }).then((preResponse) => {
-            preResponse.json().then((response) => {
-                console.log(response);
-            });
-        });
+            method: "POST",
+        })
+            .then((preResponse) => {
+                preResponse.json()
+                    .then((response) => {
+                        if (preResponse.statusCode === 201) {
+                            console.log(response);
+                            dispatch({
+                                type: dispatchTypes.SNACKBAR_CUSTOM,
+                                payload: {
+                                    message: "Santri Created"
+                                }
+                            })
+                        } else if (preResponse.status === 400) {
+                            console.log("err 400", response)
+                            dispatch({
+                                type: dispatchTypes.SNACKBAR_CUSTOM,
+                                payload: {
+                                    message: "Incorrect information"
+                                }
+                            })
+                        }
+                    })
+                    .catch(e => {
+                        console.log(e)
+                    })
+            }).catch(e => {
+                console.log(e)
+            })
     };
 
     console.log("image", thumbnail);
@@ -120,7 +145,7 @@ function AdminSantriCreate(props) {
                         <Grid item>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <Typography variant="h5" color="initial">Edit Santri {responseSantri.name}</Typography>
+                                    <Typography variant="h5" color="initial">Add Santri Detail</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
@@ -128,7 +153,6 @@ function AdminSantriCreate(props) {
                                         label="Nama Santri"
                                         fullWidth
                                         onChange={handleChangeSantri}
-                                        value={santri.name}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -137,7 +161,6 @@ function AdminSantriCreate(props) {
                                         label="Background"
                                         fullWidth
                                         onChange={handleChangeSantri}
-                                        value={santri.background}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -157,12 +180,28 @@ function AdminSantriCreate(props) {
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={12}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="markaz-label">Tempat Markaz</InputLabel>
+                                        <Select
+                                            labelId="markaz-label"
+                                            id="markaz-select"
+                                            name='markaz_id'
+                                            value={santri.markaz}
+                                            label="Tempat Markaz"
+                                            onChange={handleChangeSantri}
+                                        >
+                                            {markazs.map(markaz => (
+                                                <MenuItem key={markaz.id} value={markaz.id}>{markaz.name}</MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
                                     <TextField
                                         name="address"
                                         label="Domisili Asal"
                                         fullWidth
                                         onChange={handleChangeSantri}
-                                        value={santri.address}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -171,8 +210,6 @@ function AdminSantriCreate(props) {
                                         label="Tempat Lahir"
                                         fullWidth
                                         onChange={handleChangeSantri}
-                                        value={santri.birthPlace}
-
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -182,8 +219,6 @@ function AdminSantriCreate(props) {
                                         fullWidth
                                         onChange={handleChangeSantri}
                                         placeholder="YYYY-MM-DD"
-                                        value={santri.birthDate}
-
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -204,29 +239,16 @@ export default AdminSantriCreate;
 
 
 export async function getStaticProps(context) {
-    const id = context.params.id;
-    const response = await fetch(`${BASE_URL}/santri?id=` + id);
-    const data = await response.json();
-    const santri = data.result;
+    try {
+        const res = await fetch(`${BASE_URL}/markaz/search?sortedAge=DESC`);
+        const data = await res.json();
 
-    return {
-        props: {
-            responseSantri: santri,
-        },
-    };
-}
-
-export async function getStaticPaths() {
-    const response = await fetch(`${BASE_URL}/santri/search`);
-    const data = await response.json();
-    const santri = data.result;
-
-    const paths = santri.map((santri) => ({
-        params: { id: santri.id.toString() },
-    }));
-
-    return {
-        paths: paths,
-        fallback: false,
-    };
+        return {
+            props: { markazs: data.result }, // will be passed to the page component as props
+        };
+    } catch {
+        return {
+            notFound: true,
+        };
+    }
 }

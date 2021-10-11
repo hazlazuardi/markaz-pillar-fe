@@ -20,7 +20,7 @@ export default function DetailPic(props) {
     },
     [`& .${linearProgressClasses.bar}`]: {
       borderRadius: 5,
-      backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#308fe8",
+      backgroundColor: theme.palette.mode === "light" ? "primary" : "#308fe8",
     },
   }));
 
@@ -28,7 +28,7 @@ export default function DetailPic(props) {
   const mediumScreen = useMediaQuery(theme.breakpoints.up("md"));
   const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
-  const { name, nominal, progress, image, donasi } = props;
+  const { name, nominal, progress, image, donasi, admin } = props;
 
   return (
     <Grid item sm={12} lg={6} sx={{ width: "100%" }}>
@@ -42,6 +42,7 @@ export default function DetailPic(props) {
             {name}
           </Typography>
         </Grid>
+        {admin}
         <Grid
           item
           xs={12}
@@ -64,7 +65,7 @@ export default function DetailPic(props) {
           />
         </Grid>
         <Grid item sm={12} sx={{ textAlign: "center" }}>
-          <Typography variant="body2" mb={1}>
+          <Typography variant="body2" mb={1} color="primary" fontWeight="bold">
             NOMINAL YANG DIBUTUHKAN
           </Typography>
         </Grid>
