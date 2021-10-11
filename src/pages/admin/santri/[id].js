@@ -72,6 +72,7 @@ export default function santriLayoutDetail(props) {
       image={image}
       donatetext="Kelola Donasi"
       adminbutton={button}
+      markazOrSantri="admin/santri"
     />
   );
 }
