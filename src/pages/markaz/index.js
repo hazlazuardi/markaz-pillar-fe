@@ -57,6 +57,7 @@ export default function MarkazLayout(props) {
               intr_1="Donasi"
               intr_2="Lihat Detail"
               markazOrSantri="markaz"
+              detail="markaz"
             />
           ))}
       </ShowAllTemplate>
