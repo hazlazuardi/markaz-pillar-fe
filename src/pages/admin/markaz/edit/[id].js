@@ -63,38 +63,49 @@ function AdminMarkazEdit(props) {
     }
 
     console.log(BASE_URL);
-    await fetch(`${BASE_URL}/admin/markaz?id=${responseMarkaz.id}`, {
+    await fetch(`${BASE_URL}/admin/markaz/edit?id=${responseMarkaz.id}`, {
       body: data,
       headers: {
         Accept: "application/json, text/plain, */*",
         Authorization: `Bearer ${currentAccessToken}`,
       },
-      method: "PUT",
-    }).then((preResponse) => {
-      preResponse.json().then((response) => {
-        if (preResponse.status === 201) {
-          console.log(response);
-        } else if (preResponse.status === 400) {
-          console.log("kl 400", response)
-          dispatch({
-            type: dispatchTypes.SNACKBAR_CUSTOM,
-            payload: {
-              message: "Please upload a correct information"
+      method: "POST",
+    })
+      .then((preResponse) => {
+        preResponse.json()
+          .then((response) => {
+            if (preResponse.status === 200) {
+              console.log(response);
+              dispatch({
+                type: dispatchTypes.SNACKBAR_CUSTOM,
+                payload: {
+                  message: "Markaz Edited"
+                }
+              })
+            } else if (preResponse.status === 400) {
+              console.log("err 400", response)
+              dispatch({
+                type: dispatchTypes.SNACKBAR_CUSTOM,
+                payload: {
+                  message: "Incorrect information"
+                }
+              })
+            } else if (preResponse.status === 413) {
+              console.log("err 400", response)
+              dispatch({
+                type: dispatchTypes.SNACKBAR_CUSTOM,
+                payload: {
+                  message: "File is too large"
+                }
+              })
             }
           })
-        } else {
-          dispatch({
-            type: dispatchTypes.LOGOUT
+          .catch(e => {
+            console.log(e)
           })
-          router.push("/login")
-        }
+      }).catch(e => {
+        console.log(e)
       })
-        .catch(e => {
-          { console.log(e) }
-        })
-    }).catch(e => {
-      { console.log(e) }
-    })
   };
 
   console.log("image", thumbnail);
