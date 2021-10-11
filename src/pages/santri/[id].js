@@ -56,6 +56,7 @@ export default function SantriLayoutDetail(props) {
       donated={santri.donated}
       image={santri.thumbnailURL}
       markazOrSantri="santri"
+      donatetext="Donasi Sekarang"
     />
   );
 }

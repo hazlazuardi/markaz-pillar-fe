@@ -85,7 +85,7 @@ function AdminSantriCreate(props) {
             .then((preResponse) => {
                 preResponse.json()
                     .then((response) => {
-                        if (preResponse.statusCode === 201) {
+                        if (preResponse.status === 201) {
                             console.log(response);
                             dispatch({
                                 type: dispatchTypes.SNACKBAR_CUSTOM,
