@@ -73,6 +73,7 @@ cypress:
     paths:
       - coverage/
   script:
+    - rm -rf ./.nyc_output
     - npm ci
     # check Cypress binary path and cached versions
     - npx cypress cache path
