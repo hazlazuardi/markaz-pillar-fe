@@ -10,20 +10,29 @@ import { FormControl } from "@mui/material";
 import { Select } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
-import { dispatchTypes } from "../../../context/AppReducer";
-import router from "next/router";
 
 const BASE_URL = process.env.BACKEND_HOST;
 
-function AdminMarkazCreate() {
+function AdminSantriCreate(props) {
+    const { markazs } = props
+    { console.log(markazs) }
+    const notFound = false;
+    try {
+        notFound = props.notFound;
+    } catch {
+        console.log(markazs);
+    }
+
     const { state, dispatch } = useAppContext();
     const { currentAccessToken } = state;
     const [thumbnail, setThumbnail] = useState({});
-    const [markaz, setMarkaz] = useState({
+    const [santri, setSantri] = useState({
         name: "",
         background: "",
-        category: "",
+        gender: "",
+        markaz_id: "",
         address: "",
+        category: "",
     });
     const form = useRef(null);
 
@@ -38,9 +47,9 @@ function AdminMarkazCreate() {
         return acceptedFiles[0];
     }, []);
 
-    const handleChangeMarkaz = ({ target }) => {
+    const handleChangeSantri = ({ target }) => {
         const { name, value } = target;
-        setMarkaz((prev) => ({
+        setSantri((prev) => ({
             ...prev,
             [name]: value,
         }));
@@ -51,18 +60,18 @@ function AdminMarkazCreate() {
 
         // API Route usage
         const data = new FormData();
-        const markazBlob = new Blob([JSON.stringify(markaz)], {
+        const santriBlob = new Blob([JSON.stringify(santri)], {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("markaz", markazBlob);
+        data.append("santri", santriBlob);
         // Display the key/value pairs
         for (var pair of data.entries()) {
             console.log(pair[0] + ", " + pair[1]);
         }
 
         console.log(BASE_URL);
-        await fetch(`${BASE_URL}/admin/markaz`, {
+        await fetch(`${BASE_URL}/admin/santri?markaz_id=${santri.markaz_id}`, {
             body: data,
             headers: {
                 Accept: "application/json, text/plain, */*",
@@ -71,21 +80,7 @@ function AdminMarkazCreate() {
             method: "POST",
         }).then((preResponse) => {
             preResponse.json().then((response) => {
-                if (preResponse.status === 201) {
-                    console.log(response);
-                } else if (preResponse.status === 400) {
-                    dispatch({
-                        type: dispatchTypes.SNACKBAR_CUSTOM,
-                        payload: {
-                            message: "Please upload a correct information"
-                        }
-                    })
-                } else {
-                    dispatch({
-                        type: dispatchTypes.LOGOUT
-                    })
-                    router.push("/login")
-                }
+                console.log(response);
             });
         });
     };
@@ -124,14 +119,14 @@ function AdminMarkazCreate() {
                         <Grid item>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <Typography variant="h5" color="initial">Add Markaz Detail</Typography>
+                                    <Typography variant="h5" color="initial">Add Santri Detail</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
                                         name="name"
-                                        label="Markaz Name"
+                                        label="Nama Santri"
                                         fullWidth
-                                        onChange={handleChangeMarkaz}
+                                        onChange={handleChangeSantri}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -139,32 +134,65 @@ function AdminMarkazCreate() {
                                         name="background"
                                         label="Background"
                                         fullWidth
-                                        onChange={handleChangeMarkaz}
+                                        onChange={handleChangeSantri}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FormControl fullWidth>
-                                        <InputLabel id="category-label">Kategori</InputLabel>
+                                        <InputLabel id="gender-label">Jenis Kelamin</InputLabel>
                                         <Select
-                                            labelId="category-label"
-                                            id="category-select"
-                                            name='category'
-                                            value={markaz.category}
-                                            label="Kategori"
-                                            onChange={handleChangeMarkaz}
+                                            labelId="gender-label"
+                                            id="gender-select"
+                                            name='gender'
+                                            value={santri.gender}
+                                            label="Jenis Kelamin"
+                                            onChange={handleChangeSantri}
                                         >
-                                            <MenuItem value={"MARKAZ_UMUM"}>Markaz Umum</MenuItem>
-                                            <MenuItem value={"MARKAZ_IKHWAN"}>Markaz Ikhwan</MenuItem>
-                                            <MenuItem value={"MARKAZ_AKHWAT"}>Markaz Akhwat</MenuItem>
+                                            <MenuItem value={"LAKI_LAKI"}>Laki-laki</MenuItem>
+                                            <MenuItem value={"PEREMPUAN"}>Perempuan</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="markaz-label">Tempat Markaz</InputLabel>
+                                        <Select
+                                            labelId="markaz-label"
+                                            id="markaz-select"
+                                            name='markaz_id'
+                                            value={santri.markaz}
+                                            label="Tempat Markaz"
+                                            onChange={handleChangeSantri}
+                                        >
+                                            {markazs.map(markaz => (
+                                                <MenuItem key={markaz.id} value={markaz.id}>{markaz.name}</MenuItem>
+                                            ))}
                                         </Select>
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
                                         name="address"
-                                        label="Markaz Address"
+                                        label="Domisili Asal"
                                         fullWidth
-                                        onChange={handleChangeMarkaz}
+                                        onChange={handleChangeSantri}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        name="birthPlace"
+                                        label="Tempat Lahir"
+                                        fullWidth
+                                        onChange={handleChangeSantri}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        name="birthDate"
+                                        label="Tanggal Lahir"
+                                        fullWidth
+                                        onChange={handleChangeSantri}
+                                        placeholder="YYYY-MM-DD"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -181,4 +209,20 @@ function AdminMarkazCreate() {
     );
 }
 
-export default AdminMarkazCreate;
+export default AdminSantriCreate;
+
+
+export async function getStaticProps(context) {
+    try {
+        const res = await fetch(`${BASE_URL}/markaz/search?sortedAge=DESC`);
+        const data = await res.json();
+
+        return {
+            props: { markazs: data.result }, // will be passed to the page component as props
+        };
+    } catch {
+        return {
+            notFound: true,
+        };
+    }
+}

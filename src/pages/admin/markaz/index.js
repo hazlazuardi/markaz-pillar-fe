@@ -111,7 +111,7 @@ export default function AdminMarkaz(props) {
 
   const create = (
     <Link href="markaz/create" underline="none">
-      <Fab color="primary" aria-label="add">
+      <Fab sx={{position: 'fixed', right:'3em', bottom:'3em'}} color="primary" aria-label="add">
         <AddIcon />
       </Fab>
     </Link>
