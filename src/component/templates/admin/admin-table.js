@@ -9,7 +9,7 @@ export default function TableView(props) {
   const { data, santriormarkaz } = props;
   // array of objects
   const users = data.result;
-  console.log(data.result);
+  
 
   return (
     <TableData>

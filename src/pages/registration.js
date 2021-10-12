@@ -42,30 +42,30 @@ export default function Registration() {
             method: 'POST'
         })
             .then(preResponse => {
-                console.log("pre Response", preResponse)
+                
                 if (preResponse.status === 201) {
-                    console.log("registered", preResponse)
+                    
                     router.push("/login")
                 } else {
                     preResponse.json()
                         .then(response => {
-                            console.log("post Response", response)
+                            
                             if (response.statusCode === 400) {
-                                console.log("Bad request", response)
+                                
                                 setError({
                                     status: response.statusCode,
                                     statusText: response.result
                                 })
                             } else {
-                                console.log("Unknown error", response)
+                                
                             }
                         }).catch(error => {
-                            console.log("post error", error);
+                            
                         })
                 }
             })
             .catch(error => {
-                console.log("Server error", error)
+                
             })
 
     }

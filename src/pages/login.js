@@ -18,7 +18,7 @@ export default function Login() {
 
   const { state, dispatch } = useAppContext();
   const { currentUser } = state;
-  console.log(currentUser)
+  
 
   const [value, setValue] = useState({
     "email": "",
@@ -49,11 +49,11 @@ export default function Login() {
       method: 'POST'
     })
       .then(preResponse => {
-        console.log("Pre response", preResponse)
+        
         preResponse.json()
           .then(response => {
             if (preResponse.status === 200) {
-              console.log("page success", response)
+              
               const decodedJWT = jwtDecode(response.result.accessToken)
               dispatch({
                 type: dispatchTypes.LOGIN_SUCCEED,
@@ -65,15 +65,15 @@ export default function Login() {
                 }
               });
             } else {
-              console.log("Login Error", response)
+              
             }
           })
           .catch(error => {
-            console.log("Response error", error)
+            
           });
       })
       .catch(error => {
-        console.log(error)
+        
       })
   };
 
@@ -85,7 +85,6 @@ export default function Login() {
 
   return (
     <div>
-      <ThemeProvider theme={theme}>
         <Grid container component="main" sx={{ height: '100vh' }}>
           <CssBaseline />
           <Grid
@@ -106,7 +105,6 @@ export default function Login() {
             <LoginForm value={value} error={error} handleChange={handleChange} handleSubmit={handleSubmit} />
           </Grid>
         </Grid>
-      </ThemeProvider>
     </div>
   );
 }

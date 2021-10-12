@@ -27,13 +27,13 @@ export async function getStaticProps(context) {
 }
 export default function AdminSantri(props) {
   const { responseUsers } = props;
-  console.log("res", responseUsers);
+  
   const [gridView, setGridView] = useState(true);
   const notFound = false;
   try {
     notFound = props.notFound;
   } catch {
-    console.log(responseUsers);
+    
   }
 
   const [value, setValue] = useState(10);

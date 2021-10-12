@@ -28,13 +28,13 @@ function AdminMarkazCreate() {
     const form = useRef(null);
 
     const onDrop = useCallback((acceptedFiles) => {
-        console.log("acceptedFiles", acceptedFiles[0]);
+        
         const reader = new FileReader();
         reader.onload = function (e) {
             setThumbnail(acceptedFiles[0]);
         };
         reader.readAsDataURL(acceptedFiles[0]);
-        console.log("file", acceptedFiles[0]);
+        
         return acceptedFiles[0];
     }, []);
 
@@ -58,10 +58,10 @@ function AdminMarkazCreate() {
         data.append("markaz", markazBlob);
         // Display the key/value pairs
         for (var pair of data.entries()) {
-            console.log(pair[0] + ", " + pair[1]);
+            
         }
 
-        console.log(BASE_URL);
+        
         await fetch(`${BASE_URL}/admin/markaz`, {
             body: data,
             headers: {
@@ -74,7 +74,7 @@ function AdminMarkazCreate() {
                 preResponse.json()
                     .then((response) => {
                         if (preResponse.status === 201) {
-                            console.log(response);
+                            
                             dispatch({
                                 type: dispatchTypes.SNACKBAR_CUSTOM,
                                 payload: {
@@ -82,7 +82,7 @@ function AdminMarkazCreate() {
                                 }
                             })
                         } else if (preResponse.status === 400) {
-                            console.log("err 400", response)
+                            
                             dispatch({
                                 type: dispatchTypes.SNACKBAR_CUSTOM,
                                 payload: {
@@ -90,7 +90,7 @@ function AdminMarkazCreate() {
                                 }
                             })
                         } else if (preResponse.status === 413) {
-                            console.log("err 413", response)
+                            
                             dispatch({
                                 type: dispatchTypes.SNACKBAR_CUSTOM,
                                 payload: {
@@ -100,14 +100,14 @@ function AdminMarkazCreate() {
                         }
                     })
                     .catch(e => {
-                        console.log(e)
+                        
                     })
             }).catch(e => {
-                console.log(e)
+                
             })
     };
 
-    console.log("image", thumbnail);
+    
     return (
         <div>
             <Container>

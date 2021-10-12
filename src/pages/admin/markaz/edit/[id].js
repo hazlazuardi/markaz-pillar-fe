@@ -29,13 +29,13 @@ function AdminMarkazEdit(props) {
   const form = useRef(null);
 
   const onDrop = useCallback((acceptedFiles) => {
-    console.log("acceptedFiles", acceptedFiles[0]);
+    
     const reader = new FileReader();
     reader.onload = function (e) {
       setThumbnail(acceptedFiles[0]);
     };
     reader.readAsDataURL(acceptedFiles[0]);
-    console.log("file", acceptedFiles[0]);
+    
     return acceptedFiles[0];
   }, []);
 
@@ -59,10 +59,10 @@ function AdminMarkazEdit(props) {
     data.append("markaz", markazBlob);
     // Display the key/value pairs
     for (var pair of data.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
+      
     }
 
-    console.log(BASE_URL);
+    
     await fetch(`${BASE_URL}/admin/markaz/edit?id=${responseMarkaz.id}`, {
       body: data,
       headers: {
@@ -75,7 +75,7 @@ function AdminMarkazEdit(props) {
         preResponse.json()
           .then((response) => {
             if (preResponse.status === 200) {
-              console.log(response);
+              
               dispatch({
                 type: dispatchTypes.SNACKBAR_CUSTOM,
                 payload: {
@@ -83,7 +83,7 @@ function AdminMarkazEdit(props) {
                 }
               })
             } else if (preResponse.status === 400) {
-              console.log("err 400", response)
+              
               dispatch({
                 type: dispatchTypes.SNACKBAR_CUSTOM,
                 payload: {
@@ -91,7 +91,7 @@ function AdminMarkazEdit(props) {
                 }
               })
             } else if (preResponse.status === 413) {
-              console.log("err 400", response)
+              
               dispatch({
                 type: dispatchTypes.SNACKBAR_CUSTOM,
                 payload: {
@@ -101,14 +101,14 @@ function AdminMarkazEdit(props) {
             }
           })
           .catch(e => {
-            console.log(e)
+            
           })
       }).catch(e => {
-        console.log(e)
+        
       })
   };
 
-  console.log("image", thumbnail);
+  
   return (
     <div>
       <Container>

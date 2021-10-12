@@ -17,7 +17,6 @@ export default function RegistrationTemplate(props) {
   const { value, error, handleChange, handleSubmit } = props;
   return (
     <div>
-      <ThemeProvider theme={theme}>
         <Grid container component="main" sx={{ height: '100vh' }}>
           <CssBaseline />
           <Grid
@@ -152,7 +151,6 @@ export default function RegistrationTemplate(props) {
             </Box>
           </Grid>
         </Grid>
-      </ThemeProvider>
     </div>
   );
 }
