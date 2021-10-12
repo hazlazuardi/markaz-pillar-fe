@@ -53,7 +53,7 @@ export default function Dropzone({ onDrop }) {
     isDragAccept
   ]);
   const file = acceptedFiles[0]
-  console.log(file)
+  
   return (
     <div className="container">
       <div {...getRootProps({ style })}>

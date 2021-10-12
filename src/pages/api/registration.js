@@ -14,20 +14,20 @@ const BASE_URL = process.env.BACKEND_HOST;
             },
             body: JSON.stringify(data),
         }).then(preResponse => {
-            console.log(preResponse)
+            
             if (preResponse.status === 201) {
                 res.status(201).send(preResponse);
             } else {
                 preResponse.json()
                     .then(response => {
-                        res.status(response.statusCode).send(response);
+                        res.status(preResponse.status).send(response);
                     })
                     .catch(error => {
-                        console.log("api error", error)
+                        
                     })
             }
         })
             .catch(error => {
-                console.log(error)
+                
             });
     });

@@ -5,7 +5,7 @@ const BASE_URL = process.env.BACKEND_HOST;
 
 export async function getStaticProps(context) {
   const id = context.params.id;
-  console.log(id);
+  
   const response = await fetch(`${BASE_URL}/santri?id=` + id);
   const data = await response.json();
   const santri = data.result;
