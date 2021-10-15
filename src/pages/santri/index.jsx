@@ -56,6 +56,7 @@ export default function SantriLayout(props) {
             intr_1="Donasi"
             intr_2="Lihat Detail"
             markazOrSantri="santri"
+            detail="santri"
           />
         ))}
       </ShowAllTemplate>

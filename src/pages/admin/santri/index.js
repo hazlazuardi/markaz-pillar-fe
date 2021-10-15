@@ -135,9 +135,18 @@ export default function AdminSantri(props) {
             data={responseUsers}
             intr1Butt="admin/santri/edit"
             markazOrSantri="admin/santri/delete"
+            detail="admin/santri"
           />
         ) : (
-          <TableView data={responseUsers} santriormarkaz="santri" />
+          <TableView
+            data={responseUsers}
+            santriormarkaz="santri"
+            detail="admin/santri"
+            tableTempatMarkaz="Tempat Markaz"
+            tableDomisili="Domisili"
+            tableJenisKelamin="Jenis Kelamin"
+            tableTanggalLahir="Tanggal Lahir"
+          />
         )}
       </div>
     </AdminTemplate>

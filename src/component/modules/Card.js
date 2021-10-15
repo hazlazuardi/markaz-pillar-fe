@@ -8,8 +8,17 @@ import styles from "../../styles/Home.module.css";
 import Link from "next/link";
 
 export default function Card(props) {
-  const { image, name, desc, intr_1, intr_2, markazOrSantri, id, intr1Butt } =
-    props;
+  const {
+    image,
+    name,
+    desc,
+    intr_1,
+    intr_2,
+    markazOrSantri,
+    id,
+    intr1Butt,
+    detail,
+  } = props;
 
   return (
     <Grid item>
@@ -30,7 +39,9 @@ export default function Card(props) {
         />
         <Grid container spacing={2} className={styles.textCenter}>
           <Grid item xs={12} mt={2}>
-            <Typography variant="h6">{name}</Typography>
+            <Typography variant="h6">
+              <Link href={`/${detail}/` + id}>{name}</Link>
+            </Typography>
           </Grid>
           <Grid
             item

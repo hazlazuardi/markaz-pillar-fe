@@ -89,9 +89,18 @@ export default function AdminMarkaz(props) {
             data={responseUsers}
             intr1Butt="admin/markaz/edit"
             markazOrSantri="admin/markaz/delete"
+            detail="admin/markaz"
           />
         ) : (
-          <TableView data={responseUsers} santriormarkaz="markaz" />
+          <TableView
+            data={responseUsers}
+            santriormarkaz="markaz"
+            detail="admin/markaz"
+            tableTempatMarkaz="Kategori"
+            tableDomisili="Nominal"
+            tableJenisKelamin="Contact Person"
+            tableTanggalLahir="Kontak"
+          />
         )}
       </div>
     </AdminTemplate>

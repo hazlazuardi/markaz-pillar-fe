@@ -57,8 +57,10 @@ export default function santriLayoutDetail(props) {
 
   const ttl = santri.birthPlace + ", " + santri.birthDate;
 
+  const tempatmarkaz = santri.markaz.name + ", " + santri.markaz.address;
+
   const inconsistent = {
-    "Tempat Markaz": santri.address,
+    "Tempat Markaz": tempatmarkaz,
     "Jenis Kelamin": santri.gender,
     "Domisili Asal": santri.birthPlace,
     "Tempat & Tanggal Lahir": ttl,
@@ -72,6 +74,7 @@ export default function santriLayoutDetail(props) {
       image={image}
       donatetext="Kelola Donasi"
       adminbutton={button}
+      markazOrSantri="admin/santri"
     />
   );
 }

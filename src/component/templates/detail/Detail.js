@@ -36,9 +36,12 @@ function Detail(props) {
               spacing={3}
               direction={largeScreen ? "row" : "column-reverse"}
             >
-              <Link href={`/${markazOrSantri}/`} passHref>
-                <ArrowBack name={consistent.name} />
-              </Link>
+              {/* <Link href={`/${markazOrSantri}/`}> */}
+              <ArrowBack
+                name={consistent.name}
+                markazOrSantri={markazOrSantri}
+              />
+              {/* </Link> */}
               <Profile consistent={consistent} inconsistent={inconsistent} />
               <DetailPic
                 image={image}

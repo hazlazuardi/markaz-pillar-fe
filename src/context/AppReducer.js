@@ -88,6 +88,29 @@ export const AppReducer = (state, action) => {
                 snackbarMessage: `Welcome back, ${action.payload.currentUser}`
             }
         }
+        case dispatchTypes.REGISTRATION_SUCCEED: {
+            return {
+                ...state,
+                currentUser: action.payload.currentUser,
+                currentUserRole: action.payload.currentUserRole,
+                currentAccessToken: action.payload.currentAccessToken,
+                currentRefreshToken: action.payload.currentRefreshToken,
+                snackbarStatus: true,
+                snackbarMessage: `Welcome, ${action.payload.currentUser}`
+            }
+        }
+
+        case dispatchTypes.REGISTRATION_FAIL: {
+            return {
+                ...state,
+                currentUser: "",
+                currentUserRole: "",
+                currentAccessToken: "",
+                currentRefreshToken: "",
+                snackbarStatus: true,
+                snackbarMessage: action.payload.message
+            }
+        }
         case dispatchTypes.AUTHENTICATED: {
             return {
                 ...state,
