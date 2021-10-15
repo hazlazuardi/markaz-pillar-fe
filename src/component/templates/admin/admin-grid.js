@@ -8,7 +8,7 @@ export default function GridView(props) {
   const { data, markazOrSantri, intr1Butt, detail } = props;
   // array of objects
   const users = data.result;
-  console.log(data.result);
+  
   return (
     <Grid container spacing={2}>
       {users.map((user) => (

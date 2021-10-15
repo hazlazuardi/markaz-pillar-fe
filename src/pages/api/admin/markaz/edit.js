@@ -12,27 +12,27 @@ handler.post(async (req, res) => {
 			...body,
 			"thumbnail": files.thumbnail
 		}
-		console.log('api req', req)
-		console.log("api header", req.headers)
-		console.log("api files", files)
-		console.log("api body", body)
+		
+		
+		
+		
 
 		// edit the req
 
 		// do stuff with files and body
 		await fetch(`${BASE_URL}/admin/markaz`, req, req.headers)
 			.then(preResponse => {
-				console.log("pre")
+				
 				preResponse.json()
 					.then(response => {
-						console.log("api response", response)
+						
 					})
 					.catch(error => {
-						console.log('api re error', error)
+						
 					})
 			})
 			.catch(error => {
-				console.log('api pre error', error)
+				
 			})
 
 		res.status(200).json({});

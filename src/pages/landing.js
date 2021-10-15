@@ -2,9 +2,9 @@ import { useTheme } from '@mui/material/styles';
 import styles from '../styles/Home.module.css';
 import Layout from "../component/layout";
 import Link from 'next/link';
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
+import { makeStyles } from '@mui/styles';
+import { Paper } from '@mui/material';
+import { Grid } from '@mui/material';
 import Button from '@mui/material/Button';
 import useMediaQuery from '@mui/material/useMediaQuery';
 

@@ -18,7 +18,7 @@ export default function TableView(props) {
   } = props;
   // array of objects
   const users = data.result;
-  console.log(data.result);
+  
 
   return (
     <TableData

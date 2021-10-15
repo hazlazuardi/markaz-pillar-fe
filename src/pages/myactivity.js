@@ -2,7 +2,7 @@
 import * as React from 'react';
 import styles from '../styles/Activity.module.css'
 import Layout from "../component/layout"
-import Grid from '@material-ui/core/Grid'
+import { Grid } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ThemeProvider } from '@mui/material/styles';
