@@ -21,7 +21,46 @@ describe('Test it has all the fields', () => {
         cy.get('#password').should('exist')
     })
 
+    it('Test if password field can toggle show password', () => {
+        cy.visit('http://localhost:3000/registration')
+        cy.get('#togglePasswordAtRegistration').click()
+        cy.get('#password').get("[type='text']").should('exist')
+        cy.get('#togglePasswordAtRegistration').click()
+        cy.get('#password').get("[type='password']").should('exist')
+    })
+
+
 })
+
+describe('Test type the fields and submit', () => {
+    it('Test register and succeed', () => {
+        const testEmail = `${Math.random()}@gmail.com`
+        cy.visit('http://localhost:3000/registration')
+        cy.get('#email').type(testEmail)
+        cy.get('#username').type("test-username")
+        cy.get('#fullName').type('test-fullName')
+        cy.get('#phoneNum').type('0811114433')
+        cy.get('#address').type('test-address')
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtRegistration').contains('Daftar').click()
+        cy.get('#snackbarAtLayout').contains(`Welcome, ${testEmail}`).should('exist')
+    })
+
+    it('Test register and fail', () => {
+        const testEmail = `achmadafriza123@gmail.com`
+        cy.visit('http://localhost:3000/registration')
+        cy.get('#email').type(testEmail)
+        cy.get('#username').type("test-username")
+        cy.get('#fullName').type('test-fullName')
+        cy.get('#phoneNum').type('0811114433')
+        cy.get('#address').type('test-address')
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtRegistration').contains('Daftar').click()
+        cy.get('#snackbarAtLayout').contains(`Alamat email sudah digunakan`).should('exist')
+    })
+
+})
+
 
 describe('Navigation', () => {
     it('Should navigate to the login.js page', () => {

@@ -249,6 +249,7 @@ export default function Registration() {
                                     endAdornment={
                                         <InputAdornment position="end">
                                             <IconButton
+                                                id='togglePasswordAtRegistration'
                                                 aria-label="toggle password visibility"
                                                 onClick={handleClickShowPassword}
                                                 edge="end"
@@ -268,6 +269,7 @@ export default function Registration() {
                                 }
                             </FormControl>
                             <Button
+                                id='submitAtRegistration'
                                 type="submit"
                                 fullWidth
                                 variant="contained"
