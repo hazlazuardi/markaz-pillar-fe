@@ -3,7 +3,7 @@ import ShowAllTemplate from "../../component/templates/show_all/ShowAll";
 import Card from "../../component/modules/Card";
 import { useState } from "react";
 
-const BASE_URL = process.env.BACKEND_HOST;
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export async function getStaticProps({}) {
   const response = await fetch(`${BASE_URL}/markaz/search`);
@@ -24,6 +24,7 @@ export default function MarkazLayout(props) {
 
   const [value, setValue] = useState(10);
 
+  {console.log("markaz", markaz)}
   if (markaz.length == 0) {
     return <p>Loading...</p>;
   } else {

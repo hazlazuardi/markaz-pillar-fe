@@ -17,8 +17,8 @@ export const roleType = {
 }
 
 export const markazCategory = {
-    MARKAZ_UMUM: "markaz_umum", 
-    MARKAZ_AKHWAT: "markaz_akhwat", 
+    MARKAZ_UMUM: "markaz_umum",
+    MARKAZ_AKHWAT: "markaz_akhwat",
     MARKAZ_IKHWAN: "markaz_ikhwan"
 }
 
@@ -86,6 +86,13 @@ export const AppReducer = (state, action) => {
                 currentRefreshToken: action.payload.currentRefreshToken,
                 snackbarStatus: true,
                 snackbarMessage: `Welcome back, ${action.payload.currentUser}`
+            }
+        }
+        case dispatchTypes.LOGIN_FAIL: {
+            return {
+                ...state,
+                snackbarStatus: true,
+                snackbarMessage: `Alamat email atau password salah`
             }
         }
         case dispatchTypes.REGISTRATION_SUCCEED: {

@@ -10,7 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Link from "@mui/material/Link";
 import Template from "../../../component/templates/show_all/ShowAll";
 
-const BASE_URL = process.env.BACKEND_HOST;
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export async function getStaticProps(context) {
   try {

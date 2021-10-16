@@ -3,7 +3,7 @@ import ShowAllTemplate from "../../component/templates/show_all/ShowAll";
 import Card from "../../component/modules/Card";
 import { useState } from 'react';
 
-const BASE_URL = process.env.BACKEND_HOST;
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export async function getStaticProps({}) {
   const response = await fetch(`${BASE_URL}/santri/search`);
