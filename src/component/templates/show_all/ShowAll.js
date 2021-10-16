@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 
 import { useState } from 'react';
 
-const BASE_URL = process.env.BACKEND_HOST;
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export default function ShowAll(props) {
 

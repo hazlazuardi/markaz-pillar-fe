@@ -23,7 +23,10 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-const BASE_URL = process.env.BACKEND_HOST;
+import { axiosMain } from '../axiosInstances';
+import Image from 'next/image'
+
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export default function Registration() {
     const router = useRouter();
@@ -64,51 +67,42 @@ export default function Registration() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         // API Route usage
-        await fetch(`${BASE_URL}/register`, {
-            body: JSON.stringify(value),
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
-            method: 'POST'
-        })
-            .then(preResponse => preResponse.json()
-                .then(response => {
-                    if (preResponse.status === 201) {
-                        console.log("Registration succeed", response);
-                        const decodedJWT = jwtDecode(response.result.accessToken)
-                        dispatch({
-                            type: dispatchTypes.REGISTRATION_SUCCEED,
-                            payload: {
-                                currentUser: decodedJWT.sub,
-                                currentUserRole: decodedJWT.role,
-                                currentAccessToken: response.result.accessToken,
-                                currentRefreshToken: response.result.refreshToken
-                            }
-                        });
-                    }
-                    console.log("pre", preResponse)
-                    console.log("res", response)
-                    if (response.statusCode === 400) {
-                        setError(prev => ({
-                            ...prev,
-                            "status": preResponse.status,
-                            ...response.result
-                        }))
-                        if (response.result.message)
-                            dispatch({
-                                type: dispatchTypes.REGISTRATION_FAIL,
-                                payload: {
-                                    message: "Alamat email sudah digunakan"
-                                }
-                            })
-                    }
-                })
-                .catch(error => {
 
-                })
-            )
+        await axiosMain
+            .post("/register", value)
+            .then(response => {
+                console.log("regis res", response);
+                const decodedJWT = jwtDecode(response.data.result.accessToken)
+                dispatch({
+                    type: dispatchTypes.REGISTRATION_SUCCEED,
+                    payload: {
+                        currentUser: decodedJWT.sub,
+                        currentUserRole: decodedJWT.role,
+                        currentAccessToken: response.data.result.accessToken,
+                        currentRefreshToken: response.data.result.refreshToken
+                    }
+                });
+
+            })
+            .catch(error => {
+                console.log('regis error', error.response)
+                setError(prev => ({
+                    ...prev,
+                    ...error.response.data.result
+                }))
+                if (error.response.data.result.message) {
+                    dispatch({
+                        type: dispatchTypes.REGISTRATION_FAIL,
+                        payload: {
+                            message: "Alamat email sudah digunakan"
+                        }
+                    })
+                }
+
+            })
     }
+
+    console.log('error', error)
     useEffect(() => {
         if (currentUser) {
             router.push("/landing")
@@ -128,15 +122,13 @@ export default function Registration() {
                     xs={false}
                     sm={4}
                     md={7}
-                    sx={{
-                        backgroundImage: 'url(https://source.unsplash.com/random)',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }}
-                />
+                >
+                    <Box sx={{ position: 'relative', width: '100%', height: '100%', zIndex: '-100' }}
+                    >
+                        <Image src='https://source.unsplash.com/random' layout='fill'
+                            objectFit='cover' alt='Backdrop' />
+                    </Box>
+                </Grid>
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6}>
                     <Box
                         sx={{

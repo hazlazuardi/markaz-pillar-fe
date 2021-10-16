@@ -12,7 +12,7 @@ import Card from "../../modules/Card";
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-const BASE_URL = process.env.BACKEND_HOST;
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 export default function AdminTemplate(props) {
     const {children, searchBarName, markazOrSantri, view1, view2, add} = props;
       

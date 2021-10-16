@@ -17,6 +17,35 @@ describe('Test it has all the fields', () => {
         cy.get('#password').should('exist')
     })
 
+    it('Test if password field can toggle show password', () => {
+        cy.visit('http://localhost:3000/login')
+        cy.get('#togglePasswordAtLogin').click()
+        cy.get('#password').get("[type='text']").should('exist')
+        cy.get('#togglePasswordAtLogin').click()
+        cy.get('#password').get("[type='password']").should('exist')
+    })
+
+})
+
+describe('Test type the fields and submit', () => {
+    it('Test login and succeed', () => {
+        const testEmail = `achmadafriza123@gmail.com`
+        cy.visit('http://localhost:3000/login')
+        cy.get('#email').type(testEmail)
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.get('#snackbarAtLayout').contains(`Welcome back, ${testEmail}`).should('exist')
+    })
+
+    it('Test login and fail', () => {
+        const testEmail = `none@gmail.com`
+        cy.visit('http://localhost:3000/login')
+        cy.get('#email').type(testEmail)
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.get('#snackbarAtLayout').contains(`Alamat email atau password salah`).should('exist')
+    })
+
 })
 
 describe('Navigation', () => {
