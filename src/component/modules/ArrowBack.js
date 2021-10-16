@@ -19,7 +19,8 @@ export default function ArrowBack(props) {
       sm={12}
       lg={12}
       mb={8}
-      sx={{ display: largeScreen ? "block" : "none" }}
+      // margin={0}
+      // sx={{ display: largeScreen ? "block" : "none" }}
     >
       <Link href={`/${markazOrSantri}/`} passHref>
         <Button variant="text" href>

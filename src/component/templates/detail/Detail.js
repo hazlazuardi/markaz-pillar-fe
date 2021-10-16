@@ -31,17 +31,12 @@ function Detail(props) {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Container maxWidth="lg" className={styles.container}>
+            <ArrowBack name={consistent.name} markazOrSantri={markazOrSantri} />
             <Grid
               container
               spacing={3}
               direction={largeScreen ? "row" : "column-reverse"}
             >
-              {/* <Link href={`/${markazOrSantri}/`}> */}
-              <ArrowBack
-                name={consistent.name}
-                markazOrSantri={markazOrSantri}
-              />
-              {/* </Link> */}
               <Profile consistent={consistent} inconsistent={inconsistent} />
               <DetailPic
                 image={image}
