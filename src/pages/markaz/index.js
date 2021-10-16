@@ -29,7 +29,7 @@ export default function MarkazLayout(props) {
   } else {
     return (
       <ShowAllTemplate
-        searchBarName=" Cari Markaz"
+        searchBarName="Cari Markaz"
         markazOrSantri="Markaz"
         page={page}
         setPage={setPage}

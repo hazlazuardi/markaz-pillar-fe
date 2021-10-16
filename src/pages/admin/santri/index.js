@@ -27,14 +27,12 @@ export async function getStaticProps(context) {
 }
 export default function AdminSantri(props) {
   const { responseUsers } = props;
-  
+
   const [gridView, setGridView] = useState(true);
   const notFound = false;
   try {
     notFound = props.notFound;
-  } catch {
-    
-  }
+  } catch {}
 
   const [value, setValue] = useState(10);
 
@@ -121,34 +119,48 @@ export default function AdminSantri(props) {
     </Link>
   );
 
+  const search = () => {
+    responseUsers.result &&
+      responseUsers.result.filter((data) => {
+        if (searchTerm == "") {
+          return data;
+        } else if (data.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+          return data;
+        }
+      });
+  };
+
   return (
-    <AdminTemplate
-      searchBarName="Cari Santri"
-      view1={gridview}
-      view2={tableview}
-      markazOrSantri="Santri"
+    <ShowAllTemplate
+      searchBarName="Cari Markaz"
+      markazOrSantri="Markaz"
+      page={page}
+      setPage={setPage}
+      value={value}
+      setValue={setValue}
+      setSearchTerm={setSearchTerm}
       add={create}
+      isAdmin
+      setGridView={setGridView}
     >
-      <div>
-        {gridView ? (
-          <GridView
-            data={responseUsers}
-            intr1Butt="admin/santri/edit"
-            markazOrSantri="admin/santri/delete"
-            detail="admin/santri"
-          />
-        ) : (
-          <TableView
-            data={responseUsers}
-            santriormarkaz="santri"
-            detail="admin/santri"
-            tableTempatMarkaz="Tempat Markaz"
-            tableDomisili="Domisili"
-            tableJenisKelamin="Jenis Kelamin"
-            tableTanggalLahir="Tanggal Lahir"
-          />
-        )}
-      </div>
-    </AdminTemplate>
+      {gridView ? (
+        <GridView
+          data={responseUsers}
+          intr1Butt="admin/santri/edit"
+          markazOrSantri="admin/santri/delete"
+          detail="admin/santri"
+        />
+      ) : (
+        <TableView
+          data={responseUsers}
+          santriormarkaz="santri"
+          detail="admin/santri"
+          tableTempatMarkaz="Tempat Markaz"
+          tableDomisili="Domisili"
+          tableJenisKelamin="Jenis Kelamin"
+          tableTanggalLahir="Tanggal Lahir"
+        />
+      )}
+    </ShowAllTemplate>
   );
 }
