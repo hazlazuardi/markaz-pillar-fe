@@ -1,7 +1,7 @@
 import React from "react";
 import DetailTemplate from "../../component/templates/detail/Detail";
 
-const BASE_URL = process.env.BACKEND_HOST;
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export async function getStaticProps(context) {
   const id = context.params.id;

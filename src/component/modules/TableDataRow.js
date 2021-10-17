@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
+import Link from "@mui/material/Link";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,13 +34,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const TableDataRow = (props) => {
-  const { id, nama, markaz, domisili, kelamin, tanggal, santriormarkaz } =
-    props;
+  const {
+    id,
+    nama,
+    markaz,
+    domisili,
+    kelamin,
+    tanggal,
+    santriormarkaz,
+    detail,
+  } = props;
   const router = useRouter();
   return (
     <StyledTableRow>
       <StyledTableCell component="th" scope="row">
-        {nama}
+        <Link href={`/${detail}/` + id}>{nama}</Link>
       </StyledTableCell>
       <StyledTableCell align="left">{markaz}</StyledTableCell>
       <StyledTableCell align="left">{domisili}</StyledTableCell>

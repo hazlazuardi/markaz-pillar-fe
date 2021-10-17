@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import DetailTemplate from "../../../component/templates/detail/Detail";
 
-const BASE_URL = process.env.BACKEND_HOST;
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export async function getStaticProps(context) {
   const id = context.params.id;
@@ -57,8 +57,10 @@ export default function santriLayoutDetail(props) {
 
   const ttl = santri.birthPlace + ", " + santri.birthDate;
 
+  const tempatmarkaz = santri.markaz.name + ", " + santri.markaz.address;
+
   const inconsistent = {
-    "Tempat Markaz": santri.address,
+    "Tempat Markaz": tempatmarkaz,
     "Jenis Kelamin": santri.gender,
     "Domisili Asal": santri.birthPlace,
     "Tempat & Tanggal Lahir": ttl,
@@ -72,6 +74,7 @@ export default function santriLayoutDetail(props) {
       image={image}
       donatetext="Kelola Donasi"
       adminbutton={button}
+      markazOrSantri="admin/santri"
     />
   );
 }

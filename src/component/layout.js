@@ -20,6 +20,7 @@ export default function Layout({ children }) {
         <>
             {showHeader && <NavbarDesktop />}
             <Snackbar
+                id='snackbarAtLayout'
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 open={snackbarStatus}
                 onClose={() => dispatch({ type: dispatchTypes.SNACKBAR_CLOSE })}
@@ -28,7 +29,7 @@ export default function Layout({ children }) {
             />
             {showHeader && <Box sx={{ height: '3em' }} />}
             {children}
-            <Box sx={{height:'6em'}}></Box>
+            {showHeader && <Box sx={{ height: '6em' }}></Box>}
         </>
     )
 }

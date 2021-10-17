@@ -8,8 +8,9 @@ import AdminTemplate from "../../../component/templates/admin/AdminTemplate";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import Link from "@mui/material/Link";
+import Template from "../../../component/templates/show_all/ShowAll";
 
-const BASE_URL = process.env.BACKEND_HOST;
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export async function getStaticProps(context) {
   try {
@@ -26,15 +27,19 @@ export async function getStaticProps(context) {
   }
 }
 export default function AdminMarkaz(props) {
-  const { responseUsers } = props;
-  
+  const { responseUsers, markaz } = props;
+
+  const [page, setPage] = useState(0);
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [value, setValue] = useState(10);
+
   const [gridView, setGridView] = useState(true);
   const notFound = false;
   try {
     notFound = props.notFound;
-  } catch {
-    
-  }
+  } catch {}
 
   const gridview = (
     <Button
@@ -74,26 +79,50 @@ export default function AdminMarkaz(props) {
       </Fab>
     </Link>
   );
+  // console.log(responseUsers);
+
+  const search = () => {
+    responseUsers.result &&
+      responseUsers.result.filter((data) => {
+        if (searchTerm == "") {
+          return data;
+        } else if (data.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+          return data;
+        }
+      });
+  };
 
   return (
-    <AdminTemplate
+    <ShowAllTemplate
       searchBarName="Cari Markaz"
-      view1={gridview}
-      view2={tableview}
       markazOrSantri="Markaz"
+      page={page}
+      setPage={setPage}
+      value={value}
+      setValue={setValue}
+      setSearchTerm={setSearchTerm}
       add={create}
+      isAdmin
+      setGridView={setGridView}
     >
-      <div>
-        {gridView ? (
-          <GridView
-            data={responseUsers}
-            intr1Butt="admin/markaz/edit"
-            markazOrSantri="admin/markaz/delete"
-          />
-        ) : (
-          <TableView data={responseUsers} santriormarkaz="markaz" />
-        )}
-      </div>
-    </AdminTemplate>
+      {gridView ? (
+        <GridView
+          data={responseUsers}
+          intr1Butt="admin/markaz/edit"
+          markazOrSantri="admin/markaz/delete"
+          detail="admin/markaz"
+        />
+      ) : (
+        <TableView
+          data={responseUsers}
+          santriormarkaz="markaz"
+          detail="admin/markaz"
+          tableTempatMarkaz="Kategori"
+          tableDomisili="Nominal"
+          tableJenisKelamin="Contact Person"
+          tableTanggalLahir="Kontak"
+        />
+      )}
+    </ShowAllTemplate>
   );
 }
