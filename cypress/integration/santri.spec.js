@@ -15,16 +15,18 @@ describe('Navigation', () => {
         // Start from the index page
         cy.visit('http://localhost:3000/santri')
 
+        cy.wait(1000)
+
         cy.get('button').contains("Lihat Detail").click()
 
         cy.url().should('match', /santri\/\d+/)
     })
 
-    it('Should not navigate to the landing page', () => {
+    it('Should not navigate to the detail.js page', () => {
         // Start from the index page
         cy.visit('http://localhost:3000/santri')
 
-        cy.get('button').contains("Cari").click()
+        cy.get('a').contains("Markaz").click()
 
         cy.url().should('not.match', /santri\/\d+/)
     })
