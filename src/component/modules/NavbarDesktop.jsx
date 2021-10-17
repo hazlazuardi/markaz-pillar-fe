@@ -19,7 +19,7 @@ function NavbarDesktop() {
         <Box sx={{ position: 'fixed', width: '100%', zIndex: 10000, backgroundColor: 'rgba(255,255,255,.7)', backdropFilter: 'blur(5px)' }}>
             <header className={layout.header}>
                 <nav className={styles.navbar} color="primary">
-                    <Link href='/'>
+                    <Link href='/' passHref>
                     <div className={layout.pad1}>
                         <Image src="/logo.png" alt="logo" width={60} height={40}/>
                         </div>

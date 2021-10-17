@@ -105,7 +105,7 @@ export default function Registration() {
     console.log('error', error)
     useEffect(() => {
         if (currentUser) {
-            router.push("/landing")
+            router.push("/")
         }
     }, [router, currentUser])
     const [show, setShow] = useState(false)

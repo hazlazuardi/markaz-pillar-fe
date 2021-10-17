@@ -4,7 +4,6 @@ import Card from "../../component/modules/Card";
 import { useState } from 'react';
 import { axiosMain } from '../../axiosInstances';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export async function getStaticProps({}) {
   var santris = [];
@@ -53,7 +52,7 @@ export default function SantriLayout(props) {
     } else {
       setSantris(props.santris)
     }
-  }, [page, searchTerm, value])
+  }, [page, searchTerm, value, props.santris])
 
   
   if (santris === "error") {

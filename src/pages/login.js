@@ -78,7 +78,7 @@ export default function Login() {
 
   useEffect(() => {
     if (currentUser) {
-      router.push("/landing")
+      router.push("/")
     }
   }, [router, currentUser])
 

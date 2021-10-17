@@ -23,7 +23,6 @@ export const markazCategory = {
 }
 
 export const enumRoutes = {
-    LANDING: "/landing",
     LOGIN: "/login",
     PROFILE: "/profile",
     REGISTRATION: "/registration",
@@ -33,6 +32,7 @@ export const enumRoutes = {
     ADMIN_MARKAZ: "/admin/markaz",
     ADMIN_MARKAZ_CREATE: "/admin/markaz/create",
     ADMIN_SANTRI_CREATE: "/admin/santri/create",
+    LANDING: "/",
 
 };
 
