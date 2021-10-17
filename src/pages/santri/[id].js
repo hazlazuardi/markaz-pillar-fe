@@ -1,51 +1,51 @@
 import React from "react";
 import DetailTemplate from "../../component/templates/detail/Detail";
+import { axiosMain } from '../../axiosInstances';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export async function getStaticProps(context) {
   const id = context.params.id;
   
-  const response = await fetch(`${BASE_URL}/santri?id=` + id).catch(error => {
-    console.log(error)
-  });
-  try {
-    const data = await response.json();
-    const santri = data.result;
-    return {
-      props: {
-        santri: santri,
-      },
-    };
-  } catch (error) {
-    return {
-      props: {
-        santri: "error",
-      },
-    };
-  }
+  var santri = []
+  await axiosMain
+      .get(`santri/?id=${id}`)
+      .then(response => {
+        console.log(response);
+        santri = response.data.result
+        
+      })
+      .catch(e => {
+        console.log(e.response)
+        santri = "error"
+      })
+  return {
+    props: {
+      santri: santri,
+    },
+  };
 }
 
 export async function getStaticPaths() {
-  const response = await fetch(`${BASE_URL}/santri/search`).catch(error => {
-    console.log(error)
-  });
-
-  try {
-    const data = await response.json();
-    const santri = data.result;
-
-    const paths = santri.map((santri) => ({
-      params: { id: santri.id.toString() },
-    }));
-  
-    return {
-      paths: paths,
-      fallback: false,
-    };
-  } catch(error) {
-      throw error
-  }
+  var paths = []
+  var santri = []
+  await axiosMain
+      .get(`santri/search`)
+      .then(response => {
+        console.log(response);
+        santri = response.data.result
+        paths = santri.map((santri) => ({
+          params: { id: santri.id.toString() },
+        }));
+      })
+      .catch(e => {
+        console.log(e.response)
+        throw e.response
+      })
+  return {
+    paths: paths,
+    fallback: false,
+  };
 }
 
 export default function SantriLayoutDetail(props) {
