@@ -6,14 +6,24 @@ import { useState } from 'react';
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export async function getStaticProps({}) {
-  const response = await fetch(`${BASE_URL}/santri/search`);
-  const data = await response.json();
-  const santris = data.result;
-  return {
-    props: {
-      santris: santris,
-    },
-  };
+  const response = await fetch(`${BASE_URL}/santri/search`).catch(error => {
+    console.log(error)
+  });
+  try {
+    const data = await response.json();
+    const santris = data.result;
+    return {
+      props: {
+        santris: santris,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        santris: "error",
+      },
+    };
+  }
 }
 
 export default function SantriLayout(props) {
@@ -25,7 +35,11 @@ export default function SantriLayout(props) {
   const [value, setValue] = useState(10);
 
   
-  if (santris.length == 0) {
+  if (santris === "error") {
+    return (
+      <p>There seems to be a problem with data fetching</p>
+    )
+  } else if (santris.length == 0) {
     return (
       <p>Loading...</p>
     )
