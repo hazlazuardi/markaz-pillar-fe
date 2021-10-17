@@ -17,7 +17,7 @@ export default function ProtectedRoute({ router, children }) {
     let pathIsNotProtected = enumProtectedRoutes.indexOf(router.pathname) === -1;
 
     if (isBrowser() && !isAdmin && !pathIsNotProtected) {
-        router.push(enumRoutes.LOGIN);
+        router.push(enumRoutes.LANDING);
     }
 
     return children;

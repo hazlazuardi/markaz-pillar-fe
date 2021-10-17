@@ -2,7 +2,6 @@ import React from "react";
 import DetailTemplate from "../../component/templates/detail/Detail";
 import { axiosMain } from '../../axiosInstances';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export async function getStaticProps(context) {
   const id = context.params.id;
