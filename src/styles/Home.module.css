@@ -311,6 +311,10 @@
   padding: 1%;
 }
 
+.pad1 {
+    padding: 0.5%;
+}
+
 .textCenter {
   text-align: center;
 }
