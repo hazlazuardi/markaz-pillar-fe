@@ -34,7 +34,7 @@ export default function Login() {
   const { currentUser } = state;
 
 
-  const [value, setValue] = useState({
+  const [data, setData] = useState({
     "email": "",
     "password": "",
   });
@@ -42,7 +42,7 @@ export default function Login() {
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
-    setValue((prev) => ({
+    setData((prev) => ({
       ...prev,
       [name]: value
     }));
@@ -53,7 +53,7 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     await axiosMain
-      .post("/authenticate", value)
+      .post("/authenticate", data)
       .then(response => {
         console.log("login res", response);
         const decodedJWT = jwtDecode(response.data.result.accessToken)
@@ -67,8 +67,8 @@ export default function Login() {
           }
         });
       })
-      .catch(error => {
-        console.log("login err", error.response)
+      .catch(e => {
+        console.log("login err", e.response)
         setError(true)
         dispatch({
           type: dispatchTypes.LOGIN_FAIL
@@ -138,22 +138,22 @@ export default function Login() {
                 autoComplete="email"
                 autoFocus
                 onChange={handleChange}
-                value={value.email}
-                error={(error && value.email.length > 0) || (error && value.email.length === 0)}
-                helperText={(error && value.email.length > 0) && "" || (error && value.email.length === 0 && "Email harus diisi")}
+                value={data.email}
+                error={(error && data.email.length > 0) || (error && data.email.length === 0)}
+                helperText={(error && data.email.length > 0) && "" || (error && data.email.length === 0 && "Email harus diisi")}
                 placeholder="Hazmi@gmail.com"
               />
               <FormControl
                 fullWidth margin="normal" variant="outlined"
                 required
-                error={error && 'Password harus diisi' || value.password.length > 0 && value.password.length < 8}
+                error={error && 'Password harus diisi' || data.password.length > 0 && data.password.length < 8}
               >
                 <InputLabel htmlFor="password">Password</InputLabel>
                 <OutlinedInput
                   id="password"
                   type={show ? 'text' : 'password'}
                   name="password"
-                  value={value.password}
+                  value={data.password}
                   onChange={handleChange}
                   endAdornment={
                     <InputAdornment position="end">
@@ -172,7 +172,7 @@ export default function Login() {
 
                 />
                 <FormHelperText>
-                  {error && value.password.length === 0 && "Password harus diisi" || value.password.length > 0 && value.password.length < 8 &&
+                  {error && data.password.length === 0 && "Password harus diisi" || data.password.length > 0 && data.password.length < 8 &&
                     "Password harus minimal terdiri dari 8 karakter"
                   }
                 </FormHelperText>

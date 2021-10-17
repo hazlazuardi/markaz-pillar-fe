@@ -34,7 +34,7 @@ export default function Registration() {
     const { state, dispatch } = useAppContext();
     const { currentUser } = state;
 
-    const [value, setValue] = useState({
+    const [data, setData] = useState({
         "email": "",
         "username": "",
         "fullName": "",
@@ -54,7 +54,7 @@ export default function Registration() {
 
     const handleChange = ({ target }) => {
         const { name, value } = target;
-        setValue((prev) => ({
+        setData((prev) => ({
             ...prev,
             [name]: value
         }));
@@ -69,7 +69,7 @@ export default function Registration() {
         // API Route usage
 
         await axiosMain
-            .post("/register", value)
+            .post("/register", data)
             .then(response => {
                 console.log("regis res", response);
                 const decodedJWT = jwtDecode(response.data.result.accessToken)
@@ -84,13 +84,13 @@ export default function Registration() {
                 });
 
             })
-            .catch(error => {
-                console.log('regis error', error.response)
+            .catch(e => {
+                console.log('regis error', e.response)
                 setError(prev => ({
                     ...prev,
-                    ...error.response.data.result
+                    ...e.response.data.result
                 }))
-                if (error.response.data.result.message) {
+                if (e.response.data.result.message) {
                     dispatch({
                         type: dispatchTypes.REGISTRATION_FAIL,
                         payload: {
@@ -164,9 +164,9 @@ export default function Registration() {
                                 autoComplete="email"
                                 autoFocus
                                 onChange={handleChange}
-                                value={value.email}
-                                error={(error.email.length > 0 && value.email.length > 0) || (error.email.length > 0 && value.email.length === 0)}
-                                helperText={(error.email && value.email.length > 0) && "Harap masukkan alamat email dengan benar" || (error.email && value.email.length === 0 && "Email harus diisi")}
+                                value={data.email}
+                                error={(error.email.length > 0 && data.email.length > 0) || (error.email.length > 0 && data.email.length === 0)}
+                                helperText={(error.email && data.email.length > 0) && "Harap masukkan alamat email dengan benar" || (error.email && data.email.length === 0 && "Email harus diisi")}
                                 placeholder="Hazmi@gmail.com"
                             />
                             <TextField
@@ -178,9 +178,9 @@ export default function Registration() {
                                 type="text"
                                 id="username"
                                 onChange={handleChange}
-                                value={value.username}
-                                error={(error.username.length > 0 && value.username.length > 0) || (error.username.length > 0 && value.username.length === 0)}
-                                helperText={(error.username && value.username.length > 0) && "Harap masukkan username dengan benar" || (error.username && value.username.length === 0 && "Username harus diisi")}
+                                value={data.username}
+                                error={(error.username.length > 0 && data.username.length > 0) || (error.username.length > 0 && data.username.length === 0)}
+                                helperText={(error.username && data.username.length > 0) && "Harap masukkan username dengan benar" || (error.username && data.username.length === 0 && "Username harus diisi")}
                                 placeholder="hazmi132"
                             />
                             <TextField
@@ -192,9 +192,9 @@ export default function Registration() {
                                 type="text"
                                 id="fullName"
                                 onChange={handleChange}
-                                value={value.fullName}
-                                error={(error.fullName.length > 0 && value.fullName.length > 0) || (error.fullName.length > 0 && value.fullName.length === 0)}
-                                helperText={(error.fullName && value.fullName.length > 0) && "Harap masukkan nama lengkap dengan benar" || (error.fullName && value.fullName.length === 0 && "Nama Lengkap harus diisi")}
+                                value={data.fullName}
+                                error={(error.fullName.length > 0 && data.fullName.length > 0) || (error.fullName.length > 0 && data.fullName.length === 0)}
+                                helperText={(error.fullName && data.fullName.length > 0) && "Harap masukkan nama lengkap dengan benar" || (error.fullName && data.fullName.length === 0 && "Nama Lengkap harus diisi")}
                                 placeholder="Hazmi Al Munawaroh"
                             />
                             <TextField
@@ -206,9 +206,9 @@ export default function Registration() {
                                 type="tel"
                                 id="phoneNum"
                                 onChange={handleChange}
-                                value={value.phoneNum}
-                                error={(error.phoneNum.length > 0 && value.phoneNum.length > 0) || (error.phoneNum.length > 0 && value.phoneNum.length === 0)}
-                                helperText={(error.phoneNum && value.phoneNum.length > 0) && "Harap masukkan nomor telpon dengan benar" || (error.phoneNum && value.phoneNum.length === 0 && "Nomor Telpon harus diisi")}
+                                value={data.phoneNum}
+                                error={(error.phoneNum.length > 0 && data.phoneNum.length > 0) || (error.phoneNum.length > 0 && data.phoneNum.length === 0)}
+                                helperText={(error.phoneNum && data.phoneNum.length > 0) && "Harap masukkan nomor telpon dengan benar" || (error.phoneNum && data.phoneNum.length === 0 && "Nomor Telpon harus diisi")}
                                 placeholder="0811132847"
 
                             />
@@ -221,22 +221,22 @@ export default function Registration() {
                                 type="text"
                                 id="address"
                                 onChange={handleChange}
-                                value={value.address}
-                                error={(error.address.length > 0 && value.address.length > 0) || (error.address.length > 0 && value.address.length === 0)}
-                                helperText={(error.address && value.address.length > 0) && "Please input a valid address" || (error.address && value.address.length === 0 && "Alamat harus diisi")}
+                                value={data.address}
+                                error={(error.address.length > 0 && data.address.length > 0) || (error.address.length > 0 && data.address.length === 0)}
+                                helperText={(error.address && data.address.length > 0) && "Please input a valid address" || (error.address && data.address.length === 0 && "Alamat harus diisi")}
                                 placeholder="Malang, Jawa Timur"
                             />
                             <FormControl
                                 fullWidth margin="normal" variant="outlined"
                                 required
-                                error={value.password.length > 0 && value.password.length < 8}
+                                error={data.password.length > 0 && data.password.length < 8}
                             >
                                 <InputLabel htmlFor="password">Password</InputLabel>
                                 <OutlinedInput
                                     id="password"
                                     type={show ? 'text' : 'password'}
                                     name="password"
-                                    value={value.password}
+                                    value={data.password}
                                     onChange={handleChange}
                                     endAdornment={
                                         <InputAdornment position="end">
@@ -254,7 +254,7 @@ export default function Registration() {
                                     placeholder="Pass1234"
 
                                 />
-                                {value.password.length > 0 && value.password.length < 8 &&
+                                {data.password.length > 0 && data.password.length < 8 &&
                                     <FormHelperText>
                                         Password harus minimal terdiri dari 8 karakter
                                     </FormHelperText>
@@ -266,7 +266,7 @@ export default function Registration() {
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
-                                disabled={value.password.length < 8}
+                                disabled={data.password.length < 8}
                             >
                                 Daftar
                             </Button>
