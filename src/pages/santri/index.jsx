@@ -2,37 +2,58 @@ import React, { useEffect, useCallback } from "react";
 import ShowAllTemplate from "../../component/templates/show_all/ShowAll";
 import Card from "../../component/modules/Card";
 import { useState } from 'react';
+import { axiosMain } from '../../axiosInstances';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export async function getStaticProps({}) {
-  const response = await fetch(`${BASE_URL}/santri/search`).catch(error => {
-    console.log(error)
-  });
-  try {
-    const data = await response.json();
-    const santris = data.result;
+  var santris = [];
+  await axiosMain
+      .get("santri/search?page=0&n=10")
+      .then(response => {
+        console.log(response);
+        santris = response.data.result
+        
+      })
+      .catch(e => {
+        console.log(e.response)
+        santris = "error"
+      })
     return {
       props: {
         santris: santris,
       },
     };
-  } catch (error) {
-    return {
-      props: {
-        santris: "error",
-      },
-    };
-  }
 }
 
 export default function SantriLayout(props) {
-  const {santris} = props
   const [page, setPage] = useState(0)
 
   const [searchTerm, setSearchTerm] = useState("")
 
   const [value, setValue] = useState(10);
+
+  const [santris, setSantris] = useState([])
+
+
+  const handleChange = async (page, searchTerm, value) => {
+    axiosMain
+      .get(`santri/search?page=${page}&n=${value}&name=${searchTerm}`)
+      .then(response => {
+        setSantris(response.data.result)
+      })
+      .catch(e => {
+        setSantris("error")
+      })
+  }
+
+  useEffect(() => {
+    if(page != 0 || searchTerm !== "" || value != 10) {
+      handleChange(page, searchTerm, value)
+    } else {
+      setSantris(props.santris)
+    }
+  }, [page, searchTerm, value])
 
   
   if (santris === "error") {
