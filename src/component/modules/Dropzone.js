@@ -1,6 +1,5 @@
-import { Typography, FormControl, FormLabel, FormHelperText, Input, InputLabel } from '@mui/material';
-import { Box } from '@mui/system';
-import React, { useMemo } from 'react';
+import { Typography } from '@mui/material';
+import React, { useMemo, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 const baseStyle = {
@@ -31,7 +30,19 @@ const rejectStyle = {
   borderColor: '#ff1744'
 };
 
-export default function Dropzone({ onDrop }) {
+export default function Dropzone({ setFile }) {
+  const onDrop = useCallback((acceptedFiles) => {
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      setFile(acceptedFiles[0]);
+    };
+    reader.readAsDataURL(acceptedFiles[0]);
+
+    return acceptedFiles[0];
+  }, [setFile]);
+
+
 
   const {
     getRootProps,
@@ -53,14 +64,14 @@ export default function Dropzone({ onDrop }) {
     isDragAccept
   ]);
   const file = acceptedFiles[0]
-  
+
   return (
     <div className="container">
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        <p>Drag n drop some files here, or click to select files</p>
       </div>
-      <Typography variant="body1" color="initial">{}</Typography>
+      <Typography variant="body1" color="initial">{ }</Typography>
     </div>
   );
 }
