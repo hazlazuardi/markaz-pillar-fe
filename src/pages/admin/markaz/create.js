@@ -27,17 +27,6 @@ function AdminMarkazCreate() {
     });
     const form = useRef(null);
 
-    const onDrop = useCallback((acceptedFiles) => {
-        
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            setThumbnail(acceptedFiles[0]);
-        };
-        reader.readAsDataURL(acceptedFiles[0]);
-        
-        return acceptedFiles[0];
-    }, []);
-
     const handleChangeMarkaz = ({ target }) => {
         const { name, value } = target;
         setMarkaz((prev) => ({
@@ -127,7 +116,7 @@ function AdminMarkazCreate() {
                                 <Grid item xs={12}>
                                     <Dropzone
                                         name="thumbnail"
-                                        onDrop={onDrop}
+                                        setFile={setThumbnail}
                                         accept={"application/pdf"}
                                     />
                                 </Grid>
