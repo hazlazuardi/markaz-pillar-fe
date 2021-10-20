@@ -17,7 +17,7 @@ describe('Navigation', () => {
 
         cy.wait(1000)
 
-        cy.get('button').contains("Lihat Detail").click()
+        cy.get('a').contains("Lihat Detail").click()
 
         cy.url().should('match', /santri\/\d+/)
     })
