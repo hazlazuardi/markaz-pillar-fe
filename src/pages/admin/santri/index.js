@@ -8,25 +8,12 @@ import AdminTemplate from "../../../component/templates/admin/AdminTemplate";
 import Link from "@mui/material/Link";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
+import { axiosMain } from "../../../axiosInstances";
+import useSWR from "swr";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
-
-export async function getStaticProps(context) {
-  try {
-    const res = await fetch(`${BASE_URL}/santri/search?sortedAge=DESC`);
-    const data = await res.json();
-
-    return {
-      props: { responseUsers: data }, // will be passed to the page component as props
-    };
-  } catch {
-    return {
-      notFound: true,
-    };
-  }
-}
-export default function AdminSantri(props) {
-  const { responseUsers } = props;
+const fetcher = url => axiosMain.get(url).then(res => res.data)
+export default function AdminSantri() {
+  const { data: santris, error, mutate } = useSWR("/santri/search", fetcher)
 
   const [gridView, setGridView] = useState(true);
   const notFound = false;
@@ -36,49 +23,10 @@ export default function AdminSantri(props) {
 
   const [value, setValue] = useState(10);
 
-  const [error, setError] = useState({
-    status: 201,
-    statusText: "",
-  });
-
   const [page, setPage] = useState(0);
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [allData, setAllData] = useState([]);
-
-  const [data, setData] = useState([]);
-
-  const getAllData = async (event) => {
-    await fetch(`${BASE_URL}/${markazOrSantri.toLowerCase()}/search`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-    }).then((preResponse) => {
-      preResponse.json().then((data) => {
-        setAllData(data.result);
-      });
-    });
-  };
-
-  const getData = async (event) => {
-    await fetch(
-      `${BASE_URL}/${markazOrSantri.toLowerCase()}/search?page=${page}&n=${value}`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((preResponse) => {
-      preResponse.json().then((data) => {
-        setData(data);
-      });
-    });
-  };
 
   const gridview = (
     <Button
@@ -120,8 +68,8 @@ export default function AdminSantri(props) {
   );
 
   const search = () => {
-    responseUsers.result &&
-      responseUsers.result.filter((data) => {
+    santris.result &&
+      santris.result.filter((data) => {
         if (searchTerm == "") {
           return data;
         } else if (data.name.toLowerCase().includes(searchTerm.toLowerCase())) {
@@ -130,6 +78,23 @@ export default function AdminSantri(props) {
       });
   };
 
+  const handleDelete = async (id) => {
+    await axiosMain.delete(`/admin/santri?id=${id}`)
+      .then(response => {
+        console.log('delete succeed', response.data);
+        mutate();
+      })
+      .catch(e => {
+        console.log('delete error', e.response)
+        if (e.response.data.status === 401) {
+          localStorage.clear();
+        }
+      })
+  }
+
+  console.log(error)
+  if (error) return "An error has occurred.";
+  if (!santris) return "Loading...";
   return (
     <ShowAllTemplate
       searchBarName="Cari Markaz"
@@ -145,14 +110,15 @@ export default function AdminSantri(props) {
     >
       {gridView ? (
         <GridView
-          data={responseUsers}
+          data={santris}
           intr1Butt="admin/santri/edit"
           markazOrSantri="admin/santri/delete"
           detail="admin/santri"
+          handleDelete={handleDelete}
         />
       ) : (
         <TableView
-          data={responseUsers}
+          data={santris}
           santriormarkaz="santri"
           detail="admin/santri"
           tableTempatMarkaz="Tempat Markaz"
