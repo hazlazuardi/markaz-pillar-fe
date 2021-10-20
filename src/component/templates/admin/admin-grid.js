@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import { useState } from "react";
 
 export default function GridView(props) {
-  const { data, markazOrSantri, intr1Butt, detail } = props;
+  const { data, markazOrSantri, intr1Butt, detail, handleDelete } = props;
   // array of objects
   const users = data.result;
 
@@ -27,6 +27,7 @@ export default function GridView(props) {
           id={user.id}
           intr1Butt={intr1Butt}
           detail={detail}
+          handleDelete={handleDelete}
         />
       ))}
     </Grid>

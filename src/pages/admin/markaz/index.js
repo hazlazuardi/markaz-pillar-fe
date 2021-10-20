@@ -1,34 +1,19 @@
-import React from "react";
 import ShowAllTemplate from "../../../component/templates/show_all/ShowAll";
 import { useState } from "react";
 import Button from "@mui/material/Button";
 import GridView from "../../../component/templates/admin/admin-grid";
 import TableView from "../../../component/templates/admin/admin-table";
-import AdminTemplate from "../../../component/templates/admin/AdminTemplate";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import Link from "@mui/material/Link";
-import Template from "../../../component/templates/show_all/ShowAll";
+import { axiosMain } from '../../../axiosInstances'
+import useSWR from "swr";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
-export async function getStaticProps(context) {
-  try {
-    const res = await fetch(`${BASE_URL}/markaz/search?sortedAge=DESC`);
-    const data = await res.json();
+const fetcher = url => axiosMain.get(url).then(res => res.data)
 
-    return {
-      props: { responseUsers: data }, // will be passed to the page component as props
-    };
-  } catch {
-    return {
-      notFound: true,
-    };
-  }
-}
-export default function AdminMarkaz(props) {
-  const { responseUsers, markaz } = props;
-
+export default function AdminMarkaz() {
+  const { data: markazs, error, mutate } = useSWR("/markaz/search?sortedAge=DESC", fetcher)
   const [page, setPage] = useState(0);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,10 +21,6 @@ export default function AdminMarkaz(props) {
   const [value, setValue] = useState(10);
 
   const [gridView, setGridView] = useState(true);
-  const notFound = false;
-  try {
-    notFound = props.notFound;
-  } catch {}
 
   const gridview = (
     <Button
@@ -79,11 +60,11 @@ export default function AdminMarkaz(props) {
       </Fab>
     </Link>
   );
-  // console.log(responseUsers);
+  // console.log(staticData);
 
   const search = () => {
-    responseUsers.result &&
-      responseUsers.result.filter((data) => {
+    markazs.result &&
+      markazs.result.filter((data) => {
         if (searchTerm == "") {
           return data;
         } else if (data.name.toLowerCase().includes(searchTerm.toLowerCase())) {
@@ -92,6 +73,22 @@ export default function AdminMarkaz(props) {
       });
   };
 
+  const handleDelete = async (id) => {
+    await axiosMain.delete(`/admin/markaz?id=${id}`)
+      .then(response => {
+        console.log('delete succeed', response.data);
+        mutate();
+      })
+      .catch(e => {
+        console.log('delete error', e.response)
+        if (e.response.data.status === 401) {
+          localStorage.clear();
+        }
+      })
+  }
+
+  if (error) return "An error has occurred.";
+  if (!markazs) return "Loading...";
   return (
     <ShowAllTemplate
       searchBarName="Cari Markaz"
@@ -107,14 +104,15 @@ export default function AdminMarkaz(props) {
     >
       {gridView ? (
         <GridView
-          data={responseUsers}
+          data={markazs}
           intr1Butt="admin/markaz/edit"
           markazOrSantri="admin/markaz/delete"
           detail="admin/markaz"
+          handleDelete={handleDelete}
         />
       ) : (
         <TableView
-          data={responseUsers}
+          data={markazs}
           santriormarkaz="markaz"
           detail="admin/markaz"
           tableTempatMarkaz="Kategori"

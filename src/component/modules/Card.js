@@ -18,6 +18,7 @@ export default function Card(props) {
     id,
     intr1Butt,
     detail,
+    handleDelete
   } = props;
 
   return (
@@ -65,9 +66,9 @@ export default function Card(props) {
             <Link href={`/${intr1Butt}/` + id}>
               <Button variant="contained">{intr_1}</Button>
             </Link>
-            <Link href={`/${markazOrSantri}/` + id}>
-              <Button variant="outlined">{intr_2}</Button>
-            </Link>
+
+            <Button variant="outlined" onClick={intr_2 === 'delete' ? ()=>handleDelete(id) : null} >{intr_2}</Button>
+
           </Grid>
         </Grid>
       </Paper>
