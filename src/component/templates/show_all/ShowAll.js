@@ -94,7 +94,6 @@ export default function ShowAll(props) {
                   <span className="visually-hidden"></span>
                 </label>
                 <TextField
-                  id="standard-basic"
                   variant="outlined"
                   fullwidth
                   type="text"
