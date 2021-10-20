@@ -6,6 +6,9 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import styles from "../../styles/Home.module.css";
 import Link from "next/link";
+import { useAppContext } from '../../context/AppContext'
+import { roleType } from "../../context/AppReducer";
+import {useRouter} from "next/router";
 
 export default function Card(props) {
   const {
@@ -21,6 +24,9 @@ export default function Card(props) {
     handleDelete
   } = props;
 
+  const router = useRouter()
+  const path = router.pathname
+  console.log(path)
   return (
     <Grid item>
       <Paper sx={{ width: 300, height: 420 }}>
@@ -63,15 +69,31 @@ export default function Card(props) {
             xs={12}
             sx={{ display: "flex", justifyContent: "space-around" }}
           >
-            <Link href={`/${intr1Butt}/` + id}>
-              <Button variant="contained">{intr_1}</Button>
-            </Link>
 
-            <Button variant="outlined" onClick={intr_2 === 'delete' ? ()=>handleDelete(id) : null} >{intr_2}</Button>
+            {path.includes('admin') ? (<>
+              <Link href={`${path}/edit/` + id} passHref>
+                <Button variant="contained">Edit</Button>
+              </Link>
 
+              <Button variant="outlined" onClick={() => handleDelete(id)} >Delete</Button>
+            </>
+            ) : (
+              <>
+                <Link href={`${path}/donasi/` + id} passHref>
+                  <Button variant="contained">Donasi</Button>
+                </Link>
+                <Link href={`${path}/` + id} passHref>
+                  <Button variant="outlined">Lihat Detail</Button>
+                </Link>
+              </>)
+            }
           </Grid>
         </Grid>
       </Paper>
     </Grid>
   );
 }
+
+
+// TODO:
+// 1. Ubah conditional nya jadi sesuaiin router.pathname, bukan currentUserRole!
