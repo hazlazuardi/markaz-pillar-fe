@@ -63,7 +63,7 @@ export default function Card(props) {
             xs={12}
             sx={{ display: "flex", justifyContent: "space-around" }}
           >
-            <Link href={`/${intr1Butt}/` + id}>
+            <Link href={`/${intr1Butt}/` + id} passHref>
               <Button variant="contained">{intr_1}</Button>
             </Link>
 
