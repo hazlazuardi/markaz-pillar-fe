@@ -16,6 +16,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Dropzone from '../../modules/Dropzone';
 import { useState } from "react";
 
 const steps = [
@@ -24,7 +25,9 @@ const steps = [
     'Konfirmasi Pembayaran',
     ];
 
-export default function Form() {
+export default function Form(props) {
+
+    const {recipient, markazOrSantri} = props
 
     const [step, setStep] = useState(0)
 
@@ -32,7 +35,7 @@ export default function Form() {
     <Grid container spacing={2}>
         <Grid item xs={12}>
             <Container maxWidth="lg" className={styles.container}>
-                <ArrowBack name="Santri 1" markazOrSantri="Santri" />
+                <ArrowBack name={recipient} markazOrSantri={markazOrSantri} />
                 <Stepper activeStep={step} alternativeLabel>
                     {steps.map((label) => (
                         <Step key={label}>
@@ -46,7 +49,7 @@ export default function Form() {
             <Container maxWidth="lg" className={styles.container}>
                 <Box sx={{textAlign:"center", display: step == 0 ? "block" : "none"}}>
                     <Typography variant="h3" sx={{m : 4, fontWeight:"bold"}}>
-                        Berapa Jumlah Uang Yang Ingin Anda Donasikan Kepada Santri 1?
+                        Berapa Jumlah Uang Yang Ingin Anda Donasikan Kepada {recipient} ?
                     </Typography>
                     <FormControl sx={{ m: 1}} variant="standard">
                         <Input
@@ -142,7 +145,6 @@ export default function Form() {
                         </AccordionDetails>
                     </Accordion>
                     </Box>
-
                     <Box>
                         <Button sx={{m : 1}} variant="outlined" onClick={() => {
                             setStep(0)
@@ -152,6 +154,25 @@ export default function Form() {
                             setStep(2)
                             console.log(step)
                             }}>Selanjutnya</Button>
+                    </Box>
+                </Box>
+                <Box sx={{textAlign:"center", display: step == 2 ? "block" : "none"}}>
+                    <Box sx={{display: "flex", alignItems:"center", justifyContent:"center", flexDirection:"column", m:1}}>
+                        <Typography variant="h3" sx={{m : 4, fontWeight:"bold"}}>
+                            Upload Bukti Pembayaran
+                        </Typography>
+                        <Box sx={{width:600}}>
+                            <Dropzone/>
+                        </Box>
+                    </Box>
+                    <Box>
+                        <Button sx={{m : 1}} variant="outlined" onClick={() => {
+                            setStep(1)
+                            console.log(step)
+                            }}>Kembali</Button>
+                        <Button sx={{m : 1}} variant="contained" onClick={() => {
+                            console.log("Selesai")
+                            }}>selesai</Button>
                     </Box>
                 </Box>
             </Container>
