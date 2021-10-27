@@ -130,6 +130,7 @@ production:
   needs: [cypress, linter]
   before_script:
     # Setup SSH deploy keys
+    - apt clean
     - apt-get update -y
     - 'which ssh-agent || ( apt-get install -y openssh-client )'
     - 'which rsync || ( apt-get install -y rsync )'
