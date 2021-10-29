@@ -55,21 +55,22 @@ export default function NavBar() {
                     xs: '100vw', // theme.breakpoints.up('xs')
                     sm: 250, // theme.breakpoints.up('sm')
                 },
-                height: '100vh',
-                display: { xs: 'block', sm: 'none' }
-
+                display: { xs: 'block', sm: 'none' },
+                mb: '2em'
             }}
             role="presentation"
             onClick={toggleDrawer(false)}
             onKeyDown={toggleDrawer(false)}
         >
             {currentUser ? (
-                <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center' padding='2em'>
-                    <Avatar sx={{ width: 100, height: 100, mb: '2em' }}>{currentUser[0].toUpperCase()}</Avatar>
-                    <Typography textAlign='center' variant='h5'>{currentUser}</Typography>
-                    <Typography textAlign='center'>Desc</Typography>
-                    <Button color='error' sx={{ mt: '2em' }} size='large' variant='outlined' onClick={handleLogout}>Keluar</Button>
-                </Box>
+                <Box width='100vw' overflow='hidden' padding='2em'>
+                    <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
+                        <Avatar sx={{ width: 100, height: 100, mb: '1em' }}>{currentUser[0].toUpperCase()}</Avatar>
+                    </Box>
+                    <Typography sx={{ wordWrap: 'break-word' }} textAlign='center' variant='h5'>{currentUser.split('@')[0]}</Typography>
+                    <Typography sx={{ wordWrap: 'break-word' }} textAlign='center'>DescDescDescDescDescDescDescDescDescDescDescDescDescDescDescDescDesc</Typography>
+                    <Button fullWidth color='error' sx={{ mt: '2em' }} size='large' variant='outlined' onClick={handleLogout}>Keluar</Button>
+                </ Box>
             ) : (
                 <Box display='flex' flexDirection='row' alignItems='center' justifyContent='center' padding='2em'>
                     <Link href='/login' passHref>
