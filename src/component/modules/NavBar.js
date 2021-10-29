@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Button, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, SwipeableDrawer, Toolbar, Typography } from '@mui/material'
+import { AppBar, Avatar, Button, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, SwipeableDrawer, Toolbar, Typography, Container } from '@mui/material'
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { Box, width } from '@mui/system'
@@ -55,14 +55,16 @@ export default function NavBar() {
                     xs: '100vw', // theme.breakpoints.up('xs')
                     sm: 250, // theme.breakpoints.up('sm')
                 },
-                display: { xs: 'block', sm: 'none' },
+                height: '100%',
+                display: { xs: 'flex', sm: 'none' },
                 mb: '2em'
             }}
             role="presentation"
             onClick={toggleDrawer(false)}
             onKeyDown={toggleDrawer(false)}
+            flexDirection='column'
         >
-            {currentUser ? (
+            {currentUser && (
                 <Box width='100vw' overflow='hidden' padding='2em'>
                     <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
                         <Avatar sx={{ width: 100, height: 100, mb: '1em' }}>{currentUser[0].toUpperCase()}</Avatar>
@@ -71,29 +73,35 @@ export default function NavBar() {
                     <Typography sx={{ wordWrap: 'break-word' }} textAlign='center'>{currentUserRole.split('_')[1]}</Typography>
                     <Button fullWidth color='error' sx={{ mt: '2em' }} size='large' variant='text' onClick={handleLogout}>Keluar</Button>
                 </ Box>
-            ) : (
-                <Box display='flex' flexDirection='row' alignItems='center' justifyContent='center' padding='2em'>
+            )}
+            <Box display='flex' flexDirection='column' width='100%' flexGrow={1} justifyContent='flex-end'>
+                <List>
+                    {pages.map((page, index) => (
+                        <ListItem button key={index}>
+                            <Link href={page.path} passHref >
+                                <ListItemText sx={{ textAlign: 'center' }} primary={page.name} />
+                            </ Link>
+                        </ListItem>
+                    ))}
+                </List>
+            </Box>
+
+            {!currentUser && (
+                <Container maxWidth="lg" >
+
                     <Link href='/login' passHref>
-                        <Button variant="contained" color="primary" sx={{ m: '.5em' }} size='large'>
+                        <Button fullWidth='true' sx={{ mb: '1em' }} variant="contained" color="primary" size='large'>
                             Masuk
                         </Button>
                     </Link>
                     <Link href='/registration' passHref>
-                        <Button variant="outlined" color="primary" sx={{ m: '.5em' }} size='large'>
+                        <Button fullWidth='true' variant="outlined" color="primary" size='large'>
                             Daftar
                         </Button>
                     </Link>
-                </Box>
+                </Container>
+
             )}
-            <List>
-                {pages.map((page, index) => (
-                    <ListItem button key={index}>
-                        <Link href={page.path} passHref >
-                            <ListItemText sx={{ textAlign: 'center' }} primary={page.name} />
-                        </ Link>
-                    </ListItem>
-                ))}
-            </List>
         </Box>
     );
     return (

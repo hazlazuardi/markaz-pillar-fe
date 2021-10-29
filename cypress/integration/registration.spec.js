@@ -58,7 +58,6 @@ describe('Test type the fields and submit', () => {
         cy.get('#address').type('test-address')
         cy.get('#password').type('Admin123')
         cy.get('#submitAtRegistration').contains('Daftar').click()
-        cy.get('#submitAtRegistration').contains('Daftar').should('be.disabled')
         cy.get('#snackbarAtLayout').contains(`Alamat email sudah digunakan`).should('exist')
         cy.get('#submitAtRegistration').contains('Daftar').should('not.be.disabled')
     })
