@@ -58,7 +58,7 @@ cache:
     - ./node_modules
 
 cypress:
-  image: node:latest
+  image: node:16.10.0
   stage: test
   needs: [build]
   before_script:
