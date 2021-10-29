@@ -68,8 +68,8 @@ export default function NavBar() {
                         <Avatar sx={{ width: 100, height: 100, mb: '1em' }}>{currentUser[0].toUpperCase()}</Avatar>
                     </Box>
                     <Typography sx={{ wordWrap: 'break-word' }} textAlign='center' variant='h5'>{currentUser.split('@')[0]}</Typography>
-                    <Typography sx={{ wordWrap: 'break-word' }} textAlign='center'>DescDescDescDescDescDescDescDescDescDescDescDescDescDescDescDescDesc</Typography>
-                    <Button fullWidth color='error' sx={{ mt: '2em' }} size='large' variant='outlined' onClick={handleLogout}>Keluar</Button>
+                    <Typography sx={{ wordWrap: 'break-word' }} textAlign='center'>{currentUserRole.split('_')[1]}</Typography>
+                    <Button fullWidth color='error' sx={{ mt: '2em' }} size='large' variant='text' onClick={handleLogout}>Keluar</Button>
                 </ Box>
             ) : (
                 <Box display='flex' flexDirection='row' alignItems='center' justifyContent='center' padding='2em'>
