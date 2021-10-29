@@ -4,5 +4,7 @@
       "codeCoverage": {
         "url": "/api/__coverage__"
       }
-    }
+    },
+    "video": false
+
 }
