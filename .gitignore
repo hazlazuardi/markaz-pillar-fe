@@ -11,6 +11,7 @@ package-lock.json
 
 # testing
 /coverage
+/.nyc_output/
 
 # next.js
 /.next/
@@ -22,6 +23,7 @@ package-lock.json
 # misc
 .DS_Store
 *.pem
+.gitlab-ci-old.yml
 
 # debug
 npm-debug.log*
@@ -36,3 +38,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# cypress
+/cypress/screenshots
+/cypress/videos

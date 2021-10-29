@@ -64,13 +64,14 @@ export default function Registration() {
         })))
     };
 
+    const [loading, setLoading] = useState(false)
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // API Route usage
-
+        setLoading(true)
         await axiosMain
             .post("/register", data)
             .then(response => {
+                setLoading(false)
                 console.log("regis res", response);
                 const decodedJWT = jwtDecode(response.data.result.accessToken)
                 dispatch({
@@ -85,6 +86,7 @@ export default function Registration() {
 
             })
             .catch(e => {
+                setLoading(false)
                 console.log('regis error', e.response)
                 setError(prev => ({
                     ...prev,
@@ -266,7 +268,7 @@ export default function Registration() {
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
-                                disabled={data.password.length < 8}
+                                disabled={data.password.length < 8 || loading}
                             >
                                 Daftar
                             </Button>

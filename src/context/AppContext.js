@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo, useReducer, useEffect } from "react";
 
 import { AppReducer, initialState, initialFunction, dispatchTypes } from "./AppReducer";
+import { axiosMain } from "../axiosInstances";
 
 const AppContext = createContext();
 
@@ -17,7 +18,7 @@ export function AppWrapper({ children }) {
     const parsedLoggedUserRole = JSON.parse(localStorage.getItem("currentUserRole"));
     const parsedAccessToken = JSON.parse(localStorage.getItem("currentAccessToken"));
     const parsedRefreshToken = JSON.parse(localStorage.getItem("currentRefreshToken"));
-    
+
     // Check if those exist
     if (parsedLoggedUsername) {
       // Put them in their state
@@ -31,15 +32,22 @@ export function AppWrapper({ children }) {
         }
       })
     }
+
+    // a "gate" to tell that the state has been loaded
+    dispatch({
+      type: dispatchTypes.STATE_LOADED
+    })
+
   }, []);
 
   useEffect(() => {
     // If there's an update in the state, update the localStorage
-    if(state !== initialState) {
+    if (state !== initialState) {
       localStorage.setItem("currentUser", JSON.stringify(state.currentUser))
       localStorage.setItem("currentUserRole", JSON.stringify(state.currentUserRole))
       localStorage.setItem("currentAccessToken", JSON.stringify(state.currentAccessToken))
       localStorage.setItem("currentRefreshToken", JSON.stringify(state.currentRefreshToken))
+      axiosMain.defaults.headers.common["Authorization"] = `Bearer ${state.currentAccessToken}`
     }
   }, [state]);
 
