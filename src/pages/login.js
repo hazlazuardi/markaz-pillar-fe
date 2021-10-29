@@ -50,11 +50,14 @@ export default function Login() {
   };
 
 
+  const [loading, setLoading] = useState(false)
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true)
     await axiosMain
       .post("/authenticate", data)
       .then(response => {
+        setLoading(false)
         console.log("login res", response);
         const decodedJWT = jwtDecode(response.data.result.accessToken)
         dispatch({
@@ -68,6 +71,7 @@ export default function Login() {
         });
       })
       .catch(e => {
+        setLoading(false)
         console.log("login err", e.response)
         setError(true)
         dispatch({
@@ -183,6 +187,7 @@ export default function Login() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                disabled={loading}
               >
                 Masuk
               </Button>

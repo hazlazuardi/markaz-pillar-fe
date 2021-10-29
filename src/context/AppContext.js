@@ -33,6 +33,11 @@ export function AppWrapper({ children }) {
       })
     }
 
+    // a "gate" to tell that the state has been loaded
+    dispatch({
+      type: dispatchTypes.STATE_LOADED
+    })
+
   }, []);
 
   useEffect(() => {

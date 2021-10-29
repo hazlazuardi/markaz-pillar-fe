@@ -8,7 +8,8 @@ export const dispatchTypes = {
     REGISTRATION_FAIL: "registration_fail",
     AUTHENTICATED: "authenticated",
     SNACKBAR_CLOSE: "snackbar_close",
-    SNACKBAR_CUSTOM: "snackbar_custom"
+    SNACKBAR_CUSTOM: "snackbar_custom",
+    STATE_LOADED: "state_loaded"
 }
 
 export const roleType = {
@@ -49,7 +50,8 @@ export const initialFunction = initialState => {
         currentAccessToken,
         currentRefreshToken,
         snackbarStatus,
-        snackbarMessage
+        snackbarMessage,
+        stateLoaded
     } = initialState;
     return {
         currentUser,
@@ -57,8 +59,8 @@ export const initialFunction = initialState => {
         currentAccessToken,
         currentRefreshToken,
         snackbarStatus,
-        snackbarMessage
-
+        snackbarMessage,
+        stateLoaded
     }
 }
 
@@ -69,8 +71,8 @@ export const initialState = {
     currentAccessToken: "",
     currentRefreshToken: "",
     snackbarStatus: false,
-    snackbarMessage: ""
-
+    snackbarMessage: "",
+    stateLoaded: false
 }
 
 
@@ -151,6 +153,13 @@ export const AppReducer = (state, action) => {
                 ...state,
                 snackbarStatus: true,
                 snackbarMessage: action.payload.message
+            }
+        }
+        // To make sure state is loaded & updated from localStorage
+        case dispatchTypes.STATE_LOADED: {
+            return {
+                ...state,
+                stateLoaded: true
             }
         }
         default:

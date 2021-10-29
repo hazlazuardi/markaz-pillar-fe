@@ -1,4 +1,4 @@
-import NavbarDesktop from './modules/NavbarDesktop';
+import Navbar from './modules/NavBar';
 import { useRouter } from 'next/router'
 import { Snackbar } from '@mui/material';
 import { useAppContext } from '../context/AppContext';
@@ -18,7 +18,7 @@ export default function Layout({ children }) {
     }, [snackbarStatus])
     return (
         <>
-            {showHeader && <NavbarDesktop />}
+            {showHeader && <Navbar />}
             <Snackbar
                 id='snackbarAtLayout'
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
@@ -27,9 +27,9 @@ export default function Layout({ children }) {
                 message={snackbarMessage}
                 key={"bottom" + "center"}
             />
-            {showHeader && <Box sx={{ height: '3em' }} />}
+            {showHeader && <Box sx={{ height: '4em' }} />}
             {children}
-            {showHeader && <Box sx={{ height: '6em' }}></Box>}
+            {showHeader && <Box sx={{ height: '6em' }} />}
         </>
     )
 }
