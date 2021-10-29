@@ -3,7 +3,7 @@ stages:
   - test
   - deploy
 
-image: node:latest
+image: node:16.10.0
 
 build:
   stage: build
