@@ -63,6 +63,7 @@ export default function NavBar() {
             onClick={toggleDrawer(false)}
             onKeyDown={toggleDrawer(false)}
             flexDirection='column'
+            justifyContent='space-between'
         >
             {currentUser && (
                 <Box width='100vw' overflow='hidden' padding='2em'>

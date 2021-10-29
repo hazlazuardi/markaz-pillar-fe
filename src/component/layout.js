@@ -1,4 +1,3 @@
-import NavbarDesktop from './modules/NavbarDesktop';
 import Navbar from './modules/NavBar';
 import { useRouter } from 'next/router'
 import { Snackbar } from '@mui/material';
