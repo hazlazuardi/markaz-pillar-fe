@@ -21,7 +21,7 @@ cache:
     - ./.next/
 
 install:
-  image: cypress/base:10
+  image: node:12.14.1
   stage: build
 
   script:
@@ -50,7 +50,7 @@ linter:
   when: on_success
 
 cypress:
-  image: cypress/base:10
+  image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: test
   script:
     # print CI environment variables for reference
