@@ -3,96 +3,69 @@ stages:
   - test
   - deploy
 
-image: node:16.10.0
-
-build:
-  stage: build
-  script:
-    - rm -rf ./.next/
-    - CI=false npm install     # install required packages
-    - npm run build
-  artifacts:
-    when: on_success
-    paths:
-      - ./.next/
-    expire_in: 1 week
-  cache:
-    key: $CI_COMMIT_REF_NAME
-    policy: push
-    paths:
-      - ./node_modules/
-      - ./package-lock.json
-      - ./yarn.lock
-      - ./.next/
-      - ./cache/Cypress
-
-
-linter:
-  stage: test
-  needs: [build]
-  script:
-    - npm run lint
-  cache:
-    key: $CI_COMMIT_REF_NAME
-    policy: pull
-    paths:
-      - ./node_modules/
-      - ./package-lock.json
-      - ./yarn.lock
-      - ./.next/
-  when: on_success
-
-
-
-# Set environment variables for folders in "cache" job settings for npm modules and Cypress binary
+# to cache both npm modules and Cypress binary we use environment variables
+# to point at the folders we can list as paths in "cache" job settings
 variables:
   npm_config_cache: "$CI_PROJECT_DIR/.npm"
   CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
 
-# Cache using branch name
+# cache using branch name
 # https://gitlab.com/help/ci/caching/index.md
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - ./cache/Cypress
-    - ./node_modules
+    - .npm
+    - cache/Cypress
+    - ./node_modules/
+    - ./package-lock.json
+    - ./.next/
 
-cypress:
-  image: node:16.10.0
-  stage: test
-  needs: [build]
-  before_script:
-    - sudo apt-get -s clean
-    - apt-get update
-    - apt-get -y install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+install:
+  image: cypress/base:10
+  stage: build
+
   script:
     - npm ci
     # check Cypress binary path and cached versions
+    # useful to make sure we are not carrying around old versions
     - npx cypress cache path
     - npx cypress cache list
-    - npm run test
+    - $(npm bin)/print-env CI
+    - npm run cy:verify
+    - npm run cy:info
+    - npm run build
+
+linter:
+  stage: test
+  needs: [install]
+  script:
+    - npm run lint
   cache:
-    key: $CI_COMMIT_REF_NAME
+    key: ${CI_COMMIT_REF_SLUG}
     policy: pull
     paths:
       - ./node_modules/
       - ./package-lock.json
-      - ./yarn.lock
       - ./.next/
-      - ./cache/Cypress
-  artifacts:
-    paths:
-      - coverage/
-    expire_in: 1 week
-
-  script:
-    - rm -rf ./.nyc_output
-    - npm ci
-    # check Cypress binary path and cached versions
-    - npx cypress cache path
-    - npx cypress cache list
-    - npm run test
   when: on_success
+
+cypress:
+  image: cypress/base:10
+  stage: test
+  script:
+    # print CI environment variables for reference
+    - $(npm bin)/print-env CI
+    # start the server in the background
+    - npm run test
+  artifacts:
+    when: always
+    paths:
+      - cypress/videos/**/*.mp4
+      - cypress/screenshots/**/*.png
+      - coverage/
+    expire_in: 1 day
+
+
 
 
 staging:
@@ -109,12 +82,11 @@ staging:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   cache:
-    key: $CI_COMMIT_REF_NAME
+    key: ${CI_COMMIT_REF_SLUG}
     policy: pull
     paths:
       - ./node_modules/
       - ./package-lock.json
-      - ./yarn.lock
       - ./.next/
   script:
     - rsync -chvrPt ./markaz-pillar-fe/.env deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
@@ -141,12 +113,11 @@ production:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   cache:
-    key: $CI_COMMIT_REF_NAME
+    key: ${CI_COMMIT_REF_SLUG}
     policy: pull
     paths:
       - ./node_modules/
       - ./package-lock.json
-      - ./yarn.lock
       - ./.next/
   script:
     - rsync -chvrPt ./markaz-pillar-fe/.env deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
@@ -167,12 +138,11 @@ sonarCheck:
     SONARQUBE_PROJECT_KEY: $SONARQUBE_PROJECT_KEY
     SONARQUBE_TOKEN: $SONARQUBE_TOKEN
   cache:
-    key: $CI_COMMIT_REF_NAME
+    key: ${CI_COMMIT_REF_SLUG}
     policy: pull
     paths:
       - ./node_modules/
       - ./package-lock.json
-      - ./yarn.lock
       - ./.next/
   before_script:
     - npm install -g sonarqube-scanner
