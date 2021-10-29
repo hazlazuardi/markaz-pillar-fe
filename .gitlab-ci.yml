@@ -21,7 +21,7 @@ cache:
     - ./.next/
 
 install:
-  image: node:12.14.1
+  image: cypress/browsers:node12.14.1-chrome85-ff81
   stage: build
 
   script:
