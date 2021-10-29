@@ -53,6 +53,7 @@ cypress:
 
 
 linter:
+  image: node:16.5.0
   stage: test
   needs: [install]
   script:
@@ -129,6 +130,7 @@ production:
     - production
 
 sonarCheck:
+  image: node:16.5.0
   stage: deploy
   needs: [cypress]
   variables:
