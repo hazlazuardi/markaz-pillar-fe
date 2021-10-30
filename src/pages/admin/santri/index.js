@@ -5,22 +5,27 @@ import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserT
 import GridView from "../../../component/templates/admin/GridView";
 import TableView from "../../../component/templates/admin/TableView";
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function AdminSantri() {
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const { data: responseSantri, error, mutate } = useSWR(`/santri/search?page=${page - 1}&n=${entries}`, fetcher)
+  const {
+    data: responseSantri,
+    error,
+    mutate,
+  } = useSWR(`/santri/search?page=${page - 1}&n=${entries}`, fetcher);
 
   // *******************************************************
   // Delete
   // *******************************************************
   const handleDeleteSantri = async (id) => {
-    await axiosMain.delete(`/admin/santri?id=${id}`)
-      .then(response => {
+    await axiosMain
+      .delete(`/admin/santri?id=${id}`)
+      .then((response) => {
         mutate();
       })
-      .catch(e => {
+      .catch((e) => {
         if (e.response.data.status === 401) {
           localStorage.clear();
         }

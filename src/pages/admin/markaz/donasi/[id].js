@@ -102,7 +102,6 @@ export default function DonasiMarkaz() {
       value={value}
       setValue={setValue}
       setSearchTerm={setSearchTerm}
-      // add={create}
       setGridView={setGridView}
     >
       <TableView

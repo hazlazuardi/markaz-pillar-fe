@@ -1,23 +1,28 @@
 import { useState } from "react";
-import { axiosMain } from '../../../axiosInstances'
+import { axiosMain } from "../../../axiosInstances";
 import useSWR from "swr";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
 import GridView from "../../../component/templates/admin/GridView";
 import TableView from "../../../component/templates/admin/TableView";
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function AdminMarkaz() {
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const { data: responseMarkaz, error, mutate } = useSWR(`/markaz/search?page=${page - 1}&n=${entries}`, fetcher)
+  const {
+    data: responseMarkaz,
+    error,
+    mutate,
+  } = useSWR(`/markaz/search?page=${page - 1}&n=${entries}`, fetcher);
 
   // *******************************************************
   // Delete
   // *******************************************************
   const handleDeleteMarkaz = async (id) => {
-    await axiosMain.delete(`/admin/markaz?id=${id}`)
-      .then(response => {
+    await axiosMain
+      .delete(`/admin/markaz?id=${id}`)
+      .then((response) => {
         mutate();
       })
       .catch(e => {
