@@ -26,7 +26,8 @@ install:
   image: cypress/base:16.5.0
   stage: build
 
-  script:
+  script:    
+    - rm -rf .next
     - npm ci
     # check Cypress binary path and cached versions
     # useful to make sure we are not carrying around old versions
@@ -34,6 +35,7 @@ install:
     - npx cypress cache list
     - npm run cy:verify
     - npm run cy:info
+    - npm run build
 
 # all jobs that actually run tests can use the same definition
 cypress:

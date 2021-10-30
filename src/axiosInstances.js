@@ -19,3 +19,10 @@ export const axiosFormData = axios.create({
         'Accept': "application/json, text/plain, */*",
     }
 })
+
+export const axiosApiRoutes = axios.create({
+    baseURL: 'http://localhost:3000',
+    headers: {
+        'Accept': "application/json, text/plain, */*",
+    }
+})
