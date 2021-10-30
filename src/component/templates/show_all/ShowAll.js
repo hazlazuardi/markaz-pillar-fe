@@ -24,6 +24,7 @@ export default function ShowAll(props) {
     setPage,
     isAdmin,
     setGridView,
+    add,
   } = props;
 
   return (
@@ -134,6 +135,9 @@ export default function ShowAll(props) {
           </Grid>
         </Grid>
         {children}
+        <Grid item className={styles.flexEnd}>
+          {add}
+        </Grid>
         <Grid item xs={12} mt={5} className={styles.flexEnd}>
           <Pagination
             count={5}

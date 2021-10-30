@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { axiosMain } from '../../../axiosInstances'
 import useSWR from "swr";
-
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
-
 import GridView from "../../../component/templates/admin/GridView";
 import TableView from "../../../component/templates/admin/TableView";
 
@@ -23,24 +21,18 @@ export default function AdminSantri() {
         mutate();
       })
       .catch(e => {
-
         if (e.response.data.status === 401) {
           localStorage.clear();
         }
-      })
-  }
+      });
+  };
 
   const GridViewMarkaz = (
     <GridView data={responseSantri} detail="admin/santri" handleDelete={handleDeleteSantri} />
   )
-
-
   const TableViewMarkaz = (
     <TableView data={responseSantri} detail="admin/santri" handleDelete={handleDeleteSantri} />
   )
-
-
-
 
   return (
     <>

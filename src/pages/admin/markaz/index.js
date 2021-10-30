@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { axiosMain } from '../../../axiosInstances'
 import useSWR from "swr";
-
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
-
 import GridView from "../../../component/templates/admin/GridView";
 import TableView from "../../../component/templates/admin/TableView";
 
@@ -23,22 +21,18 @@ export default function AdminMarkaz() {
         mutate();
       })
       .catch(e => {
-
         if (e.response.data.status === 401) {
           localStorage.clear();
         }
-      })
-  }
+      });
+  };
 
   const GridViewMarkaz = (
     <GridView data={responseMarkaz} detail="admin/markaz" handleDelete={handleDeleteMarkaz} />
   )
-
-
   const TableViewMarkaz = (
     <TableView data={responseMarkaz} detail="admin/markaz" handleDelete={handleDeleteMarkaz} />
   )
-
 
   return (
     <>
