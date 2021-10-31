@@ -13,15 +13,15 @@ export default function ProtectedRoute({ router, children }) {
     const isAdmin = currentUserRole === roleType.ROLE_SUPERUSER
 
     /**
-     * @var pathIsNotProtected Checks if path exists in the unprotectedRoutes routes array
+     * @var pathIsProtected Checks if path exists in the unprotectedRoutes routes array
      */
-    let pathIsNotProtected = enumProtectedRoutes.indexOf(router.pathname) === -1;
+    let pathIsProtected = enumProtectedRoutes.includes(router.pathname);
 
     useEffect(() => {
-        if (isBrowser() && stateLoaded && localStorage.getItem('currentUserRole') && !isAdmin && !pathIsNotProtected) {
+        if (isBrowser() && stateLoaded && localStorage.getItem('currentUserRole') && !isAdmin && pathIsProtected) {
             router.push(enumRoutes.LANDING);
         }
-    }, [currentUserRole, isAdmin, pathIsNotProtected, router, stateLoaded])
+    }, [currentUserRole, isAdmin, pathIsProtected, router, stateLoaded])
 
     return children;
 

@@ -1,10 +1,10 @@
-# first, install Cypress, then run all tests (in parallel)
+# first, install Cypress & build Nextjs Production, then run all tests
 stages:
   - build
   - test
   - deploy
 
-# to cache both npm modules and Cypress binary we use environment variables
+# to cache, we use environment variables
 # to point at the folders we can list as paths in "cache" job settings
 variables:
   npm_config_cache: "$CI_PROJECT_DIR/.npm"
@@ -21,7 +21,7 @@ cache:
     - package-lock.json
     - .next
 
-# this job installs NPM dependencies and Cypress
+# this job installs NPM dependencies, Cypress, and builds Nextjs
 install:
   image: cypress/base:16.5.0
   stage: build

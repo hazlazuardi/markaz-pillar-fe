@@ -67,7 +67,10 @@ export default function Dropzone({ setFile }) {
 
   return (
     <div className="container">
-      <div {...getRootProps({ style })}>
+      <div 
+      {...getRootProps({ style })}
+      data-cy='dropzone'
+      >
         <input {...getInputProps()} />
         <p>Drag n drop some files here, or click to select files</p>
       </div>
