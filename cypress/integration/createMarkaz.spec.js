@@ -29,7 +29,6 @@ describe(`Test functionality of inputs when create new markaz`, () => {
         cy.get('#category-select').click().get('li').contains('Markaz Umum').click()
         cy.get('#markazAddressAtComponentAdminCreateOrEditMarkaz').type('0811114433')
         cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
-        cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('be.disabled')
         cy.get('#snackbarAtLayout').should('exist', {timeout: 5000})
         cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
     });
@@ -42,7 +41,6 @@ describe(`Test functionality of inputs when create new markaz`, () => {
         cy.get('#markazBackgroundAtComponentAdminCreateOrEditMarkaz').type('test-fullName')
         cy.get('#category-select').click().get('li').contains('Markaz Umum').click()
         cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
-        cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('be.disabled')
         cy.get('#snackbarAtLayout').should('exist', {timeout: 5000})
         cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
     });
@@ -56,7 +54,6 @@ describe(`Test functionality of inputs when create new markaz`, () => {
         cy.get('#category-select').click().get('li').contains('Markaz Umum').click()
         cy.get('#markazAddressAtComponentAdminCreateOrEditMarkaz').type('0811114433')
         cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
-        cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('be.disabled')
         cy.get('#snackbarAtLayout').should('exist', {timeout: 5000})
         cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
     });
