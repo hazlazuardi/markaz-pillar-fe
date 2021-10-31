@@ -28,6 +28,41 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TambahEditMarkaz() {
+    const router = useRouter();
+
+    const { state, dispatch } = useAppContext();
+    const { currentUser } = state;
+
+    const [data, setData] = useState({
+        "namaMarkaz": "",
+        "backgroundMarkaz": "",
+        "kategoriMarkaz": "",
+        "alamatMarkaz": "",
+        "contactPerson": "",
+        "emailWhatsapp": ""
+    });
+    const [error, setError] = useState({
+        status: null,
+        namaMarkaz: "",
+        backgroundMarkaz: "",
+        kategoriMarkaz: "",
+        alamatMarkaz: "",
+        contactPerson: "",
+        emailWhatsapp: ""
+    })
+
+    const handleChange = ({ target }) => {
+        const { name, value } = target;
+        setData((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+        setError((prev => ({
+            ...prev,
+            [name]: ""
+        })))
+    };
+
   const classes = useStyles();
   const theme = useTheme();
   return (
