@@ -34,7 +34,9 @@ describe('Test type the fields and submit', () => {
         cy.get('#email').type(testEmail)
         cy.get('#password').type('Admin123')
         cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.get('#submitAtLogin').contains('Masuk').should('be.disabled')
         cy.get('#snackbarAtLayout').contains(`Welcome back, ${testEmail}`).should('exist')
+        cy.get('#submitAtLogin').contains('Masuk').should('not.be.disabled')
     })
 
     it('Test login and fail', () => {
@@ -43,7 +45,9 @@ describe('Test type the fields and submit', () => {
         cy.get('#email').type(testEmail)
         cy.get('#password').type('Admin123')
         cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.get('#submitAtLogin').contains('Masuk').should('be.disabled')
         cy.get('#snackbarAtLayout').contains(`Alamat email atau password salah`).should('exist')
+        cy.get('#submitAtLogin').contains('Masuk').should('not.be.disabled')
     })
 
 })

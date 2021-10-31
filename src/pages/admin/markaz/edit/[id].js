@@ -72,7 +72,7 @@ function AdminMarkazEdit(props) {
                 }
               })
             } else if (preResponse.status === 400) {
-              
+              console.log(response)
               dispatch({
                 type: dispatchTypes.SNACKBAR_CUSTOM,
                 payload: {

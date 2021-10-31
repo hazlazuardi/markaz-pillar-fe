@@ -1,96 +1,71 @@
+# first, install Cypress, then run all tests (in parallel)
 stages:
   - build
   - test
   - deploy
 
-image: node:latest
-
-build:
-  stage: build
-  script:
-    - rm -rf ./.next/
-    - CI=false npm install     # install required packages
-    - npm run build
-  artifacts:
-    when: on_success
-    paths:
-      - ./.next/
-    expire_in: 1 week
-  cache:
-    key: $CI_COMMIT_REF_NAME
-    policy: push
-    paths:
-      - ./node_modules/
-      - ./package-lock.json
-      - ./yarn.lock
-      - ./.next/
-      - ./cache/Cypress
-
-
-linter:
-  stage: test
-  needs: [build]
-  script:
-    - npm run lint
-  cache:
-    key: $CI_COMMIT_REF_NAME
-    policy: pull
-    paths:
-      - ./node_modules/
-      - ./package-lock.json
-      - ./yarn.lock
-      - ./.next/
-  when: on_success
-
-
-
-# Set environment variables for folders in "cache" job settings for npm modules and Cypress binary
+# to cache both npm modules and Cypress binary we use environment variables
+# to point at the folders we can list as paths in "cache" job settings
 variables:
   npm_config_cache: "$CI_PROJECT_DIR/.npm"
   CYPRESS_CACHE_FOLDER: "$CI_PROJECT_DIR/cache/Cypress"
 
-# Cache using branch name
+# cache using branch name
 # https://gitlab.com/help/ci/caching/index.md
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - ./cache/Cypress
-    - ./node_modules
+    - .npm
+    - cache/Cypress
+    - node_modules
+    - package-lock.json
+    - .next
 
-cypress:
-  image: node:latest
-  stage: test
-  needs: [build]
-  before_script:
-    - apt-get update
-    - apt-get -y install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
-  script:
+# this job installs NPM dependencies and Cypress
+install:
+  image: cypress/base:16.5.0
+  stage: build
+
+  script:    
+    - rm -rf .next
     - npm ci
     # check Cypress binary path and cached versions
+    # useful to make sure we are not carrying around old versions
     - npx cypress cache path
     - npx cypress cache list
+    - npm run cy:verify
+    - npm run cy:info
+    - npm run build
+
+# all jobs that actually run tests can use the same definition
+cypress:
+  image: cypress/base:16.5.0
+  stage: test
+  script:
+    # print CI environment variables for reference
+    # start the server in the background
     - npm run test
-  cache:
-    key: $CI_COMMIT_REF_NAME
-    policy: pull
-    paths:
-      - ./node_modules/
-      - ./package-lock.json
-      - ./yarn.lock
-      - ./.next/
-      - ./cache/Cypress
   artifacts:
+    when: always
     paths:
       - coverage/
-  script:
-    - rm -rf ./.nyc_output
-    - npm ci
-    # check Cypress binary path and cached versions
-    - npx cypress cache path
-    - npx cypress cache list
-    - npm run test
-  when: on_success
+    expire_in: 1 day
 
+
+linter:
+  image: node:16.5.0
+  stage: test
+  needs: [install]
+  script:
+    - npm run lint
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    policy: pull
+    paths:
+      - node_modules
+      - package-lock.json
+      - .next
+  when: on_success
 
 staging:
   stage: deploy
@@ -106,13 +81,12 @@ staging:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   cache:
-    key: $CI_COMMIT_REF_NAME
+    key: ${CI_COMMIT_REF_SLUG}
     policy: pull
     paths:
-      - ./node_modules/
-      - ./package-lock.json
-      - ./yarn.lock
-      - ./.next/
+      - node_modules
+      - package-lock.json
+      - .next
   script:
     - rsync -chvrPt ./markaz-pillar-fe/.env deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
     - rsync -chvrPt ./markaz-pillar-fe/package.json deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
@@ -138,13 +112,12 @@ production:
     - mkdir -p ~/.ssh
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   cache:
-    key: $CI_COMMIT_REF_NAME
+    key: ${CI_COMMIT_REF_SLUG}
     policy: pull
     paths:
-      - ./node_modules/
-      - ./package-lock.json
-      - ./yarn.lock
-      - ./.next/
+      - node_modules
+      - package-lock.json
+      - .next
   script:
     - rsync -chvrPt ./markaz-pillar-fe/.env deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
     - rsync -chvrPt ./markaz-pillar-fe/package.json deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
@@ -157,6 +130,7 @@ production:
     - production
 
 sonarCheck:
+  image: node:16.5.0
   stage: deploy
   needs: [cypress]
   variables:
@@ -164,13 +138,12 @@ sonarCheck:
     SONARQUBE_PROJECT_KEY: $SONARQUBE_PROJECT_KEY
     SONARQUBE_TOKEN: $SONARQUBE_TOKEN
   cache:
-    key: $CI_COMMIT_REF_NAME
+    key: ${CI_COMMIT_REF_SLUG}
     policy: pull
     paths:
-      - ./node_modules/
-      - ./package-lock.json
-      - ./yarn.lock
-      - ./.next/
+      - node_modules
+      - package-lock.json
+      - .next
   before_script:
     - npm install -g sonarqube-scanner
   script:

@@ -10,6 +10,7 @@
     "test": "start-server-and-test start http://localhost:3000 cy:run",
     "test:open": "start-server-and-test start http://localhost:3000 cy:open",
     "cy:run": "cypress run",
+    "cy:run:chrome": "cypress run --browser chrome",
     "cy:open": "cypress open",
     "cy:install": "cypress install",
     "cy:verify": "cypress verify",
