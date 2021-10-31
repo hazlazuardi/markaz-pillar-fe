@@ -67,67 +67,67 @@ linter:
       - .next
   when: on_success
 
-staging:
-  stage: deploy
-  image: ubuntu:latest
-  needs: [cypress, linter]
-  before_script:
-    # Setup SSH deploy keys
-    - apt-get update -y
-    - 'which ssh-agent || ( apt-get install -y openssh-client )'
-    - 'which rsync || ( apt-get install -y rsync )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_STAGING_PRIVATE_KEY" | base64 -d)
-    - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    policy: pull
-    paths:
-      - node_modules
-      - package-lock.json
-      - .next
-  script:
-    - rsync -chvrPt ./markaz-pillar-fe/.env deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
-    - rsync -chvrPt ./markaz-pillar-fe/package.json deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
-    - rsync -chvrPt ./markaz-pillar-fe/next.config.js deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
-    - rsync -chvrPt --delete --links --copy-links ./markaz-pillar-fe/node_modules/ deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/node_modules/
-    - rsync -chvrPt --delete --links --copy-links ./markaz-pillar-fe/.next/ deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/.next/
-    - ssh -i staging-key deploy-ci@staging.markazpillar.afriza.co "systemctl restart nginx.service && systemctl restart frontend.service"
-  when: on_success
-  only:
-    - master
-
-production:
-  stage: deploy
-  image: ubuntu:latest
-  needs: [cypress, linter]
-  before_script:
-    # Setup SSH deploy keys
-    - apt-get update -y
-    - 'which ssh-agent || ( apt-get install -y openssh-client )'
-    - 'which rsync || ( apt-get install -y rsync )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
-    - mkdir -p ~/.ssh
-    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    policy: pull
-    paths:
-      - node_modules
-      - package-lock.json
-      - .next
-  script:
-    - rsync -chvrPt ./markaz-pillar-fe/.env deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
-    - rsync -chvrPt ./markaz-pillar-fe/package.json deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
-    - rsync -chvrPt ./markaz-pillar-fe/next.config.js deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
-    - rsync -chvrPt --delete --links --copy-links ./markaz-pillar-fe/node_modules/ deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/node_modules/
-    - rsync -chvrPt --delete --links --copy-links ./markaz-pillar-fe/.next/ deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/.next/
-    - ssh -i staging-key deploy-ci@staging.markazpillar.afriza.co "systemctl restart nginx.service && systemctl restart frontend.service"
-  when: on_success
-  only:
-    - production
+#staging:
+#  stage: deploy
+#  image: ubuntu:latest
+#  needs: [cypress, linter]
+#  before_script:
+#    # Setup SSH deploy keys
+#    - apt-get update -y
+#    - 'which ssh-agent || ( apt-get install -y openssh-client )'
+#    - 'which rsync || ( apt-get install -y rsync )'
+#    - eval $(ssh-agent -s)
+#    - ssh-add <(echo "$SSH_STAGING_PRIVATE_KEY" | base64 -d)
+#    - mkdir -p ~/.ssh
+#    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+#  cache:
+#    key: ${CI_COMMIT_REF_SLUG}
+#    policy: pull
+#    paths:
+#      - node_modules
+#      - package-lock.json
+#      - .next
+#  script:
+#    - rsync -chvrPt ./markaz-pillar-fe/.env deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
+#    - rsync -chvrPt ./markaz-pillar-fe/package.json deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
+#    - rsync -chvrPt ./markaz-pillar-fe/next.config.js deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
+#    - rsync -chvrPt --delete --links --copy-links ./markaz-pillar-fe/node_modules/ deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/node_modules/
+#    - rsync -chvrPt --delete --links --copy-links ./markaz-pillar-fe/.next/ deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/.next/
+#    - ssh -i staging-key deploy-ci@staging.markazpillar.afriza.co "systemctl restart nginx.service && systemctl restart frontend.service"
+#  when: on_success
+#  only:
+#    - master
+#
+#production:
+#  stage: deploy
+#  image: ubuntu:latest
+#  needs: [cypress, linter]
+#  before_script:
+#    # Setup SSH deploy keys
+#    - apt-get update -y
+#    - 'which ssh-agent || ( apt-get install -y openssh-client )'
+#    - 'which rsync || ( apt-get install -y rsync )'
+#    - eval $(ssh-agent -s)
+#    - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
+#    - mkdir -p ~/.ssh
+#    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+#  cache:
+#    key: ${CI_COMMIT_REF_SLUG}
+#    policy: pull
+#    paths:
+#      - node_modules
+#      - package-lock.json
+#      - .next
+#  script:
+#    - rsync -chvrPt ./markaz-pillar-fe/.env deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
+#    - rsync -chvrPt ./markaz-pillar-fe/package.json deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
+#    - rsync -chvrPt ./markaz-pillar-fe/next.config.js deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/
+#    - rsync -chvrPt --delete --links --copy-links ./markaz-pillar-fe/node_modules/ deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/node_modules/
+#    - rsync -chvrPt --delete --links --copy-links ./markaz-pillar-fe/.next/ deploy-ci@staging.markazpillar.afriza.co:/home/deploy-ci/apps/frontend/.next/
+#    - ssh -i staging-key deploy-ci@staging.markazpillar.afriza.co "systemctl restart nginx.service && systemctl restart frontend.service"
+#  when: on_success
+#  only:
+#    - production
 
 sonarCheck:
   image: node:16.5.0
