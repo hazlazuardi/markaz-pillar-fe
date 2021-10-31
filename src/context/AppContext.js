@@ -1,7 +1,7 @@
 import { createContext, useContext, useMemo, useReducer, useEffect } from "react";
 
 import { AppReducer, initialState, initialFunction, dispatchTypes } from "./AppReducer";
-import { axiosMain } from "../axiosInstances";
+import { axiosFormData, axiosMain } from "../axiosInstances";
 
 const AppContext = createContext();
 
@@ -48,6 +48,7 @@ export function AppWrapper({ children }) {
       localStorage.setItem("currentAccessToken", JSON.stringify(state.currentAccessToken))
       localStorage.setItem("currentRefreshToken", JSON.stringify(state.currentRefreshToken))
       axiosMain.defaults.headers.common["Authorization"] = `Bearer ${state.currentAccessToken}`
+      axiosFormData.defaults.headers.common["Authorization"] = `Bearer ${state.currentAccessToken}`
     }
   }, [state]);
 

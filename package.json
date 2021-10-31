@@ -20,14 +20,17 @@
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.4",
+    "@mui/lab": "^5.0.0-alpha.53",
     "@mui/material": "^5.0.3",
     "@mui/styles": "^5.0.1",
     "axios": "^0.23.0",
     "form-data": "^4.0.0",
     "formidable": "^1.2.2",
+    "istanbul-lib-coverage": "^3.2.0",
     "jwt-decode": "^3.1.2",
     "next": "^11.1.2",
     "next-connect": "^0.10.2",
+    "nyc": "^15.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-dropzone": "^11.4.2",
@@ -39,12 +42,15 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.1",
     "babel-plugin-istanbul": "^6.0.0",
-    "cypress": "^8.4.1",
+    "cypress": "^8.7.0",
+    "cypress-file-upload": "^5.0.8",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
     "start-server-and-test": "^1.14.0"
   },
   "nyc": {
+    "sourceMap": false,
+    "instrument": false,
     "exclude": [
       "pages/api/__coverage__.js"
     ]

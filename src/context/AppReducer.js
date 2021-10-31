@@ -9,7 +9,8 @@ export const dispatchTypes = {
     AUTHENTICATED: "authenticated",
     SNACKBAR_CLOSE: "snackbar_close",
     SNACKBAR_CUSTOM: "snackbar_custom",
-    STATE_LOADED: "state_loaded"
+    STATE_LOADED: "state_loaded",
+    SERVER_ERROR: "server_error"
 }
 
 export const roleType = {
@@ -33,6 +34,8 @@ export const enumRoutes = {
     ADMIN_MARKAZ: "/admin/markaz",
     ADMIN_MARKAZ_CREATE: "/admin/markaz/create",
     ADMIN_SANTRI_CREATE: "/admin/santri/create",
+    ADMIN_MARKAZ_EDIT: "/admin/markaz/edit",
+    ADMIN_SANTRI_EDIT: "/admin/santri/edit",
     LANDING: "/",
 
 };
@@ -50,6 +53,7 @@ export const initialFunction = initialState => {
         currentAccessToken,
         currentRefreshToken,
         snackbarStatus,
+        snackbarSeverity,
         snackbarMessage,
         stateLoaded
     } = initialState;
@@ -59,6 +63,7 @@ export const initialFunction = initialState => {
         currentAccessToken,
         currentRefreshToken,
         snackbarStatus,
+        snackbarSeverity,
         snackbarMessage,
         stateLoaded
     }
@@ -71,6 +76,7 @@ export const initialState = {
     currentAccessToken: "",
     currentRefreshToken: "",
     snackbarStatus: false,
+    snackbarSeverity: "secondary",
     snackbarMessage: "",
     stateLoaded: false
 }
@@ -87,6 +93,7 @@ export const AppReducer = (state, action) => {
                 currentAccessToken: action.payload.currentAccessToken,
                 currentRefreshToken: action.payload.currentRefreshToken,
                 snackbarStatus: true,
+                snackbarSeverity: 'success',
                 snackbarMessage: `Welcome back, ${action.payload.currentUser}`
             }
         }
@@ -94,6 +101,7 @@ export const AppReducer = (state, action) => {
             return {
                 ...state,
                 snackbarStatus: true,
+                snackbarSeverity: 'error',
                 snackbarMessage: `Alamat email atau password salah`
             }
         }
@@ -105,6 +113,7 @@ export const AppReducer = (state, action) => {
                 currentAccessToken: action.payload.currentAccessToken,
                 currentRefreshToken: action.payload.currentRefreshToken,
                 snackbarStatus: true,
+                snackbarSeverity: 'success',
                 snackbarMessage: `Welcome, ${action.payload.currentUser}`
             }
         }
@@ -117,6 +126,7 @@ export const AppReducer = (state, action) => {
                 currentAccessToken: "",
                 currentRefreshToken: "",
                 snackbarStatus: true,
+                snackbarSeverity: 'error',
                 snackbarMessage: action.payload.message
             }
         }
@@ -145,6 +155,7 @@ export const AppReducer = (state, action) => {
                 currentAccessToken: "",
                 currentRefreshToken: "",
                 snackbarStatus: true,
+                snackbarSeverity: 'secondary',
                 snackbarMessage: `Good bye`
             }
         }
@@ -152,6 +163,7 @@ export const AppReducer = (state, action) => {
             return {
                 ...state,
                 snackbarStatus: true,
+                snackbarSeverity: action.payload.severity || 'secondary',
                 snackbarMessage: action.payload.message
             }
         }
@@ -162,6 +174,15 @@ export const AppReducer = (state, action) => {
                 stateLoaded: true
             }
         }
+        case dispatchTypes.SERVER_ERROR: {
+            return {
+                ...state,
+                snackbarStatus: true,
+                snackbarSeverity: 'error',
+                snackbarMessage: "Sorry, Server Error"
+            }
+        }
+
         default:
             return {
                 ...state

@@ -91,12 +91,12 @@ export default function NavBar() {
                 <Container maxWidth="lg" >
 
                     <Link href='/login' passHref>
-                        <Button fullWidth='true' sx={{ mb: '1em' }} variant="contained" color="primary" size='large'>
+                        <Button fullWidth sx={{ mb: '1em' }} variant="contained" color="primary" size='large'>
                             Masuk
                         </Button>
                     </Link>
                     <Link href='/registration' passHref>
-                        <Button fullWidth='true' variant="outlined" color="primary" size='large'>
+                        <Button fullWidth variant="outlined" color="primary" size='large'>
                             Daftar
                         </Button>
                     </Link>
