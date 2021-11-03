@@ -10,8 +10,11 @@ import styles from "../../../styles/Home.module.css";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { useTheme } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
 
 export default function ShowAll(props) {
+const classes = useStyles();
   const {
     children,
     searchBarName,
@@ -34,8 +37,8 @@ export default function ShowAll(props) {
         // className={styles.containergrid}
         sx={{ display: "flex", justifyContent: "center", ml: -1.5 }}
       >
-        <Grid container sx={{ mt: "50px" }}>
-          <Grid item xs={12}>
+        <Grid container sx={{ mt: "30px" }}>
+          <Grid item xs={12} sx={{paddingLeft: "2%"}}>
             <Typography variant="h6" component="h2">
               Daftar {markazOrSantri} <FilterAltOutlinedIcon />
             </Typography>
@@ -54,7 +57,7 @@ export default function ShowAll(props) {
             <Grid item lg={6} sm={6}>
               <Typography variant="subtitle1" component="subtitle1">
                 Show
-                <FormControl sx={{ mx: 1 }}>
+                <FormControl sx={{ mx: 1 }} size="small">
                   <Select
                     value={value}
                     onChange={(e) => {
@@ -79,9 +82,10 @@ export default function ShowAll(props) {
               sm={6}
               //   className={styles.flexEnd}
               pr={3}
-              sx={{ m: "auto", p: "auto" }}
+              sx={{ m: "auto", p: "auto", textAlign: "right"}}
             >
-              <form action="/" method="get">
+              <form action="/" method="get"
+              >
                 <label htmlFor="header-search">
                   <span className="visually-hidden"></span>
                 </label>
@@ -94,13 +98,12 @@ export default function ShowAll(props) {
                   name="s"
                   className="search"
                   value={searchTerm}
+                  size="small"
                   onChange={(event) => {
                     setSearchTerm(event.target.value);
                   }}
                 />
-                {/* <button type="submit" className={styles.btn2}>
-                Cari
-              </button> */}
+                {<Button variant="contained" className={classes.btn}>Cari</Button>}
               </form>
             </Grid>
           </Grid>
@@ -134,7 +137,7 @@ export default function ShowAll(props) {
           </Grid>
         </Grid>
         {children}
-        <Grid item xs={12} mt={5} className={styles.flexEnd}>
+        <Grid item xs={12} mt={12} className={styles.flexEnd}>
           <Pagination
             count={5}
             page={page + 1}
