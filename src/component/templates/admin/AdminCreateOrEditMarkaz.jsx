@@ -109,7 +109,29 @@ function AdminCreateOrEditMarkaz(props) {
 
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                    id='markazContactNameAtComponentAdminCreateOrEditMarkaz'
+                                        name="contactName"
+                                        label="Contact Name"
+                                        fullWidth
+                                        onChange={handleChangeMarkaz}
+                                        value={markaz.contactName}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                    id='markazContactInfoAtComponentAdminCreateOrEditMarkaz'
+                                        name="contactInfo"
+                                        label="Contact Info"
+                                        fullWidth
+                                        onChange={handleChangeMarkaz}
+                                        value={markaz.contactInfo}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={12} >
                                     <LoadingButton id='markazSubmitAtComponentAdminCreateOrEditMarkaz' fullWidth type='submit' loading={loading} loadingIndicator="Menyimpan..." variant="contained">
                                         Simpan
                                     </LoadingButton>

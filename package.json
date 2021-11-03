@@ -42,6 +42,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.1",
     "babel-plugin-istanbul": "^6.0.0",
+    "check-code-coverage": "^1.10.0",
     "cypress": "^8.7.0",
     "cypress-file-upload": "^5.0.8",
     "eslint": "7.32.0",
