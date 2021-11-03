@@ -4,6 +4,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
+import React, { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   pad1: {
@@ -27,44 +29,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function TambahEditMarkaz() {
-    const router = useRouter();
-
-    const { state, dispatch } = useAppContext();
-    const { currentUser } = state;
-
-    const [data, setData] = useState({
-        "namaMarkaz": "",
-        "backgroundMarkaz": "",
-        "kategoriMarkaz": "",
-        "alamatMarkaz": "",
-        "contactPerson": "",
-        "emailWhatsapp": ""
-    });
-    const [error, setError] = useState({
-        status: null,
-        namaMarkaz: "",
-        backgroundMarkaz: "",
-        kategoriMarkaz: "",
-        alamatMarkaz: "",
-        contactPerson: "",
-        emailWhatsapp: ""
-    })
-
-    const handleChange = ({ target }) => {
-        const { name, value } = target;
-        setData((prev) => ({
-            ...prev,
-            [name]: value
-        }));
-        setError((prev => ({
-            ...prev,
-            [name]: ""
-        })))
-    };
-
+export default function TambahDonasiMarkaz() {
   const classes = useStyles();
   const theme = useTheme();
+  const [showTambahDonasi, setShowTambahDonasi] = useState(false);
+
+    function toggle(){
+      setShowTambahDonasi(!showTambahDonasi);
+    }
+
   return (
     <>
     <Typography>
@@ -140,14 +113,81 @@ export default function TambahEditMarkaz() {
                }}
              />
          </Stack>
-         <p>+ Buat Donasi</p>
-         <Stack spacing={2} direction="row"
-         sx= {{
-            justifyContent: 'center'
-         }}>
-             <Button variant="outlined" className={classes.btn2}>Batal</Button>
-             <Button variant="contained" className={classes.btn}>Kirim</Button>
-         </Stack>
+         <p onClick={toggle}>+ Tambah Donasi</p>
+         <div style={{ display: showTambahDonasi?"block":"none"}}>
+         <div className={classes.pad2}>
+            <Stack spacing={2} direction="row"
+              sx= {{
+                 justifyContent: 'center'
+              }}>
+                 <TextField
+                   id="outlined"
+                   label="Nama Donasi"
+                   sx=
+                   {{
+                    width: '100%',
+                   }}
+
+                 />
+                 <div sx={{marginTop:"50%"}}>
+                    <DoDisturbOnIcon color="primary"/>
+                 </div>
+             </Stack>
+         </div>
+         <div className={classes.pad2}>
+             <TextField
+               required
+               id="outlined-required"
+               label="Kategori Donasi"
+               sx=
+               {{
+                width: '100%'
+               }}
+             />
+         </div>
+         <div className={classes.pad2}>
+             <TextField
+               required
+               id="outlined-required"
+               label="Kebutuhan Fasilitas"
+               sx=
+               {{
+                width: '100%'
+               }}
+             />
+         </div>
+         <div className={classes.pad2}>
+             <TextField
+               required
+              id="outlined-number"
+              label="Nominal Yang Dibutuhkan"
+              type="number"
+               sx=
+               {{
+                width: '100%'
+               }}
+             />
+         </div>
+         <div className={classes.pad2}>
+             <TextField
+             disabled
+              id="filled-disabled"
+              label="Jumlah Donasi Saat Ini"
+              type="number"
+               sx=
+               {{
+                width: '100%'
+               }}
+             />
+         </div>
+     </div>
+     <Stack spacing={2} direction="row"
+      sx= {{
+         justifyContent: 'center'
+      }}>
+          <Button variant="outlined" className={classes.btn2}>Batal</Button>
+          <Button variant="contained" className={classes.btn}>Kirim</Button>
+      </Stack>
      </div>
      </Typography>
     </>
