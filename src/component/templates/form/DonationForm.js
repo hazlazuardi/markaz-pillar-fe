@@ -16,8 +16,10 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Snackbar from '@mui/material/Snackbar';
 import Dropzone from '../../modules/Dropzone';
 import { useState } from "react";
+import MuiAlert from '@mui/material/Alert';
 
 const steps = [
     'Informasi Donasi',
@@ -27,9 +29,21 @@ const steps = [
 
 export default function DonationForm(props) {
 
-    const {recipient, markazOrSantri} = props
+    const {recipient, 
+        markazOrSantri, 
+        setImage, 
+        setAmount, 
+        amount,
+        open,
+        handleClose,
+        handleError
+    } = props
 
     const [step, setStep] = useState(0)
+
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     return (
     <Grid container spacing={2}>
@@ -53,16 +67,31 @@ export default function DonationForm(props) {
                     </Typography>
                     <FormControl sx={{ m: 1}} variant="standard">
                         <Input
+                            required
                             id="standard-adornment-amount"
-                            // value={values.amount}
-                            // onChange={handleChange('amount')}
+                            value={amount}
+                            onChange={(e) => { 
+                                if(isNaN(amount)) {
+                                    handleError()
+                                } else {
+                                    handleClose()
+                                }
+                                setAmount(e.target.value)
+                            }}
                             startAdornment={<InputAdornment position="start">Rp.</InputAdornment>}
+                            error={(isNaN(amount))}
                         />
                     </FormControl>
                     <Button variant="contained" onClick={() => {
-                        setStep(1)
-                        console.log(step)
+                            if(!isNaN(amount)) {
+                                setStep(1)
+                            }
                         }}>Selanjutnya</Button>
+                    <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                            Harus Berupa Angka!
+                        </Alert>
+                    </Snackbar>
                 </Box>
                 <Box sx={{textAlign:"center", display: step == 1 ? "flex" : "none", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>
                     <Typography variant="h3" sx={{m : 4, fontWeight:"bold"}}>
@@ -162,7 +191,10 @@ export default function DonationForm(props) {
                             Upload Bukti Pembayaran
                         </Typography>
                         <Box sx={{width:600}}>
-                            <Dropzone/>
+                            <Dropzone
+                            name="paymentproof"
+                            setFile={setImage}
+                            />
                         </Box>
                     </Box>
                     <Box>
