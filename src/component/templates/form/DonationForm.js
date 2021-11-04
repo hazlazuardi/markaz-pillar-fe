@@ -32,11 +32,14 @@ export default function DonationForm(props) {
     const {recipient, 
         markazOrSantri, 
         setImage, 
-        setAmount, 
-        amount,
+        handleChangeDetails, 
+        details,
         open,
         handleClose,
-        handleError
+        handleError,
+        handleSubmit,
+        routerQuery,
+        setDetails
     } = props
 
     const [step, setStep] = useState(0)
@@ -67,29 +70,31 @@ export default function DonationForm(props) {
                     </Typography>
                     <FormControl sx={{ m: 1}} variant="standard">
                         <Input
+                            name="amount"
                             required
                             id="standard-adornment-amount"
-                            value={amount}
+                            value={details.amount}
                             onChange={(e) => { 
-                                if(isNaN(amount)) {
+                                if(isNaN(details.amount)) {
                                     handleError()
                                 } else {
                                     handleClose()
                                 }
-                                setAmount(e.target.value)
+                                handleChangeDetails(e)
                             }}
                             startAdornment={<InputAdornment position="start">Rp.</InputAdornment>}
-                            error={(isNaN(amount))}
+                            error={(isNaN(details.amount))}
                         />
                     </FormControl>
                     <Button variant="contained" onClick={() => {
-                            if(!isNaN(amount)) {
+                            if(!isNaN(details.amount) && details.amount != 0) {
                                 setStep(1)
+                                console.log(details)
                             }
                         }}>Selanjutnya</Button>
                     <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
                         <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-                            Harus Berupa Angka!
+                            Harus Berupa Angka Lebih Dari 0!
                         </Alert>
                     </Snackbar>
                 </Box>
@@ -177,11 +182,9 @@ export default function DonationForm(props) {
                     <Box>
                         <Button sx={{m : 1}} variant="outlined" onClick={() => {
                             setStep(0)
-                            console.log(step)
                             }}>Kembali</Button>
                         <Button sx={{m : 1}} variant="contained" onClick={() => {
                             setStep(2)
-                            console.log(step)
                             }}>Selanjutnya</Button>
                     </Box>
                 </Box>
@@ -200,10 +203,13 @@ export default function DonationForm(props) {
                     <Box>
                         <Button sx={{m : 1}} variant="outlined" onClick={() => {
                             setStep(1)
-                            console.log(step)
                             }}>Kembali</Button>
-                        <Button sx={{m : 1}} variant="contained" onClick={() => {
-                            console.log("Selesai")
+                        <Button sx={{m : 1}} variant="contained" onClick={(e) => {
+                            setDetails((prev) => ({
+                                ...prev,
+                                id: routerQuery,
+                            }));
+                            handleSubmit(e)
                             }}>selesai</Button>
                     </Box>
                 </Box>
