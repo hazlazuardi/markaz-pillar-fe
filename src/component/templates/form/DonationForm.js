@@ -106,12 +106,12 @@ export default function DonationForm(props) {
                             <Typography sx={{fontWeight:"bold"}}>
                                 123456889
                             </Typography>
-                            <Typography>
+                            <Typography onClick={() =>  navigator.clipboard.writeText('123456889')} sx= {{cursor: "pointer"}}>
                                 Salin
                             </Typography>
                         </Box>
                         <Typography>
-                            Lakukan pembayaran sebelum ...
+                            Lakukan pembayaran sebelum DD/MM/YYYY
                         </Typography>
                         </AccordionDetails>
                     </Accordion>
@@ -131,12 +131,12 @@ export default function DonationForm(props) {
                             <Typography sx={{fontWeight:"bold"}}>
                                 123456889
                             </Typography>
-                            <Typography>
+                            <Typography onClick={() =>  navigator.clipboard.writeText('123456889')} sx= {{cursor: "pointer"}}>
                                 Salin
                             </Typography>
                         </Box>
                         <Typography>
-                            Lakukan pembayaran sebelum ...
+                            Lakukan pembayaran sebelum DD/MM/YYYY
                         </Typography>
                         </AccordionDetails>
                     </Accordion>
@@ -156,12 +156,12 @@ export default function DonationForm(props) {
                             <Typography sx={{fontWeight:"bold"}}>
                                 123456889
                             </Typography>
-                            <Typography>
+                            <Typography onClick={() =>  navigator.clipboard.writeText('123456889')} sx= {{cursor: "pointer"}}>
                                 Salin
                             </Typography>
                         </Box>
                         <Typography>
-                            Lakukan pembayaran sebelum ...
+                            Lakukan pembayaran sebelum DD/MM/YYYY
                         </Typography>
                         </AccordionDetails>
                     </Accordion>
