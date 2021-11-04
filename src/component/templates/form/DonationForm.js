@@ -25,7 +25,7 @@ const steps = [
     'Konfirmasi Pembayaran',
     ];
 
-export default function Form(props) {
+export default function DonationForm(props) {
 
     const {recipient, markazOrSantri} = props
 
