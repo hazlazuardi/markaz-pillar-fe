@@ -67,7 +67,7 @@ export default function DonationForm(props) {
             setIsCopied(false);
         }, 4000);
     };
-    // ******************************************  
+    // ******************************************
     // From pages
     // ******************************************
     const handleError = () => {
