@@ -22,7 +22,9 @@ function Detail(props) {
     donatetext,
     adminbutton,
     markazOrSantri,
-    router
+    router,
+    donated,
+    nominal
   } = props;
   const theme = useTheme();
   const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
@@ -42,8 +44,8 @@ function Detail(props) {
               <DetailPic
                 image={image}
                 name={consistent.name}
-                nominal="500.000/1.000.000"
-                progress={50}
+                nominal={`${donated}/${nominal}`}
+                progress={donated/nominal*100}
                 donasi={donatetext}
                 admin={adminbutton}
                 markazOrSantri = {markazOrSantri}
