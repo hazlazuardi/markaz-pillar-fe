@@ -24,9 +24,19 @@ const steps = [
     'Konfirmasi Pembayaran',
     ];
 
-export default function Form(props) {
+export default function DonationForm(props) {
 
-    const {recipient, markazOrSantri} = props
+    const {recipient, 
+        markazOrSantri, 
+        setImage, 
+        handleChangeDetails, 
+        details,
+        handleClose,
+        handleError,
+        handleSubmit,
+        routerQuery,
+        setDetails
+    } = props
 
     const [step, setStep] = useState(0)
 
@@ -52,15 +62,27 @@ export default function Form(props) {
                     </Typography>
                     <FormControl sx={{ m: 1}} variant="standard">
                         <Input
+                            name="amount"
+                            required
                             id="standard-adornment-amount"
-                            // value={values.amount}
-                            // onChange={handleChange('amount')}
+                            value={details.amount}
+                            onChange={(e) => { 
+                                if(isNaN(details.amount)) {
+                                    handleError()
+                                } else {
+                                    handleClose()
+                                }
+                                handleChangeDetails(e)
+                            }}
                             startAdornment={<InputAdornment position="start">Rp.</InputAdornment>}
+                            error={(isNaN(details.amount))}
                         />
                     </FormControl>
                     <Button variant="contained" onClick={() => {
-                        setStep(1)
-                        
+                            if(!isNaN(details.amount) && details.amount != 0) {
+                                setStep(1)
+                                console.log(details)
+                            }
                         }}>Selanjutnya</Button>
                 </Box>
                 <Box sx={{textAlign:"center", display: step == 1 ? "flex" : "none", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>
@@ -147,11 +169,9 @@ export default function Form(props) {
                     <Box>
                         <Button sx={{m : 1}} variant="outlined" onClick={() => {
                             setStep(0)
-                            
                             }}>Kembali</Button>
                         <Button sx={{m : 1}} variant="contained" onClick={() => {
                             setStep(2)
-                            
                             }}>Selanjutnya</Button>
                     </Box>
                 </Box>
@@ -161,16 +181,22 @@ export default function Form(props) {
                             Upload Bukti Pembayaran
                         </Typography>
                         <Box sx={{width:600}}>
-                            <Dropzone/>
+                            <Dropzone
+                            name="paymentproof"
+                            setFile={setImage}
+                            />
                         </Box>
                     </Box>
                     <Box>
                         <Button sx={{m : 1}} variant="outlined" onClick={() => {
                             setStep(1)
-                            
                             }}>Kembali</Button>
-                        <Button sx={{m : 1}} variant="contained" onClick={() => {
-                            return;
+                        <Button sx={{m : 1}} variant="contained" onClick={(e) => {
+                            setDetails((prev) => ({
+                                ...prev,
+                                id: routerQuery,
+                            }));
+                            handleSubmit(e)
                             }}>selesai</Button>
                     </Box>
                 </Box>
