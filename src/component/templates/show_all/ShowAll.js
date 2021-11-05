@@ -8,9 +8,12 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import styles from "../../../styles/Home.module.css";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import Card from "../../modules/Card";
+import { useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
+import { useState } from "react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
@@ -49,6 +52,8 @@ export default function ShowAll(props) {
             margin={0}
             //   direction="column-reverse"
             display="flex"
+            // justifyContent="center"
+            // alignItems="center"
             className={styles.gridheader}
             wrap="reverse"
             //   sx={{ alignItems: "center" }}
@@ -141,9 +146,9 @@ export default function ShowAll(props) {
           <Pagination
             count={5}
             page={page + 1}
-            onChange={(event, valuee) => {
+            onChange={(event, value) => {
               setSearchTerm("");
-              setPage(valuee - 1);
+              setPage(value - 1);
             }}
           />
         </Grid>
