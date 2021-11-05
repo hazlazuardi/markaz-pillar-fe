@@ -17,11 +17,11 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  const response = await fetch(`${BASE_URL}/markaz/search`);
+  const response = await fetch(`${BASE_URL}/markaz/search?n=1000`);
   const data = await response.json();
-  const markaz = data.result;
+  const allMarkaz = data.result;
 
-  const paths = markaz.map((markaz) => ({
+  const paths = allMarkaz.map((markaz) => ({
     params: { id: markaz.id.toString() },
   }));
 

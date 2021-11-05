@@ -10,12 +10,12 @@ export async function getStaticProps(context) {
   await axiosMain
       .get(`santri/?id=${id}`)
       .then(response => {
-        console.log(response);
+        
         santri = response.data.result
         
       })
       .catch(e => {
-        console.log(e.response)
+        
         santri = "error"
       })
   return {
@@ -27,18 +27,16 @@ export async function getStaticProps(context) {
 
 export async function getStaticPaths() {
   var paths = []
-  var santri = []
+  var allSantri = []
   await axiosMain
       .get(`santri/search`)
       .then(response => {
-        console.log(response);
-        santri = response.data.result
-        paths = santri.map((santri) => ({
+        allSantri = response.data.result
+        paths = allSantri.map((santri) => ({
           params: { id: santri.id.toString() },
         }));
       })
       .catch(e => {
-        console.log(e.response)
         throw e.response
       })
   return {

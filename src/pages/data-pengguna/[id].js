@@ -1,4 +1,3 @@
-import Layout from '../../component/layout'
 import styles from '../../styles/Home.module.css'
 import Link from 'next/link'
 

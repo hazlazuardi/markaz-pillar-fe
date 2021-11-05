@@ -42,7 +42,7 @@ export default function AdminMarkazEdit(props) {
             .post(`/admin/markaz/edit?id=${responseMarkaz.id}`, data)
             .then(response => {
                 setLoading(false)
-                console.log(response);
+                
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
@@ -53,11 +53,11 @@ export default function AdminMarkazEdit(props) {
             })
             .catch(error => {
                 setLoading(false)
-                console.log(error);
+                
                 // Check & Handle if error.response is undefined
                 if (!!error.response) {
                     if (error.response.status === 400) {
-                        console.log(error.response.message);
+                        
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
                             payload: {
@@ -66,7 +66,7 @@ export default function AdminMarkazEdit(props) {
                             }
                         });
                     } else if (error.response.status === 413) {
-                        console.log(error.response.message);
+                        
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
                             payload: {
@@ -75,13 +75,13 @@ export default function AdminMarkazEdit(props) {
                             }
                         });
                     } else {
-                        console.log(error.response.message);
+                        
                         dispatch({
                             type: dispatchTypes.SERVER_ERROR
                         });
                     }
                 } else {
-                    console.log(error.response);
+                    
                     dispatch({
                         type: dispatchTypes.SERVER_ERROR
                     });
@@ -117,11 +117,11 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-    const response = await fetch(`${BASE_URL}/markaz/search`);
+    const response = await fetch(`${BASE_URL}/markaz/search?n=1000`);
     const data = await response.json();
-    const markaz = data.result;
+    const allMarkaz = data.result;
 
-    const paths = markaz.map((markaz) => ({
+    const paths = allMarkaz.map((markaz) => ({
         params: { id: markaz.id.toString() },
     }));
 

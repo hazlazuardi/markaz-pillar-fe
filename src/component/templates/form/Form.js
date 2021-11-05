@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -17,7 +17,6 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Dropzone from '../../modules/Dropzone';
-import { useState } from "react";
 
 const steps = [
     'Informasi Donasi',
@@ -61,7 +60,7 @@ export default function Form(props) {
                     </FormControl>
                     <Button variant="contained" onClick={() => {
                         setStep(1)
-                        console.log(step)
+                        
                         }}>Selanjutnya</Button>
                 </Box>
                 <Box sx={{textAlign:"center", display: step == 1 ? "flex" : "none", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>
@@ -148,11 +147,11 @@ export default function Form(props) {
                     <Box>
                         <Button sx={{m : 1}} variant="outlined" onClick={() => {
                             setStep(0)
-                            console.log(step)
+                            
                             }}>Kembali</Button>
                         <Button sx={{m : 1}} variant="contained" onClick={() => {
                             setStep(2)
-                            console.log(step)
+                            
                             }}>Selanjutnya</Button>
                     </Box>
                 </Box>
@@ -168,10 +167,10 @@ export default function Form(props) {
                     <Box>
                         <Button sx={{m : 1}} variant="outlined" onClick={() => {
                             setStep(1)
-                            console.log(step)
+                            
                             }}>Kembali</Button>
                         <Button sx={{m : 1}} variant="contained" onClick={() => {
-                            console.log("Selesai")
+                            return;
                             }}>selesai</Button>
                     </Box>
                 </Box>

@@ -21,9 +21,9 @@ export async function getStaticProps(context) {
 export async function getStaticPaths() {
   const response = await fetch(`${BASE_URL}/santri/search`);
   const data = await response.json();
-  const santri = data.result;
+  const allSantri = data.result;
 
-  const paths = santri.map((santri) => ({
+  const paths = allSantri.map((santri) => ({
     params: { id: santri.id.toString() },
   }));
 

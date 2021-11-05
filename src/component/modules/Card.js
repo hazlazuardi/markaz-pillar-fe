@@ -6,8 +6,6 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import styles from "../../styles/Home.module.css";
 import Link from "next/link";
-import { useAppContext } from '../../context/AppContext'
-import { roleType } from "../../context/AppReducer";
 import {useRouter} from "next/router";
 
 export default function Card(props) {
@@ -15,18 +13,14 @@ export default function Card(props) {
     image,
     name,
     desc,
-    intr_1,
-    intr_2,
-    markazOrSantri,
     id,
-    intr1Butt,
     detail,
     handleDelete
   } = props;
 
   const router = useRouter()
   const path = router.pathname
-  console.log(path)
+  
   return (
     <Grid item>
       <Paper sx={{ width: 300, height: 420 }}>

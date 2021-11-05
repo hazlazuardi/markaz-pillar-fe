@@ -9,10 +9,6 @@ import DonationProgress from "../../modules/DonationProgress";
 import Profile from "../../modules/Profile";
 import ArrowBack from "../../modules/ArrowBack";
 import DetailPic from "../../modules/DetailPic";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useState } from "react";
 
 function Detail(props) {
   const {

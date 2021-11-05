@@ -9,21 +9,22 @@ export async function getStaticProps(context) {
   const id = context.params.id;
   const response = await fetch(`${BASE_URL}/markaz?id=` + id);
   const data = await response.json();
-  const markaz = data.result;
-
+  const markazs = data.result;
+  
   return {
     props: {
-      markaz: markaz,
+      markazs: markazs,
     },
+    revalidate: 1
   };
 }
 
 export async function getStaticPaths() {
-  const response = await fetch(`${BASE_URL}/markaz/search`);
+  const response = await fetch(`${BASE_URL}/markaz/search?n=1000`);
   const data = await response.json();
-  const markaz = data.result;
-
-  const paths = markaz.map((markaz) => ({
+  const markazs = data.result;
+  
+  const paths = markazs.map((markaz) => ({
     params: { id: markaz.id.toString() },
   }));
 
@@ -34,7 +35,7 @@ export async function getStaticPaths() {
 }
 
 export default function santriLayoutDetail(props) {
-  const markaz = props.markaz;
+  const markaz = props.markazs;
 
   const image = markaz.thumbnailURL;
 

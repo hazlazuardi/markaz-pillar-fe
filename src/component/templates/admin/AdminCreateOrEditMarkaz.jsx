@@ -5,9 +5,9 @@ import Grid from "@mui/material/Grid";
 import Dropzone from '../../modules/Dropzone';
 import Typography from '@mui/material/Typography'
 import { FormControl } from "@mui/material";
-import { Select } from "@mui/material";
-import { InputLabel } from "@mui/material";
-import { MenuItem } from "@mui/material";
+import  Select  from "@mui/material/Select";
+import  InputLabel  from "@mui/material/InputLabel";
+import  MenuItem  from "@mui/material/MenuItem";
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useRouter } from 'next/router';
 

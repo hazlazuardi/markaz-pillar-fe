@@ -11,7 +11,7 @@ package-lock.json
 
 # testing
 /coverage
-/.nyc_output/
+**/.nyc_output/*
 
 # next.js
 /.next/
@@ -42,3 +42,6 @@ yarn-error.log*
 # cypress
 /cypress/screenshots
 /cypress/videos
+
+# pages
+**/design-systems.js

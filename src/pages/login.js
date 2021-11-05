@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { useRouter } from 'next/router'
-import { useState } from 'react';
 
 import { useAppContext } from '../context/AppContext'
 import { dispatchTypes } from '../context/AppReducer';
@@ -19,7 +18,7 @@ import Copyright from '../component/modules/Copyright'
 import { FormHelperText, IconButton } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-import { OutlinedInput } from '@mui/material';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -58,7 +57,7 @@ export default function Login() {
       .post("/authenticate", data)
       .then(response => {
         setLoading(false)
-        console.log("login res", response);
+        
         const decodedJWT = jwtDecode(response.data.result.accessToken)
         dispatch({
           type: dispatchTypes.LOGIN_SUCCEED,
@@ -72,7 +71,7 @@ export default function Login() {
       })
       .catch(e => {
         setLoading(false)
-        console.log("login err", e.response)
+        
         setError(true)
         dispatch({
           type: dispatchTypes.LOGIN_FAIL
@@ -101,7 +100,7 @@ export default function Login() {
           sm={4}
           md={7}
         >
-          <Box sx={{position: 'relative', width:'100%', height:'100%', zIndex:'-100'}}
+          <Box sx={{ position: 'relative', width: '100%', height: '100%', zIndex: '-100' }}
           >
             <Image src='https://source.unsplash.com/random' layout='fill'
               objectFit='cover' alt='Backdrop' />

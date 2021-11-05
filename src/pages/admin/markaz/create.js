@@ -53,6 +53,7 @@ function AdminMarkazCreate() {
                 // Check & Handle if error.response is defined
                 if (!!error.response) {
                     if (error.response.status === 400) {
+                        
                         // Check & Handle if bad request (empty fields, etc)
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,

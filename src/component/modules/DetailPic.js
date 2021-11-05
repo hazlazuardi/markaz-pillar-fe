@@ -5,27 +5,25 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { styled } from "@mui/material/styles";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
 
 export default function DetailPic(props) {
-  const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  const BorderLinearProgress = styled(LinearProgress)(({ ttheme }) => ({
     height: 10,
     borderRadius: 5,
     [`&.${linearProgressClasses.colorPrimary}`]: {
       backgroundColor:
-        theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
+        ttheme.palette.grey[ttheme.palette.mode === "light" ? 200 : 800],
     },
     [`& .${linearProgressClasses.bar}`]: {
       borderRadius: 5,
-      backgroundColor: theme.palette.mode === "light" ? "primary" : "#308fe8",
+      backgroundColor: ttheme.palette.mode === "light" ? "primary" : "#308fe8",
     },
   }));
 
   const theme = useTheme();
-  const mediumScreen = useMediaQuery(theme.breakpoints.up("md"));
   const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
   const { name, nominal, progress, image, donasi, admin } = props;
