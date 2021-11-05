@@ -103,10 +103,10 @@ export default function DonasiMarkaz() {
 
     useEffect(() => {
         if(router.isReady) {
-            setDetails({
-                amount : details.amount,
+            setDetails((prev) => ({
+                ...prev,
                 markaz : router.query.id
-            })
+            }))
         }   
     }, [router])
     return (
