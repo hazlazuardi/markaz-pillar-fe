@@ -22,6 +22,7 @@ function Detail(props) {
     donatetext,
     adminbutton,
     markazOrSantri,
+    router
   } = props;
   const theme = useTheme();
   const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
@@ -45,6 +46,9 @@ function Detail(props) {
                 progress={50}
                 donasi={donatetext}
                 admin={adminbutton}
+                markazOrSantri = {markazOrSantri}
+                id = {consistent.id}
+                router= {router}
               />
             </Grid>
           </Container>

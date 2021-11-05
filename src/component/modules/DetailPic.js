@@ -27,8 +27,17 @@ export default function DetailPic(props) {
   const theme = useTheme();
   const mediumScreen = useMediaQuery(theme.breakpoints.up("md"));
   const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
-
-  const { name, nominal, progress, image, donasi, admin } = props;
+  const { 
+    name, 
+    nominal, 
+    progress, 
+    image, 
+    donasi, 
+    admin, 
+    markazOrSantri, 
+    id, 
+    router 
+  } = props;
 
   return (
     <Grid item sm={12} lg={6} sx={{ width: "100%" }}>
@@ -77,7 +86,7 @@ export default function DetailPic(props) {
         </Grid>
         <Grid item sm={12}>
           <Box sx={{ textAlign: "center", width: "auto" }}>
-            <Button variant="contained">{donasi}</Button>
+            <Button variant="contained" onClick={() => {router.replace(`/${markazOrSantri}/donasi/${id}`)}}>{donasi}</Button>
           </Box>
         </Grid>
       </Grid>

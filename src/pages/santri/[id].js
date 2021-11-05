@@ -1,7 +1,7 @@
 import React from "react";
 import DetailTemplate from "../../component/templates/detail/Detail";
 import { axiosMain } from '../../axiosInstances';
-
+import { useRouter } from "next/router";
 
 export async function getStaticProps(context) {
   const id = context.params.id;
@@ -59,6 +59,7 @@ export default function SantriLayoutDetail(props) {
   const consistent = {
     name: santri.name,
     background: santri.background,
+    id : santri.id
   };
 
   const inconsistent = {
@@ -69,6 +70,8 @@ export default function SantriLayoutDetail(props) {
     "Tempat & Tanggal Lahir": `${santri.birthPlace} & ${santri.birthdate}`,
   };
 
+  const router = useRouter()
+
   return (
     <DetailTemplate
       consistent={consistent}
@@ -78,6 +81,7 @@ export default function SantriLayoutDetail(props) {
       image={santri.thumbnailURL}
       markazOrSantri="santri"
       donatetext="Donasi Sekarang"
+      router = {router}
     />
   );
 }
