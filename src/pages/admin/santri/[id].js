@@ -19,7 +19,7 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  const response = await fetch(`${BASE_URL}/santri/search`);
+  const response = await fetch(`${BASE_URL}/santri/search?n=1000`);
   const data = await response.json();
   const allSantri = data.result;
 

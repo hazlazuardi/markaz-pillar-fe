@@ -10,7 +10,7 @@ import useSWR from "swr";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function AdminSantri() {
-  const { data: santris, error, mutate } = useSWR("/santri/search", fetcher)
+  const { data: santris, error, mutate } = useSWR("/santri/search?n=1000", fetcher)
 
   const [gridView, setGridView] = useState(true);
 

@@ -29,7 +29,7 @@ export async function getStaticPaths() {
   var paths = []
   var allSantri = []
   await axiosMain
-      .get(`santri/search`)
+      .get(`/santri/search?n=1000`)
       .then(response => {
         allSantri = response.data.result
         paths = allSantri.map((santri) => ({
