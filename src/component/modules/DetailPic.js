@@ -5,10 +5,11 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { styled } from "@mui/material/styles";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
+import { styled } from "@mui/styles";
+
 
 export default function DetailPic(props) {
   const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -24,9 +25,8 @@ export default function DetailPic(props) {
     },
   }));
 
-  const theme = useTheme();
-  const mediumScreen = useMediaQuery(theme.breakpoints.up("md"));
-  const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+  const themeHook = useTheme();
+  const largeScreen = useMediaQuery(themeHook.breakpoints.up("lg"));
 
   const { name, nominal, progress, image, donasi, admin } = props;
 

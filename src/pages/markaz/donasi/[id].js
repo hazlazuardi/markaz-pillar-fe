@@ -1,6 +1,4 @@
 import React from "react";
-import DetailTemplate from "../../../component/templates/detail/Detail";
-import Layout from "../../../component/layout";
 import Container from "@mui/material/Container";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";

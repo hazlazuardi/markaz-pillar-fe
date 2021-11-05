@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Button, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, SwipeableDrawer, Toolbar, Typography, Container } from '@mui/material'
+import { AppBar, Avatar, Button, IconButton, List, ListItem, ListItemText, SwipeableDrawer, Toolbar, Typography, Container } from '@mui/material'
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { Box, width } from '@mui/system'
@@ -110,29 +110,31 @@ export default function NavBar() {
             {/* App Bar */}
             <Box sx={{ flexGrow: 1, position: 'fixed', width: '100%', zIndex: 1000 }}>
                 <AppBar position='relative' sx={{ backgroundColor: 'rgba(255,255,255,.5)', backdropFilter: 'blur(5px)', }}>
-                    <Toolbar>
-                        <Link href='/' passHref>
-                            <Box sx={{ flexGrow: 1 }}>
-                                <Image src="/logo.png" alt="logo" width={60} height={40} />
-                            </Box>
-                        </ Link>
-                        {pages.map((page, index) => (
-                            <Link key={index} href={page.path} passHref >
-                                <Button color="primary" sx={{ display: { xs: 'none', sm: 'block' } }}>{page.name}</Button>
+                    <Container maxWidth="lg">
+                        <Toolbar disableGutters>
+                            <Link href='/' passHref>
+                                <Box sx={{ flexGrow: 1 }}>
+                                    <Image src="/logo.png" alt="logo" width={60} height={40} />
+                                </Box>
                             </ Link>
-                        ))}
-                        <IconButton
-                            id='menuIconButton'
-                            size="large"
-                            color="primary"
-                            edge="end"  //to counteract margin/padding
-                            aria-label="menu"
-                            sx={{ display: { xs: 'block', sm: 'none' } }}
-                            onClick={toggleDrawer(true)}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                    </Toolbar>
+                            {pages.map((page, index) => (
+                                <Link key={index} href={page.path} passHref >
+                                    <Button color="primary" sx={{ display: { xs: 'none', sm: 'block' } }}>{page.name}</Button>
+                                </ Link>
+                            ))}
+                            <IconButton
+                                id='menuIconButton'
+                                size="large"
+                                color="primary"
+                                edge="end"  //to counteract margin/padding
+                                aria-label="menu"
+                                sx={{ display: { xs: 'block', sm: 'none' } }}
+                                onClick={toggleDrawer(true)}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                        </Toolbar>
+                    </Container>
                 </AppBar>
             </Box>
             {/* Drawer */}

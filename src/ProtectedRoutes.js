@@ -25,4 +25,4 @@ export default function ProtectedRoute({ router, children }) {
 
     return children;
 
-};
+}

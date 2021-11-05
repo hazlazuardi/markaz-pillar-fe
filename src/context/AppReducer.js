@@ -46,7 +46,7 @@ export const enumProtectedRoutes = [
 ]
 
 // Initialize variables
-export const initialFunction = initialState => {
+export const initialFunction = initial => {
     let {
         currentUser,
         currentUserRole,
@@ -56,7 +56,7 @@ export const initialFunction = initialState => {
         snackbarSeverity,
         snackbarMessage,
         stateLoaded
-    } = initialState;
+    } = initial;
     return {
         currentUser,
         currentUserRole,

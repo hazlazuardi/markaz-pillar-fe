@@ -1,0 +1,36 @@
+beforeEach(() => {
+    const testEmail = `achmadafriza123@gmail.com`
+    cy.visit('http://localhost:3000/login')
+    cy.get('#email').type(testEmail)
+    cy.get('#password').type('Admin123')
+    cy.get('#submitAtLogin').contains('Masuk').click()
+    cy.wait(2000)
+    cy.visit('http://localhost:3000/admin/markaz')
+})
+
+describe('Test it is in the correct page', () => {
+    it('Test if create.js contains "Daftar Markaz" or not', () => {
+        cy.visit('http://localhost:3000/admin/markaz')
+        cy.get('h4').contains('Daftar Markaz').should('exist')
+    })
+
+    it('Test if create.js contains "This is create page" or not', () => {
+        cy.visit('http://localhost:3000/admin/markaz')
+        cy.get('p').contains('This is create page').should('not.exist')
+    })
+})
+
+describe(`Test if all components exist and visible`, () => {
+    it('Test if all exists and visible', () => {
+        cy.get('[data-testid=searchbar-at-admin-markaz]').should('exist')
+        cy.get('[data-testid=filterChipButton-at-admin-markaz]').should('exist')
+        cy.get('[data-testid=tab-grid-at-admin-markaz]').contains('Grid').should('exist')
+        cy.get('[data-testid=gridView-at-admin-markaz]').should('exist')
+        cy.get('[data-testid=tab-table-at-admin-markaz]').contains('Table').should('exist').click()
+        cy.get('[data-testid=tableView-at-admin-markaz]').should('exist')
+        cy.get('[data-testid=pagination-at-admin-markaz]').contains('2').should('exist').click()
+        cy.get('[data-testid=showEntries-at-admin-markaz]').should('exist').click().get('li').contains('50').should('exist').click()
+        cy.get('[data-testid=pagination-at-admin-markaz]').contains('2').should('not.exist')
+        cy.get('[data-testid=fab-at-admin-markaz]').should('exist')
+    });
+})

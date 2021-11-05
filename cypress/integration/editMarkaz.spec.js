@@ -4,7 +4,7 @@
 //     localStorage.setItem("currentUserRole", JSON.stringify("ROLE_SUPERUSER"))
 //     localStorage.setItem("currentAccessToken", JSON.stringify('ey@9wersldgndg'))
 //     localStorage.setItem("currentRefreshToken", JSON.stringify('refresh'))
-//     cy.visit('http://localhost:3000/admin/markaz/create')
+//     cy.visit('http://localhost:3000/admin/markaz/edit/1')
 // })
 
 beforeEach(() => {
@@ -14,35 +14,34 @@ beforeEach(() => {
     cy.get('#password').type('Admin123')
     cy.get('#submitAtLogin').contains('Masuk').click()
     cy.wait(2000)
-    cy.visit('http://localhost:3000/admin/markaz/create')
+    cy.visit('http://localhost:3000/admin/markaz/edit/6')
 })
 
 describe('Test it is in the correct page', () => {
-    it('Test if create.js contains "Upload New Thumbnail" or not', () => {
-        cy.visit('http://localhost:3000/admin/markaz/create')
-        cy.get('h5').contains('Upload New Thumbnail').should('exist')
+    it('Test if edit contains "Edit Thumbnail" or not', () => {
+        cy.visit('http://localhost:3000/admin/markaz/edit/6')
+        cy.get('h5').contains('Edit Thumbnail').should('exist')
     })
 
-    it('Test if create.js contains "This is create page" or not', () => {
-        cy.visit('http://localhost:3000/admin/markaz/create')
-        cy.get('p').contains('This is create page').should('not.exist')
+    it('Test if edit contains "This is edit page" or not', () => {
+        cy.visit('http://localhost:3000/admin/markaz/edit/6')
+        cy.get('p').contains('This is edit page').should('not.exist')
     })
 })
 
-describe(`Test functionality of inputs when create new markaz`, () => {
-    const testMarkaz = `Markaz ${Math.random()}`
+describe(`Test functionality of inputs when edit new markaz`, () => {
     it('Test if succeed', () => {
         cy.get(`[data-cy="dropzone"]`).attachFile('low.png', { subjectType: 'drag-n-drop' });
         cy.get(`#dropzone-uploaded`).should('exist');
         cy.get(`#dropzone-uploaded`).contains('low.png');
-        cy.get('#markazNameAtComponentAdminCreateOrEditMarkaz').type(testMarkaz)
+        cy.get('#markazNameAtComponentAdminCreateOrEditMarkaz').type("test-username")
         cy.get('#markazBackgroundAtComponentAdminCreateOrEditMarkaz').type('test-fullName')
         cy.get('#category-select').click().get('li').contains('Markaz Umum').click()
         cy.get('#markazAddressAtComponentAdminCreateOrEditMarkaz').type('Bogor')
-        cy.get('#markazContactInfoAtComponentAdminCreateOrEditMarkaz').type('0811122343')
+        cy.get('#markazContactInfoAtComponentAdminCreateOrEditMarkaz').click().focused().clear().type('0811122343')
         cy.get('#markazContactNameAtComponentAdminCreateOrEditMarkaz').type('Rija')
         cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
-        cy.get('#snackbarAtLayout').contains('Markaz Created').should('exist', { timeout: 5000 })
+        cy.get('#snackbarAtLayout').contains('Markaz Edited').should('exist', { timeout: 5000 })
         cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
     });
 
@@ -50,11 +49,11 @@ describe(`Test functionality of inputs when create new markaz`, () => {
         cy.get(`[data-cy="dropzone"]`).attachFile('low.png', { subjectType: 'drag-n-drop' });
         cy.get(`#dropzone-uploaded`).should('exist');
         cy.get(`#dropzone-uploaded`).contains('low.png');
-        cy.get('#markazNameAtComponentAdminCreateOrEditMarkaz').type("test-username")
+        cy.get('#markazNameAtComponentAdminCreateOrEditMarkaz').click().focused().clear()
         cy.get('#markazBackgroundAtComponentAdminCreateOrEditMarkaz').type('test-fullName')
         cy.get('#category-select').click().get('li').contains('Markaz Umum').click()
         cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
-        cy.get('#snackbarAtLayout').should('exist', {timeout: 5000})
+        cy.get('#snackbarAtLayout').contains('Incorrect edited information').should('exist', { timeout: 5000 })
         cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
     });
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Pagination from '@mui/material/Pagination';
@@ -8,9 +8,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import styles from '../../../styles/Home.module.css';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
-import Card from "../../modules/Card";
-import { useEffect } from 'react';
-import { useState } from 'react';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 export default function AdminTemplate(props) {
@@ -18,18 +15,10 @@ export default function AdminTemplate(props) {
       
     const [value, setValue] = useState(10);
 
-    const [error, setError] = useState({
-    "status": 201,
-    "statusText": ""
-    })
-
     const [page, setPage] = useState(0)
 
     const [searchTerm, setSearchTerm] = useState("")
 
-    const [allData, setAllData] = useState([])
-
-    const [data, setData] = useState([])
 
     return (
         <Container maxWidth="lg" className={styles.container}>
@@ -95,9 +84,9 @@ export default function AdminTemplate(props) {
                     {add}
                 </Grid>
                 <Grid item xs={12} mt={5} className={styles.flexEnd}>
-                    <Pagination count={5} page={page + 1} onChange={(event, value) => {
+                    <Pagination count={5} page={page + 1} onChange={(event, vvalue) => {
                             setSearchTerm("")
-                            setPage(value-1)}
+                            setPage(vvalue-1)}
                         }/>
                 </Grid>
             </Grid>
