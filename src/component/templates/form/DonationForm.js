@@ -20,6 +20,8 @@ import Snackbar from '@mui/material/Snackbar';
 import Dropzone from '../../modules/Dropzone';
 import { useState } from "react";
 import MuiAlert from '@mui/material/Alert';
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 const steps = [
     'Informasi Donasi',
@@ -46,6 +48,9 @@ export default function DonationForm(props) {
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
+
+    const theme = useTheme();
+    const mediumScreen = useMediaQuery(theme.breakpoints.up("md"));
 
     return (
     <Grid container spacing={2}>
@@ -101,7 +106,7 @@ export default function DonationForm(props) {
                     <Typography variant="h3" sx={{m : 4, fontWeight:"bold"}}>
                         Pilih Metode Pembayaran
                     </Typography>
-                    <Box sx={{width : "50%"}}>
+                    <Box sx={{width : mediumScreen ? "50%" : "100%"}}>
                     <Accordion>
                         <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
@@ -192,7 +197,7 @@ export default function DonationForm(props) {
                         <Typography variant="h3" sx={{m : 4, fontWeight:"bold"}}>
                             Upload Bukti Pembayaran
                         </Typography>
-                        <Box sx={{width:600}}>
+                        <Box sx={{width: mediumScreen ? 600 : "inherit"}}>
                             <Dropzone
                             name="paymentproof"
                             setFile={setImage}
