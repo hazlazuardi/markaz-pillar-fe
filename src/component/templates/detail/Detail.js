@@ -22,7 +22,6 @@ function Detail(props) {
     donatetext,
     adminbutton,
     markazOrSantri,
-    router,
     donated,
     nominal
   } = props;
@@ -50,7 +49,6 @@ function Detail(props) {
                 admin={adminbutton}
                 markazOrSantri = {markazOrSantri}
                 id = {consistent.id}
-                router= {router}
               />
             </Grid>
           </Container>

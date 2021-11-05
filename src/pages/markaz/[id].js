@@ -1,6 +1,5 @@
 import React from "react";
 import DetailTemplate from "../../component/templates/detail/Detail";
-import { useRouter } from "next/router";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
@@ -50,8 +49,6 @@ export default function MarkazLayoutDetail(props) {
     "Kebutuhan Fasilitas": markaz.description,
   };
 
-  const router = useRouter()
-
   return (
     <DetailTemplate
       consistent={consistent}
@@ -61,7 +58,6 @@ export default function MarkazLayoutDetail(props) {
       image={image}
       donatetext="Donasi Sekarang"
       markazOrSantri="markaz"
-      router = {router}
     />
   );
 }

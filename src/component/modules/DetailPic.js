@@ -9,6 +9,7 @@ import { styled } from "@mui/material/styles";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
+import Link from "next/link";
 
 export default function DetailPic(props) {
   const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -35,8 +36,7 @@ export default function DetailPic(props) {
     donasi, 
     admin, 
     markazOrSantri, 
-    id, 
-    router 
+    id
   } = props;
 
   return (
@@ -86,7 +86,9 @@ export default function DetailPic(props) {
         </Grid>
         <Grid item sm={12}>
           <Box sx={{ textAlign: "center", width: "auto" }}>
-            <Button variant="contained" onClick={() => {router.replace(`/${markazOrSantri}/donasi/${id}`)}}>{donasi}</Button>
+            <Link href={`/${markazOrSantri}/donasi/` + id} passHref>
+              <Button variant="contained">{donasi}</Button>
+            </Link>
           </Box>
         </Grid>
       </Grid>
