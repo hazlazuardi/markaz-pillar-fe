@@ -16,8 +16,10 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Snackbar from '@mui/material/Snackbar';
 import Dropzone from '../../modules/Dropzone';
 import { useState } from "react";
+import MuiAlert from '@mui/material/Alert';
 
 const steps = [
     'Informasi Donasi',
@@ -27,9 +29,24 @@ const steps = [
 
 export default function DonationForm(props) {
 
-    const {recipient, markazOrSantri} = props
+    const {recipient, 
+        markazOrSantri, 
+        setImage, 
+        handleChangeDetails, 
+        details,
+        open,
+        handleClose,
+        handleError,
+        handleSubmit,
+        routerQuery,
+        setDetails
+    } = props
 
     const [step, setStep] = useState(0)
+
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     return (
     <Grid container spacing={2}>
@@ -53,16 +70,33 @@ export default function DonationForm(props) {
                     </Typography>
                     <FormControl sx={{ m: 1}} variant="standard">
                         <Input
+                            name="amount"
+                            required
                             id="standard-adornment-amount"
-                            // value={values.amount}
-                            // onChange={handleChange('amount')}
+                            value={details.amount}
+                            onChange={(e) => { 
+                                if(isNaN(details.amount)) {
+                                    handleError()
+                                } else {
+                                    handleClose()
+                                }
+                                handleChangeDetails(e)
+                            }}
                             startAdornment={<InputAdornment position="start">Rp.</InputAdornment>}
+                            error={(isNaN(details.amount))}
                         />
                     </FormControl>
                     <Button variant="contained" onClick={() => {
-                        setStep(1)
-                        console.log(step)
+                            if(!isNaN(details.amount) && details.amount != 0) {
+                                setStep(1)
+                                console.log(details)
+                            }
                         }}>Selanjutnya</Button>
+                    <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                            Harus Berupa Angka Lebih Dari 0!
+                        </Alert>
+                    </Snackbar>
                 </Box>
                 <Box sx={{textAlign:"center", display: step == 1 ? "flex" : "none", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>
                     <Typography variant="h3" sx={{m : 4, fontWeight:"bold"}}>
@@ -148,11 +182,9 @@ export default function DonationForm(props) {
                     <Box>
                         <Button sx={{m : 1}} variant="outlined" onClick={() => {
                             setStep(0)
-                            console.log(step)
                             }}>Kembali</Button>
                         <Button sx={{m : 1}} variant="contained" onClick={() => {
                             setStep(2)
-                            console.log(step)
                             }}>Selanjutnya</Button>
                     </Box>
                 </Box>
@@ -162,16 +194,22 @@ export default function DonationForm(props) {
                             Upload Bukti Pembayaran
                         </Typography>
                         <Box sx={{width:600}}>
-                            <Dropzone/>
+                            <Dropzone
+                            name="paymentproof"
+                            setFile={setImage}
+                            />
                         </Box>
                     </Box>
                     <Box>
                         <Button sx={{m : 1}} variant="outlined" onClick={() => {
                             setStep(1)
-                            console.log(step)
                             }}>Kembali</Button>
-                        <Button sx={{m : 1}} variant="contained" onClick={() => {
-                            console.log("Selesai")
+                        <Button sx={{m : 1}} variant="contained" onClick={(e) => {
+                            setDetails((prev) => ({
+                                ...prev,
+                                id: routerQuery,
+                            }));
+                            handleSubmit(e)
                             }}>selesai</Button>
                     </Box>
                 </Box>
