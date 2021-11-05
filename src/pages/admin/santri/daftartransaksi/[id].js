@@ -68,7 +68,7 @@ export default function AdminSantriDaftarTransaksi() {
   return (
     <ShowAllTemplate
       searchBarName="Cari pengguna"
-      markazOrSantri="Transaksi Markaz"
+      markazOrSantri="Transaksi Santri"
       page={page}
       setPage={setPage}
       value={value}
