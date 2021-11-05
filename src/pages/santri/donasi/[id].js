@@ -6,13 +6,13 @@ import { axiosFormData } from "../../../axiosInstances";
 import { useAppContext } from "../../../context/AppContext";
 import { dispatchTypes } from "../../../context/AppReducer";
 
-export default function DonasiMarkaz() {
+export default function DonasiSantri(props) {
     const { dispatch} = useAppContext();
     const router = useRouter()
     const [image, setImage] = useState();
     const [details, setDetails] = useState({
         amount: 0,
-        markaz: null,
+        santri: null,
     });
     const [open, setOpen] = useState(false);
 
@@ -59,7 +59,7 @@ export default function DonasiMarkaz() {
                     }
                 })
 
-                router.replace(`/markaz/${details.markaz}`)
+                router.replace(`/santri/${details.santri}`)
             })
             .catch(error => {
                 setLoading(false)
@@ -105,14 +105,15 @@ export default function DonasiMarkaz() {
         if(router.isReady) {
             setDetails({
                 amount : details.amount,
-                markaz : router.query.id
+                santri : router.query.id
             })
         }   
     }, [router])
+
     return (
         <DonationForm 
-        markazOrSantri={"markaz"} 
-        recipient={"Markaz 1"} 
+        markazOrSantri={"santri"} 
+        recipient={"Santri 1"} 
         setImage = {setImage}
         handleChangeDetails = {handleChangeDetails}
         details = {details}

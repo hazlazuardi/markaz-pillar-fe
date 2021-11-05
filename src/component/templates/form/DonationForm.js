@@ -38,8 +38,7 @@ export default function DonationForm(props) {
         handleClose,
         handleError,
         handleSubmit,
-        routerQuery,
-        setDetails
+        router
     } = props
 
     const [step, setStep] = useState(0)
@@ -204,13 +203,9 @@ export default function DonationForm(props) {
                         <Button sx={{m : 1}} variant="outlined" onClick={() => {
                             setStep(1)
                             }}>Kembali</Button>
-                        <Button sx={{m : 1}} variant="contained" onClick={(e) => {
-                            setDetails((prev) => ({
-                                ...prev,
-                                id: routerQuery,
-                            }));
-                            handleSubmit(e)
-                            }}>selesai</Button>
+                        <Button sx={{m : 1}} variant="contained" onClick={
+                            handleSubmit
+                        }>selesai</Button>
                     </Box>
                 </Box>
             </Container>
