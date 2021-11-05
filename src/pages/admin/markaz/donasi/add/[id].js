@@ -4,13 +4,13 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Typography from '@mui/material/Typography'
-import Dropzone from "../../../../component/modules/Dropzone";
-import { useAppContext } from "../../../../context/AppContext";
+import Dropzone from "../../../../../component/modules/Dropzone";
+import { useAppContext } from "../../../../../context/AppContext";
 import { FormControl } from "@mui/material";
 import { Select } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
-import { dispatchTypes } from "../../../../context/AppReducer";
+import { dispatchTypes } from "../../../../../context/AppReducer";
 import router from "next/router";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -24,9 +24,9 @@ function AdminDonasiCreate() {
     const [thumbnail, setThumbnail] = useState({});
     const [donasi, setDonasi] = useState({
         name: "",
-        background: "",
         category: "",
-        address: "",
+        facility: "",
+        goal: "",
     });
     const form = useRef(null);
 
@@ -52,7 +52,6 @@ function AdminDonasiCreate() {
         for (var pair of data.entries()) {
 
         }
-
 
         await fetch(`${BASE_URL}/admin/donasi`, {
             body: data,
