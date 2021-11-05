@@ -102,12 +102,10 @@ export default function DonasiMarkaz() {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        if(router.isReady) {
-            setDetails((prev) => ({
-                ...prev,
-                markaz : router.query.id
-            }))
-        }   
+        setDetails((prev) => ({
+            ...prev,
+            markaz : router.query.id
+        }))
     }, [router])
     return (
         <DonationForm 

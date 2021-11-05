@@ -102,12 +102,10 @@ export default function DonasiSantri(props) {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        if(router.isReady) {
-            setDetails((prev) => ({
-                ...prev,
-                santri : router.query.id
-            }))
-        }   
+        setDetails((prev) => ({
+            ...prev,
+            santri : router.query.id
+        }))   
     }, [router])
 
     return (
