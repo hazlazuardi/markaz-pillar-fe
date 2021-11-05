@@ -11,7 +11,7 @@ import { axiosMain } from "../../../../axiosInstances";
 import useSWR from "swr";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
-export default function AdminMarkazDaftarTransaksi() {
+export default function AdminSantriDaftarTransaksi() {
   const { data: santris, error, mutate } = useSWR("/santri/search", fetcher)
 
   const notFound = false;
