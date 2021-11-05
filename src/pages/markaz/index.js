@@ -1,11 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import ShowAllTemplate from "../../component/templates/show_all/ShowAll";
 import Card from "../../component/modules/Card";
-import { useState } from "react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
-export async function getStaticProps({}) {
+export async function getStaticProps() {
   const response = await fetch(`${BASE_URL}/markaz/search`);
   const data = await response.json();
   const markaz = data.result;
@@ -40,11 +39,7 @@ export default function MarkazLayout(props) {
       >
         {markaz
           .filter((val) => {
-            if (searchTerm == "") {
-              return val;
-            } else if (
-              val.name.toLowerCase().includes(searchTerm.toLowerCase())
-            ) {
+            if (searchTerm == "" || val.name.toLowerCase().includes(searchTerm.toLowerCase())) {
               return val;
             }
           })

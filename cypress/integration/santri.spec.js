@@ -36,12 +36,12 @@ describe('Navigation', () => {
 
 describe('Test for detail page, it is in the correct page', () => {
     it('Test if detail.js contains "Jenis Kelamin" or not', () => {
-        cy.visit('http://localhost:3000/santri/1')
+        cy.visit('http://localhost:3000/santri/6')
         cy.get('p').contains('Jenis Kelamin').should('exist')
     })
 
     it('Test if detail.js contains "Kategori" or not', () => {
-        cy.visit('http://localhost:3000/santri/1')
+        cy.visit('http://localhost:3000/santri/6')
         cy.get('p').contains('Kategori').should('not.exist')
     })
 })

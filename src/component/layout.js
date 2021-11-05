@@ -1,10 +1,9 @@
-import { forwardRef } from 'react';
+import { forwardRef, useEffect } from 'react';
 import Navbar from './modules/NavBar';
 import { useRouter } from 'next/router'
-import { Snackbar } from '@mui/material';
+import { Snackbar, Container } from '@mui/material';
 import { useAppContext } from '../context/AppContext';
 import { dispatchTypes } from '../context/AppReducer';
-import { useEffect } from 'react';
 import { Box } from '@mui/system';
 import MuiAlert from '@mui/material/Alert';
 
@@ -19,7 +18,7 @@ export default function Layout({ children }) {
         return <MuiAlert elevation={2} ref={ref} variant="filled" {...props} />;
     });
     useEffect(() => {
-
+        return;
     }, [snackbarStatus])
     return (
         <>
@@ -36,9 +35,11 @@ export default function Layout({ children }) {
                     {snackbarMessage}
                 </Alert>
             </Snackbar>
-            {showHeader && <Box sx={{ height: '4em' }} />}
-            {children}
-            {showHeader && <Box sx={{ height: '6em' }} />}
+            {showHeader && <Box sx={{ height: '5em' }} />}
+            { showHeader ?  (<Container maxWidth="lg">
+                {children}
+            </Container>) : children }
+            {showHeader && <Box sx={{ height: '10em' }} />}
         </>
     )
 }
