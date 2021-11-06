@@ -7,7 +7,11 @@ import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserT
 import GridView from "../../../component/templates/admin/admin-grid";
 import TableView from "../../../component/templates/admin/admin-table";
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = url => axiosMain.get(url).then(res => {
+  console.log(res);
+  return res.data
+
+})
 
 export default function AdminMarkaz() {
   const [page, setPage] = useState(1);
@@ -43,6 +47,7 @@ export default function AdminMarkaz() {
   return (
     <>
       <AdminOrUserTemplate
+        isAdmin
         variant='markaz'
         GridView={GridViewMarkaz}
         TableView={TableViewMarkaz}

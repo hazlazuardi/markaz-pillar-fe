@@ -45,6 +45,7 @@ export default function AdminSantri() {
   return (
     <>
       <AdminOrUserTemplate
+        isAdmin
         variant='santri'
         GridView={GridViewMarkaz}
         TableView={TableViewMarkaz}

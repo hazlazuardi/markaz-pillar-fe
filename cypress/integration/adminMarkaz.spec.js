@@ -38,7 +38,7 @@ describe(`Test if all components exist and visible`, () => {
         cy.get('[data-testid=tableView-at-admin-or-user-template]').should('exist')
         cy.get('[data-testid=name-at-table-row]').should('exist');
         cy.get('[data-testid=pagination-at-admin-or-user-template]').contains('2').should('exist').click()
-        cy.get('[data-testid=showEntries-at-admin-or-user-template]').should('exist').click().get('li').contains('50').should('exist').click()
+        cy.get('[data-testid=showEntries-at-admin-or-user-template]').should('exist').click().get('li').contains('100').should('exist').click()
         cy.get('[data-testid=pagination-at-admin-or-user-template]').contains('2').should('not.exist')
         cy.get('[data-testid=fab-at-admin-or-user-template]').should('exist')
     });
