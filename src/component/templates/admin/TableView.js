@@ -103,9 +103,19 @@ export default function TableView(props) {
     } else if (santriormarkaz === "pengguna") {
       field = user.address;
     }
-
     return field;
   }
+
+  // function Field_six(user, field) {
+  //   if (santriormarkaz === "santri" || santriormarkaz === "markaz") {
+  //     field = <Button>Lihat Daftar</Button>;
+  //   } else {
+  //     field = "";
+  //   }
+  //   return field;
+  // }
+
+  // console.log("tableVew", santriormarkaz);
 
   return (
     <TableData
@@ -124,6 +134,7 @@ export default function TableView(props) {
           domisili={Field_three(user, santriormarkaz)}
           kelamin={Field_four(user, santriormarkaz)}
           tanggal={Field_five(user, santriormarkaz)}
+          // fieldsix={Field_six(user, santriormarkaz)}
           santriormarkaz={santriormarkaz}
           detail={detail}
           isDonasi={isDonasi}

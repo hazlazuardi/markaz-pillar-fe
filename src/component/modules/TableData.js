@@ -30,6 +30,7 @@ export default function CustomizedTables(props) {
     tableTanggalLahir,
     santriormarkaz,
   } = props;
+  // console.log(santriormarkaz);
 
   return (
     <TableContainer component={Paper}>
