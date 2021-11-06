@@ -9,6 +9,7 @@ import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
 import Link from "next/link";
+import { styled } from '@mui/system';
 
 export default function DetailPic(props) {
   const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
