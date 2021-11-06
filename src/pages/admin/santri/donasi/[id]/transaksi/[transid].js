@@ -18,7 +18,7 @@ export default function TransaksiMarkaz() {
     data: markazs,
     error,
     mutate,
-  } = useSWR("/admin/transaction?page=0&n=10&santri=" + transid, fetcher);
+  } = useSWR("/admin/transaction?page=0&n=10&id=" + transid, fetcher);
   const [page, setPage] = useState(0);
 
   const [searchTerm, setSearchTerm] = useState("");

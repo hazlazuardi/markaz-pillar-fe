@@ -1,5 +1,5 @@
 import ShowAllTemplate from "../../../../../../component/templates/show_all/ShowAll";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TableView from "../../../../../../component/templates/admin/Admin-table";
 import Fab from "@mui/material/Fab";
@@ -18,7 +18,7 @@ export default function TransaksiMarkaz() {
     data: markazs,
     error,
     mutate,
-  } = useSWR("/admin/transaction?page=0&n=10&markaz=" + transid, fetcher);
+  } = useSWR("/admin/transaction?page=0&n=10&id=" + transid, fetcher);
   const [page, setPage] = useState(0);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,46 +26,6 @@ export default function TransaksiMarkaz() {
   const [value, setValue] = useState(10);
 
   const [gridView, setGridView] = useState(true);
-
-  const gridview = (
-    <Button
-      style={{
-        color: "#004f5d",
-        backgroundColor: "#ffffff",
-        fontWeight: "bold",
-        textDecoration: "underline",
-      }}
-      onClick={() => setGridView(true)}
-    >
-      Grid View
-    </Button>
-  );
-  const tableview = (
-    <Button
-      style={{
-        color: "#004f5d",
-        backgroundColor: "#ffffff",
-        fontWeight: "bold",
-        textDecoration: "underline",
-      }}
-      onClick={() => setGridView(false)}
-    >
-      Table View
-    </Button>
-  );
-
-  const create = (
-    <Link href="markaz/create" underline="none">
-      <Fab
-        sx={{ position: "fixed", right: "3em", bottom: "3em" }}
-        color="primary"
-        aria-label="add"
-      >
-        <AddIcon />
-      </Fab>
-    </Link>
-  );
-  // console.log(staticData);
 
   const search = () => {
     markazs.result &&
@@ -115,6 +75,7 @@ export default function TransaksiMarkaz() {
         tableDomisili="Nominal Donasi"
         tableJenisKelamin="Status"
         isDonasi
+        transid={idtrans}
       />
     </ShowAllTemplate>
   );

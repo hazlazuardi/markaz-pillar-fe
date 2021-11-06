@@ -62,11 +62,7 @@ export default function TableView(props) {
     if (santriormarkaz === "santri") {
       field = genderConverter(user.gender);
     } else if (santriormarkaz === "markaz") {
-<<<<<<< HEAD
       field = user.contactName;
-=======
-      field = user.contactPerson;
->>>>>>> cda128c (feat: created layout for transaction)
     } else if (santriormarkaz === "donasi") {
       field = user.donated;
     } else if (santriormarkaz === "transaksi") {
@@ -99,11 +95,7 @@ export default function TableView(props) {
     if (santriormarkaz === "santri") {
       field = user.birthDate;
     } else if (santriormarkaz === "markaz") {
-<<<<<<< HEAD
       field = user.contactInfo;
-=======
-      field = "wisnu";
->>>>>>> cda128c (feat: created layout for transaction)
     } else if (santriormarkaz === "donasi") {
       field = user.isActive ? "Donasi Ditampilkan" : "Donasi Disembunyikan";
     } else if (santriormarkaz === "transaksi") {

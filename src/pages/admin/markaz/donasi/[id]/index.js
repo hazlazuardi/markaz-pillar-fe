@@ -1,5 +1,5 @@
 import ShowAllTemplate from "../../../../../component/templates/show_all/ShowAll";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import GridView from "../../../../../component/templates/admin/admin-grid";
 import TableView from "../../../../../component/templates/admin/Admin-table";
@@ -27,6 +27,23 @@ export default function DonasiMarkaz() {
   const [value, setValue] = useState(10);
 
   const [gridView, setGridView] = useState(true);
+
+  const [iddonasi, setId] = useState();
+
+  useEffect(() => {
+    setId(router.query.id);
+  }, [router]);
+
+  const [idtrans, setIdtrans] = useState();
+
+  useEffect(() => {
+    setIdtrans(router.query.transid);
+  }, [router]);
+
+  console.log(markazs);
+  console.log(typeof markazs);
+
+  // console.log("meki ", iddonasi);
 
   const gridview = (
     <Button
@@ -116,6 +133,7 @@ export default function DonasiMarkaz() {
         tableJenisKelamin="Jumlah Donasi Terkumpul"
         tableTanggalLahir="Status"
         isDonasi
+        iddonasi={iddonasi}
       />
     </ShowAllTemplate>
   );
