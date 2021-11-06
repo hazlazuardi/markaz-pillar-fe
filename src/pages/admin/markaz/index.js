@@ -12,12 +12,12 @@ const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function AdminMarkaz() {
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const { data: markazs, error, mutate } = useSWR(`/markaz/search?page=${page - 1}&n=${entries}`, fetcher)
+  const { data: responseMarkaz, error, mutate } = useSWR(`/markaz/search?page=${page - 1}&n=${entries}`, fetcher)
 
   // *******************************************************
   // Delete
   // *******************************************************
-  const handleDelete = async (id) => {
+  const handleDeleteMarkaz = async (id) => {
     await axiosMain.delete(`/admin/markaz?id=${id}`)
       .then(response => {
         mutate();
@@ -30,20 +30,27 @@ export default function AdminMarkaz() {
       })
   }
 
+  const GridViewMarkaz = (
+    <GridView data={responseMarkaz} detail="admin/markaz" handleDelete={handleDeleteMarkaz} />
+  )
 
 
+  const TableViewMarkaz = (
+    <TableView data={responseMarkaz} detail="admin/markaz" handleDelete={handleDeleteMarkaz} />
+  )
 
 
   return (
     <>
       <AdminOrUserTemplate
-        GridView={<GridView data={markazs} detail="admin/markaz" handleDelete={handleDelete} />}
-        TableView={<TableView data={markazs} detail="admin/markaz" handleDelete={handleDelete} />}
+        variant='markaz'
+        GridView={GridViewMarkaz}
+        TableView={TableViewMarkaz}
         entries={entries}
         setEntries={setEntries}
         page={page}
         setPage={setPage}
-        data={markazs}
+        data={responseMarkaz}
         error={error}
       />
     </>

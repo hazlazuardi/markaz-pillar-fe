@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import styles from "../../styles/Home.module.css";
 import Link from "next/link";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 export default function Card(props) {
   const {
@@ -20,7 +20,7 @@ export default function Card(props) {
 
   const router = useRouter()
   const path = router.pathname
-  
+
   return (
     <Grid item>
       <Paper sx={{ width: 300, height: 420 }}>
@@ -40,9 +40,9 @@ export default function Card(props) {
         />
         <Grid container spacing={2} className={styles.textCenter}>
           <Grid item xs={12} mt={2}>
-            <Typography variant="h6">
-              <Link href={`/${detail}/` + id}>{name}</Link>
-            </Typography>
+            <Link  href={`/${detail}/` + id} passHref>
+              <Typography data-testid='name-at-card' variant="h6">{name}</Typography>
+            </Link>
           </Grid>
           <Grid
             item

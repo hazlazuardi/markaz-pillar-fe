@@ -10,7 +10,7 @@ beforeEach(() => {
 
 describe('Test it is in the correct page', () => {
     it('Test if admin markaz page contains "Daftar Markaz" or not', () => {
-        cy.get('h4').contains('Daftar Markaz').should('exist')
+        cy.get('[data-testid=titlePage-at-admin-or-user-template]').contains('Daftar Markaz', { matchCase: false }).should('exist')
     })
 
     it('Test if admin markaz page contains "This is admin page" or not', () => {
@@ -29,15 +29,17 @@ describe('Test it is in the correct page', () => {
 
 describe(`Test if all components exist and visible`, () => {
     it('Test if all exists and visible', () => {
-        cy.get('[data-testid=searchbar-at-admin-markaz]').should('exist')
-        cy.get('[data-testid=filterChipButton-at-admin-markaz]').should('exist')
-        cy.get('[data-testid=tab-grid-at-admin-markaz]').contains('Grid').should('exist')
-        cy.get('[data-testid=gridView-at-admin-markaz]').should('exist')
-        cy.get('[data-testid=tab-table-at-admin-markaz]').contains('Table').should('exist').click()
-        cy.get('[data-testid=tableView-at-admin-markaz]').should('exist')
-        cy.get('[data-testid=pagination-at-admin-markaz]').contains('2').should('exist').click()
-        cy.get('[data-testid=showEntries-at-admin-markaz]').should('exist').click().get('li').contains('50').should('exist').click()
-        cy.get('[data-testid=pagination-at-admin-markaz]').contains('2').should('not.exist')
-        cy.get('[data-testid=fab-at-admin-markaz]').should('exist')
+        cy.get('[data-testid=searchbar-at-admin-or-user-template]').should('exist')
+        cy.get('[data-testid=filterChipButton-at-admin-or-user-template]').should('exist')
+        cy.get('[data-testid=tab-grid-at-admin-or-user-template]').contains('Grid').should('exist')
+        cy.get('[data-testid=gridView-at-admin-or-user-template]').should('exist')
+        cy.get('[data-testid=name-at-card]').should('exist');
+        cy.get('[data-testid=tab-table-at-admin-or-user-template]').contains('Table').should('exist').click()
+        cy.get('[data-testid=tableView-at-admin-or-user-template]').should('exist')
+        cy.get('[data-testid=name-at-table-row]').should('exist');
+        cy.get('[data-testid=pagination-at-admin-or-user-template]').contains('2').should('exist').click()
+        cy.get('[data-testid=showEntries-at-admin-or-user-template]').should('exist').click().get('li').contains('50').should('exist').click()
+        cy.get('[data-testid=pagination-at-admin-or-user-template]').contains('2').should('not.exist')
+        cy.get('[data-testid=fab-at-admin-or-user-template]').should('exist')
     });
 })
