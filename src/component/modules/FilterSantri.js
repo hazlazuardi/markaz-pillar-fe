@@ -69,7 +69,7 @@ export default function FilterSantri(props) {
   const [value, setValue] = React.useState("");
 
   const handleChangeSort = (event) => {
-    // setChecked(event.target.checked);
+    setChecked(event.target.checked);
     setValue(event.target.value);
     if (value === "desc") {
       setSort(filter.sort[0]);
@@ -79,7 +79,7 @@ export default function FilterSantri(props) {
   };
 
   const handleChangeAge = (event) => {
-    // setChecked(event.target.checked);
+    setChecked(event.target.checked);
     setValue(event.target.value);
     if (value === "desc") {
       setSort(filter.age[0]);
