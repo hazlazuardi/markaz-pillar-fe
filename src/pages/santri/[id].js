@@ -66,7 +66,7 @@ export default function SantriLayoutDetail(props) {
     "Jenis Kelamin": santri.gender,
     "Domisili Asal": santri.birthPlace,
     "Kebutuhan Beasiswa": santri.desc,
-    "Tempat & Tanggal Lahir": `${santri.birthPlace} & ${santri.birthdate}`,
+    "Tempat & Tanggal Lahir": `${santri.birthPlace}, ${santri.birthDate}`,
   };
 
   return (
