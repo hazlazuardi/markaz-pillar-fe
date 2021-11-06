@@ -1,6 +1,9 @@
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+<<<<<<< HEAD
 import { FilterList } from "@mui/icons-material";
 import { Chip } from "@mui/material";
+=======
+>>>>>>> 8fe651a (before rebasing)
 import Grid from "@mui/material/Grid";
 import * as React from "react";
 import Button from "@mui/material/Button";
@@ -20,6 +23,10 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+<<<<<<< HEAD
+=======
+// import { Responsive } from "./Responsive";
+>>>>>>> 8fe651a (before rebasing)
 import PropTypes from "prop-types";
 import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
@@ -53,6 +60,7 @@ const Puller = styled(Box)(({ theme }) => ({
 }));
 
 export default function FilterSantriMobile(props) {
+<<<<<<< HEAD
   const {
     setSort,
     filter,
@@ -62,6 +70,9 @@ export default function FilterSantriMobile(props) {
     setNameFilter,
     mutate,
   } = props;
+=======
+  const { setSort, filter } = props;
+>>>>>>> 8fe651a (before rebasing)
 
   const [open, setOpen] = React.useState(false);
   const [checked, setChecked] = React.useState(true);
@@ -77,6 +88,7 @@ export default function FilterSantriMobile(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
+<<<<<<< HEAD
   const handleChangeAge = (event) => {
     setAgeFilter(event.target.value);
     setNameFilter("");
@@ -88,6 +100,27 @@ export default function FilterSantriMobile(props) {
     setAgeFilter("");
     mutate();
   };
+=======
+    const handleChangeSort = (event) => {
+        // setChecked(event.target.checked);
+        setValue(event.target.value);
+        if (value === "desc") {
+          setSort(filter.sort[0]);
+        } else if (value === "asc") {
+          setSort(filter.sort[1]);
+        }
+      };
+    
+      const handleChangeAge = (event) => {
+        // setChecked(event.target.checked);
+        setValue(event.target.value);
+        if (value === "desc") {
+          setSort(filter.age[0]);
+        } else if (value === "asc") {
+          setSort(filter.age[1]);
+        }
+      };
+>>>>>>> 8fe651a (before rebasing)
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -132,11 +165,15 @@ export default function FilterSantriMobile(props) {
         aria-haspopup="true"
         onClick={handleToggle}
       >
+<<<<<<< HEAD
        <Chip
           data-testid="filterChipButton-at-admin-or-user-template"
           label="Filter"
           icon={<FilterList />}
         />
+=======
+        <FilterAltOutlinedIcon />
+>>>>>>> 8fe651a (before rebasing)
       </Button>
       <Root>
         <CssBaseline />
@@ -209,17 +246,29 @@ export default function FilterSantriMobile(props) {
                     <AccordionDetails>
                       <FormControl component="fieldset">
                         <RadioGroup
+<<<<<<< HEAD
                           value={ageFilter}
+=======
+                          value={value}
+>>>>>>> 8fe651a (before rebasing)
                           onChange={handleChangeAge}
                         >
                           <FormControlLabel
                             control={<Radio />}
+<<<<<<< HEAD
                             value="DESC"
+=======
+                            value="asc"
+>>>>>>> 8fe651a (before rebasing)
                             label="Termuda"
                           />
                           <FormControlLabel
                             control={<Radio />}
+<<<<<<< HEAD
                             value="ASC"
+=======
+                            value="desc"
+>>>>>>> 8fe651a (before rebasing)
                             label="Tertua"
                           />
                         </RadioGroup>
@@ -229,12 +278,18 @@ export default function FilterSantriMobile(props) {
                   <Accordion>
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
+<<<<<<< HEAD
                       aria-controls="panel2a-content"
                       id="panel2a-header"
+=======
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+>>>>>>> 8fe651a (before rebasing)
                     >
                       <Typography>Urutkan Nama</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
+<<<<<<< HEAD
                       <FormControl component="fieldset">
                         <RadioGroup
                           value={nameFilter}
@@ -251,15 +306,46 @@ export default function FilterSantriMobile(props) {
                             label="Z-A"
                           />
                         </RadioGroup>
+=======
+                    <FormControl component="fieldset">
+                      <RadioGroup value={value} onChange={handleChangeSort}>
+                        <FormControlLabel
+                          control={<Radio />}
+                          value="desc"
+                          label="A-Z"
+                        />
+                        <FormControlLabel
+                          control={<Radio />}
+                          value="asc"
+                          label="Z-A"
+                        />
+                      </RadioGroup>
+>>>>>>> 8fe651a (before rebasing)
                       </FormControl>
                     </AccordionDetails>
                   </Accordion>
                 </Box>
               </ClickAwayListener>
+<<<<<<< HEAD
+=======
+              {/* // </Paper> */}
+              {/* </Grow> */}
+              {/* )} */}
+              {/* </Popper> */}
+>>>>>>> 8fe651a (before rebasing)
             </StyledBox>
           </SwipeableDrawer>
         </ClickAwayListener>
       </Root>
+<<<<<<< HEAD
+=======
+      {/* <Responsive displayIn={["Laptop"]}> */}
+
+      {/* </Responsive> */}
+      {/* <Responsive displayIn={["Mobile"]}>
+        noooooooo
+      </Responsive> */}
+>>>>>>> 8fe651a (before rebasing)
     </>
   );
 }
