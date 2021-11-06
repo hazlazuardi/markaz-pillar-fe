@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import React, { useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import ShowAllTemplate from "../../component/templates/show_all/ShowAll";
 import Card from "../../component/modules/Card";
 
@@ -45,9 +44,9 @@ export async function getStaticProps() {
     await responseFilterCategoryPembangunan.json();
   const markazCategoryPembangunan = dataCategoryPembangunan.result;
 
-  console.log("response", responseFilterCategoryPembangunan)
-  console.log("data", dataCategoryPembangunan)
-  console.log("markaz", markazCategoryPembangunan)
+  // console.log("response", responseFilterCategoryPembangunan);
+  // console.log("data", dataCategoryPembangunan);
+  // console.log("markaz", markazCategoryPembangunan);
 
   const responseFilterCategoryRenovasi = await fetch(
     `${BASE_URL}/markaz/search?category=RENOVASI`
@@ -150,7 +149,7 @@ export default function MarkazLayout(props) {
   // useEffect(() => {
   //   function handleChange() {
 
-  //   } 
+  //   }
 
   // }, [props.markazAsc,])
 
@@ -162,42 +161,42 @@ export default function MarkazLayout(props) {
   // if (markazSort.length == 0) {
   //   return <p>Loading...</p>;
   // } else {
-    return (
-      <ShowAllTemplate
-        searchBarName="Cari Markaz"
-        markazOrSantri="Markaz"
-        page={page}
-        setPage={setPage}
-        value={value}
-        setValue={setValue}
-        setSearchTerm={setSearchTerm}
-        setSort={setMarkazSort}
-        filter={filter}
-      >
-        {markazSort
-          .filter((val) => {
-            if (searchTerm == "") {
-              return val;
-            } else if (
-              val.name.toLowerCase().includes(searchTerm.toLowerCase())
-            ) {
-              return val;
-            }
-          })
-          .map((val, key) => (
-            <Card
-              key={val.id}
-              id={val.id}
-              image={val.thumbnailURL}
-              name={val.name}
-              desc={val.background}
-              intr_1="Donasi"
-              intr_2="Lihat Detail"
-              markazOrSantri="markaz"
-              detail="markaz"
-            />
-          ))}
-      </ShowAllTemplate>
-    );
-  }
+  return (
+    <ShowAllTemplate
+      searchBarName="Cari Markaz"
+      markazOrSantri="Markaz"
+      page={page}
+      setPage={setPage}
+      value={value}
+      setValue={setValue}
+      setSearchTerm={setSearchTerm}
+      setSort={setMarkazSort}
+      filter={filter}
+    >
+      {markazSort
+        .filter((val) => {
+          if (searchTerm == "") {
+            return val;
+          } else if (
+            val.name.toLowerCase().includes(searchTerm.toLowerCase())
+          ) {
+            return val;
+          }
+        })
+        .map((val, key) => (
+          <Card
+            key={val.id}
+            id={val.id}
+            image={val.thumbnailURL}
+            name={val.name}
+            desc={val.background}
+            intr_1="Donasi"
+            intr_2="Lihat Detail"
+            markazOrSantri="markaz"
+            detail="markaz"
+          />
+        ))}
+    </ShowAllTemplate>
+  );
+}
 // }
