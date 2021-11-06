@@ -39,7 +39,7 @@ describe(`Test functionality of inputs when edit new markaz`, () => {
         cy.get('#markazContactInfoAtComponentAdminCreateOrEditMarkaz').click().focused().clear().type('0811122343')
         cy.get('#markazContactNameAtComponentAdminCreateOrEditMarkaz').type('Rija')
         cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
-//        cy.get('#snackbarAtLayout').contains('Markaz Edited').should('exist', { timeout: 5000 })
+        cy.get('#snackbarAtLayout').contains('Markaz Edited').should('exist', { timeout: 5000 })
         cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
     });
 
