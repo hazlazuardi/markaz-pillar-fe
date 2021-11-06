@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ShowAllTemplate from "../../component/templates/show_all/ShowAll";
 import Card from "../../component/modules/Card";
-import { useState } from "react";
 import { axiosMain } from "../../axiosInstances";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
@@ -80,6 +79,41 @@ export default function SantriLayout(props) {
     console.log("santris", santriAgeDesc);
     console.log("santris2", santriAgeAsc);
   }
+
+  // const handleChangeSort = (event) => {
+  //   setChecked(event.target.checked);
+  //   setValue(event.target.value);
+  //   if (value === "desc") {
+  //     setSort(filter.sort[0]);
+  //   } else if (value === "asc") {
+  //     setSort(filter.sort[1]);
+  //   }
+  // };
+
+  // const handleChangeAge = (event) => {
+  //   setChecked(event.target.checked);
+  //   setValue(event.target.value);
+  //   if (value === "desc") {
+  //     setSort(filter.age[0]);
+  //   } else if (value === "asc") {
+  //     setSort(filter.age[1]);
+  //   }
+  // };
+
+  // const handler = {
+  //   function: [handleChangeAge, handleChangeSort],
+  //   placeholder: ["Urutkan Umur", "Urutkan Nama"],
+  // }
+
+  // const filterData = {
+  //   placeholder: "Urutkan Umur",
+
+  // }
+
+  // const filterDataDetail = {
+  //   val="asc",
+  //   label="Termuda"
+  // }
 
   const handleChange = async (qpage, qsearchTerm, qvalue) => {
     axiosMain
