@@ -10,12 +10,10 @@ beforeEach(() => {
 
 describe('Test it is in the correct page', () => {
     it('Test if admin markaz page contains "Daftar Markaz" or not', () => {
-        cy.visit('http://localhost:3000/admin/markaz')
         cy.get('h4').contains('Daftar Markaz').should('exist')
     })
 
     it('Test if admin markaz page contains "This is admin page" or not', () => {
-        cy.visit('http://localhost:3000/admin/markaz')
         cy.get('p').contains('This is admin page').should('not.exist')
     })
 

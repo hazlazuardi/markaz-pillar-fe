@@ -1,13 +1,11 @@
 import React from 'react'
 
-function AdminSantri() {
+function index() {
   return (
     <div>
-      <p>
-        This is admin page
-      </p>
+      <p>This is admin page</p>
     </div>
   )
 }
 
-export default AdminSantri
+export default index
