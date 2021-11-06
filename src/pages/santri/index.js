@@ -1,28 +1,27 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import ShowAllTemplate from "../../component/templates/show_all/ShowAll";
 import Card from "../../component/modules/Card";
-import { useState } from 'react';
 import { axiosMain } from '../../axiosInstances';
 
 
-export async function getStaticProps({}) {
+export async function getStaticProps() {
   var santris = [];
   await axiosMain
-      .get("santri/search?page=0&n=10")
-      .then(response => {
-        console.log(response);
-        santris = response.data.result
-        
-      })
-      .catch(e => {
-        console.log(e.response)
-        santris = "error"
-      })
-    return {
-      props: {
-        santris: santris,
-      },
-    };
+    .get("santri/search?page=0&n=10")
+    .then(response => {
+
+      santris = response.data.result
+
+    })
+    .catch(e => {
+
+      santris = "error"
+    })
+  return {
+    props: {
+      santris: santris,
+    },
+  };
 }
 
 export default function SantriLayout(props) {
@@ -35,9 +34,9 @@ export default function SantriLayout(props) {
   const [santris, setSantris] = useState([])
 
 
-  const handleChange = async (page, searchTerm, value) => {
+  const handleChange = async (qpage, qsearchTerm, qvalue) => {
     axiosMain
-      .get(`santri/search?page=${page}&n=${value}&name=${searchTerm}`)
+      .get(`santri/search?page=${qpage}&n=${qvalue}&name=${qsearchTerm}`)
       .then(response => {
         setSantris(response.data.result)
       })
@@ -47,14 +46,14 @@ export default function SantriLayout(props) {
   }
 
   useEffect(() => {
-    if(page != 0 || searchTerm !== "" || value != 10) {
+    if (page != 0 || searchTerm !== "" || value != 10) {
       handleChange(page, searchTerm, value)
     } else {
       setSantris(props.santris)
     }
   }, [page, searchTerm, value, props.santris])
 
-  
+
   if (santris === "error") {
     return (
       <p>There seems to be a problem with data fetching</p>
@@ -75,9 +74,7 @@ export default function SantriLayout(props) {
         setSearchTerm={setSearchTerm}
       >
         {santris.filter(val => {
-          if (searchTerm == "") {
-            return val
-          } else if (val.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+          if (searchTerm == "" || val.name.toLowerCase().includes(searchTerm.toLowerCase())) {
             return val
           }
         }).map((val, key) => (

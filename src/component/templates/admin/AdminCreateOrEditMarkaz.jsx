@@ -5,9 +5,9 @@ import Grid from "@mui/material/Grid";
 import Dropzone from '../../modules/Dropzone';
 import Typography from '@mui/material/Typography'
 import { FormControl } from "@mui/material";
-import { Select } from "@mui/material";
-import { InputLabel } from "@mui/material";
-import { MenuItem } from "@mui/material";
+import  Select  from "@mui/material/Select";
+import  InputLabel  from "@mui/material/InputLabel";
+import  MenuItem  from "@mui/material/MenuItem";
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useRouter } from 'next/router';
 
@@ -109,7 +109,29 @@ function AdminCreateOrEditMarkaz(props) {
 
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                    id='markazContactNameAtComponentAdminCreateOrEditMarkaz'
+                                        name="contactName"
+                                        label="Contact Name"
+                                        fullWidth
+                                        onChange={handleChangeMarkaz}
+                                        value={markaz.contactName}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                    id='markazContactInfoAtComponentAdminCreateOrEditMarkaz'
+                                        name="contactInfo"
+                                        label="Contact Info"
+                                        fullWidth
+                                        onChange={handleChangeMarkaz}
+                                        value={markaz.contactInfo}
+
+                                    />
+                                </Grid>
+                                <Grid item xs={12} >
                                     <LoadingButton id='markazSubmitAtComponentAdminCreateOrEditMarkaz' fullWidth type='submit' loading={loading} loadingIndicator="Menyimpan..." variant="contained">
                                         Simpan
                                     </LoadingButton>

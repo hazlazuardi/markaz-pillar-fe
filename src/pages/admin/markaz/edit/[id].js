@@ -1,23 +1,28 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../context/AppContext";
-import { dispatchTypes } from "../../../context/AppReducer";
-import AdminCreateOrEditMarkaz from "../../../component/templates/admin/AdminCreateOrEditMarkaz";
-import { axiosFormData } from "../../../axiosInstances";
+import { useAppContext } from "../../../../context/AppContext";
+import { dispatchTypes } from "../../../../context/AppReducer";
+import AdminCreateOrEditMarkaz from "../../../../component/templates/admin/AdminCreateOrEditMarkaz";
+import { axiosFormData } from "../../../../axiosInstances";
 
-function AdminMarkazCreate() {
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
+
+export default function AdminMarkazEdit(props) {
+    const { responseMarkaz } = props
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const [markaz, setMarkaz] = useState({
-        name: "",
-        background: "",
-        category: "",
-        address: "",
+    const [editedMarkaz, setEditedMarkaz] = useState({
+        name: responseMarkaz.name,
+        background: responseMarkaz.background,
+        category: responseMarkaz.category,
+        address: responseMarkaz.address,
+        contactName: responseMarkaz.contactName,
+        contactInfo: responseMarkaz.contactInfo
     });
     const form = useRef(null);
 
     const handleChangeMarkaz = ({ target }) => {
         const { name, value } = target;
-        setMarkaz((prev) => ({
+        setEditedMarkaz((prev) => ({
             ...prev,
             [name]: value,
         }));
@@ -27,15 +32,14 @@ function AdminMarkazCreate() {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
-        const markazBlob = new Blob([JSON.stringify(markaz)], {
+        const editedMarkazBlob = new Blob([JSON.stringify(editedMarkaz)], {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("markaz", markazBlob);
-
+        data.append("markaz", editedMarkazBlob);
 
         await axiosFormData
-            .post("/admin/markaz", data)
+            .post(`/admin/markaz/edit?id=${responseMarkaz.id}`, data)
             .then(response => {
                 setLoading(false)
                 
@@ -43,42 +47,41 @@ function AdminMarkazCreate() {
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Markaz Created"
+                        message: "Markaz Edited"
                     }
                 })
             })
             .catch(error => {
                 setLoading(false)
                 
-                // Check & Handle if error.response is defined
+                // Check & Handle if error.response is undefined
                 if (!!error.response) {
                     if (error.response.status === 400) {
                         
-                        // Check & Handle if bad request (empty fields, etc)
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
                             payload: {
                                 severity: 'error',
-                                message: 'Incorrect information'
+                                message: 'Incorrect edited information'
                             }
                         });
                     } else if (error.response.status === 413) {
-                        // Check & Handle if image file is too large (> 1MB)
+                        
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
                             payload: {
                                 severity: 'error',
-                                message: 'The image size is too large'
+                                message: 'The new thumbnail size is too large'
                             }
                         });
                     } else {
-                        // Check & Handle if other error code
+                        
                         dispatch({
                             type: dispatchTypes.SERVER_ERROR
                         });
                     }
                 } else {
-                    // Check & Handle if error.response is undefined
+                    
                     dispatch({
                         type: dispatchTypes.SERVER_ERROR
                     });
@@ -95,10 +98,36 @@ function AdminMarkazCreate() {
             handleChangeMarkaz={handleChangeMarkaz}
             setThumbnail={setThumbnail}
             thumbnail={thumbnail}
-            markaz={markaz}
-
+            markaz={editedMarkaz}
         />
-    );
+    )
 }
 
-export default AdminMarkazCreate;
+export async function getStaticProps(context) {
+    const id = context.params.id;
+    const response = await fetch(`${BASE_URL}/markaz?id=` + id);
+    const data = await response.json();
+    const markaz = data.result;
+
+    return {
+        props: {
+            responseMarkaz: markaz,
+        },
+    };
+}
+
+export async function getStaticPaths() {
+    const response = await fetch(`${BASE_URL}/markaz/search?n=1000`);
+    const data = await response.json();
+    const allMarkaz = data.result;
+
+    const paths = allMarkaz.map((markaz) => ({
+        params: { id: markaz.id.toString() },
+    }));
+
+    return {
+        paths: paths,
+        fallback: false,
+    };
+}
+

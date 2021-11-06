@@ -1,18 +1,12 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import Button from "@mui/material/Button";
 import Link from "next/link";
 
 export default function ArrowBack(props) {
   const { name, markazOrSantri } = props;
 
-  const theme = useTheme();
-  const mediumScreen = useMediaQuery(theme.breakpoints.up("md"));
-  const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   return (
     <Grid
       item

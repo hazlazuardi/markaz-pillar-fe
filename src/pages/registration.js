@@ -18,7 +18,7 @@ import Copyright from '../component/modules/Copyright';
 import { FormHelperText, IconButton } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-import { OutlinedInput } from '@mui/material';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -26,7 +26,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { axiosMain } from '../axiosInstances';
 import Image from 'next/image'
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export default function Registration() {
     const router = useRouter();
@@ -72,7 +71,7 @@ export default function Registration() {
             .post("/register", data)
             .then(response => {
                 setLoading(false)
-                console.log("regis res", response);
+                
                 const decodedJWT = jwtDecode(response.data.result.accessToken)
                 dispatch({
                     type: dispatchTypes.REGISTRATION_SUCCEED,
@@ -87,7 +86,7 @@ export default function Registration() {
             })
             .catch(e => {
                 setLoading(false)
-                console.log('regis error', e.response)
+                
                 setError(prev => ({
                     ...prev,
                     ...e.response.data.result
@@ -104,7 +103,7 @@ export default function Registration() {
             })
     }
 
-    console.log('error', error)
+    
     useEffect(() => {
         if (currentUser) {
             router.push("/")

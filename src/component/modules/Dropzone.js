@@ -1,6 +1,8 @@
 import { Typography } from '@mui/material';
 import React, { useMemo, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { useAppContext } from '../../context/AppContext';
+import { dispatchTypes } from '../../context/AppReducer';
 
 const baseStyle = {
   flex: 1,
@@ -31,8 +33,9 @@ const rejectStyle = {
 };
 
 export default function Dropzone({ setFile }) {
-  const onDrop = useCallback((acceptedFiles) => {
+  const { dispatch } = useAppContext();
 
+  const onDropAccepted = useCallback((acceptedFiles) => {
     const reader = new FileReader();
     reader.onload = function (e) {
       setFile(acceptedFiles[0]);
@@ -40,8 +43,18 @@ export default function Dropzone({ setFile }) {
     reader.readAsDataURL(acceptedFiles[0]);
 
     return acceptedFiles[0];
+
   }, [setFile]);
 
+  const onDropRejected = useCallback((fileRejections) => {
+    dispatch({
+      type: dispatchTypes.SNACKBAR_CUSTOM,
+      payload: {
+          severity: 'error',
+          message: "File is larger than 1MB"
+      }
+  })
+  }, [dispatch]);
 
 
   const {
@@ -50,8 +63,7 @@ export default function Dropzone({ setFile }) {
     isDragActive,
     isDragAccept,
     isDragReject,
-    acceptedFiles
-  } = useDropzone({ accept: 'image/*', onDrop });
+  } = useDropzone({ accept: 'image/*', onDropAccepted, onDropRejected, maxSize: 1048576 });
 
   const style = useMemo(() => ({
     ...baseStyle,
@@ -63,13 +75,12 @@ export default function Dropzone({ setFile }) {
     isDragReject,
     isDragAccept
   ]);
-  const file = acceptedFiles[0]
 
   return (
     <div className="container">
-      <div 
-      {...getRootProps({ style })}
-      data-cy='dropzone'
+      <div
+        {...getRootProps({ style })}
+        data-cy='dropzone'
       >
         <input {...getInputProps()} />
         <p>Drag n drop some files here, or click to select files</p>

@@ -21,6 +21,7 @@ cache:
     - package-lock.json
     - .next
 
+
 # this job installs NPM dependencies, Cypress, and builds Nextjs
 install:
   image: cypress/base:16.5.0

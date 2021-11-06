@@ -1,10 +1,7 @@
 import React from "react";
-// import Layout from "../../component/layout"
 import TableData from "../../modules/TableData";
 import TableDataRow from "../../modules/TableDataRow";
-import Link from "@mui/material/Link";
 
-// const action = <Button variant="outlined">Primary</Button>;
 
 export default function TableView(props) {
   const {
