@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 import { useState, useEffect } from "react";
-=======
-import React, { useEffect, useState } from "react";
-import ShowAllTemplate from "../../component/templates/show_all/ShowAll";
-import Card from "../../component/modules/Card";
->>>>>>> e0aa4f8 (after rebasing)
 import { axiosMain } from "../../axiosInstances";
 import useSWR from "swr";
 

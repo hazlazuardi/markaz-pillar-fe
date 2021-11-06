@@ -1,9 +1,12 @@
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { FilterList } from "@mui/icons-material";
 import { Chip } from "@mui/material";
 =======
 >>>>>>> 8fe651a (before rebasing)
+=======
+>>>>>>> bbd1a4f (before rebasing)
 import Grid from "@mui/material/Grid";
 import * as React from "react";
 import Button from "@mui/material/Button";
@@ -24,9 +27,13 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 // import { Responsive } from "./Responsive";
 >>>>>>> 8fe651a (before rebasing)
+=======
+// import { Responsive } from "./Responsive";
+>>>>>>> bbd1a4f (before rebasing)
 import PropTypes from "prop-types";
 import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
@@ -61,6 +68,7 @@ const Puller = styled(Box)(({ theme }) => ({
 
 export default function FilterSantriMobile(props) {
 <<<<<<< HEAD
+<<<<<<< HEAD
   const {
     setSort,
     filter,
@@ -73,6 +81,9 @@ export default function FilterSantriMobile(props) {
 =======
   const { setSort, filter } = props;
 >>>>>>> 8fe651a (before rebasing)
+=======
+  const { setSort, filter } = props;
+>>>>>>> bbd1a4f (before rebasing)
 
   const [open, setOpen] = React.useState(false);
   const [checked, setChecked] = React.useState(true);
@@ -89,6 +100,7 @@ export default function FilterSantriMobile(props) {
     window !== undefined ? () => window().document.body : undefined;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   const handleChangeAge = (event) => {
     setAgeFilter(event.target.value);
     setNameFilter("");
@@ -101,6 +113,8 @@ export default function FilterSantriMobile(props) {
     mutate();
   };
 =======
+=======
+>>>>>>> bbd1a4f (before rebasing)
     const handleChangeSort = (event) => {
         // setChecked(event.target.checked);
         setValue(event.target.value);
@@ -120,7 +134,10 @@ export default function FilterSantriMobile(props) {
           setSort(filter.age[1]);
         }
       };
+<<<<<<< HEAD
 >>>>>>> 8fe651a (before rebasing)
+=======
+>>>>>>> bbd1a4f (before rebasing)
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -166,6 +183,7 @@ export default function FilterSantriMobile(props) {
         onClick={handleToggle}
       >
 <<<<<<< HEAD
+<<<<<<< HEAD
        <Chip
           data-testid="filterChipButton-at-admin-or-user-template"
           label="Filter"
@@ -174,6 +192,9 @@ export default function FilterSantriMobile(props) {
 =======
         <FilterAltOutlinedIcon />
 >>>>>>> 8fe651a (before rebasing)
+=======
+        <FilterAltOutlinedIcon />
+>>>>>>> bbd1a4f (before rebasing)
       </Button>
       <Root>
         <CssBaseline />
@@ -247,28 +268,40 @@ export default function FilterSantriMobile(props) {
                       <FormControl component="fieldset">
                         <RadioGroup
 <<<<<<< HEAD
+<<<<<<< HEAD
                           value={ageFilter}
 =======
                           value={value}
 >>>>>>> 8fe651a (before rebasing)
+=======
+                          value={value}
+>>>>>>> bbd1a4f (before rebasing)
                           onChange={handleChangeAge}
                         >
                           <FormControlLabel
                             control={<Radio />}
 <<<<<<< HEAD
+<<<<<<< HEAD
                             value="DESC"
 =======
                             value="asc"
 >>>>>>> 8fe651a (before rebasing)
+=======
+                            value="asc"
+>>>>>>> bbd1a4f (before rebasing)
                             label="Termuda"
                           />
                           <FormControlLabel
                             control={<Radio />}
 <<<<<<< HEAD
+<<<<<<< HEAD
                             value="ASC"
 =======
                             value="desc"
 >>>>>>> 8fe651a (before rebasing)
+=======
+                            value="desc"
+>>>>>>> bbd1a4f (before rebasing)
                             label="Tertua"
                           />
                         </RadioGroup>
@@ -279,16 +312,22 @@ export default function FilterSantriMobile(props) {
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
 <<<<<<< HEAD
+<<<<<<< HEAD
                       aria-controls="panel2a-content"
                       id="panel2a-header"
 =======
                       aria-controls="panel1a-content"
                       id="panel1a-header"
 >>>>>>> 8fe651a (before rebasing)
+=======
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+>>>>>>> bbd1a4f (before rebasing)
                     >
                       <Typography>Urutkan Nama</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
+<<<<<<< HEAD
 <<<<<<< HEAD
                       <FormControl component="fieldset">
                         <RadioGroup
@@ -307,6 +346,8 @@ export default function FilterSantriMobile(props) {
                           />
                         </RadioGroup>
 =======
+=======
+>>>>>>> bbd1a4f (before rebasing)
                     <FormControl component="fieldset">
                       <RadioGroup value={value} onChange={handleChangeSort}>
                         <FormControlLabel
@@ -320,32 +361,47 @@ export default function FilterSantriMobile(props) {
                           label="Z-A"
                         />
                       </RadioGroup>
+<<<<<<< HEAD
 >>>>>>> 8fe651a (before rebasing)
+=======
+>>>>>>> bbd1a4f (before rebasing)
                       </FormControl>
                     </AccordionDetails>
                   </Accordion>
                 </Box>
               </ClickAwayListener>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> bbd1a4f (before rebasing)
               {/* // </Paper> */}
               {/* </Grow> */}
               {/* )} */}
               {/* </Popper> */}
+<<<<<<< HEAD
 >>>>>>> 8fe651a (before rebasing)
+=======
+>>>>>>> bbd1a4f (before rebasing)
             </StyledBox>
           </SwipeableDrawer>
         </ClickAwayListener>
       </Root>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> bbd1a4f (before rebasing)
       {/* <Responsive displayIn={["Laptop"]}> */}
 
       {/* </Responsive> */}
       {/* <Responsive displayIn={["Mobile"]}>
         noooooooo
       </Responsive> */}
+<<<<<<< HEAD
 >>>>>>> 8fe651a (before rebasing)
+=======
+>>>>>>> bbd1a4f (before rebasing)
     </>
   );
 }

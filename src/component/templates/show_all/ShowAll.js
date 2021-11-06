@@ -21,6 +21,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { useState } from "react";
 
+
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export default function ShowAll(props) {
