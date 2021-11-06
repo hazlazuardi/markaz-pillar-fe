@@ -6,7 +6,7 @@ describe('Test it is in the correct page', () => {
     })
 
     it('Test if it contains "Create Santri Donation Detail" or not', () => {
-        cy.visit('http://localhost:3000/admin/markaz/donasi/add/75')
+        cy.visit('http://localhost:300/admin/markaz/donasi/add/75')
         cy.get('p').contains('Create Santri Donation Detail').should('not.exist')
     })
 })
