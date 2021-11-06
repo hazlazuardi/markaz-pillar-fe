@@ -8,8 +8,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
-import { styled } from "@mui/styles";
-
+import Link from "next/link";
+import { styled } from '@mui/system';
 
 export default function DetailPic(props) {
   const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -25,10 +25,19 @@ export default function DetailPic(props) {
     },
   }));
 
-  const themeHook = useTheme();
-  const largeScreen = useMediaQuery(themeHook.breakpoints.up("lg"));
-
-  const { name, nominal, progress, image, donasi, admin } = props;
+  const theme = useTheme();
+  const mediumScreen = useMediaQuery(theme.breakpoints.up("md"));
+  const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+  const { 
+    name, 
+    nominal, 
+    progress, 
+    image, 
+    donasi, 
+    admin, 
+    markazOrSantri, 
+    id
+  } = props;
 
   return (
     <Grid item sm={12} lg={6} sx={{ width: "100%" }}>
@@ -77,7 +86,9 @@ export default function DetailPic(props) {
         </Grid>
         <Grid item sm={12}>
           <Box sx={{ textAlign: "center", width: "auto" }}>
-            <Button variant="contained">{donasi}</Button>
+            <Link href={`/${markazOrSantri}/donasi/` + id} passHref>
+              <Button variant="contained">{donasi}</Button>
+            </Link>
           </Box>
         </Grid>
       </Grid>

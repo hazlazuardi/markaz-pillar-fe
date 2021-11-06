@@ -39,6 +39,7 @@ export default function MarkazLayoutDetail(props) {
   const consistent = {
     name: markaz.name,
     background: markaz.background,
+    id : markaz.id
   };
 
   const inconsistent = {
@@ -52,6 +53,8 @@ export default function MarkazLayoutDetail(props) {
     <DetailTemplate
       consistent={consistent}
       inconsistent={inconsistent}
+      nominal={markaz.nominal}
+      donated={markaz.donated}
       image={image}
       donatetext="Donasi Sekarang"
       markazOrSantri="markaz"

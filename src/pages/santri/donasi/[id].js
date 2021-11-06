@@ -1,15 +1,18 @@
 import React from 'react'
 import DonationForm from '../../../component/templates/form/DonationForm'
 import { useRouter } from 'next/router'
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { axiosFormData } from "../../../axiosInstances";
+import { useAppContext } from "../../../context/AppContext";
+import { dispatchTypes } from "../../../context/AppReducer";
 
-export default function DonasiMarkaz() {
+export default function DonasiSantri(props) {
+    const { dispatch} = useAppContext();
     const router = useRouter()
-    const query = router.query.id
     const [image, setImage] = useState();
     const [details, setDetails] = useState({
-        id: "",
-        amount: 0
+        amount: 0,
+        santri: null,
     });
     const [open, setOpen] = useState(false);
 
@@ -41,7 +44,7 @@ export default function DonasiMarkaz() {
             type: "application/json",
         });
         data.append("payment", image);
-        data.append("details", detailBlob);
+        data.append("detail", detailBlob);
 
         await axiosFormData
             .post("/transaction", data)
@@ -55,6 +58,8 @@ export default function DonasiMarkaz() {
                         message: "Data Uploaded"
                     }
                 })
+
+                router.replace(`/santri/${details.santri}`)
             })
             .catch(error => {
                 setLoading(false)
@@ -95,11 +100,18 @@ export default function DonasiMarkaz() {
     };
 
     const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setDetails((prev) => ({
+            ...prev,
+            santri : router.query.id
+        }))   
+    }, [router])
+
     return (
         <DonationForm 
-        markazOrSantri={"markaz"} 
-        recipient={"Markaz 1"} 
-        routerQuery={query}
+        markazOrSantri={"santri"} 
+        recipient={"Santri 1"} 
         setImage = {setImage}
         handleChangeDetails = {handleChangeDetails}
         details = {details}
@@ -109,6 +121,7 @@ export default function DonasiMarkaz() {
         handleError = {handleError}
         handleSubmit = {handleSubmit}
         setDetails = {setDetails}
+        router = {router}
         />
     )
 }

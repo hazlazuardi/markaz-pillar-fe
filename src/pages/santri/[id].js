@@ -2,7 +2,6 @@ import React from "react";
 import DetailTemplate from "../../component/templates/detail/Detail";
 import { axiosMain } from '../../axiosInstances';
 
-
 export async function getStaticProps(context) {
   const id = context.params.id;
   
@@ -57,6 +56,7 @@ export default function SantriLayoutDetail(props) {
   const consistent = {
     name: santri.name,
     background: santri.background,
+    id : santri.id
   };
 
   const inconsistent = {
