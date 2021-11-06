@@ -124,7 +124,6 @@ export default function TableView(props) {
           domisili={Field_three(user, santriormarkaz)}
           kelamin={Field_four(user, santriormarkaz)}
           tanggal={Field_five(user, santriormarkaz)}
-          // fieldsix={Field_six(user, santriormarkaz)}
           santriormarkaz={santriormarkaz}
           detail={detail}
           isDonasi={isDonasi}

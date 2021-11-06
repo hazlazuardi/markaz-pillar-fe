@@ -1,22 +1,24 @@
-import ShowAllTemplate from "../../../../component/templates/show_all/ShowAll";
+import ShowAllTemplate from "../../../../../../component/templates/show_all/ShowAll";
 import { useState } from "react";
 import Button from "@mui/material/Button";
-import GridView from "../../../../component/templates/admin/admin-grid";
-import TableView from "../../../../component/templates/admin/Admin-table";
+import TableView from "../../../../../../component/templates/admin/Admin-table";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import Link from "@mui/material/Link";
-import { axiosMain } from "../../../../axiosInstances";
+import { axiosMain } from "../../../../../../axiosInstances";
 import useSWR from "swr";
+import { useRouter } from "next/router";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
-export default function DonasiMarkaz() {
+export default function TransaksiMarkaz() {
+  const router = useRouter();
+  const { transid } = router.query;
   const {
     data: markazs,
     error,
     mutate,
-  } = useSWR("/markaz/search?sortedAge=DESC", fetcher);
+  } = useSWR("/admin/transaction?page=0&n=10&santri=" + transid, fetcher);
   const [page, setPage] = useState(0);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -95,24 +97,23 @@ export default function DonasiMarkaz() {
   if (!markazs) return "Loading...";
   return (
     <ShowAllTemplate
-      searchBarName="Cari Markaz"
-      markazOrSantri="Donasi"
+      searchBarName="Cari transaksi"
+      markazOrSantri="transaksi"
       page={page}
       setPage={setPage}
       value={value}
       setValue={setValue}
       setSearchTerm={setSearchTerm}
+      // add={create}
       setGridView={setGridView}
     >
       <TableView
         data={markazs}
-        santriormarkaz="donasim"
+        santriormarkaz="transaksi"
         detail="admin/markaz"
-        tableTempatMarkaz="ID Donasi"
+        tableTempatMarkaz="ID Transaksi"
         tableDomisili="Nominal Donasi"
-        tableJenisKelamin="Jumlah Donasi Terkumpul"
-        tableTanggalLahir="Status"
-        isDonasi
+        tableJenisKelamin="Status"
       />
     </ShowAllTemplate>
   );
