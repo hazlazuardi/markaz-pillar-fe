@@ -1,4 +1,6 @@
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import { FilterList } from "@mui/icons-material";
+import { Chip } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import * as React from "react";
 import Button from "@mui/material/Button";
@@ -23,55 +25,61 @@ import { Box } from "@mui/system";
 import { FormControl } from "@mui/material";
 
 export default function FilterMarkaz(props) {
-  const { setSort, filter } = props;
+  const {
+    setSort,
+    filter,
+    nameFilter,
+    setNameFilter,
+    locationFilter,
+    setLocationFilter,
+    categoryFilter,
+    setCategoryFilter,
+    mutate,
+  } = props;
 
   const [open, setOpen] = React.useState(false);
-  const [checked, setChecked] = React.useState(true);
+  const [checked, setChecked] = React.useState(
+    new Array(3).fill(false)
+  );
   const anchorRef = React.useRef(null);
   const [value, setValue] = React.useState();
 
-  const handleChangeSort = (event) => {
-    setChecked(event.target.checked);
-    setValue(event.target.value);
-    if (value === "desc") {
-      setSort(filter.sort[0]);
-    } else if (value === "asc") {
-      setSort(filter.sort[1]);
-    }
+  // const { PEMBANGUNAN_MARKAZ, RENOVASI, PENAMBAHAN_FASILITAS } = categoryFilter;
+
+  const handleChangeName = (event) => {
+    setNameFilter(event.target.value);
+    setLocationFilter("");
+    setCategoryFilter("");
+    mutate();
   };
 
-  const handleChangeLocation = (event) => {
-    setChecked(event.target.checked);
-    setValue(event.target.value);
-    if (value === "false") {
-      setSort(filter.location[0]);
-    } else if (value === "true") {
-      setSort(filter.location[1]);
-    }
+  const handleChangeLocation = (event) => {     
+    setLocationFilter(event.target.value);
+    setNameFilter("");
+    setCategoryFilter("");
+    mutate();
   };
 
   const handleChangeCategory = (event) => {
     setChecked(event.target.checked);
-    setValue(event.target.value);
-    if (value === "pembangunan") {
-      setSort(filter.category[0]);
-    } else if (value === "renovasi") {
-      setSort(filter.category[1]);
-    } else if (value === "penambahan") {
-      setSort(filter.category[2]);
-    } else if (value === "pembangunan" && value === "renovasi") {
-      setSort(filter.category[3]);
-    } else if (value === "pembangunan" && value === "penambahan") {
-      setSort(filter.category[4]);
-    } else if (value === "renovasi" && value === "penambahan") {
-      setSort(filter.category[5]);
-    } else if (
-      value === "pembangunan" &&
-      value === "renovasi" &&
-      value === "penambahan"
-    ) {
-      setSort(filter.category[6]);
-    }
+    const updatedCheck = checked.map((item,index)=>
+    index === position? !item: item
+  );
+
+    setChecked(updatedCheck);
+    // setCategoryFilter({  
+    //   ...categoryFilter,
+    //   [event.target.name]: event.target.checked,
+    // });
+
+    setCategoryFilter();
+
+    // const prevs = event.target.value
+    // prevs != event.target.value? setCategoryFilter2(event.target.value):setCategoryFilter2("");
+    // const prevs2 = event.target.value;
+    // prevs2 != event.target.value? setCategoryFilter3(event.target.value):setCategoryFilter3("");
+    setNameFilter("");
+    mutate();
   };
 
   const handleToggle = () => {
@@ -117,7 +125,11 @@ export default function FilterMarkaz(props) {
         aria-haspopup="true"
         onClick={handleToggle}
       >
-        <FilterAltOutlinedIcon />
+         <Chip
+          data-testid="filterChipButton"
+          label="Filter"
+          icon={<FilterList />}
+        />
       </Button>
       <Popper
         open={open}
@@ -162,12 +174,12 @@ export default function FilterMarkaz(props) {
                         >
                           <FormControlLabel
                             control={<Radio />}
-                            value="true"
+                            value="false"
                             label="Luar Jabodetabek"
                           />
                           <FormControlLabel
                             control={<Radio />}
-                            value="false"
+                            value="true"
                             label="Jabodetabek"
                           />
                         </RadioGroup>
@@ -180,22 +192,19 @@ export default function FilterMarkaz(props) {
                       aria-controls="panel1a-content"
                       id="panel1a-header"
                     >
-                      <Typography>Urutkan</Typography>
+                      <Typography>Urutkan Nama</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <FormControl component="fieldset">
-                        <RadioGroup
-                          value={value}
-                          onChange={handleChangeSort}
-                        >
+                        <RadioGroup value={value} onChange={handleChangeName}>
                           <FormControlLabel
                             control={<Radio />}
-                            value="desc"
+                            value="ASC"
                             label="A-Z"
                           />
                           <FormControlLabel
                             control={<Radio />}
-                            value="asc"
+                            value="DESC"
                             label="Z-A"
                           />
                         </RadioGroup>
@@ -213,24 +222,42 @@ export default function FilterMarkaz(props) {
                     <AccordionDetails>
                       <FormControl component="fieldset">
                         <FormGroup
-                          value={value}
-                          onChange={handleChangeCategory}
+                        // value={value}
+                        // onChange={handleChangeCategory}
                         >
                           <FormControlLabel
-                            control={<Checkbox />}
-                            value="pembangunan"
+                            control={
+                              <Checkbox
+                                checked={checked[0]}
+                                onChange={handleChangeCategory}
+                                name="PEMBANGUNAN_MARKAZ"
+                              />
+                            }
+                            value="PEMBANGUNAN_MARKAZ"
                             label="Pembangunan Markaz"
                           />
 
                           <FormControlLabel
-                            control={<Checkbox />}
-                            value="renovasi"
+                            control={
+                              <Checkbox
+                                checked={checked[1]}
+                                onChange={handleChangeCategory}
+                                name="RENOVASI"
+                              />
+                            }
+                            value="RENOVASI"
                             label="Renovasi"
                           />
 
                           <FormControlLabel
-                            control={<Checkbox />}
-                            value="penambahan"
+                            control={
+                              <Checkbox
+                                checked={checked[2]}
+                                onChange={handleChangeCategory}
+                                name="PENAMBAHAN_FASILITAS"
+                              />
+                            }
+                            value="PENAMBAHAN_FASILITAS"
                             label="Penambahan Fasilitas"
                           />
                         </FormGroup>
