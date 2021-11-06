@@ -35,7 +35,7 @@ export default function Layout({ children }) {
                     {snackbarMessage}
                 </Alert>
             </Snackbar>
-            {showHeader && <Box sx={{ height: '4em' }} />}
+            {showHeader && <Box sx={{ height: '5em' }} />}
             {showHeader ? (
                 <Container maxWidth="lg">
                     {children}

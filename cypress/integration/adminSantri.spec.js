@@ -5,24 +5,24 @@ beforeEach(() => {
     cy.get('#password').type('Admin123')
     cy.get('#submitAtLogin').contains('Masuk').click()
     cy.wait(2000)
-    cy.visit('http://localhost:3000/admin/markaz')
+    cy.visit('http://localhost:3000/admin/santri')
 })
 
 describe('Test it is in the correct page', () => {
-    it('Test if admin markaz page contains "Daftar Markaz" or not', () => {
-        cy.get('[data-testid=titlePage-at-admin-or-user-template]').contains('Daftar Markaz', { matchCase: false }).should('exist')
+    it('Test if admin markaz page contains "Daftar Santri" or not', () => {
+        cy.get('[data-testid=titlePage-at-admin-or-user-template]').contains('Daftar Santri', { matchCase: false }).should('exist')
     })
 
-    it('Test if admin markaz page contains "This is admin page" or not', () => {
+    it('Test if admin santri page contains "This is admin page" or not', () => {
         cy.get('p').contains('This is admin page').should('not.exist')
     })
 
-    it('Test if admin markaz page redirect unauthorized users', () => {
+    it('Test if admin santri page redirect unauthorized users', () => {
         cy.viewport('iphone-5')
         cy.get('#menuIconButton').should('exist').click()
         cy.get('button').contains('Keluar').should('exist').click()
-        cy.visit('http://localhost:3000/admin/markaz')
-        cy.url().should('eq', 'http://localhost:3000/', {timeout: 1000})
+        cy.visit('http://localhost:3000/admin/santri')
+        cy.url().should('eq', 'http://localhost:3000/', { timeout: 1000 })
     })
 
 })

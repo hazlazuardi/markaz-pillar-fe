@@ -14,6 +14,7 @@ import { useTheme } from '@mui/material/styles';
 
 function AdminOrUserTemplate(props) {
     const {
+        variant,
         GridView,
         TableView,
         entries,
@@ -73,9 +74,9 @@ function AdminOrUserTemplate(props) {
     return (
         <>
             {/* Header */}
-            <Typography variant="h4" color="initial">Daftar Markaz</Typography>
+            <Typography data-testid='titlePage-at-admin-or-user-template' variant="h4" sx={{textTransform: 'capitalize'}} color="initial">Daftar {variant}</Typography>
             <TextField
-                data-testid='searchbar-at-admin-markaz'
+                data-testid='searchbar-at-admin-or-user-template'
                 label="Cari Markaz"
                 placeholder='Markaz Depok'
                 margin='normal'
@@ -83,15 +84,15 @@ function AdminOrUserTemplate(props) {
                 size='small'
             />
             <Chip
-                data-testid='filterChipButton-at-admin-markaz'
+                data-testid='filterChipButton-at-admin-or-user-template'
                 label='Filter'
                 icon={<FilterList />}
             />
             <TabContext value={tabIndex} >
                 <AppBar position='relative' color="transparent" elevation={0} >
                     <TabList onChange={handleTabIndex}>
-                        <Tab data-testid='tab-grid-at-admin-markaz' label='Grid' value={0} />
-                        <Tab data-testid='tab-table-at-admin-markaz' label='Table' value={1} />
+                        <Tab data-testid='tab-grid-at-admin-or-user-template' label='Grid' value={0} />
+                        <Tab data-testid='tab-table-at-admin-or-user-template' label='Table' value={1} />
                     </TabList>
                 </AppBar>
                 <SwipeableViews
@@ -101,10 +102,10 @@ function AdminOrUserTemplate(props) {
                     animateHeight={doAnimateHeight}
                     ignoreNativeScroll
                 >
-                    <TabPanel data-testid='gridView-at-admin-markaz' value={tabIndex} index={0} dir={theme.direction}>
+                    <TabPanel data-testid='gridView-at-admin-or-user-template' value={tabIndex} index={0} dir={theme.direction}>
                         {GridView}
                     </TabPanel>
-                    <TabPanel data-testid='tableView-at-admin-markaz' value={tabIndex} index={1} dir={theme.direction}>
+                    <TabPanel data-testid='tableView-at-admin-or-user-template' value={tabIndex} index={1} dir={theme.direction}>
 
                         <SwipeableEnableScroll>
                             {TableView}
@@ -118,7 +119,7 @@ function AdminOrUserTemplate(props) {
                 <FormControl fullWidth sx={{ m: '1em', maxWidth: 375 }} >
                     <InputLabel id="entries-select-label">Show Entries</InputLabel>
                     <Select
-                        data-testid='showEntries-at-admin-markaz'
+                        data-testid='showEntries-at-admin-or-user-template'
                         labelId="entries-select-label"
                         id="entries-select"
                         value={entries}
@@ -130,11 +131,11 @@ function AdminOrUserTemplate(props) {
                         <MenuItem value={100}>100</MenuItem>
                     </Select>
                 </FormControl>
-                <Pagination data-testid='pagination-at-admin-markaz' size={matchXs ? 'small' : 'medium'} boundaryCount={1} count={data.totalPage} page={page} onChange={handlePagination} />
+                <Pagination data-testid='pagination-at-admin-or-user-template' size={matchXs ? 'small' : 'medium'} boundaryCount={1} count={data.totalPage} page={page} onChange={handlePagination} />
             </Stack>
             <Link href="markaz/create" underline="none">
                 <Fab
-                    data-testid='fab-at-admin-markaz'
+                    data-testid='fab-at-admin-or-user-template'
                     sx={{ position: "fixed", right: "2em", bottom: "3em" }}
                     color="primary"
                     aria-label="add"
@@ -148,6 +149,7 @@ function AdminOrUserTemplate(props) {
 
 
 AdminOrUserTemplate.propTypes = {
+    variant: PropTypes.string.isRequired,
     GridView: PropTypes.elementType.isRequired,
     TableView: PropTypes.elementType.isRequired,
     entries: PropTypes.number.isRequired,

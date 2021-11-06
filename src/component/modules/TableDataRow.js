@@ -43,7 +43,7 @@ const TableDataRow = (props) => {
   return (
     <StyledTableRow>
       <StyledTableCell component="th" scope="row">
-        <Link href={`/${detail}/` + id}>{nama}</Link>
+        <Link data-testid='name-at-table-row' href={`/${detail}/` + id}>{nama}</Link>
       </StyledTableCell>
       <StyledTableCell align="left">{markaz}</StyledTableCell>
       <StyledTableCell align="left">{domisili}</StyledTableCell>
