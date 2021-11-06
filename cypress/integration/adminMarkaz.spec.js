@@ -9,15 +9,24 @@ beforeEach(() => {
 })
 
 describe('Test it is in the correct page', () => {
-    it('Test if create.js contains "Daftar Markaz" or not', () => {
+    it('Test if admin markaz page contains "Daftar Markaz" or not', () => {
         cy.visit('http://localhost:3000/admin/markaz')
         cy.get('h4').contains('Daftar Markaz').should('exist')
     })
 
-    it('Test if create.js contains "This is create page" or not', () => {
+    it('Test if admin markaz page contains "This is admin page" or not', () => {
         cy.visit('http://localhost:3000/admin/markaz')
-        cy.get('p').contains('This is create page').should('not.exist')
+        cy.get('p').contains('This is admin page').should('not.exist')
     })
+
+    it('Test if admin markaz page redirect unauthorized users', () => {
+        cy.viewport('iphone-5')
+        cy.get('#menuIconButton').should('exist').click()
+        cy.get('button').contains('Keluar').should('exist').click()
+        cy.visit('http://localhost:3000/admin/markaz')
+        cy.url().should('eq', 'http://localhost:3000/', {timeout: 1000})
+    })
+
 })
 
 describe(`Test if all components exist and visible`, () => {
