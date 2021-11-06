@@ -134,8 +134,11 @@ export default function TableView(props) {
           markaz={Field_two(user, santriormarkaz)}
           domisili={Field_three(user, santriormarkaz)}
           kelamin={Field_four(user, santriormarkaz)}
+<<<<<<< HEAD
           tanggal={Field_five(user, santriormarkaz)}
           // fieldsix={Field_six(user, santriormarkaz)}
+=======
+>>>>>>> cda128c (feat: created layout for transaction)
           santriormarkaz={santriormarkaz}
           detail={detail}
           isDonasi={isDonasi}
