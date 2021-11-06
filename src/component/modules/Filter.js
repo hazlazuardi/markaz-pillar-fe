@@ -122,7 +122,7 @@ export default function FilterMarkaz(props) {
                       aria-controls="panel1a-content"
                       id="panel1a-header"
                     >
-                      <Typography>{placeholder}</Typography>
+                      <Typography>Lokasi</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <FormControl component="fieldset">
