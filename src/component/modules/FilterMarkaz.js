@@ -28,13 +28,11 @@ export default function FilterMarkaz(props) {
   const [open, setOpen] = React.useState(false);
   const [checked, setChecked] = React.useState(true);
   const anchorRef = React.useRef(null);
-  const [valueSort, setValueSort] = React.useState();
-  const [valueLocation, setValueLocation] = React.useState();
   const [value, setValue] = React.useState();
 
   const handleChangeSort = (event) => {
     setChecked(event.target.checked);
-    setValueSort(event.target.valueSort);
+    setValue(event.target.value);
     if (value === "desc") {
       setSort(filter.sort[0]);
     } else if (value === "asc") {
@@ -44,7 +42,7 @@ export default function FilterMarkaz(props) {
 
   const handleChangeLocation = (event) => {
     setChecked(event.target.checked);
-    setValueLocation(event.target.valueLocation);
+    setValue(event.target.value);
     if (value === "false") {
       setSort(filter.location[0]);
     } else if (value === "true") {
@@ -159,7 +157,7 @@ export default function FilterMarkaz(props) {
                     <AccordionDetails>
                       <FormControl component="fieldset">
                         <RadioGroup
-                          value={valueLocation}
+                          value={value}
                           onChange={handleChangeLocation}
                         >
                           <FormControlLabel
@@ -187,7 +185,7 @@ export default function FilterMarkaz(props) {
                     <AccordionDetails>
                       <FormControl component="fieldset">
                         <RadioGroup
-                          value={valueSort}
+                          value={value}
                           onChange={handleChangeSort}
                         >
                           <FormControlLabel

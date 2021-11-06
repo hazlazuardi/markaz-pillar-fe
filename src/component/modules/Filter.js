@@ -22,6 +22,8 @@ import RadioGroup from "@mui/material/RadioGroup";
 import { Box } from "@mui/system";
 import { FormControl } from "@mui/material";
 
+
+// belum jadi
 export default function FilterMarkaz(props) {
   const { setSort, filter } = props;
 
@@ -120,7 +122,7 @@ export default function FilterMarkaz(props) {
                       aria-controls="panel1a-content"
                       id="panel1a-header"
                     >
-                      <Typography>Lokasi</Typography>
+                      <Typography>{placeholder}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <FormControl component="fieldset">
