@@ -55,6 +55,7 @@ export default function AdminSantri() {
         setPage={setPage}
         data={responseSantri}
         error={error}
+        isAdmin
       />
     </>
   );

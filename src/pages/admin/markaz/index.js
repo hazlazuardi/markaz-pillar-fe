@@ -53,6 +53,7 @@ export default function AdminMarkaz() {
         setPage={setPage}
         data={responseMarkaz}
         error={error}
+        isAdmin
       />
     </>
   );

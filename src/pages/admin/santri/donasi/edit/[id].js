@@ -15,8 +15,8 @@ import AdminCreateOrEditDonasi from "../../../../../component/templates/admin/Ad
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
-function AdminMarkazDonasiCreate(props) {
-    const { responseMarkaz } = props
+function AdminSantriDonasiEdit(props) {
+    const { responseSantri } = props
     const { dispatch } = useAppContext();
     const [data, setData] = useState({
         name: "",
@@ -42,7 +42,7 @@ function AdminMarkazDonasiCreate(props) {
         event.preventDefault();
         console.log("data", data)
         await axiosMain
-            .post(`/admin/donation/markaz?id=${id}`, data)
+            .post(`/admin/donation/santri/edit?id=${id}`, data)
             .then(response => {
                 setLoading(false)
                 console.log(response)
@@ -50,7 +50,7 @@ function AdminMarkazDonasiCreate(props) {
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Donasi Markaz Created"
+                        message: "Donasi Santri Edited"
                     }
                 })
             })
@@ -131,15 +131,16 @@ function AdminMarkazDonasiCreate(props) {
             form={form}
             handleSubmit={handleSubmit}
             donasi={data}
-            createOrEdit="Create"
-            markazOrSantri="Markaz"
+            createOrEdit="Edit"
+            markazOrSantri="Santri"
             handleChange={handleChange}
             handleChangeDonasi={handleChangeDonasi}
             handleIsActive={handleIsActive}
             names={names}
-            label="Facility Requirements"
+            label="Scholarship Requirements"
+            showCategory="none"
         />
     );
 }
 
-export default AdminMarkazDonasiCreate;
+export default AdminSantriDonasiEdit;
