@@ -1,7 +1,7 @@
 import ShowAllTemplate from "../../../../../../component/templates/show_all/ShowAll";
 import { useState } from "react";
 import Button from "@mui/material/Button";
-import TableView from "../../../../../../component/templates/admin/Admin-table";
+import TableView from "../../../../../../component/templates/admin/TableView";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import Link from "@mui/material/Link";
