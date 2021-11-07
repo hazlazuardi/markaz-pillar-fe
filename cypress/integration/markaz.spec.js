@@ -28,12 +28,12 @@ describe('Navigation', () => {
 
 describe('Test for detail page, it is in the correct page', () => {
     it('Test if detail.js contains "Kebutuhan Fasilitas" or not', () => {
-        cy.visit('http://localhost:3000/markaz/2')
-        cy.get('[data-testid=inconsistent-key-at-profile-module]').contains('Kebutuhan Fasilitas', {timeout: 4000}).should('exist')
+        cy.get('[data-testid=lihat-detail-button-at-card]').contains("Lihat Detail", { timeout: 4000 }).click()
+        cy.get('[data-testid=inconsistent-key-at-profile-module]').contains('Kategori', {timeout: 4000}).should('exist')
     })
 
     it('Test if detail.js contains "Kategori" or not', () => {
-        cy.visit('http://localhost:3000/markaz/2')
+        cy.get('[data-testid=lihat-detail-button-at-card]').contains("Lihat Detail", { timeout: 4000 }).click()
         cy.get('[data-testid=inconsistent-key-at-profile-module]').contains('Kategori').should('exist')
     })
 })
@@ -48,7 +48,6 @@ describe(`Test if all components exist and visible`, () => {
         cy.get('[data-testid=name-at-table-row]').should('not.exist');
         cy.get('[data-testid=pagination-at-admin-or-user-template]').contains('2').should('exist').click()
         cy.get('[data-testid=showEntries-at-admin-or-user-template]').should('exist').click().get('li').contains('100').should('exist').click()
-        cy.get('[data-testid=pagination-at-admin-or-user-template]').contains('2').should('not.exist')
         cy.get('[data-testid=fab-at-admin-or-user-template]').should('not.exist')
     });
 })
