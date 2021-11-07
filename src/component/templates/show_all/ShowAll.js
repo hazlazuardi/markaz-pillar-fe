@@ -8,8 +8,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import styles from "../../../styles/Home.module.css";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import Filter from "../../modules/Filter";
+import FilterMarkaz from "../../modules/FilterMarkaz";
+import FilterMarkazMobile from "../../modules/FilterMarkazMobile";
+import FilterSantri from "../../modules/FilterSantri";
+import FilterSantriMobile from "../../modules/FilterSantriMobile";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function ShowAll(props) {
   const {
@@ -24,8 +30,24 @@ export default function ShowAll(props) {
     setPage,
     isAdmin,
     setGridView,
+    setSort,
+    filter,
+    filterData,
+    ageFilter,
+    setAgeFilter,
+    nameFilter,
+    setNameFilter,
+    locationFilter,
+    setLocationFilter,
+    categoryFilter,
+    setCategoryFilter,
+    handler,
+    mutate,
     add,
   } = props;
+
+  const matches = useMediaQuery("(max-width:600px)");
+  const size = matches ? "small" : "medium";
 
   return (
     <Container maxWidth="lg" className={styles.container}>
@@ -38,7 +60,68 @@ export default function ShowAll(props) {
         <Grid container sx={{ mt: "50px" }}>
           <Grid item xs={12}>
             <Typography variant="h6" component="h2">
-              Daftar {markazOrSantri} <FilterAltOutlinedIcon />
+              Daftar {markazOrSantri}
+              {(() => {
+                if (markazOrSantri == "Markaz" && size == "small") {
+                  return (
+                    <FilterMarkazMobile
+                      setSort={setSort}
+                      filter={filter}
+                      locationFilter={locationFilter}
+                      setLocationFilter={setLocationFilter}
+                      nameFilter={nameFilter}
+                      setNameFilter={setNameFilter}
+                      categoryFilter={categoryFilter}
+                      setCategoryFilter={setCategoryFilter}
+                      mutate={mutate}
+                    />
+                  );
+                } else if (markazOrSantri == "Markaz" && size == "medium") {
+                  return (
+                    <FilterMarkaz
+                      setSort={setSort}
+                      filter={filter}
+                      locationFilter={locationFilter}
+                      setLocationFilter={setLocationFilter}
+                      nameFilter={nameFilter}
+                      setNameFilter={setNameFilter}
+                      categoryFilter={categoryFilter}
+                      setCategoryFilter={setCategoryFilter}
+                      // categoryFilter2={categoryFilter2}
+                      // setCategoryFilter2={setCategoryFilter2}
+                      // categoryFilter3={categoryFilter3}
+                      // setCategoryFilter3={setCategoryFilter3}
+                      mutate={mutate}
+                    />
+                  );
+                } else if (markazOrSantri == "Santri" && size == "small") {
+                  return (
+                    <FilterSantriMobile
+                      setSort={setSort}
+                      filter={filter}
+                      ageFilter={ageFilter}
+                      setAgeFilter={setAgeFilter}
+                      nameFilter={nameFilter}
+                      setNameFilter={setNameFilter}
+                      mutate={mutate}
+                    />
+                  );
+                } else {
+                  return (
+                    <FilterSantri
+                      setSort={setSort}
+                      filter={filter}
+                      filterData={filterData}
+                      handler={handler}
+                      ageFilter={ageFilter}
+                      setAgeFilter={setAgeFilter}
+                      nameFilter={nameFilter}
+                      setNameFilter={setNameFilter}
+                      mutate={mutate}
+                    />
+                  );
+                }
+              })()}
             </Typography>
           </Grid>
           <Grid
