@@ -99,8 +99,6 @@ export default function DonasiMarkaz() {
             })
     };
 
-    const [loading, setLoading] = useState(false)
-
     useEffect(() => {
         setDetails((prev) => ({
             ...prev,

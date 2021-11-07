@@ -26,7 +26,6 @@ export default function DetailPic(props) {
   }));
 
   const theme = useTheme();
-  const mediumScreen = useMediaQuery(theme.breakpoints.up("md"));
   const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   const { 
     name, 

@@ -99,8 +99,6 @@ export default function DonasiSantri(props) {
             })
     };
 
-    const [loading, setLoading] = useState(false)
-
     useEffect(() => {
         setDetails((prev) => ({
             ...prev,
