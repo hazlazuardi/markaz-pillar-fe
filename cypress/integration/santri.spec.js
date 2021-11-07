@@ -16,12 +16,12 @@ describe('Test it is in the correct page', () => {
 
 describe('Navigation', () => {
     it('Should navigate to the detail.js page', () => {
-        cy.get('[data-testid=lihat-detail-at-card]').contains("Lihat Detail", { timeout: 4000 }).click()
+        cy.get('[data-testid=lihat-detail-button-at-card]').contains("Lihat Detail", { timeout: 4000 }).click()
         cy.url().should('match', /santri\/\d+/)
     })
 
     it('Should not navigate to the detail.js page', () => {
-        cy.get('[data-testid=lihat-detail-at-card]').contains("Markaz", { timeout: 4000 }).click()
+        cy.get('[data-testid=donasi-button-at-card]').contains("Donasi", { timeout: 4000 }).click()
         cy.url().should('not.match', /santri\/\d+/)
     })
 })
