@@ -33,11 +33,11 @@ export default function Profile(props) {
         {Object.keys(inconsistent).map(
           (key, index) =>
             inconsistent[key] && (
-              <Grid item xs={6}>
+              <Grid item xs={6} sx={{maxWidth : 500, overflow:"hidden"}}>
                 <Typography data-testid='inconsistent-key-at-profile-module' variant="body1" color="primary" fontWeight="medium">
                   <LocalShippingOutlinedIcon /> {key}
                 </Typography>
-                <Typography variant="body2" color="textSecondary">
+                <Typography noWrap variant="body2" color="textSecondary">
                   {inconsistent[key]}
                 </Typography>
               </Grid>

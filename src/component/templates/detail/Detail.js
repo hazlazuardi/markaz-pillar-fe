@@ -26,7 +26,7 @@ function Detail(props) {
 
   return (
     <div>
-      <Grid container spacing={2}>
+      <Grid container sx={{display:"flex", justifyContent:"center"}}>
         <Grid item xs={12}>
           <Container maxWidth="lg" className={styles.container}>
             <Grid
