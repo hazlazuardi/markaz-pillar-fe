@@ -8,11 +8,20 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Image from 'next/image'
 
 
-export default function ActivityCard() {
+export default function ActivityCard(props) {
 
 
     const theme = useTheme();
     const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+    const {type, target, status, date, amount, recipientType} = props
+
+    const temp_list = status.split("_")
+    const processedStatus = `${temp_list[0]} ${temp_list[1]}`.toLowerCase()
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
     return (
         <Paper>
@@ -26,17 +35,17 @@ export default function ActivityCard() {
                         <Grid container sx={{display:"flex", justifyContent:"center", alignItems:"center"}}>
                             <Grid item sm={4} xs={12} p={1}>
                                 <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>Jenis Kegiatan</Typography>
-                                <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>Donasi</Typography>
+                                <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>{capitalizeFirstLetter(type)}</Typography>
                             </Grid>
 
                             <Grid item sm={3} xs={12} p={1}>
                                 <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>Target Donasi</Typography>
-                                <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>Markaz Pilar</Typography>
+                                <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>{target.length > 16? capitalizeFirstLetter(target.substring(0, 16) + "...") : capitalizeFirstLetter(target)}</Typography>
                             </Grid>
 
                             <Grid item sm={5} xs={12} p={1}>
                                 <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>Status</Typography>
-                                <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>Menunggu Pembayaran</Typography>
+                                <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>{capitalizeFirstLetter(processedStatus)}</Typography>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -44,17 +53,17 @@ export default function ActivityCard() {
                         <Grid container sx={{display:"flex", justifyContent:"center", alignItems:"center"}}>
                             <Grid item sm={4} xs={12} p={1}>
                                 <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>Tanggal Kegiatan</Typography>
-                                <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>14/08/2021</Typography>
+                                <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>{date.split("T")[0]}</Typography>
                             </Grid>
                             
                             <Grid item sm={4} xs={12} p={1}>
                                 <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>Jumlah Donasi</Typography>
-                                <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>Rp50.000,00</Typography>
+                                <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>Rp{amount},00</Typography>
                             </Grid>
                             
                             <Grid item sm={4} xs={12} p={1} sx={{alignSelf:"flex-end"}}>
                                 <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>
-                                    Lihat Santri <DeleteOutlineIcon/>
+                                    Lihat {capitalizeFirstLetter(recipientType.toLowerCase())}<DeleteOutlineIcon/>
                                 </Typography>
                             </Grid>
                         </Grid>

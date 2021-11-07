@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from '@mui/material/Button'
 import Container from "@mui/material/Container";
 import { Grid } from '@mui/material'
@@ -14,13 +14,20 @@ import Tabs from '@mui/material/Tabs';
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import styles from "../styles/Home.module.css";
 import ActivityCard from "../component/modules/ActivityCard";
+import { axiosMain } from '../axiosInstances'
+import useSWR from "swr";
+
+const fetcher = url => axiosMain.get(url).then(res => res.data)
 
 export default function Profile() {
+    
     const { dispatch } = useAppContext();
     const router = useRouter();
     const [doAnimateHeight, setDoAnimateHeight] = useState(true)
     const [tabIndex, setTabIndex] = useState(0);
+    const [donations, setDonations] = useState([])
 
+    const { data, error } = useSWR(`/transaction?n=1000`, fetcher)
 
     const handleLogout = () => {
         localStorage.clear();
@@ -35,10 +42,10 @@ export default function Profile() {
         setDoAnimateHeight(false)
     };
 
-    const handleChangeTabIndex = tab => {
-        setTabIndex(tab);
-        setDoAnimateHeight(false)
-    };
+    useEffect(() => {
+        if(data != null)
+            setDonations(data.result)
+    }, [data])
 
     return (
         <Container maxWidth="lg" className={styles.container}>
@@ -73,29 +80,39 @@ export default function Profile() {
                 <Grid item xs={12} mt={2}>
                     <Box>
                     <Tabs
-                        // value={value}
-                        // onChange={handleChange}
+                        value={tabIndex}
+                        onChange={handleTabIndex}
                         variant="scrollable"
                         scrollButtons
                         allowScrollButtonsMobile
                     >
-                        <Tab label="Semua Kegiatan" />
-                        <Tab label="Donasi" />
-                        <Tab label="Volunteer" />
-                        <Tab label="Pengajar" />
-                        <Tab label="Kelas" />
+                        <Tab label="Semua Kegiatan" value={0}/>
+                        <Tab label="Donasi" value={1}/>
+                        <Tab label="Volunteer" value={2}/>
+                        <Tab label="Pengajar" value={3}/>
+                        <Tab label="Kelas" value={4}/>
                     </Tabs>
                     </Box>
                 </Grid>
 
                 <Grid item xs={12}>
                     <Grid container spacing={2}>
-                        <Grid item lg={6} xs={12}>
-                            <ActivityCard/>
-                        </Grid>
-                        <Grid item lg={6} xs={12}>
-                            <ActivityCard/>
-                        </Grid>
+                        {donations.length != 0 ? donations.map(donation => (
+                            <Grid item lg={6} xs={12}>
+                                <ActivityCard 
+                                type={"Donasi"} 
+                                target={donation.donationName} 
+                                status={donation.status} 
+                                date={donation.createdAt} 
+                                amount={donation.amount}
+                                recipientType={donation.donationType}
+                            />
+                            </Grid>
+                        ))
+                        : <Grid item lg={6} xs={12}>
+                            <Typography>No activities yet</Typography>
+                        </Grid> 
+                        }
                     </Grid>
                 </Grid>
 
