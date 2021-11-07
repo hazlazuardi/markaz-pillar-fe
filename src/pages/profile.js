@@ -98,7 +98,6 @@ export default function Profile() {
                 <Grid item xs={12}>
                     <Grid container spacing={2}>
                         {donations.length != 0 ? donations.map(donation => (
-                            <Grid item lg={6} xs={12}>
                                 <ActivityCard 
                                 type={"Donasi"} 
                                 target={donation.donationName} 
@@ -106,8 +105,8 @@ export default function Profile() {
                                 date={donation.createdAt} 
                                 amount={donation.amount}
                                 recipientType={donation.donationType}
+                                key={donation.trxId}
                             />
-                            </Grid>
                         ))
                         : <Grid item lg={6} xs={12}>
                             <Typography>No activities yet</Typography>
