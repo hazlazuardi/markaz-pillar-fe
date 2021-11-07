@@ -8,8 +8,20 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import styles from "../../../styles/Home.module.css";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import FilterMarkaz from "../../modules/FilterMarkaz";
+import FilterMarkazMobile from "../../modules/FilterMarkazMobile";
+import FilterSantri from "../../modules/FilterSantri";
+import FilterSantriMobile from "../../modules/FilterSantriMobile";
+import Card from "../../modules/Card";
+import { useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+import { useState } from "react";
+
+
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export default function ShowAll(props) {
   const {
@@ -25,7 +37,12 @@ export default function ShowAll(props) {
     isAdmin,
     setGridView,
     add,
+    setSort,
+    filter,
   } = props;
+
+  const matches = useMediaQuery('(max-width:600px)');
+  const size = matches? "small":"medium";
 
   return (
     <Container maxWidth="lg" className={styles.container}>
@@ -38,7 +55,26 @@ export default function ShowAll(props) {
         <Grid container sx={{ mt: "50px" }}>
           <Grid item xs={12}>
             <Typography variant="h6" component="h2">
-              Daftar {markazOrSantri} <FilterAltOutlinedIcon />
+              Daftar {markazOrSantri} 
+              {(() => {
+                if (markazOrSantri == "Markaz" && size == "small") {
+                  return(
+                  <FilterMarkazMobile setSort={setSort} filter={filter}/>
+                  )
+                } else if (markazOrSantri == "Markaz" && size == "medium") {
+                  return(
+                  <FilterMarkaz setSort={setSort} filter={filter}/>
+                  )
+                } else if (markazOrSantri == "Santri" && size == "small") {
+                  return(
+                  <FilterSantriMobile setSort={setSort} filter={filter}/>
+                  )
+                } else {
+                  return(
+                  <FilterSantri setSort={setSort} filter={filter}/>
+                  )
+                }
+                })()}
             </Typography>
           </Grid>
           <Grid
