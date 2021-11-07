@@ -36,15 +36,10 @@ export default function DonationForm(props) {
         details,
         handleClose,
         handleError,
-        handleSubmit,
-        router
+        handleSubmit
     } = props
 
     const [step, setStep] = useState(0)
-
-    const Alert = React.forwardRef(function Alert(props, ref) {
-        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-    });
 
     const theme = useTheme();
     const mediumScreen = useMediaQuery(theme.breakpoints.up("md"));
