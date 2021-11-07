@@ -39,7 +39,7 @@ export default function FilterMarkaz(props) {
 
   const [open, setOpen] = React.useState(false);
   const [checked, setChecked] = React.useState(
-    new Array(3).fill(false)
+    // new Array(3).fill(false)
   );
   const anchorRef = React.useRef(null);
   const [value, setValue] = React.useState();
@@ -61,18 +61,18 @@ export default function FilterMarkaz(props) {
   };
 
   const handleChangeCategory = (event) => {
-    setChecked(event.target.checked);
-    const updatedCheck = checked.map((item,index)=>
-    index === position? !item: item
-  );
+  //   setChecked(event.target.checked);
+  //   const updatedCheck = checked.map((item,index)=>
+  //   index === position? !item: item
+  // );
 
-    setChecked(updatedCheck);
+  //   setChecked(updatedCheck);
     // setCategoryFilter({  
     //   ...categoryFilter,
     //   [event.target.name]: event.target.checked,
     // });
 
-    setCategoryFilter();
+    setCategoryFilter(event.target.value);
 
     // const prevs = event.target.value
     // prevs != event.target.value? setCategoryFilter2(event.target.value):setCategoryFilter2("");
@@ -228,7 +228,7 @@ export default function FilterMarkaz(props) {
                           <FormControlLabel
                             control={
                               <Checkbox
-                                checked={checked[0]}
+                                checked={checked}
                                 onChange={handleChangeCategory}
                                 name="PEMBANGUNAN_MARKAZ"
                               />
@@ -240,7 +240,7 @@ export default function FilterMarkaz(props) {
                           <FormControlLabel
                             control={
                               <Checkbox
-                                checked={checked[1]}
+                                checked={checked}
                                 onChange={handleChangeCategory}
                                 name="RENOVASI"
                               />
@@ -252,7 +252,7 @@ export default function FilterMarkaz(props) {
                           <FormControlLabel
                             control={
                               <Checkbox
-                                checked={checked[2]}
+                                checked={checked}
                                 onChange={handleChangeCategory}
                                 name="PENAMBAHAN_FASILITAS"
                               />

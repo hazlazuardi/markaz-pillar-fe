@@ -22,25 +22,26 @@ import RadioGroup from "@mui/material/RadioGroup";
 import { Box } from "@mui/system";
 import { FormControl } from "@mui/material";
 
-export default function FilterMarkaz(props) {
-  const { setSort, filter } = props;
+export default function Filter(props) {
+  const { setSort, filter, filterData, handler, ageFilter, setAgeFilter, nameFilter, setNameFilter, mutate } =
+    props;
 
   const [open, setOpen] = React.useState(false);
   const [checked, setChecked] = React.useState(true);
   const anchorRef = React.useRef(null);
   const [value, setValue] = React.useState();
 
-
-  const handleChange= (event) => {
-    setChecked(event.target.checked);
-    setValue(event.target.value);
-    if (value === "false") {
-      setSort(filter.location[0]);
-    } else if (value === "true") {
-      setSort(filter.location[1]);
-    }
+  const handleChangeAge = (event) => {
+    setAgeFilter(event.target.value);
+    setNameFilter("");
+    mutate();
   };
 
+  const handleChangeName = (event) => {
+    setNameFilter(event.target.value);
+    setAgeFilter("");
+    mutate();
+  };
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -120,29 +121,50 @@ export default function FilterMarkaz(props) {
                       aria-controls="panel1a-content"
                       id="panel1a-header"
                     >
-                      <Typography>Lokasi</Typography>
+                      <Typography>Urutkan Umur</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <FormControl component="fieldset">
-                        <RadioGroup
-                          value={value}
-                          onChange={handleChange}
-                        >
+                        <RadioGroup value={ageFilter} onChange={handleChangeAge}>
                           <FormControlLabel
                             control={<Radio />}
-                            value="true"
-                            label="Luar Jabodetabek"
+                            value="DESC"
+                            label="Termuda"
                           />
                           <FormControlLabel
                             control={<Radio />}
-                            value="false"
-                            label="Jabodetabek"
+                            value="ASC"
+                            label="Tertua"
                           />
                         </RadioGroup>
                       </FormControl>
                     </AccordionDetails>
                   </Accordion>
-                  
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel2a-content"
+                      id="panel2a-header"
+                    >
+                      <Typography>Urutkan Nama</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <FormControl component="fieldset">
+                        <RadioGroup value={nameFilter} onChange={handleChangeName}>
+                          <FormControlLabel
+                            control={<Radio />}
+                            value="ASC"
+                            label="A-Z"
+                          />
+                          <FormControlLabel
+                            control={<Radio />}
+                            value="DESC"
+                            label="Z-A"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </AccordionDetails>
+                  </Accordion>
                 </Box>
               </ClickAwayListener>
             </Paper>
