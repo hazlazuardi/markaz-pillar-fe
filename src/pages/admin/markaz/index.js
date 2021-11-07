@@ -46,8 +46,17 @@ export default function AdminMarkaz() {
     <GridView data={responseMarkaz} detail="admin/markaz" handleDelete={handleDeleteMarkaz} />
   )
   const TableViewMarkaz = (
-    <TableView data={responseMarkaz} detail="admin/markaz" handleDelete={handleDeleteMarkaz} />
-  )
+      <TableView
+          data={responseMarkaz}
+          detail="admin/markaz"
+          handleDelete={handleDeleteMarkaz}
+          santriormarkaz="markaz"
+          tableTempatMarkaz="Kategori"
+          // tableDomisili="Contact Person"
+          tableJenisKelamin="Contact Person"
+          tableTanggalLahir="Kontak"
+      />
+  );
 
   return (
     <>
