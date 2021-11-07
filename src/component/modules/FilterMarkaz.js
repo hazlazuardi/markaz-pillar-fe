@@ -126,7 +126,7 @@ export default function FilterMarkaz(props) {
         onClick={handleToggle}
       >
          <Chip
-          data-testid="filterChipButton"
+          data-testid="filterChipButton-at-admin-or-user-template"
           label="Filter"
           icon={<FilterList />}
         />
@@ -138,6 +138,7 @@ export default function FilterMarkaz(props) {
         placement="bottom-start"
         transition
         disablePortal
+        style={{ zIndex: '1000'}}
       >
         {({ TransitionProps, placement }) => (
           <Grow

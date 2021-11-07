@@ -145,7 +145,7 @@ export default function FilterMarkazMobile(props) {
         onClick={handleToggle}
       >
         <Chip
-          data-testid="filterChipButton"
+          data-testid="filterChipButton-at-admin-or-user-template"
           label="Filter"
           icon={<FilterList />}
         />

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { axiosMain } from '../../../axiosInstances'
+import { axiosMain } from "../../../axiosInstances";
 import useSWR from "swr";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
 import GridView from "../../../component/templates/admin/GridView";
@@ -10,11 +10,18 @@ const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 export default function AdminSantri() {
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
+  const [ageFilter, setAgeFilter] = useState();
+  const [nameFilter, setNameFilter] = useState();
   const {
     data: responseSantri,
     error,
     mutate,
-  } = useSWR(`/santri/search?page=${page - 1}&n=${entries}`, fetcher);
+  } = useSWR(
+    `/santri/search?page=${page - 1}&n=${entries}&${
+      !!ageFilter ? "sortedAge=" + ageFilter : ""
+    }${!!nameFilter ? "sortedName=" + nameFilter : ""}`,
+    fetcher
+  );
 
   // *******************************************************
   // Delete
@@ -33,17 +40,26 @@ export default function AdminSantri() {
   };
 
   const GridViewMarkaz = (
-    <GridView data={responseSantri} detail="admin/santri" handleDelete={handleDeleteSantri} />
-  )
+    <GridView
+      data={responseSantri}
+      detail="admin/santri"
+      handleDelete={handleDeleteSantri}
+    />
+  );
+
   const TableViewMarkaz = (
-    <TableView data={responseSantri} detail="admin/santri" handleDelete={handleDeleteSantri} />
-  )
+    <TableView
+      data={responseSantri}
+      detail="admin/santri"
+      handleDelete={handleDeleteSantri}
+    />
+  );
 
   return (
     <>
       <AdminOrUserTemplate
         isAdmin
-        variant='santri'
+        variant="santri"
         GridView={GridViewMarkaz}
         TableView={TableViewMarkaz}
         entries={entries}
@@ -53,6 +69,11 @@ export default function AdminSantri() {
         data={responseSantri}
         error={error}
         hrefCreate='/admin/santri/create'
+        ageFilter={ageFilter}
+        setAgeFilter={setAgeFilter}
+        nameFilter={nameFilter}
+        setNameFilter={setNameFilter}
+        mutate={mutate}
       />
     </>
   );

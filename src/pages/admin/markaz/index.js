@@ -10,11 +10,21 @@ const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 export default function AdminMarkaz() {
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
+  const [locationFilter, setLocationFilter] = useState();
+  const [nameFilter, setNameFilter] = useState();
+  const [categoryFilter, setCategoryFilter] = useState();
   const {
     data: responseMarkaz,
     error,
     mutate,
-  } = useSWR(`/markaz/search?page=${page - 1}&n=${entries}`, fetcher);
+  } = useSWR(
+    `/markaz/search?page=${page - 1}&n=${entries}&${
+      !!locationFilter ? "address=" + locationFilter : ""
+    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${
+      !!categoryFilter ? "category=" + categoryFilter : ""
+    }`,
+    fetcher
+  );
 
   // *******************************************************
   // Delete
@@ -25,7 +35,7 @@ export default function AdminMarkaz() {
       .then((response) => {
         mutate();
       })
-      .catch(e => {
+      .catch((e) => {
         if (e.response.data.status === 401) {
           localStorage.clear();
         }
@@ -33,17 +43,26 @@ export default function AdminMarkaz() {
   };
 
   const GridViewMarkaz = (
-    <GridView data={responseMarkaz} detail="admin/markaz" handleDelete={handleDeleteMarkaz} />
-  )
+    <GridView
+      data={responseMarkaz}
+      detail="admin/markaz"
+      handleDelete={handleDeleteMarkaz}
+    />
+  );
+
   const TableViewMarkaz = (
-    <TableView data={responseMarkaz} detail="admin/markaz" handleDelete={handleDeleteMarkaz} />
-  )
+    <TableView
+      data={responseMarkaz}
+      detail="admin/markaz"
+      handleDelete={handleDeleteMarkaz}
+    />
+  );
 
   return (
     <>
       <AdminOrUserTemplate
         isAdmin
-        variant='markaz'
+        variant="markaz"
         GridView={GridViewMarkaz}
         TableView={TableViewMarkaz}
         entries={entries}
@@ -53,6 +72,13 @@ export default function AdminMarkaz() {
         data={responseMarkaz}
         error={error}
         hrefCreate='/admin/markaz/create'
+        locationFilter={locationFilter}
+        setLocationFilter={setLocationFilter}
+        nameFilter={nameFilter}
+        setNameFilter={setNameFilter}
+        categoryFilter={categoryFilter}
+        setCategoryFilter={setCategoryFilter}
+        mutate={mutate}
       />
     </>
   );

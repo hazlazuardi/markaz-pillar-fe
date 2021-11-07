@@ -42,34 +42,6 @@ export default function FilterSantri(props) {
   const anchorRef = React.useRef(null);
   const [value, setValue] = React.useState();
 
-<<<<<<< HEAD
-  const handleChangeSort = (event) => {
-<<<<<<< HEAD
-    setChecked(event.target.checked);
-=======
-    // setChecked(event.target.checked);
->>>>>>> bbd1a4f (before rebasing)
-    setValue(event.target.value);
-    if (value === "desc") {
-      setSort(filter.sort[0]);
-    } else if (value === "asc") {
-      setSort(filter.sort[1]);
-    }
-  };
-
-  const handleChangeAge = (event) => {
-<<<<<<< HEAD
-    setChecked(event.target.checked);
-=======
-    // setChecked(event.target.checked);
->>>>>>> bbd1a4f (before rebasing)
-    setValue(event.target.value);
-    if (value === "desc") {
-      setSort(filter.age[0]);
-    } else if (value === "asc") {
-      setSort(filter.age[1]);
-    }
-=======
   const handleChangeAge = (event) => {
     setAgeFilter(event.target.value);
     setNameFilter("");
@@ -80,7 +52,6 @@ export default function FilterSantri(props) {
     setNameFilter(event.target.value);
     setAgeFilter("");
     mutate();
->>>>>>> afb4561 (feat: filter feature)
   };
 
   const handleToggle = () => {
@@ -127,7 +98,7 @@ export default function FilterSantri(props) {
         onClick={handleToggle}
       >
         <Chip
-          data-testid="filterChipButton"
+          data-testid="filterChipButton-at-admin-or-user-template"
           label="Filter"
           icon={<FilterList />}
         />
@@ -139,6 +110,7 @@ export default function FilterSantri(props) {
         placement="bottom-start"
         transition
         disablePortal
+        style={{ zIndex: '1000'}}
       >
         {({ TransitionProps, placement }) => (
           <Grow

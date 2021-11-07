@@ -12,14 +12,27 @@ export default function Markaz(props) {
   const { allMarkaz } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
+  const [locationFilter, setLocationFilter] = useState();
+  const [nameFilter, setNameFilter] = useState();
+  const [categoryFilter, setCategoryFilter] = useState();
+
   const {
     data: responseMarkaz,
     error,
     mutate,
-  } = useSWR(`/markaz/search?page=${page - 1}&n=${entries}`, fetcher, {
-    fallbackData: allMarkaz,
-    refreshInterval: 30000,
-  });
+  } = useSWR(
+    `/markaz/search?page=${page - 1}&n=${entries}&${
+      !!locationFilter ? "address=" + locationFilter : ""
+    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${
+      !!categoryFilter ? "category=" + categoryFilter : ""
+    }
+`,
+    fetcher,
+    {
+      fallbackData: allMarkaz,
+      refreshInterval: 30000,
+    }
+  );
 
   const GridViewMarkaz = (
     <GridView data={responseMarkaz} detail="admin/markaz" />
@@ -36,6 +49,13 @@ export default function Markaz(props) {
         setPage={setPage}
         data={responseMarkaz}
         error={error}
+        locationFilter={locationFilter}
+        setLocationFilter={setLocationFilter}
+        nameFilter={nameFilter}
+        setNameFilter={setNameFilter}
+        categoryFilter={categoryFilter}
+        setCategoryFilter={setCategoryFilter}
+        mutate={mutate}
       />
     </>
   );

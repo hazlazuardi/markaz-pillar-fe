@@ -48,10 +48,6 @@ export default function ShowAll(props) {
     setLocationFilter,
     categoryFilter,
     setCategoryFilter,
-    // categoryFilter2,
-    // setCategoryFilter2,
-    // categoryFilter3,
-    // setCategoryFilter3,
     handler,
     mutate,
   } = props;

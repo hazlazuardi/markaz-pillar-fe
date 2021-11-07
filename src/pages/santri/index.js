@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { axiosMain } from "../../axiosInstances";
 import useSWR from "swr";
 
@@ -12,11 +12,20 @@ export default function Santri(props) {
   const { allSantri } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const { data: responseSantri, error } = useSWR(
-    `/santri/search?page=${page - 1}&n=${entries}`,
+  const [ageFilter, setAgeFilter] = useState();
+  const [nameFilter, setNameFilter] = useState();
+  const { data: responseSantri, error, mutate } = useSWR(
+    `/santri/search?${!!ageFilter ? "sortedAge=" + ageFilter : ""}${
+      !!nameFilter ? "sortedName=" + nameFilter : ""
+    }&page=${page - 1}&n=${entries}`,
     fetcher,
     { fallbackData: allSantri, refreshInterval: 30000 }
   );
+
+  useEffect(() => {
+    mutate();
+  }, [ageFilter, nameFilter]);
+
   const GridViewMarkaz = <GridView data={responseSantri} detail="santri" />;
 
   return (
@@ -30,6 +39,11 @@ export default function Santri(props) {
         setPage={setPage}
         data={responseSantri}
         error={error}
+        ageFilter={ageFilter}
+        setAgeFilter={setAgeFilter}
+        nameFilter={nameFilter}
+        setNameFilter={setNameFilter}
+        mutate={mutate}
       />
     </>
   );

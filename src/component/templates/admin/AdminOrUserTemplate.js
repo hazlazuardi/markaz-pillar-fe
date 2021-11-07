@@ -1,72 +1,105 @@
 import React, { useCallback, useEffect, useState } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import Link from "@mui/material/Link";
-import Typography from '@mui/material/Typography'
-import TextField from '@mui/material/TextField'
-import { AppBar, Chip, FormControl, InputLabel, MenuItem, Pagination, Select, Stack, Tab, useMediaQuery } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import {
+  AppBar,
+  Chip,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Pagination,
+  Select,
+  Stack,
+  Tab,
+  useMediaQuery,
+} from "@mui/material";
 import { FilterList } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import SwipeableViews from 'react-swipeable-views';
-import { SwipeableEnableScroll } from '../../../component/SwipeableEnableScroll'
-import { useTheme } from '@mui/material/styles';
+import SwipeableViews from "react-swipeable-views";
+import { SwipeableEnableScroll } from "../../../component/SwipeableEnableScroll";
+import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/system";
+import FilterMarkaz from "../../../component/modules/FilterMarkaz";
+import FilterMarkazMobile from "../../../component/modules/FilterMarkazMobile";
+import FilterSantri from "../../../component/modules/FilterSantri";
+import FilterSantriMobile from "../../../component/modules/FilterSantriMobile";
 
 function AdminOrUserTemplate(props) {
-    const {
-        isAdmin,
-        variant,
-        GridView,
-        TableView,
-        entries,
-        setEntries,
-        page,
-        setPage,
-        data,
-        error,
-        hrefCreate,
-        children
-    } = props;
+  const {
+    isAdmin,
+    variant,
+    GridView,
+    TableView,
+    entries,
+    setEntries,
+    page,
+    setPage,
+    data,
+    error,
+    hrefCreate,
+    children,
+    ageFilter,
+    setAgeFilter,
+    nameFilter,
+    setNameFilter,
+    locationFilter,
+    setLocationFilter,
+    categoryFilter,
+    setCategoryFilter,
+    mutate,
+  } = props;
 
-    const [doAnimateHeight, setDoAnimateHeight] = useState(true)
+  const [doAnimateHeight, setDoAnimateHeight] = useState(true);
 
-    // *******************************************************
-    // Show Entries
-    // *******************************************************
-    const handleChangeEntries = useCallback(event => {
-        setEntries(event.target.value);
-        setPage(1)
-        // disable it until API Calls done
-        setDoAnimateHeight(false)
+  // *******************************************************
+  // Show Entries
+  // *******************************************************
+  const handleChangeEntries = useCallback(
+    (event) => {
+      setEntries(event.target.value);
+      setPage(1);
+      // disable it until API Calls done
+      setDoAnimateHeight(false);
+    },
+    [setEntries, setPage]
+  );
 
-    }, [setEntries, setPage])
+  // *******************************************************
+  // Pagination
+  // *******************************************************
+  const matchXs = useMediaQuery("(max-width:600px)");
+  const handlePagination = (event, value) => {
+    setPage(value);
+    // disable it until API Calls done
+    setDoAnimateHeight(false);
+  };
 
+  // *******************************************************
+  // Tabs
+  // *******************************************************
+  const theme = useTheme();
+  const [tabIndex, setTabIndex] = useState(0);
+  const handleTabIndex = (event, tab) => {
+    setTabIndex(tab);
+    setDoAnimateHeight(false);
+  };
+  const handleChangeTabIndex = (tab) => {
+    setTabIndex(tab);
+    setDoAnimateHeight(false);
+  };
 
-    // *******************************************************
-    // Pagination
-    // *******************************************************
-    const matchXs = useMediaQuery('(max-width:600px)')
-    const handlePagination = (event, value) => {
-        setPage(value);
-        // disable it until API Calls done
-        setDoAnimateHeight(false);
-
+  useEffect(() => {
+    return () => {
+      setDoAnimateHeight(true);
     };
+  }, [entries, page, tabIndex]);
 
-    // *******************************************************
-    // Tabs
-    // *******************************************************
-    const theme = useTheme()
-    const [tabIndex, setTabIndex] = useState(0);
-    const handleTabIndex = (event, tab) => {
-        setTabIndex(tab);
-        setDoAnimateHeight(false)
-    };
-    const handleChangeTabIndex = tab => {
-        setTabIndex(tab);
-        setDoAnimateHeight(false)
-    };
+  const matches = useMediaQuery("(max-width:600px)");
+  const size = matches ? "small" : "medium";
 
 
     useEffect(() => {
@@ -90,11 +123,58 @@ function AdminOrUserTemplate(props) {
                     margin='normal'
                     fullWidth
                     size='small' />
-                <Chip
-                    data-testid='filterChipButton-at-admin-or-user-template'
-                    label='Filter'
-                    icon={<FilterList />}
-                />
+                {(() => {
+        if (variant == "markaz" && size == "small") {
+          return (
+            <FilterMarkazMobile
+              data-testid="filterChipButton-at-admin-or-user-template"
+              locationFilter={locationFilter}
+              setLocationFilter={setLocationFilter}
+              nameFilter={nameFilter}
+              setNameFilter={setNameFilter}
+              categoryFilter={categoryFilter}
+              setCategoryFilter={setCategoryFilter}
+              mutate={mutate}
+            />
+          );
+        } else if (variant == "markaz" && size == "medium") {
+          return (
+            <FilterMarkaz
+              data-testid="filterChipButton-at-admin-or-user-template"
+              locationFilter={locationFilter}
+              setLocationFilter={setLocationFilter}
+              nameFilter={nameFilter}
+              setNameFilter={setNameFilter}
+              categoryFilter={categoryFilter}
+              setCategoryFilter={setCategoryFilter}
+              mutate={mutate}
+            />
+          );
+        } else if (variant == "santri" && size == "small") {
+          return (
+            <FilterSantriMobile
+              data-testid="filterChipButton-at-admin-or-user-template"
+              ageFilter={ageFilter}
+              setAgeFilter={setAgeFilter}
+              nameFilter={nameFilter}
+              setNameFilter={setNameFilter}
+              mutate={mutate}
+            />
+          );
+        } else {
+          return (
+            <FilterSantri
+              data-testid="filterChipButton-at-admin-or-user-template"
+              ageFilter={ageFilter}
+              setAgeFilter={setAgeFilter}
+              nameFilter={nameFilter}
+              setNameFilter={setNameFilter}
+              mutate={mutate}
+            />
+          );
+        }
+      })()}
+
             </Box>
             {data.totalElement !== 0 && GridView && TableView ? (<TabContext value={tabIndex} >
                 <AppBar position='relative' color="transparent" elevation={0} >
@@ -171,7 +251,6 @@ function AdminOrUserTemplate(props) {
         </>
     )
 }
-
 
 AdminOrUserTemplate.propTypes = {
     data: PropTypes.any,
