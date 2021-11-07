@@ -1,11 +1,5 @@
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { FilterList } from "@mui/icons-material";
-=======
->>>>>>> 8fe651a (before rebasing)
-=======
->>>>>>> bbd1a4f (before rebasing)
 import Grid from "@mui/material/Grid";
 import * as React from "react";
 import Button from "@mui/material/Button";
@@ -18,13 +12,7 @@ import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-<<<<<<< HEAD
-<<<<<<< HEAD
 import Checkbox from "@mui/material/Checkbox";
-=======
->>>>>>> 8fe651a (before rebasing)
-=======
->>>>>>> bbd1a4f (before rebasing)
 import Radio from "@mui/material/Radio";
 import { Typography } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
@@ -34,38 +22,14 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import RadioGroup from "@mui/material/RadioGroup";
 import { Box } from "@mui/system";
 import { FormControl } from "@mui/material";
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { Chip } from "@mui/material";
 
 export default function FilterSantri(props) {
-  const {
-    setSort,
-    filter,
-    filterData,
-    handler,
-    ageFilter,
-    setAgeFilter,
-    nameFilter,
-    setNameFilter,
-    mutate,
-  } = props;
-=======
-
-export default function FilterSantri(props) {
-  const { setSort, filter } = props;
->>>>>>> 8fe651a (before rebasing)
-=======
-
-export default function FilterSantri(props) {
-  const { setSort, filter } = props;
->>>>>>> bbd1a4f (before rebasing)
+  const { ageFilter, setAgeFilter, nameFilter, setNameFilter, mutate } = props;
 
   const [open, setOpen] = React.useState(false);
   const [checked, setChecked] = React.useState(true);
   const anchorRef = React.useRef(null);
-<<<<<<< HEAD
-<<<<<<< HEAD
   const [value, setValue] = React.useState();
 
   const handleChangeAge = (event) => {
@@ -78,41 +42,6 @@ export default function FilterSantri(props) {
     setNameFilter(event.target.value);
     setAgeFilter("");
     mutate();
-=======
-  const [value, setValue] = React.useState("");
-
-  const handleChangeSort = (event) => {
-    setChecked(event.target.checked);
-=======
-  const [value, setValue] = React.useState("");
-
-  const handleChangeSort = (event) => {
-    // setChecked(event.target.checked);
->>>>>>> bbd1a4f (before rebasing)
-    setValue(event.target.value);
-    if (value === "desc") {
-      setSort(filter.sort[0]);
-    } else if (value === "asc") {
-      setSort(filter.sort[1]);
-    }
-  };
-
-  const handleChangeAge = (event) => {
-<<<<<<< HEAD
-    setChecked(event.target.checked);
-=======
-    // setChecked(event.target.checked);
->>>>>>> bbd1a4f (before rebasing)
-    setValue(event.target.value);
-    if (value === "desc") {
-      setSort(filter.age[0]);
-    } else if (value === "asc") {
-      setSort(filter.age[1]);
-    }
-<<<<<<< HEAD
->>>>>>> 8fe651a (before rebasing)
-=======
->>>>>>> bbd1a4f (before rebasing)
   };
 
   const handleToggle = () => {
@@ -158,19 +87,11 @@ export default function FilterSantri(props) {
         aria-haspopup="true"
         onClick={handleToggle}
       >
-<<<<<<< HEAD
-<<<<<<< HEAD
         <Chip
           data-testid="filterChipButton-at-admin-or-user-template"
           label="Filter"
           icon={<FilterList />}
         />
-=======
-        <FilterAltOutlinedIcon />
->>>>>>> 8fe651a (before rebasing)
-=======
-        <FilterAltOutlinedIcon />
->>>>>>> bbd1a4f (before rebasing)
       </Button>
       <Popper
         open={open}
@@ -179,13 +100,7 @@ export default function FilterSantri(props) {
         placement="bottom-start"
         transition
         disablePortal
-<<<<<<< HEAD
-<<<<<<< HEAD
-        style={{ zIndex: '1000'}}
-=======
->>>>>>> 8fe651a (before rebasing)
-=======
->>>>>>> bbd1a4f (before rebasing)
+        style={{ zIndex: "1000" }}
       >
         {({ TransitionProps, placement }) => (
           <Grow
@@ -216,8 +131,6 @@ export default function FilterSantri(props) {
                     </AccordionSummary>
                     <AccordionDetails>
                       <FormControl component="fieldset">
-<<<<<<< HEAD
-<<<<<<< HEAD
                         <RadioGroup
                           value={ageFilter}
                           onChange={handleChangeAge}
@@ -225,30 +138,11 @@ export default function FilterSantri(props) {
                           <FormControlLabel
                             control={<Radio />}
                             value="DESC"
-=======
-=======
->>>>>>> bbd1a4f (before rebasing)
-                        <RadioGroup value={value} onChange={handleChangeAge}>
-                          <FormControlLabel
-                            control={<Radio />}
-                            value="asc"
-<<<<<<< HEAD
->>>>>>> 8fe651a (before rebasing)
-=======
->>>>>>> bbd1a4f (before rebasing)
                             label="Termuda"
                           />
                           <FormControlLabel
                             control={<Radio />}
-<<<<<<< HEAD
-<<<<<<< HEAD
                             value="ASC"
-=======
-                            value="desc"
->>>>>>> 8fe651a (before rebasing)
-=======
-                            value="desc"
->>>>>>> bbd1a4f (before rebasing)
                             label="Tertua"
                           />
                         </RadioGroup>
@@ -265,8 +159,6 @@ export default function FilterSantri(props) {
                     </AccordionSummary>
                     <AccordionDetails>
                       <FormControl component="fieldset">
-<<<<<<< HEAD
-<<<<<<< HEAD
                         <RadioGroup
                           value={nameFilter}
                           onChange={handleChangeName}
@@ -274,30 +166,11 @@ export default function FilterSantri(props) {
                           <FormControlLabel
                             control={<Radio />}
                             value="ASC"
-=======
-=======
->>>>>>> bbd1a4f (before rebasing)
-                        <RadioGroup value={value} onChange={handleChangeSort}>
-                          <FormControlLabel
-                            control={<Radio />}
-                            value="desc"
-<<<<<<< HEAD
->>>>>>> 8fe651a (before rebasing)
-=======
->>>>>>> bbd1a4f (before rebasing)
                             label="A-Z"
                           />
                           <FormControlLabel
                             control={<Radio />}
-<<<<<<< HEAD
-<<<<<<< HEAD
                             value="DESC"
-=======
-                            value="asc"
->>>>>>> 8fe651a (before rebasing)
-=======
-                            value="asc"
->>>>>>> bbd1a4f (before rebasing)
                             label="Z-A"
                           />
                         </RadioGroup>
