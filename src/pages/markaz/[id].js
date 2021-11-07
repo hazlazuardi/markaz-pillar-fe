@@ -1,45 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DetailTemplate from "../../component/templates/detail/Detail";
+import { axiosMain } from '../../axiosInstances';
+import useSWR from "swr";
+import { useRouter } from "next/router";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
-
-export async function getStaticProps(context) {
-  const id = context.params.id;
-  const response = await fetch(`${BASE_URL}/markaz?id=` + id);
-  const data = await response.json();
-  const markaz = data.result;
-
-  return {
-    props: {
-      markaz: markaz,
-    },
-  };
-}
-
-export async function getStaticPaths() {
-  const response = await fetch(`${BASE_URL}/markaz/search?n=1000`);
-  const data = await response.json();
-  const allMarkaz = data.result;
-
-  const paths = allMarkaz.map((markaz) => ({
-    params: { id: markaz.id.toString() },
-  }));
-
-  return {
-    paths: paths,
-    fallback: false,
-  };
-}
-
+const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function MarkazLayoutDetail(props) {
-  const markaz = props.markaz;
+  const staticMarkaz = props.detailMarkaz;
+  const [markaz, setMarkaz] = useState(staticMarkaz)
+  const router = useRouter();
+  const { id } = router.query
+  const { data: responseMarkaz, error } = useSWR(router.isReady ? `/markaz?id=${id}` : null, fetcher)
 
   const image = markaz.thumbnailURL;
 
   const consistent = {
     name: markaz.name,
     background: markaz.background,
-    id : markaz.id
+    id: markaz.id
   };
 
   const inconsistent = {
@@ -49,6 +27,14 @@ export default function MarkazLayoutDetail(props) {
     "Kebutuhan Fasilitas": markaz.description,
   };
 
+  useEffect(() => {
+    if (!!responseMarkaz) {
+      setMarkaz(responseMarkaz.result);
+      console.log('santri set', responseMarkaz)
+    }
+  }, [responseMarkaz])
+  if (error) return "An error has occurred.";
+  if (!responseMarkaz) return "Loading...";
   return (
     <DetailTemplate
       consistent={consistent}
@@ -61,3 +47,43 @@ export default function MarkazLayoutDetail(props) {
     />
   );
 }
+
+export async function getStaticProps(context) {
+  const id = context.params.id;
+
+  var staticDetailMarkaz = []
+  await axiosMain
+    .get(`/markaz?id=${id}`)
+    .then(response => {
+
+      staticDetailMarkaz = response.data.result
+
+    })
+  return {
+    props: {
+      detailMarkaz: staticDetailMarkaz,
+    },
+    revalidate: 10
+  };
+}
+
+export async function getStaticPaths() {
+  var paths = []
+  var allMarkaz = []
+  await axiosMain
+    .get(`/markaz/search?n=1000`)
+    .then(response => {
+      allMarkaz = response.data.result
+      paths = allMarkaz.map((markaz) => ({
+        params: { id: markaz.id.toString() },
+      }));
+    })
+    .catch(e => {
+      throw e.response
+    })
+  return {
+    paths: paths,
+    fallback: false,
+  };
+}
+
