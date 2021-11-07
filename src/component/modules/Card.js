@@ -41,7 +41,7 @@ export default function Card(props) {
         <Grid container spacing={2} className={styles.textCenter}>
           <Grid item xs={12} mt={2}>
             <Link  href={`/${detail}/` + id} passHref>
-              <Typography data-testid='name-at-card' variant="h6">{name}</Typography>
+              <Typography data-testid='name-at-card' variant="h6">{name.length > 18 ? name.substring(0, 18) + "..." : name}</Typography>
             </Link>
           </Grid>
           <Grid
