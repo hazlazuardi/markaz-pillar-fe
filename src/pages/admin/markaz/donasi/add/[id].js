@@ -4,100 +4,132 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Typography from '@mui/material/Typography'
-import Dropzone from "../../../../../component/modules/Dropzone";
 import { useAppContext } from "../../../../../context/AppContext";
 import { FormControl } from "@mui/material";
 import { Select } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import { dispatchTypes } from "../../../../../context/AppReducer";
-import router from "next/router";
+import { useRouter } from "next/router";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import { axiosMain } from "../../../../../axiosInstances";
+import OutlinedInput from '@mui/material/OutlinedInput';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
-function AdminDonasiCreate() {
-    const { state, dispatch } = useAppContext();
-    const { currentAccessToken } = state;
-    const [thumbnail, setThumbnail] = useState({});
-    const [donasi, setDonasi] = useState({
+function AdminDonasiCreate(props) {
+    const { responseMarkaz } = props
+    const { dispatch } = useAppContext();
+    const [data, setData] = useState({
         name: "",
-        category: "",
-        facility: "",
-        goal: "",
+        categories: [],
+        description: "",
+        nominal: "",
+        isActive: null
     });
     const form = useRef(null);
 
     const handleChangeDonasi = ({ target }) => {
         const { name, value } = target;
-        setDonasi((prev) => ({
+        setData((prev) => ({
             ...prev,
             [name]: value,
         }));
     };
 
+    const router = useRouter()
+    const {id} = router.query
     const handleSubmit = async (event) => {
+        setLoading(true)
         event.preventDefault();
-
-        // API Route usage
-        const data = new FormData();
-        const donasiBlob = new Blob([JSON.stringify(donasi)], {
-            type: "application/json",
-        });
-        data.append("thumbnail", thumbnail);
-        data.append("donasi", donasiBlob);
-        // Display the key/value pairs
-        for (var pair of data.entries()) {
-
-        }
-
-        await fetch(`${BASE_URL}/admin/donasi`, {
-            body: data,
-            headers: {
-                Accept: "application/json, text/plain, */*",
-                Authorization: `Bearer ${currentAccessToken}`,
-            },
-            method: "POST",
-        })
-            .then((preResponse) => {
-                preResponse.json()
-                    .then((response) => {
-                        if (preResponse.status === 201) {
-
-                            dispatch({
-                                type: dispatchTypes.SNACKBAR_CUSTOM,
-                                payload: {
-                                    message: "Donasi Created"
-                                }
-                            })
-                        } else if (preResponse.status === 400) {
-
-                            dispatch({
-                                type: dispatchTypes.SNACKBAR_CUSTOM,
-                                payload: {
-                                    message: "Incorrect information"
-                                }
-                            })
-                        } else if (preResponse.status === 413) {
-
-                            dispatch({
-                                type: dispatchTypes.SNACKBAR_CUSTOM,
-                                payload: {
-                                    message: "File is too large"
-                                }
-                            })
-                        }
-                    })
-                    .catch(e => {
-
-                    })
-            }).catch(e => {
-
+        console.log("data", data)
+        await axiosMain
+            .post(`/admin/donation/markaz?id=${id}`, data)
+            .then(response => {
+                setLoading(false)
+                console.log(response)
+                dispatch({
+                    type: dispatchTypes.SNACKBAR_CUSTOM,
+                    payload: {
+                        severity: 'success',
+                        message: "Donasi Markaz Created"
+                    }
+                })
+            })
+            .catch(error => {
+                setLoading(false)
+                console.log(error.response)
+                // Check & Handle if error.response is defined
+                if (!!error.response) {
+                    if (error.response.status === 400) {
+                    console.log(error.response)
+                        // Check & Handle if bad request (empty fields, etc)
+                        dispatch({
+                            type: dispatchTypes.SNACKBAR_CUSTOM,
+                            payload: {
+                                severity: 'error',
+                                message: 'Incorrect information'
+                            }
+                        });
+                    } else {
+                        // Check & Handle if other error code
+                        dispatch({
+                            type: dispatchTypes.SERVER_ERROR
+                        });
+                    }
+                } else {
+                    // Check & Handle if error.response is undefined
+                    dispatch({
+                        type: dispatchTypes.SERVER_ERROR
+                    });
+                }
             })
     };
 
+    const [loading, setLoading] = useState(false)
+
+    const [isActive, setIsActive] = useState();
+
+//      const handleIsActive = (event) => {
+//        setIsActive(event.target.isActive);
+//      };
+
+    const handleIsActive = (event) => {
+        const {
+          target: { value },
+        } = event;
+        setIsActive(event.target.isActive);
+        setData((prev) => ({
+            ...prev,
+            isActive: event.target.value
+        }));
+    };
+
+    const names = [
+      'RENOVASI',
+      'PEMBANGUNAN_MARKAZ'
+    ];
+
+    const [category, setCategory] = useState([]);
+
+    const handleChange = (event) => {
+        const {
+          target: { value },
+        } = event;
+        setCategory(
+          // On autofill we get a the stringified value.
+          typeof value === 'string' ? value.split(',') : value,
+        );
+        setData((prev) => ({
+            ...prev,
+            categories: category,
+        }));
+    };
+
+    console.log(category)
 
     return (
         <div>
@@ -113,25 +145,6 @@ function AdminDonasiCreate() {
                         <Grid item>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <Typography variant="h5" color="initial">Upload an Image</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Dropzone
-                                        name="thumbnail"
-                                        setFile={setThumbnail}
-                                        accept={"application/pdf"}
-                                    />
-                                </Grid>
-                                {thumbnail.name &&
-                                    <Grid item xs={12}>
-                                        <Typography variant="body1" color="initial">Uploaded: {thumbnail.name}</Typography>
-                                    </Grid>
-                                }
-                            </Grid>
-                        </Grid>
-                        <Grid item>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12}>
                                     <Typography variant="h5" color="initial">Add Donasi Detail</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
@@ -143,16 +156,30 @@ function AdminDonasiCreate() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        name="category"
-                                        label="Category"
-                                        fullWidth
-                                        onChange={handleChangeDonasi}
-                                    />
+                                  <FormControl sx= {{width: '100%'}}>
+                                    <InputLabel id="demo-multiple-name-label">Category</InputLabel>
+                                    <Select
+                                      labelId="demo-multiple-name-label"
+                                      id="demo-multiple-name"
+                                      multiple
+                                      value={category}
+                                      onChange={handleChange}
+                                      input={<OutlinedInput label="Categories" />}
+                                    >
+                                      {names.map((category) => (
+                                        <MenuItem
+                                          key={category}
+                                          value={category}
+                                        >
+                                          {category}
+                                        </MenuItem>
+                                      ))}
+                                    </Select>
+                                  </FormControl>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        name="facility"
+                                        name="description"
                                         label="Facility Requirement"
                                         fullWidth
                                         onChange={handleChangeDonasi}
@@ -160,7 +187,7 @@ function AdminDonasiCreate() {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        name="goal"
+                                        name="nominal"
                                         label="Goal"
                                         fullWidth
                                         onChange={handleChangeDonasi}
@@ -169,22 +196,24 @@ function AdminDonasiCreate() {
                                 <Grid item xs={12}>
                                     <TextField
                                         disabled
-                                        name="progress"
+                                        name="donated"
                                         label="Current Progress"
                                         fullWidth
                                         onChange={handleChangeDonasi}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                <Typography><p>Display on Markaz detail page?</p></Typography>
                                         <FormControl component="fieldset">
+                                        <FormLabel><Typography><p>Display on Markaz detail page?</p></Typography></FormLabel>
                                           <RadioGroup
                                             aria-label="displayOnMarkazDetail"
-                                            defaultValue="yes"
+                                            defaultValue={false}
                                             name="radio-buttons-group"
+                                            value={isActive}
+                                            onChange={handleIsActive}
                                           >
-                                            <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                                            <FormControlLabel value="no" control={<Radio />} label="No" />
+                                            <FormControlLabel value={true} control={<Radio />} label="Yes" />
+                                            <FormControlLabel value={false} control={<Radio />} label="No" />
                                           </RadioGroup>
                                         </FormControl>
                                 </Grid>
