@@ -36,13 +36,15 @@ export const enumRoutes = {
     ADMIN_SANTRI_CREATE: "/admin/santri/create",
     ADMIN_MARKAZ_EDIT: "/admin/markaz/edit",
     ADMIN_SANTRI_EDIT: "/admin/santri/edit",
+    ADMIN_DATA_PENGGUNA: "/admin/data-pengguna",
     LANDING: "/",
 
 };
 
 export const enumProtectedRoutes = [
     enumRoutes.ADMIN_MARKAZ,
-    enumRoutes.ADMIN_SANTRI
+    enumRoutes.ADMIN_SANTRI,
+    enumRoutes.ADMIN_DATA_PENGGUNA
 ]
 
 // Initialize variables

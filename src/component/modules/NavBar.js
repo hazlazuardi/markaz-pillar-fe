@@ -1,7 +1,7 @@
 import { AppBar, Avatar, Button, IconButton, List, ListItem, ListItemText, SwipeableDrawer, Toolbar, Typography, Container } from '@mui/material'
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { Box, width } from '@mui/system'
+import { Box } from '@mui/system'
 import MenuIcon from '@mui/icons-material/Menu'
 import Link from 'next/link'
 import { useAppContext } from '../../context/AppContext'
@@ -34,6 +34,13 @@ export default function NavBar() {
         }
     ]
 
+    const drawerPages = [
+        {
+            name: 'Pengguna',
+            path: "/admin/data-pengguna"
+        },
+    ]
+
 
     const handleLogout = () => {
         dispatch({
@@ -52,11 +59,11 @@ export default function NavBar() {
         <Box
             sx={{
                 width: {
-                    xs: '100vw', // theme.breakpoints.up('xs')
-                    sm: 250, // theme.breakpoints.up('sm')
+                    xs: '100%', // theme.breakpoints.up('xs')
+                    sm: '100%', // theme.breakpoints.up('sm')
                 },
                 height: '100%',
-                display: { xs: 'flex', sm: 'none' },
+                display: { xs: 'flex', sm: 'flex' },
                 mb: '2em'
             }}
             role="presentation"
@@ -66,7 +73,7 @@ export default function NavBar() {
             justifyContent='space-between'
         >
             {currentUser && (
-                <Box width='100vw' overflow='hidden' padding='2em'>
+                <Box width='100%' overflow='hidden' padding='2em'>
                     <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
                         <Avatar sx={{ width: 100, height: 100, mb: '1em' }}>{currentUser[0].toUpperCase()}</Avatar>
                     </Box>
@@ -84,6 +91,14 @@ export default function NavBar() {
                             </ Link>
                         </ListItem>
                     ))}
+                    {drawerPages.map((page, index) => (
+                        <ListItem button key={index}>
+                            <Link href={page.path} passHref >
+                                <ListItemText sx={{ textAlign: 'center' }} primary={page.name} />
+                            </ Link>
+                        </ListItem>
+                    ))}
+
                 </List>
             </Box>
 
@@ -128,7 +143,7 @@ export default function NavBar() {
                                 color="primary"
                                 edge="end"  //to counteract margin/padding
                                 aria-label="menu"
-                                sx={{ display: { xs: 'block', sm: 'none' } }}
+                                sx={{ display: { xs: 'block', sm: 'block' } }}
                                 onClick={toggleDrawer(true)}
                             >
                                 <MenuIcon />
@@ -144,7 +159,7 @@ export default function NavBar() {
                     open={open.right}
                     onClose={toggleDrawer(false)}
                     onOpen={toggleDrawer(true)}
-                    sx={{ display: { xs: 'block', sm: 'none' } }}
+                    sx={{ display: { xs: 'block', sm: 'block' } }}
                     disableSwipeToOpen={false}
                 >
                     {list()}

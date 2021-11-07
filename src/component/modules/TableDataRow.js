@@ -4,6 +4,7 @@ import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 import Link from "@mui/material/Link";
+import Popover from "./Dialog";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -38,30 +39,79 @@ const TableDataRow = (props) => {
     tanggal,
     santriormarkaz,
     detail,
+    isDonasi,
+    uniqueid,
+    iddonasi,
+    transid,
+    paymenturl,
+    handleDelete,
   } = props;
   const router = useRouter();
   return (
     <StyledTableRow>
       <StyledTableCell component="th" scope="row">
-        <Link data-testid='name-at-table-row' href={`/${detail}/` + id}>{nama}</Link>
+        <Link data-testid="name-at-table-row" href={`/${detail}/` + id}>
+          {nama}
+        </Link>
       </StyledTableCell>
       <StyledTableCell align="left">{markaz}</StyledTableCell>
       <StyledTableCell align="left">{domisili}</StyledTableCell>
       <StyledTableCell align="left">{kelamin}</StyledTableCell>
       <StyledTableCell align="left">{tanggal}</StyledTableCell>
+      <StyledTableCell align="left">
+        {santriormarkaz === "santri" || santriormarkaz === "markaz" ? (
+          <Button
+            variant="outlined"
+            onClick={() => router.push(`/admin/${santriormarkaz}/donasi/${id}`)}
+          >
+            Lihat Daftar
+          </Button>
+        ) : null}
+      </StyledTableCell>
+      {/* <StyledTableCell align="left">{fieldsix}</StyledTableCell> */}
       <StyledTableCell align="center">
-        <Button
-          variant="outlined"
-          onClick={() => router.push(`/admin/${santriormarkaz}/edit/${id}`)}
-        >
-          edit
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={() => router.push(`/admin/${santriormarkaz}/delete/${id}`)}
-        >
-          delete
-        </Button>
+        {!isDonasi && (
+          <>
+            <Button
+              variant="outlined"
+              onClick={() => router.push(`/admin/${santriormarkaz}/edit/${id}`)}
+            >
+              edit
+            </Button>
+            <Button variant="outlined" onClick={() => handleDelete(id)}>
+              delete
+            </Button>
+          </>
+        )}
+        {isDonasi && (
+          <>
+            {santriormarkaz === "transaksi" ? (
+              <>
+                <Popover transid={transid} />
+                <Link href={paymenturl} target="_blank" underline="none">
+                  <Button variant="outlined">download</Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="outlined"
+                  onClick={() =>
+                    router.push(`${iddonasi}/transaksi/${uniqueid}`)
+                  }
+                >
+                  manage
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => router.push(`edit/${iddonasi}`)}
+                >
+                  Edit
+                </Button>
+              </>
+            )}
+          </>
+        )}
       </StyledTableCell>
     </StyledTableRow>
   );
