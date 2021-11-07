@@ -66,18 +66,18 @@ export default function Card(props) {
 
             {path.includes('admin') ? (<>
               <Link href={`${path}/edit/` + id} passHref>
-                <Button variant="contained">Edit</Button>
+                <Button data-testid='edit-button-at-card' variant="contained">Edit</Button>
               </Link>
 
-              <Button variant="outlined" onClick={() => handleDelete(id)} >Delete</Button>
+              <Button data-testid='delete-button-at-card' variant="outlined" onClick={() => handleDelete(id)} >Delete</Button>
             </>
             ) : (
               <>
                 <Link href={`${path}/donasi/` + id} passHref>
-                  <Button variant="contained">Donasi</Button>
+                  <Button data-testid='donasi-button-at-card' variant="contained">Donasi</Button>
                 </Link>
                 <Link href={`${path}/` + id} passHref>
-                  <Button variant="outlined">Lihat Detail</Button>
+                  <Button data-testid='lihat-detail-button-at-card' variant="outlined">Lihat Detail</Button>
                 </Link>
               </>)
             }

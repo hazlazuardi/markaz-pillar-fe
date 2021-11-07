@@ -1,63 +1,70 @@
-import React, { useState } from "react";
-import ShowAllTemplate from "../../component/templates/show_all/ShowAll";
-import Card from "../../component/modules/Card";
+import { useState } from "react";
+import { axiosMain } from "../../axiosInstances";
+import useSWR from "swr";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
+import AdminOrUserTemplate from "../../component/templates/admin/AdminOrUserTemplate";
 
-export async function getStaticProps() {
-  const response = await fetch(`${BASE_URL}/markaz/search?n=1000`);
-  const data = await response.json();
-  const markaz = data.result;
-  return {
-    props: {
-      markaz: markaz,
-    },
-  };
+import GridView from "../../component/templates/admin/GridView";
+import TableView from "../../component/templates/admin/TableView";
+
+const fetcher = url => axiosMain.get(url).then(res => res.data)
+
+export default function Markaz(props) {
+    const { allMarkaz } = props;
+    const [page, setPage] = useState(1);
+    const [entries, setEntries] = useState(10);
+    const { data: responseMarkaz, error, mutate } = useSWR(`/markaz/search?page=${page - 1}&n=${entries}`, fetcher, {fallbackData: allMarkaz, refreshInterval: 30000})
+
+    // *******************************************************
+    // Delete
+    // *******************************************************
+    const handleDeleteMarkaz = async (id) => {
+        await axiosMain.delete(`/admin/markaz?id=${id}`)
+            .then(response => {
+                mutate();
+            })
+            .catch(e => {
+
+                if (e.response.data.status === 401) {
+                    localStorage.clear();
+                }
+            })
+    }
+
+    const GridViewMarkaz = (
+        <GridView data={responseMarkaz} detail="admin/markaz" handleDelete={handleDeleteMarkaz} />
+    )
+
+
+    const TableViewMarkaz = (
+        <TableView data={responseMarkaz} detail="admin/markaz" handleDelete={handleDeleteMarkaz} />
+    )
+
+
+    return (
+        <>
+            <AdminOrUserTemplate
+                variant='markaz'
+                GridView={GridViewMarkaz}
+                TableView={TableViewMarkaz}
+                entries={entries}
+                setEntries={setEntries}
+                page={page}
+                setPage={setPage}
+                data={responseMarkaz}
+                error={error}
+            />
+        </>
+    );
 }
 
-export default function MarkazLayout(props) {
-  const { markaz } = props;
-  const [page, setPage] = useState(0);
 
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const [value, setValue] = useState(10);
-
-  {
-    if (markaz.length == 0) {
-      return <p>Loading...</p>;
-    } else {
-      return (
-        <ShowAllTemplate
-          searchBarName="Cari Markaz"
-          markazOrSantri="Markaz"
-          page={page}
-          setPage={setPage}
-          value={value}
-          setValue={setValue}
-          setSearchTerm={setSearchTerm}
-        >
-          {markaz
-            .filter((val) => {
-              if (searchTerm == "" || val.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-                return val;
-              }
-            })
-            .map((val, key) => (
-              <Card
-                key={val.id}
-                id={val.id}
-                image={val.thumbnailURL}
-                name={val.name}
-                desc={val.background}
-                intr_1="Donasi"
-                intr_2="Lihat Detail"
-                markazOrSantri="markaz"
-                detail="markaz"
-              />
-            ))}
-        </ShowAllTemplate>
-      );
+export async function getStaticProps() {
+    const staticMarkaz = await axiosMain.get("/markaz/search?n=1000");
+    return {
+        props: {
+            allMarkaz: staticMarkaz.data
+        },
+        revalidate: 10
     }
-  }
 }

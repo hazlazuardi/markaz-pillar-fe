@@ -1,96 +1,45 @@
-import React, { useEffect, useState } from "react";
-import ShowAllTemplate from "../../component/templates/show_all/ShowAll";
-import Card from "../../component/modules/Card";
-import { axiosMain } from '../../axiosInstances';
+import { useState } from "react";
+import { axiosMain } from '../../axiosInstances'
+import useSWR from "swr";
 
+import AdminOrUserTemplate from "../../component/templates/admin/AdminOrUserTemplate";
 
-export async function getStaticProps() {
-  var santris = [];
-  await axiosMain
-    .get("santri/search?page=0&n=10")
-    .then(response => {
+import GridView from "../../component/templates/admin/GridView";
 
-      santris = response.data.result
+const fetcher = url => axiosMain.get(url).then(res => res.data)
 
-    })
-    .catch(e => {
+export default function Santri(props) {
+  const { allSantri } = props;
+  const [page, setPage] = useState(1);
+  const [entries, setEntries] = useState(10);
+  const { data: responseSantri, error } = useSWR(`/santri/search?page=${page - 1}&n=${entries}`, fetcher, { fallbackData: allSantri, refreshInterval: 30000 })
+  const GridViewMarkaz = (
+    <GridView data={responseSantri} detail="santri" />
+  )
 
-      santris = "error"
-    })
-  return {
-    props: {
-      santris: santris,
-    },
-  };
-}
-
-export default function SantriLayout(props) {
-  const [page, setPage] = useState(0)
-
-  const [searchTerm, setSearchTerm] = useState("")
-
-  const [value, setValue] = useState(10);
-
-  const [santris, setSantris] = useState([])
-
-
-  const handleChange = async (qpage, qsearchTerm, qvalue) => {
-    axiosMain
-      .get(`santri/search?page=${qpage}&n=${qvalue}&name=${qsearchTerm}`)
-      .then(response => {
-        setSantris(response.data.result)
-      })
-      .catch(e => {
-        setSantris("error")
-      })
-  }
-
-  useEffect(() => {
-    if (page != 0 || searchTerm !== "" || value != 10) {
-      handleChange(page, searchTerm, value)
-    } else {
-      setSantris(props.santris)
-    }
-  }, [page, searchTerm, value, props.santris])
-
-
-  if (santris === "error") {
-    return (
-      <p>There seems to be a problem with data fetching</p>
-    )
-  } else if (santris.length == 0) {
-    return (
-      <p>Loading...</p>
-    )
-  } else {
-    return (
-      <ShowAllTemplate
-        searchBarName=" Cari Santri"
-        markazOrSantri="Santri"
+  return (
+    <>
+      <AdminOrUserTemplate
+        variant='santri'
+        GridView={GridViewMarkaz}
+        entries={entries}
+        setEntries={setEntries}
         page={page}
         setPage={setPage}
-        value={value}
-        setValue={setValue}
-        setSearchTerm={setSearchTerm}
-      >
-        {santris.filter(val => {
-          if (searchTerm == "" || val.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-            return val
-          }
-        }).map((val, key) => (
-          <Card
-            key={val.id}
-            id={val.id}
-            image={val.thumbnailURL}
-            name={val.name}
-            desc={val.background}
-            intr_1="Donasi"
-            intr_2="Lihat Detail"
-            markazOrSantri="santri"
-            detail="santri"
-          />
-        ))}
-      </ShowAllTemplate>
-    );
+        data={responseSantri}
+        error={error}
+      />
+    </>
+  );
+}
+
+export async function getStaticProps() {
+  const staticAllSantriResponse = await axiosMain.get("/santri/search?n=1000");
+  const staticAllSantri = staticAllSantriResponse.data
+  return {
+    props: {
+      allSantri: staticAllSantri
+    },
+    revalidate: 10
   }
 }

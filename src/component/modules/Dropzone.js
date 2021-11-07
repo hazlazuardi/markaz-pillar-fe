@@ -51,7 +51,7 @@ export default function Dropzone({ setFile }) {
       type: dispatchTypes.SNACKBAR_CUSTOM,
       payload: {
           severity: 'error',
-          message: "File is larger than 1MB"
+          message: "File is larger than 1 MB"
       }
   })
   }, [dispatch]);

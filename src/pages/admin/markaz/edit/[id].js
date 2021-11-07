@@ -71,7 +71,7 @@ export default function AdminMarkazEdit(props) {
                             type: dispatchTypes.SNACKBAR_CUSTOM,
                             payload: {
                                 severity: 'error',
-                                message: 'The new thumbnail size is too large'
+                                message: 'File is larger than 1 MB'
                             }
                         });
                     } else {

@@ -11,9 +11,11 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import SwipeableViews from 'react-swipeable-views';
 import { SwipeableEnableScroll } from '../../../component/SwipeableEnableScroll'
 import { useTheme } from '@mui/material/styles';
+import { Box } from "@mui/system";
 
 function AdminOrUserTemplate(props) {
     const {
+        isAdmin,
         variant,
         GridView,
         TableView,
@@ -69,12 +71,14 @@ function AdminOrUserTemplate(props) {
             setDoAnimateHeight(true);
         }
     }, [entries, page, tabIndex])
+
+    const axis = theme.direction === 'rtl' ? 'x-reverse' : 'x'
     if (error) return "An error has occurred.";
     if (!data) return "Loading...";
     return (
         <>
             {/* Header */}
-            <Typography data-testid='titlePage-at-admin-or-user-template' variant="h4" sx={{textTransform: 'capitalize'}} color="initial">Daftar {variant}</Typography>
+            <Typography data-testid='titlePage-at-admin-or-user-template' variant="h4" sx={{ textTransform: 'capitalize' }} color="initial">Daftar {variant}</Typography>
             <TextField
                 data-testid='searchbar-at-admin-or-user-template'
                 label="Cari Markaz"
@@ -88,7 +92,7 @@ function AdminOrUserTemplate(props) {
                 label='Filter'
                 icon={<FilterList />}
             />
-            <TabContext value={tabIndex} >
+            {!!isAdmin ? (<TabContext value={tabIndex} >
                 <AppBar position='relative' color="transparent" elevation={0} >
                     <TabList onChange={handleTabIndex}>
                         <Tab data-testid='tab-grid-at-admin-or-user-template' label='Grid' value={0} />
@@ -96,7 +100,7 @@ function AdminOrUserTemplate(props) {
                     </TabList>
                 </AppBar>
                 <SwipeableViews
-                    axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                    axis={axis}
                     index={tabIndex}
                     onChangeIndex={handleChangeTabIndex}
                     animateHeight={doAnimateHeight}
@@ -114,6 +118,10 @@ function AdminOrUserTemplate(props) {
                     </TabPanel>
                 </SwipeableViews>
             </TabContext>
+            ) : (
+                <Box mt='2em'>
+                    {GridView}
+                </Box>)}
             {/* Pagination */}
             <Stack sx={{ bottom: '0em' }} spacing={2} alignItems='center' >
                 <FormControl fullWidth sx={{ m: '1em', maxWidth: 375 }} >
@@ -149,9 +157,9 @@ function AdminOrUserTemplate(props) {
 
 
 AdminOrUserTemplate.propTypes = {
-    variant: PropTypes.string.isRequired,
+    variant: PropTypes.string,
     GridView: PropTypes.elementType.isRequired,
-    TableView: PropTypes.elementType.isRequired,
+    TableView: PropTypes.elementType,
     entries: PropTypes.number.isRequired,
     setEntries: PropTypes.func.isRequired,
     page: PropTypes.number.isRequired,

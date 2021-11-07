@@ -14,17 +14,15 @@ beforeEach(() => {
     cy.get('#password').type('Admin123')
     cy.get('#submitAtLogin').contains('Masuk').click()
     cy.wait(2000)
-    cy.visit('http://localhost:3000/admin/markaz/edit/6')
+    cy.visit('http://localhost:3000/admin/markaz/edit/18')
 })
 
 describe('Test it is in the correct page', () => {
     it('Test if edit contains "Edit Thumbnail" or not', () => {
-        cy.visit('http://localhost:3000/admin/markaz/edit/6')
         cy.get('h5').contains('Edit Thumbnail').should('exist')
     })
 
     it('Test if edit contains "This is edit page" or not', () => {
-        cy.visit('http://localhost:3000/admin/markaz/edit/6')
         cy.get('p').contains('This is edit page').should('not.exist')
     })
 })
@@ -59,13 +57,14 @@ describe(`Test functionality of inputs when edit new markaz`, () => {
 
     it('Test if fails if image is too big', () => {
         cy.get(`[data-cy="dropzone"]`).attachFile('high.png', { subjectType: 'drag-n-drop' });
+        cy.get('#snackbarAtLayout').contains('File is larger than 1 MB').should('exist', {timeout: 5000})
         cy.get(`#dropzone-uploaded`).should('not.exist', {timeout: 5000});
         cy.get('#markazNameAtComponentAdminCreateOrEditMarkaz').type("test-username")
         cy.get('#markazBackgroundAtComponentAdminCreateOrEditMarkaz').type('test-fullName')
         cy.get('#category-select').click().get('li').contains('Markaz Umum').click()
         cy.get('#markazAddressAtComponentAdminCreateOrEditMarkaz').type('0811114433')
         cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
-        cy.get('#snackbarAtLayout').should('exist', {timeout: 5000})
+        cy.get('#snackbarAtLayout').contains('Markaz Edited').should('exist', {timeout: 5000})
         cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
     });
 });

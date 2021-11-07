@@ -6,7 +6,7 @@ import { enumRoutes, enumProtectedRoutes, roleType } from "./context/AppReducer"
 //check if you are on the client (browser) or server
 const isBrowser = () => typeof window !== "undefined";
 
-export default function ProtectedRoute({ router, children }) {
+export default function ProtectedRoutes({ router, children }) {
     //Identify authenticated user
     const { state } = useAppContext();
     const { currentUserRole, stateLoaded } = state;
