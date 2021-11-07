@@ -10,11 +10,8 @@ import styles from "../../../styles/Home.module.css";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useTheme } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
 
 export default function ShowAll(props) {
-const classes = useStyles();
   const {
     children,
     searchBarName,
@@ -37,8 +34,8 @@ const classes = useStyles();
         // className={styles.containergrid}
         sx={{ display: "flex", justifyContent: "center", ml: -1.5 }}
       >
-        <Grid container sx={{ mt: "30px" }}>
-          <Grid item xs={12} sx={{paddingLeft: "2%"}}>
+        <Grid container sx={{ mt: "50px" }}>
+          <Grid item xs={12}>
             <Typography variant="h6" component="h2">
               Daftar {markazOrSantri} <FilterAltOutlinedIcon />
             </Typography>
@@ -57,7 +54,7 @@ const classes = useStyles();
             <Grid item lg={6} sm={6}>
               <Typography variant="subtitle1" component="subtitle1">
                 Show
-                <FormControl sx={{ mx: 1 }} size="small">
+                <FormControl sx={{ mx: 1 }}>
                   <Select
                     value={value}
                     onChange={(e) => {
@@ -82,10 +79,9 @@ const classes = useStyles();
               sm={6}
               //   className={styles.flexEnd}
               pr={3}
-              sx={{ m: "auto", p: "auto", textAlign: "right"}}
+              sx={{ m: "auto", p: "auto" }}
             >
-              <form action="/" method="get"
-              >
+              <form action="/" method="get">
                 <label htmlFor="header-search">
                   <span className="visually-hidden"></span>
                 </label>
@@ -98,12 +94,13 @@ const classes = useStyles();
                   name="s"
                   className="search"
                   value={searchTerm}
-                  size="small"
                   onChange={(event) => {
                     setSearchTerm(event.target.value);
                   }}
                 />
-                {<Button variant="contained" className={classes.btn}>Cari</Button>}
+                {/* <button type="submit" className={styles.btn2}>
+                Cari
+              </button> */}
               </form>
             </Grid>
           </Grid>
@@ -137,7 +134,7 @@ const classes = useStyles();
           </Grid>
         </Grid>
         {children}
-        <Grid item xs={12} mt={12} className={styles.flexEnd}>
+        <Grid item xs={12} mt={5} className={styles.flexEnd}>
           <Pagination
             count={5}
             page={page + 1}
