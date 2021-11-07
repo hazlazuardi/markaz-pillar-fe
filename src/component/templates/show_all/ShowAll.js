@@ -8,6 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import styles from "../../../styles/Home.module.css";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import Filter from "../../modules/Filter";
 import FilterMarkaz from "../../modules/FilterMarkaz";
 import FilterMarkazMobile from "../../modules/FilterMarkazMobile";
 import FilterSantri from "../../modules/FilterSantri";
@@ -16,10 +17,9 @@ import Card from "../../modules/Card";
 import { useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import useMediaQuery from '@mui/material/useMediaQuery';
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { useState } from "react";
-
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
@@ -39,10 +39,25 @@ export default function ShowAll(props) {
     add,
     setSort,
     filter,
+    filterData,
+    ageFilter,
+    setAgeFilter,
+    nameFilter,
+    setNameFilter,
+    locationFilter,
+    setLocationFilter,
+    categoryFilter,
+    setCategoryFilter,
+    // categoryFilter2,
+    // setCategoryFilter2,
+    // categoryFilter3,
+    // setCategoryFilter3,
+    handler,
+    mutate,
   } = props;
 
-  const matches = useMediaQuery('(max-width:600px)');
-  const size = matches? "small":"medium";
+  const matches = useMediaQuery("(max-width:600px)");
+  const size = matches ? "small" : "medium";
 
   return (
     <Container maxWidth="lg" className={styles.container}>
@@ -55,26 +70,68 @@ export default function ShowAll(props) {
         <Grid container sx={{ mt: "50px" }}>
           <Grid item xs={12}>
             <Typography variant="h6" component="h2">
-              Daftar {markazOrSantri} 
+              Daftar {markazOrSantri}
               {(() => {
                 if (markazOrSantri == "Markaz" && size == "small") {
-                  return(
-                  <FilterMarkazMobile setSort={setSort} filter={filter}/>
-                  )
+                  return (
+                    <FilterMarkazMobile
+                      setSort={setSort}
+                      filter={filter}
+                      locationFilter={locationFilter}
+                      setLocationFilter={setLocationFilter}
+                      nameFilter={nameFilter}
+                      setNameFilter={setNameFilter}
+                      categoryFilter={categoryFilter}
+                      setCategoryFilter={setCategoryFilter}
+                      mutate={mutate}
+                    />
+                  );
                 } else if (markazOrSantri == "Markaz" && size == "medium") {
-                  return(
-                  <FilterMarkaz setSort={setSort} filter={filter}/>
-                  )
+                  return (
+                    <FilterMarkaz
+                      setSort={setSort}
+                      filter={filter}
+                      locationFilter={locationFilter}
+                      setLocationFilter={setLocationFilter}
+                      nameFilter={nameFilter}
+                      setNameFilter={setNameFilter}
+                      categoryFilter={categoryFilter}
+                      setCategoryFilter={setCategoryFilter}
+                      // categoryFilter2={categoryFilter2}
+                      // setCategoryFilter2={setCategoryFilter2}
+                      // categoryFilter3={categoryFilter3}
+                      // setCategoryFilter3={setCategoryFilter3}
+                      mutate={mutate}
+                    />
+                  );
                 } else if (markazOrSantri == "Santri" && size == "small") {
-                  return(
-                  <FilterSantriMobile setSort={setSort} filter={filter}/>
-                  )
+                  return (
+                    <FilterSantriMobile
+                      setSort={setSort}
+                      filter={filter}
+                      ageFilter={ageFilter}
+                      setAgeFilter={setAgeFilter}
+                      nameFilter={nameFilter}
+                      setNameFilter={setNameFilter}
+                      mutate={mutate}
+                    />
+                  );
                 } else {
-                  return(
-                  <FilterSantri setSort={setSort} filter={filter}/>
-                  )
+                  return (
+                    <FilterSantri
+                      setSort={setSort}
+                      filter={filter}
+                      filterData={filterData}
+                      handler={handler}
+                      ageFilter={ageFilter}
+                      setAgeFilter={setAgeFilter}
+                      nameFilter={nameFilter}
+                      setNameFilter={setNameFilter}
+                      mutate={mutate}
+                    />
+                  );
                 }
-                })()}
+              })()}
             </Typography>
           </Grid>
           <Grid

@@ -1,4 +1,6 @@
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
+import { FilterList } from "@mui/icons-material";
+import { Chip } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import * as React from "react";
 import Button from "@mui/material/Button";
@@ -52,7 +54,17 @@ const Puller = styled(Box)(({ theme }) => ({
 }));
 
 export default function FilterMarkazMobile(props) {
-  const { setSort, filter } = props;
+  const {
+    setSort,
+    filter,
+    nameFilter,
+    setNameFilter,
+    locationFilter,
+    setLocationFilter,
+    categoryFilter,
+    setCategoryFilter,
+    mutate,
+  } = props;
 
   const [open, setOpen] = React.useState(false);
   const [checked, setChecked] = React.useState(true);
@@ -68,56 +80,25 @@ export default function FilterMarkazMobile(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  const handleChangeSort = (event) => {
-    setChecked(event.target.checked);
-    setValue(event.target.value);
-    if (value === "desc") {
-      setSort(filter.sort[0]);
-    } else if (value === "asc") {
-      setSort(filter.sort[1]);
-    }
+  const handleChangeName = (event) => {
+    setNameFilter(event.target.value);
+    setLocationFilter("");
+    setCategoryFilter("");
+    mutate();
   };
 
   const handleChangeLocation = (event) => {
-    setChecked(event.target.checked);
-    setValue(event.target.value);
-    if (value === "false") {
-      setSort(filter.location[0]);
-    } else if (value === "true") {
-      setSort(filter.location[1]);
-    }
+    setLocationFilter(event.target.value);
+    setNameFilter("");
+    setCategoryFilter("");
+    mutate();
   };
 
   const handleChangeCategory = (event) => {
-    setChecked(event.target.checked);
-    if (event.target.id === "pembangunan") {
-      setSort(filter.category[0]);
-    } else if (event.target.id === "renovasi") {
-      setSort(filter.category[1]);
-    } else if (event.target.id === "penambahan") {
-      setSort(filter.category[2]);
-    } else if (
-      event.target.id === "pembangunan" &&
-      event.target.id === "renovasi"
-    ) {
-      setSort(filter.category[3]);
-    } else if (
-      event.target.id === "pembangunan" &&
-      event.target.id === "penambahan"
-    ) {
-      setSort(filter.category[4]);
-    } else if (
-      event.target.id === "renovasi" &&
-      event.target.id === "penambahan"
-    ) {
-      setSort(filter.category[5]);
-    } else if (
-      event.target.id === "pembangunan" &&
-      event.target.id === "renovasi" &&
-      event.target.id === "penambahan"
-    ) {
-      setSort(filter.category[6]);
-    }
+    setCategoryFilter(event.target.value);
+    setNameFilter("");
+    setNameFilter("");
+    mutate();
   };
 
   const handleToggle = () => {
@@ -163,7 +144,11 @@ export default function FilterMarkazMobile(props) {
         aria-haspopup="true"
         onClick={handleToggle}
       >
-        <FilterAltOutlinedIcon />
+        <Chip
+          data-testid="filterChipButton"
+          label="Filter"
+          icon={<FilterList />}
+        />
       </Button>
       <Root>
         <CssBaseline />
@@ -241,12 +226,12 @@ export default function FilterMarkazMobile(props) {
                         >
                           <FormControlLabel
                             control={<Radio />}
-                            value="true"
+                            value="false"
                             label="Luar Jabodetabek"
                           />
                           <FormControlLabel
                             control={<Radio />}
-                            value="false"
+                            value="true"
                             label="Jabodetabek"
                           />
                         </RadioGroup>
@@ -259,22 +244,22 @@ export default function FilterMarkazMobile(props) {
                       aria-controls="panel1a-content"
                       id="panel1a-header"
                     >
-                      <Typography>Urutkan</Typography>
+                      <Typography>Urutkan Nama</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                    <FormControl component="fieldset">
-                      <RadioGroup value={value} onChange={handleChangeSort}>
-                        <FormControlLabel
-                          control={<Radio />}
-                          value="desc"
-                          label="A-Z"
-                        />
-                        <FormControlLabel
-                          control={<Radio />}
-                          value="asc"
-                          label="Z-A"
-                        />
-                      </RadioGroup>
+                      <FormControl component="fieldset">
+                        <RadioGroup value={value} onChange={handleChangeName}>
+                          <FormControlLabel
+                            control={<Radio />}
+                            value="ASC"
+                            label="A-Z"
+                          />
+                          <FormControlLabel
+                            control={<Radio />}
+                            value="DESC"
+                            label="Z-A"
+                          />
+                        </RadioGroup>
                       </FormControl>
                     </AccordionDetails>
                   </Accordion>
@@ -287,57 +272,38 @@ export default function FilterMarkazMobile(props) {
                       <Typography>Kategori</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                    <FormControl component="fieldset">
-                      <FormGroup>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              onChange={handleChangeCategory}
-                              id="pembangunan"
-                            />
-                          }
-                          label="Pembangunan Markaz"
-                        />
+                      <FormControl component="fieldset">
+                        <FormGroup
+                          value={value}
+                          onChange={handleChangeCategory}
+                        >
+                          <FormControlLabel
+                            control={<Checkbox />}
+                            value="PEMBANGUNAN_MARKAZ"
+                            label="Pembangunan Markaz"
+                          />
 
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              onChange={handleChangeCategory}
-                              id="renovasi"
-                            />
-                          }
-                          label="Renovasi"
-                        />
+                          <FormControlLabel
+                            control={<Checkbox />}
+                            value="RENOVASI"
+                            label="Renovasi"
+                          />
 
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              onChange={handleChangeCategory}
-                              id="penambahan"
-                            />
-                          }
-                          label="Penambahan Fasilitas"
-                        />
-                      </FormGroup>
+                          <FormControlLabel
+                            control={<Checkbox />}
+                            value="PENAMBAHAN_FASILITAS"
+                            label="Penambahan Fasilitas"
+                          />
+                        </FormGroup>
                       </FormControl>
                     </AccordionDetails>
                   </Accordion>
                 </Box>
               </ClickAwayListener>
-              {/* // </Paper> */}
-              {/* </Grow> */}
-              {/* )} */}
-              {/* </Popper> */}
             </StyledBox>
           </SwipeableDrawer>
         </ClickAwayListener>
       </Root>
-      {/* <Responsive displayIn={["Laptop"]}> */}
-
-      {/* </Responsive> */}
-      {/* <Responsive displayIn={["Mobile"]}>
-        noooooooo
-      </Responsive> */}
     </>
   );
 }
