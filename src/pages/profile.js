@@ -9,9 +9,8 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import Typography from '@mui/material/Typography';
-import AppBar from '@mui/material/AppBar';
 import Tab from '@mui/material/Tab';
-import { TabContext, TabList, TabPanel } from "@mui/lab";
+import Tabs from '@mui/material/Tabs';
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import styles from "../styles/Home.module.css";
 import ActivityCard from "../component/modules/ActivityCard";
@@ -73,17 +72,19 @@ export default function Profile() {
 
                 <Grid item xs={12} mt={2}>
                     <Box>
-                    <TabContext value={tabIndex} >
-                        <AppBar position='relative' color="transparent" elevation={0} >
-                            <TabList onChange={handleTabIndex}>
-                                <Tab label='Semua Kegiatan' value={0} />
-                                <Tab label='Donasi' value={1} />
-                                <Tab label='Volunteer' value={2} />
-                                <Tab label='Pengajar' value={3} />
-                                <Tab label='Kelas' value={4} />
-                            </TabList>
-                        </AppBar>
-                    </TabContext>
+                    <Tabs
+                        // value={value}
+                        // onChange={handleChange}
+                        variant="scrollable"
+                        scrollButtons
+                        allowScrollButtonsMobile
+                    >
+                        <Tab label="Semua Kegiatan" />
+                        <Tab label="Donasi" />
+                        <Tab label="Volunteer" />
+                        <Tab label="Pengajar" />
+                        <Tab label="Kelas" />
+                    </Tabs>
                     </Box>
                 </Grid>
 
