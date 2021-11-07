@@ -24,7 +24,8 @@ function AdminOrUserTemplate(props) {
         page,
         setPage,
         data,
-        error
+        error,
+        children
     } = props;
 
     const [doAnimateHeight, setDoAnimateHeight] = useState(true)
@@ -79,20 +80,21 @@ function AdminOrUserTemplate(props) {
         <>
             {/* Header */}
             <Typography data-testid='titlePage-at-admin-or-user-template' variant="h4" sx={{ textTransform: 'capitalize' }} color="initial">Daftar {variant}</Typography>
-            <TextField
-                data-testid='searchbar-at-admin-or-user-template'
-                label="Cari Markaz"
-                placeholder='Markaz Depok'
-                margin='normal'
-                fullWidth
-                size='small'
-            />
-            <Chip
-                data-testid='filterChipButton-at-admin-or-user-template'
-                label='Filter'
-                icon={<FilterList />}
-            />
-            {!!isAdmin ? (<TabContext value={tabIndex} >
+            <Box>
+                <TextField
+                    data-testid='searchbar-at-admin-or-user-template'
+                    label="Cari Markaz"
+                    placeholder='Markaz Depok'
+                    margin='normal'
+                    fullWidth
+                    size='small' />
+                <Chip
+                    data-testid='filterChipButton-at-admin-or-user-template'
+                    label='Filter'
+                    icon={<FilterList />}
+                />
+            </Box>
+            {GridView && TableView ? (<TabContext value={tabIndex} >
                 <AppBar position='relative' color="transparent" elevation={0} >
                     <TabList onChange={handleTabIndex}>
                         <Tab data-testid='tab-grid-at-admin-or-user-template' label='Grid' value={0} />
@@ -120,9 +122,14 @@ function AdminOrUserTemplate(props) {
             </TabContext>
             ) : (
                 <Box mt='2em'>
-                    {GridView}
+                    {GridView || TableView}
                 </Box>)}
             {/* Pagination */}
+            {!!children && (
+                <Box mt='2em'>
+                    {children}
+                </Box>
+            )}
             <Stack sx={{ bottom: '0em' }} spacing={2} alignItems='center' >
                 <FormControl fullWidth sx={{ m: '1em', maxWidth: 375 }} >
                     <InputLabel id="entries-select-label">Show Entries</InputLabel>
@@ -157,6 +164,7 @@ function AdminOrUserTemplate(props) {
 
 
 AdminOrUserTemplate.propTypes = {
+    data: PropTypes.any,
     variant: PropTypes.string,
     GridView: PropTypes.elementType.isRequired,
     TableView: PropTypes.elementType,
