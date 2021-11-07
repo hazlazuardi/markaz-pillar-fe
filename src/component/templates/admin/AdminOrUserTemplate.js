@@ -80,21 +80,20 @@ function AdminOrUserTemplate(props) {
         <>
             {/* Header */}
             <Typography data-testid='titlePage-at-admin-or-user-template' variant="h4" sx={{ textTransform: 'capitalize' }} color="initial">Daftar {variant}</Typography>
-            <Box>
-                <TextField
-                    data-testid='searchbar-at-admin-or-user-template'
-                    label="Cari Markaz"
-                    placeholder='Markaz Depok'
-                    margin='normal'
-                    fullWidth
-                    size='small' />
-                <Chip
-                    data-testid='filterChipButton-at-admin-or-user-template'
-                    label='Filter'
-                    icon={<FilterList />}
-                />
-            </Box>
-            {GridView && TableView ? (<TabContext value={tabIndex} >
+            <TextField
+                data-testid='searchbar-at-admin-or-user-template'
+                label="Cari Markaz"
+                placeholder='Markaz Depok'
+                margin='normal'
+                fullWidth
+                size='small'
+            />
+            <Chip
+                data-testid='filterChipButton-at-admin-or-user-template'
+                label='Filter'
+                icon={<FilterList />}
+            />
+            {!!isAdmin ? (<TabContext value={tabIndex} >
                 <AppBar position='relative' color="transparent" elevation={0} >
                     <TabList onChange={handleTabIndex}>
                         <Tab data-testid='tab-grid-at-admin-or-user-template' label='Grid' value={0} />
