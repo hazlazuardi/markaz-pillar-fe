@@ -40,8 +40,8 @@ export default function DonasiMarkaz() {
     setIdtrans(router.query.transid);
   }, [router]);
 
-  console.log(markazs);
-  console.log(typeof markazs);
+  // console.log(markazs);
+  // console.log(typeof markazs);
 
   // console.log("meki ", iddonasi);
 

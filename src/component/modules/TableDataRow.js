@@ -29,7 +29,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const TableDataRow = (props) => {
+function TableDataRow(props) {
   const {
     id,
     nama,
@@ -115,6 +115,6 @@ const TableDataRow = (props) => {
       </StyledTableCell>
     </StyledTableRow>
   );
-};
+}
 
 export default TableDataRow;

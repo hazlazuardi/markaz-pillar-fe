@@ -27,14 +27,6 @@ export default function TransaksiMarkaz() {
 
   const [gridView, setGridView] = useState(true);
 
-  // const [idtrans, setIdtrans] = useState();
-
-  // useEffect(() => {
-  //   setIdtrans(router.query.transid);
-  // }, [router]);
-
-  // console.log(router.query.transid);
-
   const search = () => {
     markazs.result &&
       markazs.result.filter((data) => {
