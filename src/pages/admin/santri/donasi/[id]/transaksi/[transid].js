@@ -1,5 +1,5 @@
 import ShowAllTemplate from "../../../../../../component/templates/show_all/ShowAll";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TableView from "../../../../../../component/templates/admin/Admin-table";
 import Fab from "@mui/material/Fab";
@@ -92,6 +92,10 @@ export default function TransaksiMarkaz() {
         }
       });
   };
+
+  useEffect(() => {
+    return;
+  }, [markazs]);
 
   if (error) return "An error has occurred.";
   if (!markazs) return "Loading...";
