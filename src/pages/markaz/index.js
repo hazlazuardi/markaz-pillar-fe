@@ -5,66 +5,48 @@ import useSWR from "swr";
 import AdminOrUserTemplate from "../../component/templates/admin/AdminOrUserTemplate";
 
 import GridView from "../../component/templates/admin/GridView";
-import TableView from "../../component/templates/admin/TableView";
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function Markaz(props) {
-    const { allMarkaz } = props;
-    const [page, setPage] = useState(1);
-    const [entries, setEntries] = useState(10);
-    const { data: responseMarkaz, error, mutate } = useSWR(`/markaz/search?page=${page - 1}&n=${entries}`, fetcher, {fallbackData: allMarkaz, refreshInterval: 30000})
+  const { allMarkaz } = props;
+  const [page, setPage] = useState(1);
+  const [entries, setEntries] = useState(10);
+  const {
+    data: responseMarkaz,
+    error,
+    mutate,
+  } = useSWR(`/markaz/search?page=${page - 1}&n=${entries}`, fetcher, {
+    fallbackData: allMarkaz,
+    refreshInterval: 30000,
+  });
 
-    // *******************************************************
-    // Delete
-    // *******************************************************
-    const handleDeleteMarkaz = async (id) => {
-        await axiosMain.delete(`/admin/markaz?id=${id}`)
-            .then(response => {
-                mutate();
-            })
-            .catch(e => {
+  const GridViewMarkaz = (
+    <GridView data={responseMarkaz} detail="admin/markaz" />
+  );
 
-                if (e.response.data.status === 401) {
-                    localStorage.clear();
-                }
-            })
-    }
-
-    const GridViewMarkaz = (
-        <GridView data={responseMarkaz} detail="admin/markaz" handleDelete={handleDeleteMarkaz} />
-    )
-
-
-    const TableViewMarkaz = (
-        <TableView data={responseMarkaz} detail="admin/markaz" handleDelete={handleDeleteMarkaz} />
-    )
-
-
-    return (
-        <>
-            <AdminOrUserTemplate
-                variant='markaz'
-                GridView={GridViewMarkaz}
-                TableView={TableViewMarkaz}
-                entries={entries}
-                setEntries={setEntries}
-                page={page}
-                setPage={setPage}
-                data={responseMarkaz}
-                error={error}
-            />
-        </>
-    );
+  return (
+    <>
+      <AdminOrUserTemplate
+        variant="markaz"
+        GridView={GridViewMarkaz}
+        entries={entries}
+        setEntries={setEntries}
+        page={page}
+        setPage={setPage}
+        data={responseMarkaz}
+        error={error}
+      />
+    </>
+  );
 }
 
-
 export async function getStaticProps() {
-    const staticMarkaz = await axiosMain.get("/markaz/search?n=1000");
-    return {
-        props: {
-            allMarkaz: staticMarkaz.data
-        },
-        revalidate: 10
-    }
+  const staticMarkaz = await axiosMain.get("/markaz/search?n=1000");
+  return {
+    props: {
+      allMarkaz: staticMarkaz.data,
+    },
+    revalidate: 10,
+  };
 }
