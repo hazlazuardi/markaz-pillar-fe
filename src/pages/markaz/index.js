@@ -36,10 +36,11 @@ export default function Markaz(props) {
 
 
 export async function getStaticProps() {
-    const staticMarkaz = await axiosMain.get("/markaz/search?n=1000");
+    const staticMarkazResponse = await axiosMain.get("/markaz/search?n=1000");
+    const staticMarkaz = staticMarkazResponse.data
     return {
         props: {
-            allMarkaz: staticMarkaz.data
+            allMarkaz: staticMarkaz
         },
         revalidate: 10
     }
