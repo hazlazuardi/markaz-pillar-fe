@@ -1,62 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DetailTemplate from "../../component/templates/detail/Detail";
 import { axiosMain } from '../../axiosInstances';
+import useSWR from "swr";
+import { useRouter } from "next/router";
 
-export async function getStaticProps(context) {
-  const id = context.params.id;
-  
-  var santri = []
-  await axiosMain
-      .get(`santri/?id=${id}`)
-      .then(response => {
-        
-        santri = response.data.result
-        
-      })
-      .catch(e => {
-        
-        santri = "error"
-      })
-  return {
-    props: {
-      santri: santri,
-    },
-  };
-}
-
-export async function getStaticPaths() {
-  var paths = []
-  var allSantri = []
-  await axiosMain
-      .get(`/santri/search?n=1000`)
-      .then(response => {
-        allSantri = response.data.result
-        paths = allSantri.map((santri) => ({
-          params: { id: santri.id.toString() },
-        }));
-      })
-      .catch(e => {
-        throw e.response
-      })
-  return {
-    paths: paths,
-    fallback: false,
-  };
-}
-
+const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function SantriLayoutDetail(props) {
-  const santri = props.santri;
-
-  if(santri === "error") {
-    return (
-      <p>There seems to be a problem with data fetching</p>
-    )
-  }
+  let staticSantri = props.santri;
+  const [santri, setSantri] = useState(staticSantri)
+  const router = useRouter();
+  const { id } = router.query
+  const { data: responseSantri, error } = useSWR(router.isReady ? `/santri?id=${id}` : null, fetcher)
 
   const consistent = {
     name: santri.name,
     background: santri.background,
-    id : santri.id
+    id: santri.id
   };
 
   const inconsistent = {
@@ -67,6 +26,15 @@ export default function SantriLayoutDetail(props) {
     "Tempat & Tanggal Lahir": `${santri.birthPlace} & ${santri.birthdate}`,
   };
 
+
+  useEffect(() => {
+    if (!!responseSantri) {
+      setSantri(responseSantri.result);
+      console.log('santri set', responseSantri)
+    }
+  }, [responseSantri])
+  if (error) return "An error has occurred.";
+  if (!responseSantri) return "Loading...";
   return (
     <DetailTemplate
       consistent={consistent}
@@ -79,3 +47,47 @@ export default function SantriLayoutDetail(props) {
     />
   );
 }
+
+export async function getStaticProps(context) {
+  const id = context.params.id;
+
+  var santri = []
+  await axiosMain
+    .get(`/santri?id=${id}`)
+    .then(response => {
+
+      santri = response.data.result
+
+    })
+    .catch(e => {
+
+      santri = "error"
+    })
+  return {
+    props: {
+      santri: santri,
+    },
+    revalidate: 10
+  };
+}
+
+export async function getStaticPaths() {
+  var paths = []
+  var allSantri = []
+  await axiosMain
+    .get(`/santri/search?n=1000`)
+    .then(response => {
+      allSantri = response.data.result
+      paths = allSantri.map((santri) => ({
+        params: { id: santri.id.toString() },
+      }));
+    })
+    .catch(e => {
+      throw e.response
+    })
+  return {
+    paths: paths,
+    fallback: false,
+  };
+}
+

@@ -4,8 +4,8 @@ import useSWR from "swr";
 
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
 
-import GridView from "../../../component/templates/admin/admin-grid";
-import TableView from "../../../component/templates/admin/admin-table";
+import GridView from "../../../component/templates/admin/GridView";
+import TableView from "../../../component/templates/admin/TableView";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 

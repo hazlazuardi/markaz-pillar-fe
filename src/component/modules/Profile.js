@@ -34,7 +34,7 @@ export default function Profile(props) {
           (key, index) =>
             inconsistent[key] && (
               <Grid item xs={6}>
-                <Typography variant="body1" color="primary" fontWeight="medium">
+                <Typography data-testid='inconsistent-key-at-profile-module' variant="body1" color="primary" fontWeight="medium">
                   <LocalShippingOutlinedIcon /> {key}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">

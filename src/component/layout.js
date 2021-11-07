@@ -22,7 +22,6 @@ export default function Layout({ children }) {
     }, [snackbarStatus])
     return (
         <>
-            {showHeader && <Navbar />}
             <Snackbar
                 id='snackbarAtLayout'
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
@@ -35,14 +34,16 @@ export default function Layout({ children }) {
                     {snackbarMessage}
                 </Alert>
             </Snackbar>
-            {showHeader && <Box sx={{ height: '5em' }} />}
             {showHeader ? (
-                <Container maxWidth="lg">
-                    {children}
-                </Container>
+                <>
+                    <Navbar />
+                    <Box sx={{ height: '5em' }} />
+                    <Container maxWidth="lg">
+                        {children}
+                    </Container>
+                    <Box sx={{ height: '6em' }} />
+                </>
             ) : children}
-
-            {showHeader && <Box sx={{ height: '6em' }} />}
         </>
     )
 }

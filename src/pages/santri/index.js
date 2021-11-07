@@ -4,50 +4,24 @@ import useSWR from "swr";
 
 import AdminOrUserTemplate from "../../component/templates/admin/AdminOrUserTemplate";
 
-import GridView from "../../component/templates/admin/admin-grid";
-import TableView from "../../component/templates/admin/admin-table";
+import GridView from "../../component/templates/admin/GridView";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 
-export default function Santri() {
+export default function Santri(props) {
+  const { allSantri } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const { data: responseSantri, error, mutate } = useSWR(`/santri/search?page=${page - 1}&n=${entries}`, fetcher)
-
-  // *******************************************************
-  // Delete
-  // *******************************************************
-  const handleDeleteSantri = async (id) => {
-    await axiosMain.delete(`/admin/santri?id=${id}`)
-      .then(response => {
-        mutate();
-      })
-      .catch(e => {
-
-        if (e.response.data.status === 401) {
-          localStorage.clear();
-        }
-      })
-  }
-
+  const { data: responseSantri, error } = useSWR(`/santri/search?page=${page - 1}&n=${entries}`, fetcher, { fallbackData: allSantri, refreshInterval: 30000 })
   const GridViewMarkaz = (
-    <GridView data={responseSantri} detail="admin/santri" handleDelete={handleDeleteSantri} />
+    <GridView data={responseSantri} detail="santri" />
   )
-
-
-  const TableViewMarkaz = (
-    <TableView data={responseSantri} detail="admin/santri" handleDelete={handleDeleteSantri} />
-  )
-
-
-
 
   return (
     <>
       <AdminOrUserTemplate
         variant='santri'
         GridView={GridViewMarkaz}
-        TableView={TableViewMarkaz}
         entries={entries}
         setEntries={setEntries}
         page={page}
@@ -57,4 +31,15 @@ export default function Santri() {
       />
     </>
   );
+}
+
+export async function getStaticProps() {
+  const staticAllSantriResponse = await axiosMain.get("/santri/search?n=1000");
+  const staticAllSantri = staticAllSantriResponse.data
+  return {
+    props: {
+      allSantri: staticAllSantri
+    },
+    revalidate: 10
+  }
 }
