@@ -68,7 +68,6 @@ function AdminOrUserTemplate(props) {
         setDoAnimateHeight(false)
     };
 
-
     useEffect(() => {
         return () => {
             setDoAnimateHeight(true);
