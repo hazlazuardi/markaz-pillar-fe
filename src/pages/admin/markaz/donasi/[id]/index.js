@@ -8,18 +8,20 @@ import Link from "@mui/material/Link";
 import { axiosMain } from "../../../../../axiosInstances";
 import useSWR from "swr";
 import { useRouter } from "next/router";
+import AdminOrUserTemplate from "../../../../../component/templates/admin/AdminOrUserTemplate";
+import ArrowBack from "../../../../../component/modules/ArrowBack";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function DonasiMarkaz() {
   const router = useRouter();
   const { id } = router.query;
+  const [page, setPage] = useState(1);
+  const [entries, setEntries] = useState(10)
   const {
-    data: markazs,
+    data: allMarkaz,
     error,
-    mutate,
-  } = useSWR("/admin/donation/markaz?id=" + id, fetcher);
-  const [page, setPage] = useState(0);
+  } = useSWR(`/admin/donation/markaz?id=${id}&page=${page - 1}&n=${entries}`, fetcher);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -32,57 +34,6 @@ export default function DonasiMarkaz() {
   useEffect(() => {
     setId(router.query.id);
   }, [router]);
-
-  const gridview = (
-    <Button
-      style={{
-        color: "#004f5d",
-        backgroundColor: "#ffffff",
-        fontWeight: "bold",
-        textDecoration: "underline",
-      }}
-      onClick={() => setGridView(true)}
-    >
-      Grid View
-    </Button>
-  );
-  const tableview = (
-    <Button
-      style={{
-        color: "#004f5d",
-        backgroundColor: "#ffffff",
-        fontWeight: "bold",
-        textDecoration: "underline",
-      }}
-      onClick={() => setGridView(false)}
-    >
-      Table View
-    </Button>
-  );
-
-  const create = (
-    <Link href="markaz/create" underline="none">
-      <Fab
-        sx={{ position: "fixed", right: "3em", bottom: "3em" }}
-        color="primary"
-        aria-label="add"
-      >
-        <AddIcon />
-      </Fab>
-    </Link>
-  );
-  // console.log(staticData);
-
-  const search = () => {
-    markazs.result &&
-      markazs.result.filter((data) => {
-        if (searchTerm == "") {
-          return data;
-        } else if (data.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-          return data;
-        }
-      });
-  };
 
   const handleDelete = async (id) => {
     await axiosMain
@@ -99,30 +50,36 @@ export default function DonasiMarkaz() {
       });
   };
 
+  const TableViewMarkazDonasi = (
+    <TableView
+      data={allMarkaz}
+      santriormarkaz="donasi"
+      detail="admin/markaz"
+      tableTempatMarkaz="ID Donasi"
+      tableDomisili="Nominal Donasi"
+      tableJenisKelamin="Jumlah Donasi Terkumpul"
+      tableTanggalLahir="Status"
+      isDonasi
+      iddonasi={iddonasi}
+    />
+  )
+  console.log(allMarkaz)
   if (error) return "An error has occurred.";
-  if (!markazs) return "Loading...";
+  if (!allMarkaz) return "Loading...";
   return (
-    <ShowAllTemplate
-      searchBarName="Cari Markaz"
-      markazOrSantri="Donasi"
-      page={page}
-      setPage={setPage}
-      value={value}
-      setValue={setValue}
-      setSearchTerm={setSearchTerm}
-      setGridView={setGridView}
-    >
-      <TableView
-        data={markazs}
-        santriormarkaz="donasi"
-        detail="admin/markaz"
-        tableTempatMarkaz="ID Donasi"
-        tableDomisili="Nominal Donasi"
-        tableJenisKelamin="Jumlah Donasi Terkumpul"
-        tableTanggalLahir="Status"
-        isDonasi
-        iddonasi={iddonasi}
+    <>
+      <ArrowBack href='/admin/markaz' />
+      <AdminOrUserTemplate
+        isAdmin
+        variant='donasi'
+        TableView={TableViewMarkazDonasi}
+        data={allMarkaz}
+        page={page}
+        setPage={setPage}
+        entries={entries}
+        setEntries={setEntries}
+        hrefCreate={`/admin/markaz/donasi/create/${id}`}
       />
-    </ShowAllTemplate>
+    </>
   );
 }

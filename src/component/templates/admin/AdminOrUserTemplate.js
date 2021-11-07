@@ -25,6 +25,7 @@ function AdminOrUserTemplate(props) {
         setPage,
         data,
         error,
+        hrefCreate,
         children
     } = props;
 
@@ -67,6 +68,7 @@ function AdminOrUserTemplate(props) {
         setDoAnimateHeight(false)
     };
 
+
     useEffect(() => {
         return () => {
             setDoAnimateHeight(true);
@@ -94,7 +96,7 @@ function AdminOrUserTemplate(props) {
                     icon={<FilterList />}
                 />
             </Box>
-            {GridView && TableView ? (<TabContext value={tabIndex} >
+            {data.totalElement !== 0 && GridView && TableView ? (<TabContext value={tabIndex} >
                 <AppBar position='relative' color="transparent" elevation={0} >
                     <TabList onChange={handleTabIndex}>
                         <Tab data-testid='tab-grid-at-admin-or-user-template' label='Grid' value={0} />
@@ -122,7 +124,11 @@ function AdminOrUserTemplate(props) {
             </TabContext>
             ) : (
                 <Box mt='2em'>
-                    {GridView || TableView}
+                    {data.totalElement !== 0 ? GridView || TableView : (
+                        <Box mb='2em'>
+                            <Typography>No data found</Typography>
+                        </Box>
+                    )}
                 </Box>)}
             {/* Pagination */}
             {!!children && (
@@ -130,34 +136,38 @@ function AdminOrUserTemplate(props) {
                     {children}
                 </Box>
             )}
-            <Stack sx={{ bottom: '0em' }} spacing={2} alignItems='center' >
-                <FormControl fullWidth sx={{ m: '1em', maxWidth: 375 }} >
-                    <InputLabel id="entries-select-label">Show Entries</InputLabel>
-                    <Select
-                        data-testid='showEntries-at-admin-or-user-template'
-                        labelId="entries-select-label"
-                        id="entries-select"
-                        value={entries}
-                        label="Show Entries"
-                        onChange={handleChangeEntries}
+            {data.totalElement !== 0 && (
+                <Stack sx={{ bottom: '0em' }} spacing={2} alignItems='center' >
+                    <FormControl fullWidth sx={{ m: '1em', maxWidth: 375 }} >
+                        <InputLabel id="entries-select-label">Show Entries</InputLabel>
+                        <Select
+                            data-testid='showEntries-at-admin-or-user-template'
+                            labelId="entries-select-label"
+                            id="entries-select"
+                            value={entries}
+                            label="Show Entries"
+                            onChange={handleChangeEntries}
+                        >
+                            <MenuItem value={10}>10</MenuItem>
+                            <MenuItem value={50}>50</MenuItem>
+                            <MenuItem value={100}>100</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <Pagination data-testid='pagination-at-admin-or-user-template' size={matchXs ? 'small' : 'medium'} boundaryCount={1} count={data.totalPage} page={page} onChange={handlePagination} />
+                </Stack>
+            )}
+            {hrefCreate && (
+                <Link href={hrefCreate} underline="none">
+                    <Fab
+                        data-testid='fab-at-admin-or-user-template'
+                        sx={{ position: "fixed", right: "2em", bottom: "3em" }}
+                        color="primary"
+                        aria-label="add"
                     >
-                        <MenuItem value={10}>10</MenuItem>
-                        <MenuItem value={50}>50</MenuItem>
-                        <MenuItem value={100}>100</MenuItem>
-                    </Select>
-                </FormControl>
-                <Pagination data-testid='pagination-at-admin-or-user-template' size={matchXs ? 'small' : 'medium'} boundaryCount={1} count={data.totalPage} page={page} onChange={handlePagination} />
-            </Stack>
-            <Link href="markaz/create" underline="none">
-                <Fab
-                    data-testid='fab-at-admin-or-user-template'
-                    sx={{ position: "fixed", right: "2em", bottom: "3em" }}
-                    color="primary"
-                    aria-label="add"
-                >
-                    <AddIcon />
-                </Fab>
-            </Link>
+                        <AddIcon />
+                    </Fab>
+                </Link>
+            )}
         </>
     )
 }
@@ -171,7 +181,8 @@ AdminOrUserTemplate.propTypes = {
     entries: PropTypes.number.isRequired,
     setEntries: PropTypes.func.isRequired,
     page: PropTypes.number.isRequired,
-    setPage: PropTypes.func.isRequired
+    setPage: PropTypes.func.isRequired,
+    hrefCreate: PropTypes.string
 }
 
 export default AdminOrUserTemplate;

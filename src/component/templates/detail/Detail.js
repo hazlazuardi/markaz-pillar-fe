@@ -29,7 +29,6 @@ function Detail(props) {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Container maxWidth="lg" className={styles.container}>
-            <ArrowBack name={consistent.name} markazOrSantri={markazOrSantri} />
             <Grid
               container
               spacing={3}
@@ -40,11 +39,11 @@ function Detail(props) {
                 image={image}
                 name={consistent.name}
                 nominal={`${donated}/${nominal}`}
-                progress={donated/nominal*100}
+                progress={donated / nominal * 100}
                 donasi={donatetext}
                 admin={adminbutton}
-                markazOrSantri = {markazOrSantri}
-                id = {consistent.id}
+                markazOrSantri={markazOrSantri}
+                id={consistent.id}
               />
             </Grid>
           </Container>

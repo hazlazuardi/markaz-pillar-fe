@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
-import Typography from "@mui/material/Typography";
 import useSWR from "swr";
 import { axiosMain } from "../../../axiosInstances";
 import TableView from "../../../component/templates/admin/TableView";

@@ -52,6 +52,7 @@ export default function AdminMarkaz() {
         setPage={setPage}
         data={responseMarkaz}
         error={error}
+        hrefCreate='/admin/markaz/create'
       />
     </>
   );

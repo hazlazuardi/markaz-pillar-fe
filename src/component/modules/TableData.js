@@ -19,7 +19,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const action = <Button variant="outlined">Primary</Button>;
 
 export default function CustomizedTables(props) {
   const {

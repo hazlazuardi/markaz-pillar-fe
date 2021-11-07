@@ -52,6 +52,7 @@ export default function AdminSantri() {
         setPage={setPage}
         data={responseSantri}
         error={error}
+        hrefCreate='/admin/santri/create'
       />
     </>
   );
