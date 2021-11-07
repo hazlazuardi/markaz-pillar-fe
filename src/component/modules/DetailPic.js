@@ -47,7 +47,7 @@ export default function DetailPic(props) {
       >
         <Grid item xs={12} sx={{ display: largeScreen ? "none" : "block" }}>
           <Typography variant="h4" mb={2} sx={{ textTransform: "uppercase" }}>
-            {name}
+            {name.length > 18 ? name.substring(0,18) + "..." : name}
           </Typography>
         </Grid>
         {admin}

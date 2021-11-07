@@ -18,7 +18,7 @@ export default function ArrowBack(props) {
     >
       <Link href={`/${markazOrSantri}/`} passHref>
         <Button variant="text" href>
-          <ArrowBackIcon /> {name}
+          <ArrowBackIcon /> {name.length > 18 ? name.substring(0,18) + "..." : name}
         </Button>
       </Link>
     </Grid>
