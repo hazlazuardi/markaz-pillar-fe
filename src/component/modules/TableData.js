@@ -28,6 +28,7 @@ export default function CustomizedTables(props) {
     tableDomisili,
     tableJenisKelamin,
     tableTanggalLahir,
+    santriormarkaz,
   } = props;
 
   return (
@@ -40,6 +41,11 @@ export default function CustomizedTables(props) {
             <StyledTableCell align="left">{tableDomisili}</StyledTableCell>
             <StyledTableCell align="left">{tableJenisKelamin}</StyledTableCell>
             <StyledTableCell align="left">{tableTanggalLahir}</StyledTableCell>
+            <StyledTableCell align="left">
+              {santriormarkaz === "markaz" || santriormarkaz === "santri"
+                ? "Daftar Donasi"
+                : null}
+            </StyledTableCell>
             <StyledTableCell align="center">Action</StyledTableCell>
           </TableRow>
         </TableHead>
