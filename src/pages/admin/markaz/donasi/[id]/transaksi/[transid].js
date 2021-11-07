@@ -1,5 +1,5 @@
 import ShowAllTemplate from "../../../../../../component/templates/show_all/ShowAll";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import TableView from "../../../../../../component/templates/admin/Admin-table";
 import Fab from "@mui/material/Fab";
@@ -34,21 +34,6 @@ export default function TransaksiMarkaz() {
           return data;
         } else if (data.name.toLowerCase().includes(searchTerm.toLowerCase())) {
           return data;
-        }
-      });
-  };
-
-  const handleDelete = async (id) => {
-    await axiosMain
-      .delete(`/admin/markaz?id=${id}`)
-      .then((response) => {
-        console.log("delete succeed", response.data);
-        mutate();
-      })
-      .catch((e) => {
-        console.log("delete error", e.response);
-        if (e.response.data.status === 401) {
-          localStorage.clear();
         }
       });
   };

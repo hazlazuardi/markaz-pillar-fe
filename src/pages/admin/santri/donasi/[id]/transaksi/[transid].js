@@ -114,6 +114,7 @@ export default function TransaksiMarkaz() {
         tableTempatMarkaz="ID Transaksi"
         tableDomisili="Nominal Donasi"
         tableJenisKelamin="Status"
+        isDonasi
       />
     </ShowAllTemplate>
   );

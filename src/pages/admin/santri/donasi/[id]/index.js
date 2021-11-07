@@ -1,5 +1,5 @@
 import ShowAllTemplate from "../../../../../component/templates/show_all/ShowAll";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TableView from "../../../../../component/templates/admin/Admin-table";
 import Fab from "@mui/material/Fab";
@@ -26,6 +26,12 @@ export default function DonasiSantri() {
   const [value, setValue] = useState(10);
 
   const [gridView, setGridView] = useState(true);
+
+  const [iddonasi, setId] = useState();
+
+  useEffect(() => {
+    setId(router.query.id);
+  }, [router]);
 
   const gridview = (
     <Button
@@ -119,6 +125,7 @@ export default function DonasiSantri() {
         tableJenisKelamin="Jumlah Donasi Terkumpul"
         tableTanggalLahir="Status"
         isDonasi
+        iddonasi={iddonasi}
       />
     </ShowAllTemplate>
   );
