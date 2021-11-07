@@ -3,7 +3,7 @@ import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserT
 import Typography from "@mui/material/Typography";
 import useSWR from "swr";
 import { axiosMain } from "../../../axiosInstances";
-import TableView from "../../../component/templates/admin/Tableview";
+import TableView from "../../../component/templates/admin/TableView";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 export default function AdminUsers() {
