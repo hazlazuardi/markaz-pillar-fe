@@ -1,26 +1,26 @@
 import React from "react";
-import Grid from "@mui/material/Grid";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "@mui/material/Button";
 import Link from "next/link";
+import { Box } from "@mui/system";
+import { useRouter } from "next/router";
 
 export default function ArrowBack(props) {
-  const { name, markazOrSantri } = props;
+  const { href } = props;
+
+  const router = useRouter();
+  const fullPath = router.pathname.split('/').slice(0, -1).join(' / ')
+  console.log(fullPath)
+
+
 
   return (
-    <Grid
-      item
-      sm={12}
-      lg={12}
-      mb={8}
-      // margin={0}
-      // sx={{ display: largeScreen ? "block" : "none" }}
-    >
-      <Link href={`/${markazOrSantri}/`} passHref>
-        <Button variant="text" href>
-          <ArrowBackIcon /> {name}
+    <Box mb='2em'>
+      <Link href={`/${href}/`} passHref>
+        <Button variant="text" startIcon={<ArrowBackIcon />}>
+          {fullPath}
         </Button>
       </Link>
-    </Grid>
+    </Box>
   );
 }

@@ -3,6 +3,7 @@ import DetailTemplate from "../../component/templates/detail/Detail";
 import { axiosMain } from '../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
+import ArrowBack from "../../component/modules/ArrowBack";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function MarkazLayoutDetail(props) {
@@ -36,15 +37,18 @@ export default function MarkazLayoutDetail(props) {
   if (error) return "An error has occurred.";
   if (!responseMarkaz) return "Loading...";
   return (
-    <DetailTemplate
-      consistent={consistent}
-      inconsistent={inconsistent}
-      nominal={markaz.nominal}
-      donated={markaz.donated}
-      image={image}
-      donatetext="Donasi Sekarang"
-      markazOrSantri="markaz"
-    />
+    <>
+      <ArrowBack href='/markaz' />
+      <DetailTemplate
+        consistent={consistent}
+        inconsistent={inconsistent}
+        nominal={markaz.nominal}
+        donated={markaz.donated}
+        image={image}
+        donatetext="Donasi Sekarang"
+        markazOrSantri="markaz"
+      />
+    </>
   );
 }
 

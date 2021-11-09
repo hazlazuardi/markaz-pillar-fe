@@ -18,7 +18,7 @@ export default function TableView(props) {
   // array of objects
   const users = data.result;
 
-  function Field_one(user, field) {
+  function fieldOne(user, field) {
     if (santriormarkaz === "transaksi") {
       field = user.userEmail;
     } else if (santriormarkaz === "pengguna") {
@@ -29,7 +29,7 @@ export default function TableView(props) {
     return field;
   }
 
-  function Field_two(user) {
+  function fieldTwo(user) {
     if (santriormarkaz === "santri") {
       return user.markaz.name;
     } else if (santriormarkaz === "markaz") {
@@ -43,7 +43,7 @@ export default function TableView(props) {
     }
   }
 
-  function Field_three(user, field) {
+  function fieldThree(user, field) {
     if (santriormarkaz === "santri") {
       field = user.birthPlace;
     } else if (santriormarkaz === "markaz") {
@@ -58,7 +58,7 @@ export default function TableView(props) {
     return field;
   }
 
-  function Field_four(user, field) {
+  function fieldFour(user, field) {
     if (santriormarkaz === "santri") {
       field = genderConverter(user.gender);
     } else if (santriormarkaz === "markaz") {
@@ -91,7 +91,7 @@ export default function TableView(props) {
     }
   }
 
-  function Field_five(user, field) {
+  function fieldFive(user, field) {
     if (santriormarkaz === "santri") {
       field = user.birthDate;
     } else if (santriormarkaz === "markaz") {
@@ -107,6 +107,17 @@ export default function TableView(props) {
     return field;
   }
 
+  // function Field_six(user, field) {
+  //   if (santriormarkaz === "santri" || santriormarkaz === "markaz") {
+  //     field = <Button>Lihat Daftar</Button>;
+  //   } else {
+  //     field = "";
+  //   }
+  //   return field;
+  // }
+
+  // console.log("tableVew", santriormarkaz);
+
   return (
     <TableData
       tableTempatMarkaz={tableTempatMarkaz}
@@ -119,11 +130,11 @@ export default function TableView(props) {
         <TableDataRow
           key={user.id}
           id={user.id}
-          nama={Field_one(user, santriormarkaz)}
-          markaz={Field_two(user, santriormarkaz)}
-          domisili={Field_three(user, santriormarkaz)}
-          kelamin={Field_four(user, santriormarkaz)}
-          tanggal={Field_five(user, santriormarkaz)}
+          nama={fieldOne(user, santriormarkaz)}
+          markaz={fieldTwo(user, santriormarkaz)}
+          domisili={fieldThree(user, santriormarkaz)}
+          kelamin={fieldFour(user, santriormarkaz)}
+          tanggal={fieldFive(user, santriormarkaz)}
           // fieldsix={Field_six(user, santriormarkaz)}
           santriormarkaz={santriormarkaz}
           detail={detail}
