@@ -55,19 +55,20 @@ const Puller = styled(Box)(({ theme }) => ({
 
 export default function FilterMarkazMobile(props) {
   const {
-    setSort,
-    filter,
-    nameFilter,
     setNameFilter,
     locationFilter,
     setLocationFilter,
     categoryFilter,
     setCategoryFilter,
+    categoryFilter2,
+    setCategoryFilter2,
+    categoryFilter3,
+    setCategoryFilter3,
     mutate,
   } = props;
 
   const [open, setOpen] = React.useState(false);
-  const [checked, setChecked] = React.useState(true);
+  const [checked, setChecked] = React.useState();
   const anchorRef = React.useRef(null);
   const [value, setValue] = React.useState();
 
@@ -84,6 +85,8 @@ export default function FilterMarkazMobile(props) {
     setNameFilter(event.target.value);
     setLocationFilter("");
     setCategoryFilter("");
+    setCategoryFilter2("");
+    setCategoryFilter3("");
     mutate();
   };
 
@@ -91,13 +94,46 @@ export default function FilterMarkazMobile(props) {
     setLocationFilter(event.target.value);
     setNameFilter("");
     setCategoryFilter("");
+    setCategoryFilter2("");
+    setCategoryFilter3("");
     mutate();
   };
 
   const handleChangeCategory = (event) => {
-    setCategoryFilter(event.target.value);
+    setChecked(event.target.checked);
+    if (event.target.checked) {
+      setCategoryFilter(event.target.name);
+    } else {
+      setCategoryFilter("");
+    }
+
     setNameFilter("");
+    setLocationFilter("");
+    mutate();
+  };
+
+  const handleChangeCategory2 = (event) => {
+    setChecked(event.target.checked);
+    if (event.target.checked) {
+      setCategoryFilter2(event.target.name);
+    } else {
+      setCategoryFilter2("");
+    }
+
     setNameFilter("");
+    setLocationFilter("");
+    mutate();
+  };
+
+  const handleChangeCategory3 = (event) => {
+    setChecked(event.target.checked);
+    if (event.target.checked) {
+      setCategoryFilter3(event.target.name);
+    } else {
+      setCategoryFilter3("");
+    }
+    setNameFilter("");
+    setLocationFilter("");
     mutate();
   };
 
@@ -274,23 +310,41 @@ export default function FilterMarkazMobile(props) {
                     <AccordionDetails>
                       <FormControl component="fieldset">
                         <FormGroup
-                          value={value}
-                          onChange={handleChangeCategory}
+                        // value={value}
+                        // onChange={handleChangeCategory}
                         >
                           <FormControlLabel
-                            control={<Checkbox />}
+                            control={
+                              <Checkbox
+                                checked={checked}
+                                onChange={handleChangeCategory}
+                                name="PEMBANGUNAN_MARKAZ"
+                              />
+                            }
                             value="PEMBANGUNAN_MARKAZ"
                             label="Pembangunan Markaz"
                           />
 
                           <FormControlLabel
-                            control={<Checkbox />}
+                            control={
+                              <Checkbox
+                                checked={checked}
+                                onChange={handleChangeCategory2}
+                                name="RENOVASI"
+                              />
+                            }
                             value="RENOVASI"
                             label="Renovasi"
                           />
 
                           <FormControlLabel
-                            control={<Checkbox />}
+                            control={
+                              <Checkbox
+                                checked={checked}
+                                onChange={handleChangeCategory3}
+                                name="PENAMBAHAN_FASILITAS"
+                              />
+                            }
                             value="PENAMBAHAN_FASILITAS"
                             label="Penambahan Fasilitas"
                           />

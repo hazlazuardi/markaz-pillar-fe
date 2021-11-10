@@ -54,8 +54,6 @@ const Puller = styled(Box)(({ theme }) => ({
 
 export default function FilterSantriMobile(props) {
   const {
-    setSort,
-    filter,
     ageFilter,
     setAgeFilter,
     nameFilter,

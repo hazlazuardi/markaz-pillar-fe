@@ -26,10 +26,6 @@ import { Chip } from "@mui/material";
 
 export default function FilterSantri(props) {
   const {
-    setSort,
-    filter,
-    filterData,
-    handler,
     ageFilter,
     setAgeFilter,
     nameFilter,
