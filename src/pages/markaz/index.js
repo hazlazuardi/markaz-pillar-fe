@@ -15,6 +15,8 @@ export default function Markaz(props) {
   const [locationFilter, setLocationFilter] = useState();
   const [nameFilter, setNameFilter] = useState();
   const [categoryFilter, setCategoryFilter] = useState();
+  const [categoryFilter2, setCategoryFilter2] = useState();
+  const [categoryFilter3, setCategoryFilter3] = useState();
 
   const {
     data: responseMarkaz,
@@ -25,6 +27,8 @@ export default function Markaz(props) {
       !!locationFilter ? "address=" + locationFilter : ""
     }${!!nameFilter ? "sortedName=" + nameFilter : ""}${
       !!categoryFilter ? "category=" + categoryFilter : ""
+    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${
+      !!categoryFilter3 ? "category=" + categoryFilter3 : ""
     }
 `,
     fetcher,
@@ -55,6 +59,10 @@ export default function Markaz(props) {
         setNameFilter={setNameFilter}
         categoryFilter={categoryFilter}
         setCategoryFilter={setCategoryFilter}
+        categoryFilter2={categoryFilter2}
+        setCategoryFilter2={setCategoryFilter2}
+        categoryFilter3={categoryFilter3}
+        setCategoryFilter3={setCategoryFilter3}
         mutate={mutate}
       />
     </>

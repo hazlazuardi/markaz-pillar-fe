@@ -50,6 +50,10 @@ function AdminOrUserTemplate(props) {
     setLocationFilter,
     categoryFilter,
     setCategoryFilter,
+    categoryFilter2,
+    setCategoryFilter2,
+    categoryFilter3,
+    setCategoryFilter3,
     mutate,
   } = props;
 
@@ -134,6 +138,10 @@ function AdminOrUserTemplate(props) {
               setNameFilter={setNameFilter}
               categoryFilter={categoryFilter}
               setCategoryFilter={setCategoryFilter}
+              categoryFilter2={categoryFilter2}
+              setCategoryFilter2={setCategoryFilter2}
+              categoryFilter3={categoryFilter3}
+              setCategoryFilter3={setCategoryFilter3}
               mutate={mutate}
             />
           );
@@ -147,6 +155,10 @@ function AdminOrUserTemplate(props) {
               setNameFilter={setNameFilter}
               categoryFilter={categoryFilter}
               setCategoryFilter={setCategoryFilter}
+              categoryFilter2={categoryFilter2}
+              setCategoryFilter2={setCategoryFilter2}
+              categoryFilter3={categoryFilter3}
+              setCategoryFilter3={setCategoryFilter3}
               mutate={mutate}
             />
           );
