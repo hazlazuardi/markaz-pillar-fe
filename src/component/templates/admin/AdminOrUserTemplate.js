@@ -105,175 +105,202 @@ function AdminOrUserTemplate(props) {
   const matches = useMediaQuery("(max-width:600px)");
   const size = matches ? "small" : "medium";
 
+  useEffect(() => {
+    return () => {
+      setDoAnimateHeight(true);
+    };
+  }, [entries, page, tabIndex]);
 
-    useEffect(() => {
-        return () => {
-            setDoAnimateHeight(true);
-        }
-    }, [entries, page, tabIndex])
-
-    const axis = theme.direction === 'rtl' ? 'x-reverse' : 'x'
-    if (error) return "An error has occurred.";
-    if (!data) return "Loading...";
-    return (
-        <>
-            {/* Header */}
-            <Typography data-testid='titlePage-at-admin-or-user-template' variant="h4" sx={{ textTransform: 'capitalize' }} color="initial">Daftar {variant}</Typography>
-            <Box>
-                <TextField
-                    data-testid='searchbar-at-admin-or-user-template'
-                    label="Cari Markaz"
-                    placeholder='Markaz Depok'
-                    margin='normal'
-                    fullWidth
-                    size='small' />
-                {(() => {
-        if (variant == "markaz" && size == "small") {
-          return (
-            <FilterMarkazMobile
-              data-testid="filterChipButton-at-admin-or-user-template"
-              locationFilter={locationFilter}
-              setLocationFilter={setLocationFilter}
-              nameFilter={nameFilter}
-              setNameFilter={setNameFilter}
-              categoryFilter={categoryFilter}
-              setCategoryFilter={setCategoryFilter}
-              categoryFilter2={categoryFilter2}
-              setCategoryFilter2={setCategoryFilter2}
-              categoryFilter3={categoryFilter3}
-              setCategoryFilter3={setCategoryFilter3}
-              mutate={mutate}
-            />
-          );
-        } else if (variant == "markaz" && size == "medium") {
-          return (
-            <FilterMarkaz
-              data-testid="filterChipButton-at-admin-or-user-template"
-              locationFilter={locationFilter}
-              setLocationFilter={setLocationFilter}
-              nameFilter={nameFilter}
-              setNameFilter={setNameFilter}
-              categoryFilter={categoryFilter}
-              setCategoryFilter={setCategoryFilter}
-              categoryFilter2={categoryFilter2}
-              setCategoryFilter2={setCategoryFilter2}
-              categoryFilter3={categoryFilter3}
-              setCategoryFilter3={setCategoryFilter3}
-              mutate={mutate}
-            />
-          );
-        } else if (variant == "santri" && size == "small") {
-          return (
-            <FilterSantriMobile
-              data-testid="filterChipButton-at-admin-or-user-template"
-              ageFilter={ageFilter}
-              setAgeFilter={setAgeFilter}
-              nameFilter={nameFilter}
-              setNameFilter={setNameFilter}
-              mutate={mutate}
-            />
-          );
-        } else {
-          return (
-            <FilterSantri
-              data-testid="filterChipButton-at-admin-or-user-template"
-              ageFilter={ageFilter}
-              setAgeFilter={setAgeFilter}
-              nameFilter={nameFilter}
-              setNameFilter={setNameFilter}
-              mutate={mutate}
-            />
-          );
-        }
-      })()}
-
+  const axis = theme.direction === "rtl" ? "x-reverse" : "x";
+  if (error) return "An error has occurred.";
+  if (!data) return "Loading...";
+  return (
+    <>
+      {/* Header */}
+      <Typography
+        data-testid="titlePage-at-admin-or-user-template"
+        variant="h4"
+        sx={{ textTransform: "capitalize" }}
+        color="initial"
+      >
+        Daftar {variant}
+      </Typography>
+      <Box>
+        <TextField
+          data-testid="searchbar-at-admin-or-user-template"
+          label="Cari Markaz"
+          placeholder="Markaz Depok"
+          margin="normal"
+          fullWidth
+          size="small"
+        />
+        {(() => {
+          if (variant == "markaz" && size == "small") {
+            return (
+              <FilterMarkazMobile
+                data-testid="filterChipButton-at-admin-or-user-template"
+                locationFilter={locationFilter}
+                setLocationFilter={setLocationFilter}
+                nameFilter={nameFilter}
+                setNameFilter={setNameFilter}
+                categoryFilter={categoryFilter}
+                setCategoryFilter={setCategoryFilter}
+                categoryFilter2={categoryFilter2}
+                setCategoryFilter2={setCategoryFilter2}
+                categoryFilter3={categoryFilter3}
+                setCategoryFilter3={setCategoryFilter3}
+                mutate={mutate}
+              />
+            );
+          } else if (variant == "markaz" && size == "medium") {
+            return (
+              <FilterMarkaz
+                data-testid="filterChipButton-at-admin-or-user-template"
+                locationFilter={locationFilter}
+                setLocationFilter={setLocationFilter}
+                nameFilter={nameFilter}
+                setNameFilter={setNameFilter}
+                categoryFilter={categoryFilter}
+                setCategoryFilter={setCategoryFilter}
+                categoryFilter2={categoryFilter2}
+                setCategoryFilter2={setCategoryFilter2}
+                categoryFilter3={categoryFilter3}
+                setCategoryFilter3={setCategoryFilter3}
+                mutate={mutate}
+              />
+            );
+          } else if (variant == "santri" && size == "small") {
+            return (
+              <FilterSantriMobile
+                data-testid="filterChipButton-at-admin-or-user-template"
+                ageFilter={ageFilter}
+                setAgeFilter={setAgeFilter}
+                nameFilter={nameFilter}
+                setNameFilter={setNameFilter}
+                mutate={mutate}
+              />
+            );
+          } else {
+            return (
+              <FilterSantri
+                data-testid="filterChipButton-at-admin-or-user-template"
+                ageFilter={ageFilter}
+                setAgeFilter={setAgeFilter}
+                nameFilter={nameFilter}
+                setNameFilter={setNameFilter}
+                mutate={mutate}
+              />
+            );
+          }
+        })()}
+      </Box>
+      {data.totalElement !== 0 && GridView && TableView ? (
+        <TabContext value={tabIndex}>
+          <AppBar position="relative" color="transparent" elevation={0}>
+            <TabList onChange={handleTabIndex}>
+              <Tab
+                data-testid="tab-grid-at-admin-or-user-template"
+                label="Grid"
+                value={0}
+              />
+              <Tab
+                data-testid="tab-table-at-admin-or-user-template"
+                label="Table"
+                value={1}
+              />
+            </TabList>
+          </AppBar>
+          <SwipeableViews
+            axis={axis}
+            index={tabIndex}
+            onChangeIndex={handleChangeTabIndex}
+            animateHeight={doAnimateHeight}
+            ignoreNativeScroll
+          >
+            <TabPanel
+              data-testid="gridView-at-admin-or-user-template"
+              value={tabIndex}
+              index={0}
+              dir={theme.direction}
+            >
+              {GridView}
+            </TabPanel>
+            <TabPanel
+              data-testid="tableView-at-admin-or-user-template"
+              value={tabIndex}
+              index={1}
+              dir={theme.direction}
+            >
+              <SwipeableEnableScroll>{TableView}</SwipeableEnableScroll>
+            </TabPanel>
+          </SwipeableViews>
+        </TabContext>
+      ) : (
+        <Box mt="2em">
+          {data.totalElement !== 0 ? (
+            GridView || TableView
+          ) : (
+            <Box mb="2em">
+              <Typography>No data found</Typography>
             </Box>
-            {data.totalElement !== 0 && GridView && TableView ? (<TabContext value={tabIndex} >
-                <AppBar position='relative' color="transparent" elevation={0} >
-                    <TabList onChange={handleTabIndex}>
-                        <Tab data-testid='tab-grid-at-admin-or-user-template' label='Grid' value={0} />
-                        <Tab data-testid='tab-table-at-admin-or-user-template' label='Table' value={1} />
-                    </TabList>
-                </AppBar>
-                <SwipeableViews
-                    axis={axis}
-                    index={tabIndex}
-                    onChangeIndex={handleChangeTabIndex}
-                    animateHeight={doAnimateHeight}
-                    ignoreNativeScroll
-                >
-                    <TabPanel data-testid='gridView-at-admin-or-user-template' value={tabIndex} index={0} dir={theme.direction}>
-                        {GridView}
-                    </TabPanel>
-                    <TabPanel data-testid='tableView-at-admin-or-user-template' value={tabIndex} index={1} dir={theme.direction}>
-
-                        <SwipeableEnableScroll>
-                            {TableView}
-                        </SwipeableEnableScroll>
-
-                    </TabPanel>
-                </SwipeableViews>
-            </TabContext>
-            ) : (
-                <Box mt='2em'>
-                    {data.totalElement !== 0 ? GridView || TableView : (
-                        <Box mb='2em'>
-                            <Typography>No data found</Typography>
-                        </Box>
-                    )}
-                </Box>)}
-            {/* Pagination */}
-            {!!children && (
-                <Box mt='2em'>
-                    {children}
-                </Box>
-            )}
-            {data.totalElement !== 0 && (
-                <Stack sx={{ bottom: '0em' }} spacing={2} alignItems='center' >
-                    <FormControl fullWidth sx={{ m: '1em', maxWidth: 375 }} >
-                        <InputLabel id="entries-select-label">Show Entries</InputLabel>
-                        <Select
-                            data-testid='showEntries-at-admin-or-user-template'
-                            labelId="entries-select-label"
-                            id="entries-select"
-                            value={entries}
-                            label="Show Entries"
-                            onChange={handleChangeEntries}
-                        >
-                            <MenuItem value={10}>10</MenuItem>
-                            <MenuItem value={50}>50</MenuItem>
-                            <MenuItem value={100}>100</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <Pagination data-testid='pagination-at-admin-or-user-template' size={matchXs ? 'small' : 'medium'} boundaryCount={1} count={data.totalPage} page={page} onChange={handlePagination} />
-                </Stack>
-            )}
-            {hrefCreate && (
-                <Link href={hrefCreate} underline="none">
-                    <Fab
-                        data-testid='fab-at-admin-or-user-template'
-                        sx={{ position: "fixed", right: "2em", bottom: "3em" }}
-                        color="primary"
-                        aria-label="add"
-                    >
-                        <AddIcon />
-                    </Fab>
-                </Link>
-            )}
-        </>
-    )
+          )}
+        </Box>
+      )}
+      {/* Pagination */}
+      {!!children && <Box mt="2em">{children}</Box>}
+      {data.totalElement !== 0 && (
+        <Stack sx={{ bottom: "0em" }} spacing={2} alignItems="center">
+          <FormControl fullWidth sx={{ m: "1em", maxWidth: 375 }}>
+            <InputLabel id="entries-select-label">Show Entries</InputLabel>
+            <Select
+              data-testid="showEntries-at-admin-or-user-template"
+              labelId="entries-select-label"
+              id="entries-select"
+              value={entries}
+              label="Show Entries"
+              onChange={handleChangeEntries}
+            >
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={50}>50</MenuItem>
+              <MenuItem value={100}>100</MenuItem>
+            </Select>
+          </FormControl>
+          <Pagination
+            data-testid="pagination-at-admin-or-user-template"
+            size={matchXs ? "small" : "medium"}
+            boundaryCount={1}
+            count={data.totalPage}
+            page={page}
+            onChange={handlePagination}
+          />
+        </Stack>
+      )}
+      {hrefCreate && (
+        <Link href={hrefCreate} underline="none">
+          <Fab
+            data-testid="fab-at-admin-or-user-template"
+            sx={{ position: "fixed", right: "2em", bottom: "3em" }}
+            color="primary"
+            aria-label="add"
+          >
+            <AddIcon />
+          </Fab>
+        </Link>
+      )}
+    </>
+  );
 }
 
 AdminOrUserTemplate.propTypes = {
-    data: PropTypes.any,
-    variant: PropTypes.string,
-    GridView: PropTypes.elementType.isRequired,
-    TableView: PropTypes.elementType,
-    entries: PropTypes.number.isRequired,
-    setEntries: PropTypes.func.isRequired,
-    page: PropTypes.number.isRequired,
-    setPage: PropTypes.func.isRequired,
-    hrefCreate: PropTypes.string
-}
+  data: PropTypes.any,
+  variant: PropTypes.string,
+  GridView: PropTypes.elementType.isRequired,
+  TableView: PropTypes.elementType,
+  entries: PropTypes.number.isRequired,
+  setEntries: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  setPage: PropTypes.func.isRequired,
+  hrefCreate: PropTypes.string,
+};
 
 export default AdminOrUserTemplate;
