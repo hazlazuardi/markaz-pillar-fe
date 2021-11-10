@@ -36,6 +36,7 @@ export default function DonasiSantri(props) {
         }));
     };
 
+    const [loading, setLoading] = useState(false);
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
