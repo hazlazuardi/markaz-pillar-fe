@@ -24,6 +24,8 @@ function AdminMarkazCreate() {
         }));
     };
 
+    const [submitted, setSubmitted] = useState(false);
+
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
@@ -47,6 +49,7 @@ function AdminMarkazCreate() {
                         message: "Markaz Created"
                     }
                 })
+                setSubmitted(true)
             })
             .catch(error => {
                 setLoading(false)
@@ -86,6 +89,11 @@ function AdminMarkazCreate() {
                 }
             })
     };
+
+    if (submitted) {
+      console.log(submitted)
+      router.push("/admin/markaz")
+    }
 
     const [loading, setLoading] = useState(false)
     return (
