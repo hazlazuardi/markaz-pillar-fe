@@ -195,9 +195,7 @@ export default function DonationForm(props) {
                         <Button sx={{m : 1}} variant="outlined" onClick={() => {
                             setStep(1)
                             }}>Kembali</Button>
-                        <Button sx={{m : 1}} variant="contained" onClick={
-                            handleSubmit
-                        }>selesai</Button>
+                        <Button sx={{m : 1}} variant="contained" onClick={handleSubmit}>selesai</Button>
                     </Box>
                 </Box>
             </Container>

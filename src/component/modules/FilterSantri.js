@@ -110,7 +110,7 @@ export default function FilterSantri(props) {
         placement="bottom-start"
         transition
         disablePortal
-        style={{ zIndex: '1000'}}
+        style={{ zIndex: '100'}}
       >
         {({ TransitionProps, placement }) => (
           <Grow

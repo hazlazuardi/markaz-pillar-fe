@@ -15,7 +15,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Radio from "@mui/material/Radio";
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -26,13 +26,8 @@ import { FormControl } from "@mui/material";
 
 export default function FilterMarkaz(props) {
   const {
-    setSort,
-    filter,
-    nameFilter,
     setNameFilter,
-    locationFilter,
     setLocationFilter,
-    categoryFilter,
     setCategoryFilter,
     mutate,
   } = props;

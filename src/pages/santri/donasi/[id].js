@@ -1,13 +1,12 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import DonationForm from '../../../component/templates/form/DonationForm'
 import { useRouter } from 'next/router'
-import { useState, useEffect } from "react";
 import { axiosFormData } from "../../../axiosInstances";
 import { useAppContext } from "../../../context/AppContext";
 import { dispatchTypes } from "../../../context/AppReducer";
 
 export default function DonasiSantri(props) {
-    const { dispatch} = useAppContext();
+    const { dispatch } = useAppContext();
     const router = useRouter()
     const [image, setImage] = useState();
     const [details, setDetails] = useState({
@@ -22,7 +21,7 @@ export default function DonasiSantri(props) {
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
-        return;
+            return;
         }
 
         setOpen(false);
@@ -36,6 +35,7 @@ export default function DonasiSantri(props) {
         }));
     };
 
+    const [loading, setLoading] = useState(false)
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
@@ -50,7 +50,7 @@ export default function DonasiSantri(props) {
             .post("/transaction", data)
             .then(response => {
                 setLoading(false)
-                
+
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
@@ -63,7 +63,7 @@ export default function DonasiSantri(props) {
             })
             .catch(error => {
                 setLoading(false)
-                
+
                 // Check & Handle if error.response is defined
                 if (!!error.response) {
                     if (error.response.status === 400) {
@@ -102,24 +102,24 @@ export default function DonasiSantri(props) {
     useEffect(() => {
         setDetails((prev) => ({
             ...prev,
-            santri : router.query.id
-        }))   
+            santri: router.query.id
+        }))
     }, [router])
 
     return (
-        <DonationForm 
-        markazOrSantri={"santri"} 
-        recipient={"Santri 1"} 
-        setImage = {setImage}
-        handleChangeDetails = {handleChangeDetails}
-        details = {details}
-        handleClose = {handleClose}
-        open = {open}
-        setOpen = {setOpen}
-        handleError = {handleError}
-        handleSubmit = {handleSubmit}
-        setDetails = {setDetails}
-        router = {router}
+        <DonationForm
+            markazOrSantri={"santri"}
+            recipient={"Santri 1"}
+            setImage={setImage}
+            handleChangeDetails={handleChangeDetails}
+            details={details}
+            handleClose={handleClose}
+            open={open}
+            setOpen={setOpen}
+            handleError={handleError}
+            handleSubmit={handleSubmit}
+            setDetails={setDetails}
+            router={router}
         />
     )
 }

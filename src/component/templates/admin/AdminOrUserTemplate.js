@@ -224,6 +224,7 @@ function AdminOrUserTemplate(props) {
                             <MenuItem value={10}>10</MenuItem>
                             <MenuItem value={50}>50</MenuItem>
                             <MenuItem value={100}>100</MenuItem>
+                            <MenuItem value={100000}>Show All</MenuItem>
                         </Select>
                     </FormControl>
                     <Pagination data-testid='pagination-at-admin-or-user-template' size={matchXs ? 'small' : 'medium'} boundaryCount={1} count={data.totalPage} page={page} onChange={handlePagination} />
