@@ -16,12 +16,14 @@ import styles from "../styles/Home.module.css";
 import ActivityCard from "../component/modules/ActivityCard";
 import { axiosMain } from '../axiosInstances'
 import useSWR from "swr";
+import Link from 'next/link'
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 
 export default function Profile() {
     
-    const { dispatch } = useAppContext();
+    const { state, dispatch } = useAppContext();
+    const { currentUser, currentUserRole } = state;
     const router = useRouter();
     const [doAnimateHeight, setDoAnimateHeight] = useState(true)
     const [tabIndex, setTabIndex] = useState(0);
@@ -58,14 +60,32 @@ export default function Profile() {
             >
 
                 <Grid item xs={12}>
+                {currentUser && (
                     <Box>
                         <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
-                            <Avatar sx={{ width: 100, height: 100, mb: '1em' }}>{"Abimanyu"[0].toUpperCase()}</Avatar>
+                            <Avatar sx={{ width: 100, height: 100, mb: '1em' }}>{currentUser[0].toUpperCase()}</Avatar>
                         </Box>
-                        <Typography sx={{ wordWrap: 'break-word' }} textAlign='center' variant='h5'>{"Abimanyu@gmail.com".split('@')[0]}</Typography>
-                        <Typography sx={{ wordWrap: 'break-word' }} textAlign='center'>{"ROLE_USER".split('_')[1]}</Typography>
+                        <Typography sx={{ wordWrap: 'break-word' }} textAlign='center' variant='h5'>{currentUser.split('@')[0]}</Typography>
+                        <Typography sx={{ wordWrap: 'break-word' }} textAlign='center'>{currentUserRole.split('_')[1]}</Typography>
                         <Button fullWidth color='error' sx={{ mt: '2em' }} size='large' variant='text' onClick={handleLogout}>Keluar</Button>
                     </ Box>
+                )}
+
+                {!currentUser && (
+                    <Box>
+                        <Typography sx={{ wordWrap: 'break-word', margin:1 }} textAlign='center'>Anda Belum Log In</Typography>
+                        <Link href='/login' passHref>
+                            <Button fullWidth sx={{ mb: '1em' }} variant="contained" color="primary" size='large'>
+                                Masuk
+                            </Button>
+                        </Link>
+                        <Link href='/registration' passHref>
+                            <Button fullWidth variant="outlined" color="primary" size='large'>
+                                Daftar
+                            </Button>
+                        </Link>
+                    </ Box>
+                )}
                 </Grid>
 
             </Grid>
