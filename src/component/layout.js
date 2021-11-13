@@ -23,6 +23,7 @@ export default function Layout({ children }) {
     return (
         <>
             <Snackbar
+                data-testid='snackbar-at-layout'
                 id='snackbarAtLayout'
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 open={snackbarStatus}
