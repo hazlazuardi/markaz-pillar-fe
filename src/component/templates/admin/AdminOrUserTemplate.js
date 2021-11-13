@@ -1,17 +1,32 @@
 import React, { useCallback, useEffect, useState } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import Link from "@mui/material/Link";
-import Typography from '@mui/material/Typography'
-import TextField from '@mui/material/TextField'
-import { AppBar, Chip, FormControl, InputLabel, MenuItem, Pagination, Select, Stack, Tab, useMediaQuery } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import {
+  AppBar,
+  Chip,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Pagination,
+  Select,
+  Stack,
+  Tab,
+  useMediaQuery,
+} from "@mui/material";
 import { FilterList } from "@mui/icons-material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import SwipeableViews from 'react-swipeable-views';
-import { SwipeableEnableScroll } from '../../../component/SwipeableEnableScroll'
-import { useTheme } from '@mui/material/styles';
+import SwipeableViews from "react-swipeable-views";
+import { SwipeableEnableScroll } from "../../../component/SwipeableEnableScroll";
+import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/system";
+import FilterMarkaz from "../../../component/modules/FilterMarkaz";
+import FilterMarkazMobile from "../../../component/modules/FilterMarkazMobile";
+import FilterSantri from "../../../component/modules/FilterSantri";
+import FilterSantriMobile from "../../../component/modules/FilterSantriMobile";
 
 function AdminOrUserTemplate(props) {
     const {
@@ -26,7 +41,16 @@ function AdminOrUserTemplate(props) {
         data,
         error,
         hrefCreate,
-        children
+        children,
+        ageFilter,
+        setAgeFilter,
+        nameFilter,
+        setNameFilter,
+        locationFilter,
+        setLocationFilter,
+        categoryFilter,
+        setCategoryFilter,
+        mutate
     } = props;
 
     const [doAnimateHeight, setDoAnimateHeight] = useState(true)
@@ -51,29 +75,30 @@ function AdminOrUserTemplate(props) {
         setPage(value);
         // disable it until API Calls done
         setDoAnimateHeight(false);
-
     };
 
     // *******************************************************
     // Tabs
     // *******************************************************
-    const theme = useTheme()
+    const theme = useTheme();
     const [tabIndex, setTabIndex] = useState(0);
     const handleTabIndex = (event, tab) => {
         setTabIndex(tab);
-        setDoAnimateHeight(false)
+        setDoAnimateHeight(false);
     };
     const handleChangeTabIndex = tab => {
         setTabIndex(tab);
-        setDoAnimateHeight(false)
+        setDoAnimateHeight(false);
     };
-
 
     useEffect(() => {
         return () => {
             setDoAnimateHeight(true);
-        }
-    }, [entries, page, tabIndex])
+        };
+    }, [entries, page, tabIndex]);
+
+    const matches = useMediaQuery("(max-width:600px)");
+    const size = matches ? "small" : "medium";
 
     const axis = theme.direction === 'rtl' ? 'x-reverse' : 'x'
     if (error) return "An error has occurred.";
@@ -81,21 +106,73 @@ function AdminOrUserTemplate(props) {
     return (
         <>
             {/* Header */}
-            <Typography data-testid='titlePage-at-admin-or-user-template' variant="h4" sx={{ textTransform: 'capitalize' }} color="initial">Daftar {variant}</Typography>
-            <Box>
-                <TextField
-                    data-testid='searchbar-at-admin-or-user-template'
-                    label="Cari Markaz"
-                    placeholder='Markaz Depok'
-                    margin='normal'
-                    fullWidth
-                    size='small' />
-                <Chip
-                    data-testid='filterChipButton-at-admin-or-user-template'
-                    label='Filter'
-                    icon={<FilterList />}
-                />
-            </Box>
+            <Typography
+                data-testid="titlePage-at-admin-or-user-template"
+                variant="h4"
+                sx={{ textTransform: "capitalize" }}
+                color="initial"
+            >
+                Daftar {variant}
+            </Typography>
+            <TextField
+                data-testid='searchbar-at-admin-or-user-template'
+                label="Cari Markaz"
+                placeholder='Markaz Depok'
+                margin='normal'
+                fullWidth
+                size='small'
+            />
+            {(() => {
+                if (variant == "markaz" && size == "small") {
+                    return (
+                        <FilterMarkazMobile
+                            data-testid="filterChipButton-at-admin-or-user-template"
+                            locationFilter={locationFilter}
+                            setLocationFilter={setLocationFilter}
+                            nameFilter={nameFilter}
+                            setNameFilter={setNameFilter}
+                            categoryFilter={categoryFilter}
+                            setCategoryFilter={setCategoryFilter}
+                            mutate={mutate}
+                        />
+                    );
+                } else if (variant == "markaz" && size == "medium") {
+                    return (
+                        <FilterMarkaz
+                            data-testid="filterChipButton-at-admin-or-user-template"
+                            locationFilter={locationFilter}
+                            setLocationFilter={setLocationFilter}
+                            nameFilter={nameFilter}
+                            setNameFilter={setNameFilter}
+                            categoryFilter={categoryFilter}
+                            setCategoryFilter={setCategoryFilter}
+                            mutate={mutate}
+                        />
+                    );
+                } else if (variant == "santri" && size == "small") {
+                    return (
+                        <FilterSantriMobile
+                            data-testid="filterChipButton-at-admin-or-user-template"
+                            ageFilter={ageFilter}
+                            setAgeFilter={setAgeFilter}
+                            nameFilter={nameFilter}
+                            setNameFilter={setNameFilter}
+                            mutate={mutate}
+                        />
+                    );
+                } else {
+                    return (
+                        <FilterSantri
+                            data-testid="filterChipButton-at-admin-or-user-template"
+                            ageFilter={ageFilter}
+                            setAgeFilter={setAgeFilter}
+                            nameFilter={nameFilter}
+                            setNameFilter={setNameFilter}
+                            mutate={mutate}
+                        />
+                    );
+                }
+            })()}
             {data.totalElement !== 0 && GridView && TableView ? (<TabContext value={tabIndex} >
                 <AppBar position='relative' color="transparent" elevation={0} >
                     <TabList onChange={handleTabIndex}>
@@ -129,13 +206,9 @@ function AdminOrUserTemplate(props) {
                             <Typography>No data found</Typography>
                         </Box>
                     )}
-                </Box>)}
-            {/* Pagination */}
-            {!!children && (
-                <Box mt='2em'>
-                    {children}
                 </Box>
             )}
+            {/* Pagination */}
             {data.totalElement !== 0 && (
                 <Stack sx={{ bottom: '0em' }} spacing={2} alignItems='center' >
                     <FormControl fullWidth sx={{ m: '1em', maxWidth: 375 }} >
@@ -151,6 +224,7 @@ function AdminOrUserTemplate(props) {
                             <MenuItem value={10}>10</MenuItem>
                             <MenuItem value={50}>50</MenuItem>
                             <MenuItem value={100}>100</MenuItem>
+                            <MenuItem value={100000}>Show All</MenuItem>
                         </Select>
                     </FormControl>
                     <Pagination data-testid='pagination-at-admin-or-user-template' size={matchXs ? 'small' : 'medium'} boundaryCount={1} count={data.totalPage} page={page} onChange={handlePagination} />
@@ -171,7 +245,6 @@ function AdminOrUserTemplate(props) {
         </>
     )
 }
-
 
 AdminOrUserTemplate.propTypes = {
     data: PropTypes.any,

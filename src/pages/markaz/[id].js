@@ -23,7 +23,7 @@ export default function MarkazLayoutDetail(props) {
 
   const inconsistent = {
     Alamat: markaz.address,
-    "Contact Person": markaz.contactPerson,
+    "Contact Person": `${markaz.contactName} (${markaz.contactInfo})`,
     Kategori: markaz.category,
     "Kebutuhan Fasilitas": markaz.description,
   };
