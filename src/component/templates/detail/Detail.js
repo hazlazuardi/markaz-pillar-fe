@@ -38,8 +38,8 @@ function Detail(props) {
               <DetailPic
                 image={image}
                 name={consistent.name}
-                nominal={`${donated}/${nominal}`}
-                progress={donated / nominal * 100}
+                nominal={donated != null && nominal != null ? `${donated}/${nominal}` : ""}
+                progress={donated != null && nominal != null ? donated / nominal * 100 : -1}
                 donasi={donatetext}
                 admin={adminbutton}
                 markazOrSantri={markazOrSantri}
