@@ -32,6 +32,7 @@ export default function DonationForm(props) {
     const {recipient, 
         markazOrSantri, 
         setImage, 
+        image,
         handleChangeDetails, 
         details,
         handleClose,
@@ -42,10 +43,10 @@ export default function DonationForm(props) {
     const [step, setStep] = useState(0)
 
     const theme = useTheme();
-    const mediumScreen = useMediaQuery(theme.breakpoints.up("md"));
+    const smallScreen = useMediaQuery(theme.breakpoints.up("sm"));
 
     return (
-    <Grid container spacing={2}>
+    <Grid container>
         <Grid item xs={12}>
             <Container maxWidth="lg" className={styles.container}>
                 <ArrowBack name={recipient} markazOrSantri={markazOrSantri} />
@@ -61,8 +62,8 @@ export default function DonationForm(props) {
         <Grid item xs={12} sx={{ backgroundColor: "lightgray" }}>
             <Container maxWidth="lg" className={styles.container}>
                 <Box sx={{textAlign:"center", display: step == 0 ? "block" : "none"}}>
-                    <Typography variant="h3" sx={{m : 4, fontWeight:"bold"}}>
-                        Berapa Jumlah Uang Yang Ingin Anda Donasikan Kepada {recipient} ?
+                    <Typography variant="h3" sx={{m : smallScreen ? 4 : 0, fontWeight:"bold"}}>
+                        Berapa Jumlah Uang Yang Ingin Anda Donasikan Kepada {recipient.length > 18 ? recipient.substring(0,18) + "..." : recipient} ?
                     </Typography>
                     <FormControl sx={{ m: 1}} variant="standard">
                         <Input
@@ -85,15 +86,14 @@ export default function DonationForm(props) {
                     <Button variant="contained" onClick={() => {
                             if(!isNaN(details.amount) && details.amount != 0) {
                                 setStep(1)
-                                console.log(details)
                             }
                         }}>Selanjutnya</Button>
                 </Box>
                 <Box sx={{textAlign:"center", display: step == 1 ? "flex" : "none", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>
-                    <Typography variant="h3" sx={{m : 4, fontWeight:"bold"}}>
+                    <Typography variant={smallScreen ? "h3" : "h4"} sx={{m : smallScreen ? 4 : 2, fontWeight:"bold"}}>
                         Pilih Metode Pembayaran
                     </Typography>
-                    <Box sx={{width : mediumScreen ? "50%" : "100%"}}>
+                    <Box sx={{width : smallScreen ? "50%" : "100%"}}>
                     <Accordion>
                         <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
@@ -181,14 +181,19 @@ export default function DonationForm(props) {
                 </Box>
                 <Box sx={{textAlign:"center", display: step == 2 ? "block" : "none"}}>
                     <Box sx={{display: "flex", alignItems:"center", justifyContent:"center", flexDirection:"column", m:1}}>
-                        <Typography variant="h3" sx={{m : 4, fontWeight:"bold"}}>
+                        <Typography variant={smallScreen ? "h3" : "h4"} sx={{m : smallScreen ? 4 : 2, fontWeight:"bold"}}>
                             Upload Bukti Pembayaran
                         </Typography>
-                        <Box sx={{width: mediumScreen ? 600 : "inherit"}}>
+                        <Box sx={{width: smallScreen ? 600 : "inherit"}}>
                             <Dropzone
                             name="paymentproof"
                             setFile={setImage}
                             />
+                            {image.name &&
+                                <Grid item xs={12}>
+                                    <Typography id='dropzone-uploaded' variant="body1" color="initial">Uploaded: {image.name}</Typography>
+                                </Grid>
+                            }
                         </Box>
                     </Box>
                     <Box>

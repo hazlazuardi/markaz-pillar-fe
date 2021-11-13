@@ -4,9 +4,14 @@ import { useRouter } from 'next/router'
 import { axiosFormData } from "../../../axiosInstances";
 import { useAppContext } from "../../../context/AppContext";
 import { dispatchTypes } from "../../../context/AppReducer";
+import { axiosMain } from '../../../axiosInstances';
+import useSWR from "swr";
+import Typography from "@mui/material/Typography";
 
-export default function DonasiSantri(props) {
-    const { dispatch } = useAppContext();
+const fetcher = url => axiosMain.get(url).then(res => res.data)
+
+export default function DonasiSantri() {
+    const { dispatch} = useAppContext();
     const router = useRouter()
     const [image, setImage] = useState();
     const [details, setDetails] = useState({
@@ -14,6 +19,8 @@ export default function DonasiSantri(props) {
         santri: null,
     });
     const [open, setOpen] = useState(false);
+
+    const { data: responseSantri, error } = useSWR(router.isReady ? `/santri?id=${router.query.id}` : null, fetcher)
 
     const handleError = () => {
         setOpen(true);
@@ -102,24 +109,33 @@ export default function DonasiSantri(props) {
     useEffect(() => {
         setDetails((prev) => ({
             ...prev,
-            santri: router.query.id
-        }))
-    }, [router])
+            santri : router.query.id
+        }))   
+    }, [responseSantri])
 
-    return (
-        <DonationForm
-            markazOrSantri={"santri"}
-            recipient={"Santri 1"}
-            setImage={setImage}
-            handleChangeDetails={handleChangeDetails}
-            details={details}
-            handleClose={handleClose}
-            open={open}
-            setOpen={setOpen}
-            handleError={handleError}
-            handleSubmit={handleSubmit}
-            setDetails={setDetails}
-            router={router}
-        />
-    )
+    
+    if(responseSantri != null) {
+        const {name} = responseSantri.result
+        return (
+            <DonationForm 
+            markazOrSantri={"santri"} 
+            recipient={name} 
+            setImage = {setImage}
+            image = {image}
+            handleChangeDetails = {handleChangeDetails}
+            details = {details}
+            handleClose = {handleClose}
+            open = {open}
+            setOpen = {setOpen}
+            handleError = {handleError}
+            handleSubmit = {handleSubmit}
+            setDetails = {setDetails}
+            router = {router}
+            />
+        )
+    } else {
+        return (
+            <Typography>Loading...</Typography>
+        )
+    }
 }
