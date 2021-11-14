@@ -1,18 +1,11 @@
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { FilterList } from "@mui/icons-material";
-import Grid from "@mui/material/Grid";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
-import Stack from "@mui/material/Stack";
-import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Radio from "@mui/material/Radio";
 import { Typography } from "@mui/material";
 import Accordion from "@mui/material/Accordion";

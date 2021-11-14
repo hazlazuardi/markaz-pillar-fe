@@ -1,16 +1,11 @@
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { FilterList } from "@mui/icons-material";
 import { Chip } from "@mui/material";
-import Grid from "@mui/material/Grid";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
-import Stack from "@mui/material/Stack";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -27,13 +22,9 @@ import { FormControl } from "@mui/material";
 export default function FilterMarkaz(props) {
   const {
     setNameFilter,
-    locationFilter,
     setLocationFilter,
-    categoryFilter,
     setCategoryFilter,
-    categoryFilter2,
     setCategoryFilter2,
-    categoryFilter3,
     setCategoryFilter3,
     mutate,
   } = props;
@@ -239,10 +230,7 @@ export default function FilterMarkaz(props) {
                     </AccordionSummary>
                     <AccordionDetails>
                       <FormControl component="fieldset">
-                        <FormGroup
-                        // value={value}
-                        // onChange={handleChangeCategory}
-                        >
+                        <FormGroup>
                           <FormControlLabel
                             control={
                               <Checkbox
