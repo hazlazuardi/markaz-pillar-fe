@@ -1,67 +1,51 @@
-import ShowAllTemplate from "../../../../../../component/templates/show_all/ShowAll";
 import { useState } from "react";
-import Button from "@mui/material/Button";
 import TableView from "../../../../../../component/templates/admin/TableView";
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
-import Link from "@mui/material/Link";
 import { axiosMain } from "../../../../../../axiosInstances";
 import useSWR from "swr";
 import { useRouter } from "next/router";
+import AdminOrUserTemplate from "../../../../../../component/templates/admin/AdminOrUserTemplate";
+import ArrowBack from "../../../../../../component/modules/ArrowBack";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function TransaksiMarkaz() {
   const router = useRouter();
   const { transid } = router.query;
-  const {
-    data: markazs,
-    error,
-    mutate,
-  } = useSWR("/admin/transaction?page=0&n=10&id=" + transid, fetcher);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
+  const [entries, setEntries] = useState(10);
+  const { data: markazs, error } = useSWR(
+    "/admin/transaction?page=0&n=10&id=" + transid,
+    fetcher
+  );
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const TableViewMarkazTransaksi = (
+    <TableView
+      data={markazs}
+      santriormarkaz="transaksi"
+      detail="admin/markaz"
+      tableTempatMarkaz="ID Transaksi"
+      tableDomisili="Nominal Donasi"
+      tableJenisKelamin="Status"
+      isDonasi
+    />
+  );
 
-  const [value, setValue] = useState(10);
-
-  const [gridView, setGridView] = useState(true);
-
-  const search = () => {
-    markazs.result &&
-      markazs.result.filter((data) => {
-        if (searchTerm == "") {
-          return data;
-        } else if (data.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-          return data;
-        }
-      });
-  };
-
-  if (error) return "An error has occurred.";
+  if (error)
+    return "An error has occurred. Please re-login or try again later.";
   if (!markazs) return "Loading...";
   return (
-    <ShowAllTemplate
-      searchBarName="Cari transaksi"
-      markazOrSantri="transaksi"
-      page={page}
-      setPage={setPage}
-      value={value}
-      setValue={setValue}
-      setSearchTerm={setSearchTerm}
-      // add={create}
-      setGridView={setGridView}
-    >
-      <TableView
+    <>
+      <ArrowBack href="/admin/markaz" />
+      <AdminOrUserTemplate
+        isAdmin
+        variant="donasi"
+        TableView={TableViewMarkazTransaksi}
         data={markazs}
-        santriormarkaz="transaksi"
-        detail="admin/markaz"
-        tableTempatMarkaz="ID Transaksi"
-        tableDomisili="Nominal Donasi"
-        tableJenisKelamin="Status"
-        isDonasi
-        // transid={idtrans}
+        page={page}
+        setPage={setPage}
+        entries={entries}
+        setEntries={setEntries}
       />
-    </ShowAllTemplate>
+    </>
   );
 }
