@@ -62,6 +62,7 @@ function AdminCreateOrEditSantri(props) {
                                     <TextField
                                         data-testid='santri-name-at-AdminCreateOrEditSantri-module'
                                         name="name"
+                                        value={santri.name}
                                         label="Nama Santri"
                                         fullWidth
                                         onChange={handleChangeSantri}
@@ -71,6 +72,7 @@ function AdminCreateOrEditSantri(props) {
                                     <TextField
                                         data-testid='santri-background-at-AdminCreateOrEditSantri-module'
                                         name="background"
+                                        value={santri.background}
                                         label="Background"
                                         fullWidth
                                         onChange={handleChangeSantri}
@@ -115,6 +117,7 @@ function AdminCreateOrEditSantri(props) {
                                     <TextField
                                         data-testid='santri-address-at-AdminCreateOrEditSantri-module'
                                         name="address"
+                                        value={santri.address}
                                         label="Domisili Asal"
                                         fullWidth
                                         onChange={handleChangeSantri}
@@ -124,6 +127,7 @@ function AdminCreateOrEditSantri(props) {
                                     <TextField
                                         data-testid='santri-birthPlace-at-AdminCreateOrEditSantri-module'
                                         name="birthPlace"
+                                        value={santri.birthPlace}
                                         label="Tempat Lahir"
                                         fullWidth
                                         onChange={handleChangeSantri}
@@ -133,6 +137,7 @@ function AdminCreateOrEditSantri(props) {
                                     <TextField
                                         data-testid='santri-birthDate-at-AdminCreateOrEditSantri-module'
                                         name="birthDate"
+                                        value={santri.birthDate}
                                         label="Tanggal Lahir"
                                         fullWidth
                                         onChange={handleChangeSantri}
