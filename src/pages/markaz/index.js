@@ -38,9 +38,9 @@ export default function Markaz(props) {
     }
   );
 
-  const GridViewMarkaz = (
+    const GridViewMarkaz = (
     <GridView data={responseMarkaz} detail="admin/markaz" />
-  );
+    );
 
   return (
     <>
@@ -70,11 +70,12 @@ export default function Markaz(props) {
 }
 
 export async function getStaticProps() {
-  const staticMarkaz = await axiosMain.get("/markaz/search?n=1000");
-  return {
-    props: {
-      allMarkaz: staticMarkaz.data,
-    },
-    revalidate: 10,
-  };
+    const staticMarkazResponse = await axiosMain.get("/markaz/search?n=1000");
+    const staticMarkaz = staticMarkazResponse.data
+    return {
+        props: {
+            allMarkaz: staticMarkaz
+        },
+        revalidate: 10
+    }
 }

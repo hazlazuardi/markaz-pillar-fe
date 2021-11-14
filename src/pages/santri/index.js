@@ -24,7 +24,7 @@ export default function Santri(props) {
 
   useEffect(() => {
     mutate();
-  }, [ageFilter, nameFilter]);
+  }, [ageFilter, nameFilter, mutate]);
 
   const GridViewMarkaz = <GridView data={responseSantri} detail="santri" />;
 

@@ -40,19 +40,19 @@ export default function AdminSantri() {
   };
 
   const GridViewMarkaz = (
-    <GridView
-      data={responseSantri}
-      detail="admin/santri"
-      handleDelete={handleDeleteSantri}
-    />
-  );
-
+    <GridView data={responseSantri} detail="admin/santri" handleDelete={handleDeleteSantri} />
+  )
   const TableViewMarkaz = (
-    <TableView
-      data={responseSantri}
-      detail="admin/santri"
-      handleDelete={handleDeleteSantri}
-    />
+      <TableView
+          data={responseSantri}
+          detail="admin/santri"
+          handleDelete={handleDeleteSantri}
+          santriormarkaz="santri"
+          tableTempatMarkaz="Tempat Markaz"
+          tableDomisili="Domisili"
+          tableJenisKelamin="Jenis Kelamin"
+          tableTanggalLahir="Tanggal Lahir"
+      />
   );
 
   return (

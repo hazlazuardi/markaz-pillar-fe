@@ -191,7 +191,7 @@ export default function FilterMarkazMobile(props) {
             swipeAreaWidth={drawerBleeding}
             disableSwipeToOpen={false}
             ModalProps={{
-              keepMounted: true,
+              keepMounted: false,
             }}
           >
             <StyledBox

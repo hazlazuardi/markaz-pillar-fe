@@ -13,15 +13,9 @@ import FilterMarkaz from "../../modules/FilterMarkaz";
 import FilterMarkazMobile from "../../modules/FilterMarkazMobile";
 import FilterSantri from "../../modules/FilterSantri";
 import FilterSantriMobile from "../../modules/FilterSantriMobile";
-import Card from "../../modules/Card";
-import { useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import useMediaQuery from "@mui/material/useMediaQuery";
-
-import { useState } from "react";
-
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 export default function ShowAll(props) {
   const {
@@ -36,7 +30,6 @@ export default function ShowAll(props) {
     setPage,
     isAdmin,
     setGridView,
-    add,
     setSort,
     filter,
     filterData,
@@ -50,6 +43,7 @@ export default function ShowAll(props) {
     setCategoryFilter,
     handler,
     mutate,
+    add,
   } = props;
 
   const matches = useMediaQuery("(max-width:600px)");

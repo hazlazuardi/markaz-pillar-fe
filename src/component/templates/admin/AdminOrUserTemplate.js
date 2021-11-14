@@ -105,12 +105,6 @@ function AdminOrUserTemplate(props) {
   const matches = useMediaQuery("(max-width:600px)");
   const size = matches ? "small" : "medium";
 
-  useEffect(() => {
-    return () => {
-      setDoAnimateHeight(true);
-    };
-  }, [entries, page, tabIndex]);
-
   const axis = theme.direction === "rtl" ? "x-reverse" : "x";
   if (error) return "An error has occurred.";
   if (!data) return "Loading...";
@@ -125,75 +119,73 @@ function AdminOrUserTemplate(props) {
       >
         Daftar {variant}
       </Typography>
-      <Box>
-        <TextField
-          data-testid="searchbar-at-admin-or-user-template"
-          label="Cari Markaz"
-          placeholder="Markaz Depok"
-          margin="normal"
-          fullWidth
-          size="small"
-        />
-        {(() => {
-          if (variant == "markaz" && size == "small") {
-            return (
-              <FilterMarkazMobile
-                data-testid="filterChipButton-at-admin-or-user-template"
-                locationFilter={locationFilter}
-                setLocationFilter={setLocationFilter}
-                nameFilter={nameFilter}
-                setNameFilter={setNameFilter}
-                categoryFilter={categoryFilter}
-                setCategoryFilter={setCategoryFilter}
-                categoryFilter2={categoryFilter2}
-                setCategoryFilter2={setCategoryFilter2}
-                categoryFilter3={categoryFilter3}
-                setCategoryFilter3={setCategoryFilter3}
-                mutate={mutate}
-              />
-            );
-          } else if (variant == "markaz" && size == "medium") {
-            return (
-              <FilterMarkaz
-                data-testid="filterChipButton-at-admin-or-user-template"
-                locationFilter={locationFilter}
-                setLocationFilter={setLocationFilter}
-                nameFilter={nameFilter}
-                setNameFilter={setNameFilter}
-                categoryFilter={categoryFilter}
-                setCategoryFilter={setCategoryFilter}
-                categoryFilter2={categoryFilter2}
-                setCategoryFilter2={setCategoryFilter2}
-                categoryFilter3={categoryFilter3}
-                setCategoryFilter3={setCategoryFilter3}
-                mutate={mutate}
-              />
-            );
-          } else if (variant == "santri" && size == "small") {
-            return (
-              <FilterSantriMobile
-                data-testid="filterChipButton-at-admin-or-user-template"
-                ageFilter={ageFilter}
-                setAgeFilter={setAgeFilter}
-                nameFilter={nameFilter}
-                setNameFilter={setNameFilter}
-                mutate={mutate}
-              />
-            );
-          } else {
-            return (
-              <FilterSantri
-                data-testid="filterChipButton-at-admin-or-user-template"
-                ageFilter={ageFilter}
-                setAgeFilter={setAgeFilter}
-                nameFilter={nameFilter}
-                setNameFilter={setNameFilter}
-                mutate={mutate}
-              />
-            );
-          }
-        })()}
-      </Box>
+      <TextField
+        data-testid="searchbar-at-admin-or-user-template"
+        label="Cari Markaz"
+        placeholder="Markaz Depok"
+        margin="normal"
+        fullWidth
+        size="small"
+      />
+      {(() => {
+        if (variant == "markaz" && size == "small") {
+          return (
+            <FilterMarkazMobile
+              data-testid="filterChipButton-at-admin-or-user-template"
+              locationFilter={locationFilter}
+              setLocationFilter={setLocationFilter}
+              nameFilter={nameFilter}
+              setNameFilter={setNameFilter}
+              categoryFilter={categoryFilter}
+              setCategoryFilter={setCategoryFilter}
+              categoryFilter2={categoryFilter2}
+              setCategoryFilter2={setCategoryFilter2}
+              categoryFilter3={categoryFilter3}
+              setCategoryFilter3={setCategoryFilter3}
+              mutate={mutate}
+            />
+          );
+        } else if (variant == "markaz" && size == "medium") {
+          return (
+            <FilterMarkaz
+              data-testid="filterChipButton-at-admin-or-user-template"
+              locationFilter={locationFilter}
+              setLocationFilter={setLocationFilter}
+              nameFilter={nameFilter}
+              setNameFilter={setNameFilter}
+              categoryFilter={categoryFilter}
+              setCategoryFilter={setCategoryFilter}
+              categoryFilter2={categoryFilter2}
+              setCategoryFilter2={setCategoryFilter2}
+              categoryFilter3={categoryFilter3}
+              setCategoryFilter3={setCategoryFilter3}
+              mutate={mutate}
+            />
+          );
+        } else if (variant == "santri" && size == "small") {
+          return (
+            <FilterSantriMobile
+              data-testid="filterChipButton-at-admin-or-user-template"
+              ageFilter={ageFilter}
+              setAgeFilter={setAgeFilter}
+              nameFilter={nameFilter}
+              setNameFilter={setNameFilter}
+              mutate={mutate}
+            />
+          );
+        } else {
+          return (
+            <FilterSantri
+              data-testid="filterChipButton-at-admin-or-user-template"
+              ageFilter={ageFilter}
+              setAgeFilter={setAgeFilter}
+              nameFilter={nameFilter}
+              setNameFilter={setNameFilter}
+              mutate={mutate}
+            />
+          );
+        }
+      })()}
       {data.totalElement !== 0 && GridView && TableView ? (
         <TabContext value={tabIndex}>
           <AppBar position="relative" color="transparent" elevation={0}>
@@ -247,7 +239,6 @@ function AdminOrUserTemplate(props) {
         </Box>
       )}
       {/* Pagination */}
-      {!!children && <Box mt="2em">{children}</Box>}
       {data.totalElement !== 0 && (
         <Stack sx={{ bottom: "0em" }} spacing={2} alignItems="center">
           <FormControl fullWidth sx={{ m: "1em", maxWidth: 375 }}>
@@ -263,6 +254,7 @@ function AdminOrUserTemplate(props) {
               <MenuItem value={10}>10</MenuItem>
               <MenuItem value={50}>50</MenuItem>
               <MenuItem value={100}>100</MenuItem>
+              <MenuItem value={100000}>Show All</MenuItem>
             </Select>
           </FormControl>
           <Pagination
