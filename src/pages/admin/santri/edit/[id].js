@@ -1,10 +1,8 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 
-import { dispatchTypes } from "../../../../context/AppReducer";
 import AdminCreateOrEditSantri from "../../../../component/templates/admin/AdminCreateOrEditSantri";
 import useSWR from "swr";
 import { axiosFormData, axiosMain } from "../../../../axiosInstances";
-import { useAppContext } from "../../../../context/AppContext";
 import { useRouter } from "next/router";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
@@ -18,77 +16,25 @@ function AdminSantriEdit(props) {
         refreshInterval: 10000,
     }
     )
-    const { dispatch } = useAppContext();
-    const [thumbnail, setThumbnail] = useState({});
     const [santri, setSantri] = useState({
         ...responseSantri.result,
         markaz_id: ""
 
     });
-    const form = useRef(null);
 
     console.log(santri)
-    const handleChangeSantri = ({ target }) => {
-        const { name, value } = target;
-        setSantri((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+
+    const editSantri = async (markazId, data) => {
+        return axiosFormData.post(`/admin/santri/edit?id=${markazId}`, data)
     };
 
-    const handleSubmit = async (event) => {
-        setLoading(true)
-        event.preventDefault();
-        const data = new FormData();
-        const santriBlob = new Blob([JSON.stringify(santri)], {
-            type: "application/json",
-        });
-        data.append("thumbnail", thumbnail);
-        data.append("santri", santriBlob);
-
-
-        await axiosFormData
-            .post(`/admin/santri/edit?id=${santri.markaz_id}`, data)
-            .then(response => {
-                setLoading(false)
-
-                dispatch({
-                    type: dispatchTypes.SNACKBAR_CUSTOM,
-                    payload: {
-                        severity: 'success',
-                        message: "Santri Edited"
-                    }
-                })
-            })
-            .catch(e => {
-                setLoading(false)
-                // Check & Handle if e.response is defined
-                if (!!e.response) {
-                    // Check & Handle if bad request (empty fields, etc)
-                    dispatch({
-                        type: dispatchTypes.SNACKBAR_CUSTOM,
-                        payload: {
-                            severity: 'error',
-                            message: 'Incorrect information'
-                        }
-                    });
-                }
-            })
-    };
-
-    const [loading, setLoading] = useState(false)
     return (
         <AdminCreateOrEditSantri
-            handleSubmit={handleSubmit}
-            form={form}
-            loading={loading}
+            apiCall={editSantri}
             santri={santri}
+            setSantri={setSantri}
             allMarkaz={!!responseMarkaz && responseMarkaz.result}
             error={error || errorSantri}
-            setThumbnail={setThumbnail}
-            handleChangeSantri={handleChangeSantri}
-            thumbnail={thumbnail}
-
         />
     );
 }
