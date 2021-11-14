@@ -12,15 +12,13 @@ export default function DonasiSantri() {
   const router = useRouter();
   const { id } = router.query;
   const [page, setPage] = useState(1);
-  const [entries, setEntries] = useState(10)
-  const {
-    data: allSantri,
-    error,
-  } = useSWR(`/admin/donation/santri?id=${id}&page=${page - 1}&n=${entries}`, fetcher);
+  const [entries, setEntries] = useState(10);
+  const { data: allSantri, error } = useSWR(
+    `/admin/donation/santri?id=${id}&page=${page - 1}&n=${entries}`,
+    fetcher
+  );
 
   const [iddonasi, setId] = useState();
-
-
 
   useEffect(() => {
     setId(router.query.id);
@@ -38,7 +36,7 @@ export default function DonasiSantri() {
       isDonasi
       iddonasi={iddonasi}
     />
-  )
+  );
   if (error) {
     console.log(error.response);
     return "An error has occurred.";
@@ -46,10 +44,10 @@ export default function DonasiSantri() {
   if (!allSantri) return "Loading...";
   return (
     <>
-      <ArrowBack href='/admin/santri' />
+      <ArrowBack href="/admin/santri" />
       <AdminOrUserTemplate
         isAdmin
-        variant='donasi'
+        variant="donasi"
         TableView={TableViewSantriDonasi}
         data={allSantri}
         page={page}
