@@ -1,16 +1,8 @@
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { FilterList } from "@mui/icons-material";
 import { Chip } from "@mui/material";
-import Grid from "@mui/material/Grid";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Grow from "@mui/material/Grow";
-import Paper from "@mui/material/Paper";
-import Popper from "@mui/material/Popper";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
-import Stack from "@mui/material/Stack";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -20,14 +12,11 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-// import { Responsive } from "./Responsive";
-import PropTypes from "prop-types";
 import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { grey } from "@mui/material/colors";
 import Box from "@mui/material/Box";
-import Skeleton from "@mui/material/Skeleton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import RadioGroup from "@mui/material/RadioGroup";
 
@@ -55,19 +44,16 @@ const Puller = styled(Box)(({ theme }) => ({
 
 export default function FilterMarkazMobile(props) {
   const {
-    setSort,
-    filter,
-    nameFilter,
     setNameFilter,
-    locationFilter,
     setLocationFilter,
-    categoryFilter,
     setCategoryFilter,
+    setCategoryFilter2,
+    setCategoryFilter3,
     mutate,
   } = props;
 
   const [open, setOpen] = React.useState(false);
-  const [checked, setChecked] = React.useState(true);
+  const [checked, setChecked] = React.useState();
   const anchorRef = React.useRef(null);
   const [value, setValue] = React.useState();
 
@@ -76,7 +62,6 @@ export default function FilterMarkazMobile(props) {
     setOpen(newOpen);
   };
 
-  // This is used only for the example
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
@@ -84,6 +69,8 @@ export default function FilterMarkazMobile(props) {
     setNameFilter(event.target.value);
     setLocationFilter("");
     setCategoryFilter("");
+    setCategoryFilter2("");
+    setCategoryFilter3("");
     mutate();
   };
 
@@ -91,13 +78,46 @@ export default function FilterMarkazMobile(props) {
     setLocationFilter(event.target.value);
     setNameFilter("");
     setCategoryFilter("");
+    setCategoryFilter2("");
+    setCategoryFilter3("");
     mutate();
   };
 
   const handleChangeCategory = (event) => {
-    setCategoryFilter(event.target.value);
+    setChecked(event.target.checked);
+    if (event.target.checked) {
+      setCategoryFilter(event.target.name);
+    } else {
+      setCategoryFilter("");
+    }
+
     setNameFilter("");
+    setLocationFilter("");
+    mutate();
+  };
+
+  const handleChangeCategory2 = (event) => {
+    setChecked(event.target.checked);
+    if (event.target.checked) {
+      setCategoryFilter2(event.target.name);
+    } else {
+      setCategoryFilter2("");
+    }
+
     setNameFilter("");
+    setLocationFilter("");
+    mutate();
+  };
+
+  const handleChangeCategory3 = (event) => {
+    setChecked(event.target.checked);
+    if (event.target.checked) {
+      setCategoryFilter3(event.target.name);
+    } else {
+      setCategoryFilter3("");
+    }
+    setNameFilter("");
+    setLocationFilter("");
     mutate();
   };
 
@@ -273,24 +293,39 @@ export default function FilterMarkazMobile(props) {
                     </AccordionSummary>
                     <AccordionDetails>
                       <FormControl component="fieldset">
-                        <FormGroup
-                          value={value}
-                          onChange={handleChangeCategory}
-                        >
+                        <FormGroup>
                           <FormControlLabel
-                            control={<Checkbox />}
+                            control={
+                              <Checkbox
+                                checked={checked}
+                                onChange={handleChangeCategory}
+                                name="PEMBANGUNAN_MARKAZ"
+                              />
+                            }
                             value="PEMBANGUNAN_MARKAZ"
                             label="Pembangunan Markaz"
                           />
 
                           <FormControlLabel
-                            control={<Checkbox />}
+                            control={
+                              <Checkbox
+                                checked={checked}
+                                onChange={handleChangeCategory2}
+                                name="RENOVASI"
+                              />
+                            }
                             value="RENOVASI"
                             label="Renovasi"
                           />
 
                           <FormControlLabel
-                            control={<Checkbox />}
+                            control={
+                              <Checkbox
+                                checked={checked}
+                                onChange={handleChangeCategory3}
+                                name="PENAMBAHAN_FASILITAS"
+                              />
+                            }
                             value="PENAMBAHAN_FASILITAS"
                             label="Penambahan Fasilitas"
                           />

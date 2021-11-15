@@ -1,18 +1,11 @@
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { FilterList } from "@mui/icons-material";
-import Grid from "@mui/material/Grid";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
-import Stack from "@mui/material/Stack";
-import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Radio from "@mui/material/Radio";
 import { Typography } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
@@ -25,17 +18,7 @@ import { FormControl } from "@mui/material";
 import { Chip } from "@mui/material";
 
 export default function FilterSantri(props) {
-  const {
-    setSort,
-    filter,
-    filterData,
-    handler,
-    ageFilter,
-    setAgeFilter,
-    nameFilter,
-    setNameFilter,
-    mutate,
-  } = props;
+  const { ageFilter, setAgeFilter, nameFilter, setNameFilter, mutate } = props;
 
   const [open, setOpen] = React.useState(false);
   const [checked, setChecked] = React.useState(true);
@@ -110,7 +93,7 @@ export default function FilterSantri(props) {
         placement="bottom-start"
         transition
         disablePortal
-        style={{ zIndex: '100'}}
+        style={{ zIndex: "1000" }}
       >
         {({ TransitionProps, placement }) => (
           <Grow

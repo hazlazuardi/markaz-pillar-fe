@@ -1,16 +1,11 @@
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import { FilterList } from "@mui/icons-material";
 import { Chip } from "@mui/material";
-import Grid from "@mui/material/Grid";
 import * as React from "react";
 import Button from "@mui/material/Button";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
-import Stack from "@mui/material/Stack";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -29,51 +24,69 @@ export default function FilterMarkaz(props) {
     setNameFilter,
     setLocationFilter,
     setCategoryFilter,
+    setCategoryFilter2,
+    setCategoryFilter3,
     mutate,
   } = props;
 
   const [open, setOpen] = React.useState(false);
-  const [checked, setChecked] = React.useState(
-    // new Array(3).fill(false)
-  );
+  const [checked, setChecked] = React.useState();
   const anchorRef = React.useRef(null);
   const [value, setValue] = React.useState();
-
-  // const { PEMBANGUNAN_MARKAZ, RENOVASI, PENAMBAHAN_FASILITAS } = categoryFilter;
 
   const handleChangeName = (event) => {
     setNameFilter(event.target.value);
     setLocationFilter("");
     setCategoryFilter("");
+    setCategoryFilter2("");
+    setCategoryFilter3("");
     mutate();
   };
 
-  const handleChangeLocation = (event) => {     
+  const handleChangeLocation = (event) => {
     setLocationFilter(event.target.value);
     setNameFilter("");
     setCategoryFilter("");
+    setCategoryFilter2("");
+    setCategoryFilter3("");
     mutate();
   };
 
   const handleChangeCategory = (event) => {
-  //   setChecked(event.target.checked);
-  //   const updatedCheck = checked.map((item,index)=>
-  //   index === position? !item: item
-  // );
+    setChecked(event.target.checked);
+    if (event.target.checked) {
+      setCategoryFilter(event.target.name);
+    } else {
+      setCategoryFilter("");
+    }
 
-  //   setChecked(updatedCheck);
-    // setCategoryFilter({  
-    //   ...categoryFilter,
-    //   [event.target.name]: event.target.checked,
-    // });
-
-    setCategoryFilter(event.target.value);
-
-    // const prevs = event.target.value
-    // prevs != event.target.value? setCategoryFilter2(event.target.value):setCategoryFilter2("");
-    // const prevs2 = event.target.value;
-    // prevs2 != event.target.value? setCategoryFilter3(event.target.value):setCategoryFilter3("");
     setNameFilter("");
+    setLocationFilter("");
+    mutate();
+  };
+
+  const handleChangeCategory2 = (event) => {
+    setChecked(event.target.checked);
+    if (event.target.checked) {
+      setCategoryFilter2(event.target.name);
+    } else {
+      setCategoryFilter2("");
+    }
+
+    setNameFilter("");
+    setLocationFilter("");
+    mutate();
+  };
+
+  const handleChangeCategory3 = (event) => {
+    setChecked(event.target.checked);
+    if (event.target.checked) {
+      setCategoryFilter3(event.target.name);
+    } else {
+      setCategoryFilter3("");
+    }
+    setNameFilter("");
+    setLocationFilter("");
     mutate();
   };
 
@@ -120,7 +133,7 @@ export default function FilterMarkaz(props) {
         aria-haspopup="true"
         onClick={handleToggle}
       >
-         <Chip
+        <Chip
           data-testid="filterChipButton-at-admin-or-user-template"
           label="Filter"
           icon={<FilterList />}
@@ -133,7 +146,7 @@ export default function FilterMarkaz(props) {
         placement="bottom-start"
         transition
         disablePortal
-        style={{ zIndex: '1000'}}
+        style={{ zIndex: "1000" }}
       >
         {({ TransitionProps, placement }) => (
           <Grow
@@ -217,10 +230,7 @@ export default function FilterMarkaz(props) {
                     </AccordionSummary>
                     <AccordionDetails>
                       <FormControl component="fieldset">
-                        <FormGroup
-                        // value={value}
-                        // onChange={handleChangeCategory}
-                        >
+                        <FormGroup>
                           <FormControlLabel
                             control={
                               <Checkbox
@@ -237,7 +247,7 @@ export default function FilterMarkaz(props) {
                             control={
                               <Checkbox
                                 checked={checked}
-                                onChange={handleChangeCategory}
+                                onChange={handleChangeCategory2}
                                 name="RENOVASI"
                               />
                             }
@@ -249,7 +259,7 @@ export default function FilterMarkaz(props) {
                             control={
                               <Checkbox
                                 checked={checked}
-                                onChange={handleChangeCategory}
+                                onChange={handleChangeCategory3}
                                 name="PENAMBAHAN_FASILITAS"
                               />
                             }
