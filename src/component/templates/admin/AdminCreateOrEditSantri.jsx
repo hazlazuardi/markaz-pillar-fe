@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -8,21 +9,78 @@ import { FormControl } from "@mui/material";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
+import { useAppContext } from "../../../context/AppContext";
+import { dispatchTypes } from "../../../context/AppReducer";
 
 
 function AdminCreateOrEditSantri(props) {
     const {
+        isCreate,
         santri,
-        error,
+        setSantri,
         allMarkaz,
-        thumbnail,
-        setThumbnail,
-        handleChangeSantri,
-        handleSubmit,
-        form
+        error,
+        apiCall,
     } = props;
+
+    const { dispatch } = useAppContext();
+    const form = useRef(null);
+
+    const handleChangeSantri = ({ target }) => {
+        const { name, value } = target;
+        setSantri((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const [thumbnail, setThumbnail] = useState({});
+    const handleSubmit = async (event) => {
+        setLoading(true)
+        event.preventDefault();
+        const data = buildSantriFormData(santri, thumbnail)
+
+        apiCall(santri.markaz_id, data)
+            .then(response => {
+                setLoading(false)
+                dispatch({
+                    type: dispatchTypes.SNACKBAR_CUSTOM,
+                    payload: {
+                        severity: 'success',
+                        message: isCreate ? "Santri Created" : "Santri Edited"
+                    }
+                })
+            })
+            .catch(e => {
+                setLoading(false)
+                // Check & Handle if e.response is defined
+                if (!!e.response) {
+                    // Check & Handle if bad request (empty fields, etc)
+                    dispatch({
+                        type: dispatchTypes.SNACKBAR_CUSTOM,
+                        payload: {
+                            severity: 'error',
+                            message: 'Incorrect information'
+                        }
+                    });
+                }
+            })
+    };
+
+
+    const buildSantriFormData = (santriJson, thumbnailFile) => {
+        const data = new FormData();
+        const santriBlob = new Blob([JSON.stringify(santriJson)], {
+            type: "application/json",
+        });
+        data.append("thumbnail", thumbnailFile);
+        data.append("santri", santriBlob);
+        return data;
+    }
+
+    const [loading, setLoading] = useState(false)
     if (error) return "Error has occured"
-    if (!allMarkaz) return "Loading..."
+    if (!allMarkaz || loading) return "Loading..."
     return (
         <div>
             <Container>
