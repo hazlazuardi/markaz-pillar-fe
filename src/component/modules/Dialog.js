@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
@@ -19,7 +17,7 @@ const status_list = [
 ];
 
 function SimpleDialog(props) {
-  const { onClose, selectedValue, open, idtrans } = props;
+  const { onClose, selectedValue, open, idtrans, mutate } = props;
 
   const [loading, setLoading] = useState(true);
 
@@ -43,6 +41,7 @@ function SimpleDialog(props) {
       });
     onClose(true);
     Router.reload();
+    // mutate();
   };
 
   function statusConverter(status) {
@@ -83,7 +82,7 @@ SimpleDialog.propTypes = {
 };
 
 export default function DialogTrans(props) {
-  const { transid } = props;
+  const { transid, isStatus, isDownloadVolunteer } = props;
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(status_list[1]);
 
@@ -99,7 +98,8 @@ export default function DialogTrans(props) {
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Status
+        {isStatus && "Status"}
+        {isDownloadVolunteer && "Download"}
       </Button>
       <SimpleDialog
         selectedValue={selectedValue}
