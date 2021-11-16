@@ -27,6 +27,7 @@ export default function DetailPic(props) {
 
   const theme = useTheme();
   const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
+  const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const { 
     name, 
     nominal, 
@@ -42,11 +43,10 @@ export default function DetailPic(props) {
     <Grid item sm={12} lg={6} sx={{ width: "100%" }}>
       <Grid
         container
-        spacing={2}
         sx={{ width: "100%", display: "flex", justifyContent: "center" }}
       >
         <Grid item xs={12} sx={{ display: largeScreen ? "none" : "block" }}>
-          <Typography variant="h4" mb={2} sx={{ textTransform: "uppercase" }}>
+          <Typography variant={smallScreen ? "h6" : "h4"} mb={2} sx={{ textTransform: "uppercase" }}>
             {name.length > 18 ? name.substring(0,18) + "..." : name}
           </Typography>
         </Grid>

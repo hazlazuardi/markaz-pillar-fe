@@ -56,10 +56,14 @@ export default function santriLayoutDetail(props) {
     </div>
   );
 
+  // Process category
+  const temp = markaz.category.split("_")
+  const markazCategory = `${temp[0].toLowerCase().replace(/\b\w/g, l => l.toUpperCase())} ${temp[1].toLowerCase().replace(/\b\w/g, l => l.toUpperCase())}`
+
   const inconsistent = {
     Alamat: markaz.address,
     "Contact Person": markaz.contactPerson,
-    Kategori: markaz.category,
+    Kategori: markazCategory,
     "Kebutuhan Fasilitas": markaz.description,
   };
 
