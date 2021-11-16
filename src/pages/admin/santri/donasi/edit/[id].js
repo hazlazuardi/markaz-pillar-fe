@@ -1,13 +1,5 @@
 import { useCallback, useState, useRef } from "react";
-import Container from "@mui/material/Container";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Typography from '@mui/material/Typography'
 import { useAppContext } from "../../../../../context/AppContext";
-import { FormControl } from "@mui/material";
-import { Select } from "@mui/material";
-import { InputLabel } from "@mui/material";
-import { MenuItem } from "@mui/material";
 import { dispatchTypes } from "../../../../../context/AppReducer";
 import { useRouter } from "next/router";
 import { axiosMain } from "../../../../../axiosInstances";
@@ -17,7 +9,6 @@ import ArrowBack from "../../../../../component/modules/ArrowBack";
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 function AdminSantriDonasiEdit(props) {
-    const { responseSantri } = props
     const { dispatch } = useAppContext();
     const [data, setData] = useState({
         name: "",
