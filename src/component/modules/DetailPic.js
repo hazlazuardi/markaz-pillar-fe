@@ -72,24 +72,30 @@ export default function DetailPic(props) {
             mb={1}
           />
         </Grid>
-        <Grid item sm={12} sx={{ textAlign: "center" }}>
-          <Typography variant="body2" mb={1} color="primary" fontWeight="bold">
-            NOMINAL YANG DIBUTUHKAN
-          </Typography>
-        </Grid>
-        <Grid item mb={1} sx={{ textAlign: "center", width: 400 }}>
-          <Typography variant="body2" mb={1}>
-            {nominal}
-          </Typography>
-          <BorderLinearProgress variant="determinate" value={progress} />
-        </Grid>
-        <Grid item sm={12}>
-          <Box sx={{ textAlign: "center", width: "auto" }}>
-            <Link href={`/${markazOrSantri}/donasi/` + id} passHref>
-              <Button variant="contained">{donasi}</Button>
-            </Link>
+        {progress != -1 ? (
+          <Box>
+            <Grid item sm={12} sx={{ textAlign: "center" }}>
+              <Typography variant="body2" mb={1} color="primary" fontWeight="bold">
+                NOMINAL YANG DIBUTUHKAN
+              </Typography>
+            </Grid>
+            <Grid item mb={1} sx={{ textAlign: "center", width: 400 }}>
+              <Typography variant="body2" mb={1}>
+                {nominal}
+              </Typography>
+              <BorderLinearProgress variant="determinate" value={progress} />
+            </Grid>
+            <Grid item sm={12}>
+              <Box sx={{ textAlign: "center", width: "auto" }}>
+                <Link href={`/${markazOrSantri}/donasi/` + id} passHref>
+                  <Button variant="contained">{donasi}</Button>
+                </Link>
+              </Box>
+            </Grid>
           </Box>
-        </Grid>
+        ) : (
+          ""
+        )}
       </Grid>
     </Grid>
   );
