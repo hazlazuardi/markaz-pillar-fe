@@ -14,7 +14,7 @@ function AdminMarkazDonasiEdit(props) {
         name: "",
         categories: [],
         description: "",
-        nominal: "",
+        nominal: 0,
         isActive: null
     });
     const form = useRef(null);
