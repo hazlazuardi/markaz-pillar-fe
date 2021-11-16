@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TableView from "../../../../../../component/templates/admin/TableView";
 import { axiosMain } from "../../../../../../axiosInstances";
 import useSWR from "swr";
@@ -26,7 +26,6 @@ export default function TransaksiMarkaz() {
       tableTempatMarkaz="ID Transaksi"
       tableDomisili="Nominal Donasi"
       tableJenisKelamin="Status"
-      isDonasi
     />
   );
 

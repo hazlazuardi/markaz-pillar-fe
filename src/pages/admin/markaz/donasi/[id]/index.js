@@ -33,7 +33,6 @@ export default function DonasiMarkaz() {
       tableDomisili="Nominal Donasi"
       tableJenisKelamin="Jumlah Donasi Terkumpul"
       tableTanggalLahir="Status"
-      isDonasi
       iddonasi={iddonasi}
     />
   );

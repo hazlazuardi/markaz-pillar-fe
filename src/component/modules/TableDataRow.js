@@ -39,14 +39,87 @@ function TableDataRow(props) {
     tanggal,
     santriormarkaz,
     detail,
-    isDonasi,
     uniqueid,
     iddonasi,
     transid,
     paymenturl,
     handleDelete,
+    mutate,
   } = props;
   const router = useRouter();
+
+  function TableButtons() {
+    if (
+      santriormarkaz === "santri" ||
+      santriormarkaz === "markaz" ||
+      santriormarkaz === "pengguna"
+    ) {
+      return (
+        <>
+          <Button
+            variant="outlined"
+            onClick={() => router.push(`/admin/${santriormarkaz}/edit/${id}`)}
+          >
+            edit
+          </Button>
+          <Button variant="outlined" onClick={() => handleDelete(id)}>
+            delete
+          </Button>
+        </>
+      );
+    } else if (santriormarkaz === "donasi") {
+      return (
+        <>
+          <Button
+            variant="outlined"
+            onClick={() => router.push(`${iddonasi}/transaksi/${uniqueid}`)}
+          >
+            manage
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => router.push(`edit/${iddonasi}`)}
+          >
+            Edit
+          </Button>
+        </>
+      );
+    } else if (santriormarkaz === "transaksi") {
+      return (
+        <>
+          <Popover transid={transid} mutate={mutate} isStatus />
+          <Link href={paymenturl} target="_blank" underline="none">
+            <Button variant="outlined">download</Button>
+          </Link>
+        </>
+      );
+    } else if (santriormarkaz === "kegiatan") {
+      return (
+        <>
+          <Button variant="outlined" onClick={() => router.push(`edit/${id}`)}>
+            edit
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => router.push(`volunteer/${id}`)}
+          >
+            manage
+          </Button>
+        </>
+      );
+    } else if (santriormarkaz === "volunteer") {
+      return (
+        <>
+          <Popover transid={transid} mutate={mutate} isStatus />
+          <Popover transid={transid} mutate={mutate} isDownloadVolunteer />
+        </>
+      );
+    } else {
+      console.log("tablebutton terpanggil");
+      return "buttons";
+    }
+  }
+
   return (
     <StyledTableRow>
       <StyledTableCell component="th" scope="row">
@@ -68,50 +141,8 @@ function TableDataRow(props) {
           </Button>
         ) : null}
       </StyledTableCell>
-      {/* <StyledTableCell align="left">{fieldsix}</StyledTableCell> */}
       <StyledTableCell align="center">
-        {!isDonasi && (
-          <>
-            <Button
-              variant="outlined"
-              onClick={() => router.push(`/admin/${santriormarkaz}/edit/${id}`)}
-            >
-              edit
-            </Button>
-            <Button variant="outlined" onClick={() => handleDelete(id)}>
-              delete
-            </Button>
-          </>
-        )}
-        {isDonasi && (
-          <>
-            {santriormarkaz === "transaksi" ? (
-              <>
-                <Popover transid={transid} />
-                <Link href={paymenturl} target="_blank" underline="none">
-                  <Button variant="outlined">download</Button>
-                </Link>
-              </>
-            ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  onClick={() =>
-                    router.push(`${iddonasi}/transaksi/${uniqueid}`)
-                  }
-                >
-                  manage
-                </Button>
-                <Button
-                  variant="outlined"
-                  onClick={() => router.push(`edit/${iddonasi}`)}
-                >
-                  Edit
-                </Button>
-              </>
-            )}
-          </>
-        )}
+        <TableButtons />
       </StyledTableCell>
     </StyledTableRow>
   );

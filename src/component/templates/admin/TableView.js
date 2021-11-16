@@ -14,63 +14,73 @@ export default function TableView(props) {
     isDonasi,
     iddonasi,
     handleDelete,
+    mutate,
   } = props;
   // array of objects
   const users = data.result;
 
-  function fieldOne(user, field) {
+  function fieldOne(field) {
     if (santriormarkaz === "transaksi") {
-      field = user.userEmail;
+      return field.userEmail;
     } else if (santriormarkaz === "pengguna") {
-      field = user.fullName;
+      return field.fullName;
     } else {
-      field = user.name;
-    }
-    return field;
-  }
-
-  function fieldTwo(user) {
-    if (santriormarkaz === "santri") {
-      return user.markaz.name;
-    } else if (santriormarkaz === "markaz") {
-      return user.category;
-    } else if (santriormarkaz === "donasi") {
-      return user.uniqueId;
-    } else if (santriormarkaz === "transaksi") {
-      return user.trxId;
-    } else if (santriormarkaz === "pengguna") {
-      return user.username;
+      return field.name;
     }
   }
 
-  function fieldThree(user, field) {
+  function fieldTwo(field) {
     if (santriormarkaz === "santri") {
-      field = user.birthPlace;
+      return field.markaz.name;
     } else if (santriormarkaz === "markaz") {
-      field = "";
+      return field.category;
     } else if (santriormarkaz === "donasi") {
-      field = user.nominal;
+      return field.uniqueId;
     } else if (santriormarkaz === "transaksi") {
-      field = user.amount;
+      return field.trxId;
     } else if (santriormarkaz === "pengguna") {
-      field = user.email;
+      return field.username;
+    } else if (santriormarkaz === "kegiatan") {
+      return "field.volunteerNeeded";
+    } else if (santriormarkaz === "volunteer") {
+      return "field.ktp";
     }
-    return field;
   }
 
-  function fieldFour(user, field) {
+  function fieldThree(field) {
     if (santriormarkaz === "santri") {
-      field = genderConverter(user.gender);
+      return field.birthPlace;
     } else if (santriormarkaz === "markaz") {
-      field = user.contactName;
+      return "";
     } else if (santriormarkaz === "donasi") {
-      field = user.donated;
+      return field.nominal;
     } else if (santriormarkaz === "transaksi") {
-      field = statusConverter(user.status);
+      return field.amount;
     } else if (santriormarkaz === "pengguna") {
-      field = user.phoneNum;
+      return field.email;
+    } else if (santriormarkaz === "kegiatan") {
+      return "field.volunteerAmount";
+    } else if (santriormarkaz === "volunteer") {
+      return "field.email";
     }
-    return field;
+  }
+
+  function fieldFour(field) {
+    if (santriormarkaz === "santri") {
+      return genderConverter(field.gender);
+    } else if (santriormarkaz === "markaz") {
+      return field.contactName;
+    } else if (santriormarkaz === "donasi") {
+      return field.donated;
+    } else if (santriormarkaz === "transaksi") {
+      return statusConverter(field.status);
+    } else if (santriormarkaz === "pengguna") {
+      return field.phoneNum;
+    } else if (santriormarkaz === "kegiatan") {
+      return "field.location";
+    } else if (santriormarkaz === "volunteer") {
+      return "field.notelp";
+    }
   }
 
   function genderConverter(gender) {
@@ -91,20 +101,22 @@ export default function TableView(props) {
     }
   }
 
-  function fieldFive(user, field) {
+  function fieldFive(field) {
     if (santriormarkaz === "santri") {
-      field = user.birthDate;
+      return field.birthDate;
     } else if (santriormarkaz === "markaz") {
-      field = user.contactInfo;
+      return field.contactInfo;
     } else if (santriormarkaz === "donasi") {
-      field = user.isActive ? "Donasi Ditampilkan" : "Donasi Disembunyikan";
+      return field.isActive ? "Donasi Ditampilkan" : "Donasi Disembunyikan";
     } else if (santriormarkaz === "transaksi") {
-      field = "";
+      return null;
     } else if (santriormarkaz === "pengguna") {
-      field = user.address;
+      return field.address;
+    } else if (santriormarkaz === "kegiatan") {
+      return null;
+    } else if (santriormarkaz === "volunteer") {
+      return "field.status";
     }
-
-    return field;
   }
 
   return (
@@ -119,12 +131,11 @@ export default function TableView(props) {
         <TableDataRow
           key={user.id}
           id={user.id}
-          nama={fieldOne(user, santriormarkaz)}
+          nama={fieldOne(user)}
           markaz={fieldTwo(user)}
-          domisili={fieldThree(user, santriormarkaz)}
-          kelamin={fieldFour(user, santriormarkaz)}
-          tanggal={fieldFive(user, santriormarkaz)}
-          // fieldsix={Field_six(user, santriormarkaz)}
+          domisili={fieldThree(user)}
+          kelamin={fieldFour(user)}
+          tanggal={fieldFive(user)}
           santriormarkaz={santriormarkaz}
           detail={detail}
           isDonasi={isDonasi}
@@ -133,6 +144,7 @@ export default function TableView(props) {
           transid={user.trxId}
           paymenturl={user.paymentURL}
           handleDelete={handleDelete}
+          mutate={mutate}
         />
       ))}
     </TableData>

@@ -13,10 +13,11 @@ export default function TransaksiMarkaz() {
   const { transid } = router.query;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const { data: markazs, error } = useSWR(
-    "/admin/transaction?page=0&n=10&id=" + transid,
-    fetcher
-  );
+  const {
+    data: markazs,
+    error,
+    mutate,
+  } = useSWR("/admin/transaction?page=0&n=10&id=" + transid, fetcher);
 
   const TableViewMarkazTransaksi = (
     <TableView
@@ -26,7 +27,7 @@ export default function TransaksiMarkaz() {
       tableTempatMarkaz="ID Transaksi"
       tableDomisili="Nominal Donasi"
       tableJenisKelamin="Status"
-      isDonasi
+      mutate={mutate}
     />
   );
 
