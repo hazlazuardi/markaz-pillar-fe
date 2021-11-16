@@ -19,8 +19,8 @@ function AdminEditMarkazProgressDonasi(props) {
     const [thumbnail, setThumbnail] = useState({});
     const { responseMarkaz } = props
     const [editedProgres, setEditedProgres] = useState({
-        progressDate: responseMarkaz.progressDate,
-        description: responseMarkaz.description,
+        progressDate: "",
+        description: "",
     });
     const form = useRef(null);
 

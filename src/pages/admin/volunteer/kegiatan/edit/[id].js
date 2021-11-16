@@ -1,12 +1,12 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../../context/AppReducer";
-import { axiosFormData } from "../../../../../../axiosInstances";
+import { useAppContext } from "../../../../context/AppContext";
+import { dispatchTypes } from "../../../../context/AppReducer";
+import { axiosFormData } from "../../../../axiosInstances";
 import { useRouter } from 'next/router';
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-import Dropzone from '../../../../../../component/modules/Dropzone'
+import Dropzone from '../../../../component/modules/Dropzone'
 import Typography from '@mui/material/Typography'
 import { FormControl } from "@mui/material";
 import { Select } from "@mui/material";
@@ -14,19 +14,25 @@ import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton'
 
-function AdminEditMarkazProgressDonasi(props) {
+function AdminEditVolunteerKegiatan() {
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const { responseMarkaz } = props
-    const [editedProgres, setEditedProgres] = useState({
-        progressDate: "",
+    const { responseVolunteer } = props
+    const [kegiatan, setKegiatan] = useState({
+        name: "",
         description: "",
+        term: "",
+        benefit: "",
+        volunteerNeeded: 0,
+        location: "",
+        schedule: "",
+        isActive: null
     });
     const form = useRef(null);
 
-    const handleChangeProgres = ({ target }) => {
+    const handleChangeKegiatan = ({ target }) => {
         const { name, value } = target;
-        setEditedProgres((prev) => ({
+        setKegiatan((prev) => ({
             ...prev,
             [name]: value,
         }));
@@ -36,14 +42,15 @@ function AdminEditMarkazProgressDonasi(props) {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
-        const progresBlob = new Blob([JSON.stringify(editedProgres)], {
+        const kegiatanBlob = new Blob([JSON.stringify(kegiatan)], {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("progres", progresBlob);
+        data.append("kegiatan", kegiatanBlob);
+
 
         await axiosFormData
-            .post("/admin/santri", data)
+            .post("/admin/volunteer/kegiatan", data)
             .then(response => {
                 setLoading(false)
 
@@ -51,7 +58,7 @@ function AdminEditMarkazProgressDonasi(props) {
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Progres Edited"
+                        message: "Kegiatan Edited"
                     }
                 })
             })
@@ -128,31 +135,80 @@ function AdminEditMarkazProgressDonasi(props) {
                         <Grid item>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <Typography variant="h5" color="initial">Edit Progres Donasi Santri</Typography>
+                                    <Typography variant="h5" color="initial">Create Kegiatan</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        id='progresNameAtComponentAdminCreateOrEditProgres'
-                                        name="progressDate"
-                                        label="Date (YYYY-MM-DD)"
+                                        id='kegiatanNameAtComponentAdminCreateOrEditKegiatan'
+                                        name="name"
+                                        label="Name"
                                         fullWidth
-                                        onChange={handleChangeProgres}
-                                        value={progres.progressDate}
-
+                                        onChange={handleChangeKegiatan}
+                                        value={kegiatan.name}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                        id='progresDescriptionAtComponentAdminCreateOrEditProgres'
+                                        id='kegiatanDescriptionAtComponentAdminCreateOrEditKegiatan'
                                         name="description"
                                         label="Descripton"
                                         fullWidth
-                                        value={progres.description}
-                                        onChange={handleChangeProgres}
+                                        value={kegiatan.description}
+                                        onChange={handleChangeKegiatan}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <LoadingButton id='progresSubmitAtComponentAdminCreateOrEditProgres' fullWidth type='submit' loading={loading} loadingIndicator="Menyimpan..." variant="contained">
+                                    <TextField
+                                        id='kegiatanNameAtComponentAdminCreateOrEditKegiatan'
+                                        name="term"
+                                        label="Term"
+                                        fullWidth
+                                        onChange={handleChangeKegiatan}
+                                        value={kegiatan.term}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        id='kegiatanBenefitAtComponentAdminCreateOrEditKegiatan'
+                                        name="benefit"
+                                        label="Benefit"
+                                        fullWidth
+                                        value={kegiatan.benefit}
+                                        onChange={handleChangeKegiatan}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        id='kegiatanVolunteerNeededAtComponentAdminCreateOrEditKegiatan'
+                                        name="volunteerNeeded"
+                                        label="Volunteer Needed"
+                                        fullWidth
+                                        onChange={handleChangeKegiatan}
+                                        value={kegiatan.volunteerNeeded}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        id='kegiatanDescriptionAtComponentAdminCreateOrEditKegiatan'
+                                        name="location"
+                                        label="Location"
+                                        fullWidth
+                                        value={kegiatan.location}
+                                        onChange={handleChangeKegiatan}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        id='kegiatanNameAtComponentAdminCreateOrEditKegiatan'
+                                        name="schedule"
+                                        label="Schedule"
+                                        fullWidth
+                                        onChange={handleChangeKegiatan}
+                                        value={kegiatan.schedule}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <LoadingButton id='kegiatanSubmitAtComponentAdminCreateOrEditKegiatan' fullWidth type='submit' loading={loading} loadingIndicator="Menyimpan..." variant="contained">
                                         Simpan
                                     </LoadingButton>
                                 </Grid>
@@ -165,4 +221,4 @@ function AdminEditMarkazProgressDonasi(props) {
     );
 }
 
-export default AdminEditSantriProgressDonasi;
+export default AdminEditVolunteerKegiatan;
