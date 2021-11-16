@@ -15,6 +15,11 @@ export default function MarkazLayoutDetail(props) {
 
   const image = markaz.thumbnailURL;
 
+  // Process category
+  const temp = markaz.category.split("_")
+  const markazCategory = `${temp[0].toLowerCase().replace(/\b\w/g, l => l.toUpperCase())} ${temp[1].toLowerCase().replace(/\b\w/g, l => l.toUpperCase())}`
+
+
   const consistent = {
     name: markaz.name,
     background: markaz.background,
@@ -24,7 +29,7 @@ export default function MarkazLayoutDetail(props) {
   const inconsistent = {
     Alamat: markaz.address,
     "Contact Person": `${markaz.contactName} (${markaz.contactInfo})`,
-    Kategori: markaz.category,
+    Kategori: markazCategory,
     "Kebutuhan Fasilitas": markaz.description,
   };
 
