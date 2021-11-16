@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import DetailTemplate from "../../../component/templates/detail/Detail";
+import ArrowBack from "../../../component/modules/ArrowBack";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
@@ -73,13 +74,16 @@ export default function santriLayoutDetail(props) {
   };
 
   return (
-    <DetailTemplate
-      consistent={consistent}
-      inconsistent={inconsistent}
-      image={image}
-      donatetext="Kelola Donasi"
-      adminbutton={button}
-      markazOrSantri="admin/markaz"
-    />
-  );
+    <>
+      <ArrowBack href='/admin/markaz' />
+      <DetailTemplate
+        consistent={consistent}
+        inconsistent={inconsistent}
+        image={image}
+        donatetext="Kelola Donasi"
+        adminbutton={button}
+        markazOrSantri="admin/markaz"
+      />
+    </>
+      );
 }

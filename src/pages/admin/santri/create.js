@@ -22,7 +22,7 @@ function AdminSantriCreate() {
         return axiosFormData.post(`/admin/santri?markaz_id=${markazId}`, data)
     }
 
-    console.log('markaz', !!responseMarkaz && responseMarkaz.result)
+    
     return (
         <AdminCreateOrEditSantri
             isCreate

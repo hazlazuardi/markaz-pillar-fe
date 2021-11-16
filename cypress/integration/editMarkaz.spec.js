@@ -1,14 +1,15 @@
-beforeEach(() => {
-    const testEmail = `achmadafriza123@gmail.com`
-    cy.visit('http://localhost:3000/login')
-    cy.get('#email').type(testEmail)
-    cy.get('#password').type('Admin123')
-    cy.get('#submitAtLogin').contains('Masuk').click()
-    cy.wait(2000)
-    cy.visit('http://localhost:3000/admin/markaz/edit/1')
-})
 
 describe('Test it is in the correct page', () => {
+    before(() => {
+        const testEmail = `achmadafriza123@gmail.com`
+        cy.visit('http://localhost:3000/login')
+        cy.get('#email').type(testEmail)
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.wait(2000)
+        cy.visit('http://localhost:3000/admin/markaz/edit/1')
+    })
+
     it('Test if edit contains "Edit Thumbnail" or not', () => {
         cy.get('h5').contains('Edit Thumbnail').should('exist')
     })
@@ -19,6 +20,15 @@ describe('Test it is in the correct page', () => {
 })
 
 describe(`Test functionality of inputs when edit new markaz`, () => {
+    beforeEach(() => {
+        const testEmail = `achmadafriza123@gmail.com`
+        cy.visit('http://localhost:3000/login')
+        cy.get('#email').type(testEmail)
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.wait(2000)
+        cy.visit('http://localhost:3000/admin/markaz/edit/1')
+    })
     it('Test if succeed', () => {
         cy.get(`[data-cy="dropzone"]`).attachFile('low.png', { subjectType: 'drag-n-drop' });
         cy.get(`#dropzone-uploaded`).should('exist');

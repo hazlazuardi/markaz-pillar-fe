@@ -1,26 +1,33 @@
-beforeEach(() => {
-    const testEmail = `achmadafriza123@gmail.com`
-    cy.visit('http://localhost:3000/login')
-    cy.get('#email').type(testEmail)
-    cy.get('#password').type('Admin123')
-    cy.get('#submitAtLogin').contains('Masuk').click()
-    cy.wait(2000)
-    cy.visit('http://localhost:3000/admin/santri/create')
-})
 
 describe('Test it is in the correct page', () => {
-    it('Test if create.js contains "Upload an Image" or not', () => {
+    before(() => {
+        const testEmail = `achmadafriza123@gmail.com`
+        cy.visit('http://localhost:3000/login')
+        cy.get('#email').type(testEmail)
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.wait(2000)
         cy.visit('http://localhost:3000/admin/santri/create')
+    })
+    it('Test if create.js contains "Upload an Image" or not', () => {
         cy.get('h5').contains('Upload an Image').should('exist')
     })
 
     it('Test if create.js contains "This is create page" or not', () => {
-        cy.visit('http://localhost:3000/admin/santri/create')
         cy.get('p').contains('This is create page').should('not.exist')
     })
 })
 
 describe(`Test functionality of inputs when create new santri`, () => {
+    beforeEach(() => {
+        const testEmail = `achmadafriza123@gmail.com`
+        cy.visit('http://localhost:3000/login')
+        cy.get('#email').type(testEmail)
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.wait(2000)
+        cy.visit('http://localhost:3000/admin/santri/create')
+    })
     const testSantri = `Santri ${Math.random()}`
     it('Test if succeed', () => {
         cy.get(`[data-cy="dropzone"]`, { timeout: 40000 }).attachFile('low.png', { subjectType: 'drag-n-drop' });

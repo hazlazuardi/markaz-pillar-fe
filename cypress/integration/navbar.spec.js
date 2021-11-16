@@ -1,14 +1,17 @@
-beforeEach(() => {
-    cy.visit('http://localhost:3000/')
-    localStorage.setItem("currentUser", JSON.stringify("Admin123@gmail.com"))
-    localStorage.setItem("currentUserRole", JSON.stringify("ROLE_SUPERUSER"))
-    localStorage.setItem("currentAccessToken", JSON.stringify('ey@9wersldgndg'))
-    localStorage.setItem("currentRefreshToken", JSON.stringify('refresh'))
-})
 
 describe('Test the appbar buttons present', () => {
+    before(() => {
+        const testEmail = `achmadafriza123@gmail.com`
+        cy.visit('http://localhost:3000/login')
+        cy.get('#email').type(testEmail)
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.wait(2000)
+        cy.visit('http://localhost:3000/')
+    })
+
     it('Test if the appbar buttons present in desktop view', () => {
-        cy.viewport(600,60)
+        cy.viewport(600, 60)
         cy.get('a').contains('Markaz').should('be.visible')
         cy.get('a').contains('Santri').should('be.visible')
         cy.get('a').contains('Relawan').should('be.visible')
@@ -18,7 +21,7 @@ describe('Test the appbar buttons present', () => {
     })
 
     it('Test if the appbar buttons not present in mobile view', () => {
-        cy.viewport(500,60)
+        cy.viewport(500, 60)
         cy.get('a').contains('Markaz').should('not.visible')
         cy.get('a').contains('Santri').should('not.visible')
         cy.get('a').contains('Relawan').should('not.visible')
@@ -30,8 +33,19 @@ describe('Test the appbar buttons present', () => {
 })
 
 describe('Test the drawer can be opened', () => {
+    before(() => {
+        const testEmail = `achmadafriza123@gmail.com`
+        cy.visit('http://localhost:3000/login')
+        cy.get('#email').type(testEmail)
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.wait(2000)
+        cy.visit('http://localhost:3000/')
+
+    })
+
     it('Test if the drawer buttons present', () => {
-        cy.viewport(500,60)
+        cy.viewport(500, 60)
         cy.get('#menuIconButton').should('exist').click()
         cy.get('div').contains('Markaz').should('exist')
         cy.get('div').contains('Santri').should('exist')
@@ -42,6 +56,17 @@ describe('Test the drawer can be opened', () => {
 })
 
 describe('Test the drawer works well', () => {
+    beforeEach(() => {
+        const testEmail = `achmadafriza123@gmail.com`
+        cy.visit('http://localhost:3000/login')
+        cy.get('#email').type(testEmail)
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.wait(2000)
+        cy.visit('http://localhost:3000/')
+
+    })
+
     it('Test if the drawer logout button works well', () => {
         cy.viewport('iphone-5')
         cy.get('#menuIconButton').should('exist').click()

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TableView from "../../../../../component/templates/admin/TableView";
 import { axiosMain } from "../../../../../axiosInstances";
 import useSWR from "swr";
@@ -8,45 +8,42 @@ import ArrowBack from "../../../../../component/modules/ArrowBack";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
-export default function DonasiMarkaz() {
+export default function DonasiMarkaz(props) {
   const router = useRouter();
   const { id } = router.query;
+  const [searchDonasiMarkaz, setSearchDonasiMarkaz] = useState("")
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const { data: allMarkaz, error } = useSWR(
-    `/admin/donation/markaz?id=${id}&page=${page - 1}&n=${entries}`,
-    fetcher
+  const { data: responseDonasiMarkaz, error } = useSWR(router.isReady ? 
+    `/admin/donation/markaz?id=${id}&page=${page - 1}&n=${entries}&${!!searchDonasiMarkaz && "s=" + searchDonasiMarkaz}` : null,
+    fetcher,
   );
 
-  const [iddonasi, setId] = useState();
-
-  useEffect(() => {
-    setId(router.query.id);
-  }, [router]);
 
   const TableViewMarkazDonasi = (
     <TableView
-      data={allMarkaz}
+      data={responseDonasiMarkaz}
       santriormarkaz="donasi"
       detail="admin/markaz"
       tableTempatMarkaz="ID Donasi"
       tableDomisili="Nominal Donasi"
       tableJenisKelamin="Jumlah Donasi Terkumpul"
       tableTanggalLahir="Status"
-      iddonasi={iddonasi}
+      isDonasi
+      iddonasi={id}
     />
   );
-  console.log(allMarkaz);
+  
   if (error) return "An error has occurred.";
-  if (!allMarkaz) return "Loading...";
   return (
     <>
       <ArrowBack href="/admin/markaz" />
       <AdminOrUserTemplate
-        isAdmin
         variant="donasi"
         TableView={TableViewMarkazDonasi}
-        data={allMarkaz}
+        data={responseDonasiMarkaz}
+        searchTerm={searchDonasiMarkaz}
+        setSearchTerm={setSearchDonasiMarkaz}
         page={page}
         setPage={setPage}
         entries={entries}

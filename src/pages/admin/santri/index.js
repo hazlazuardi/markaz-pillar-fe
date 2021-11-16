@@ -7,9 +7,11 @@ import TableView from "../../../component/templates/admin/TableView";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
-export default function AdminSantri() {
+export default function AdminSantri(props) {
+  const { allSantri } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
+  const [searchSantri, setSearchSantri] = useState("")
   const [ageFilter, setAgeFilter] = useState();
   const [nameFilter, setNameFilter] = useState();
   const {
@@ -19,8 +21,14 @@ export default function AdminSantri() {
   } = useSWR(
     `/santri/search?page=${page - 1}&n=${entries}&${
       !!ageFilter ? "sortedAge=" + ageFilter : ""
-    }${!!nameFilter ? "sortedName=" + nameFilter : ""}`,
-    fetcher
+    }${!!nameFilter ? "sortedName=" + nameFilter : ""}
+    &${!!searchSantri && "name=" + searchSantri}
+    `,
+    fetcher,
+    {
+      fallbackData: allSantri,
+      refreshInterval: 30000,
+    }
   );
 
   // *******************************************************
@@ -63,6 +71,8 @@ export default function AdminSantri() {
         GridView={GridViewMarkaz}
         TableView={TableViewMarkaz}
         entries={entries}
+        searchTerm={searchSantri}
+        setSearchTerm={setSearchSantri}
         setEntries={setEntries}
         page={page}
         setPage={setPage}
@@ -78,3 +88,14 @@ export default function AdminSantri() {
     </>
   );
 }
+
+export async function getStaticProps() {
+  const staticSantri = await axiosMain.get("/santri/search?n=1000");
+  return {
+    props: {
+      allSantri: staticSantri.data,
+    },
+    revalidate: 10,
+  };
+}
+

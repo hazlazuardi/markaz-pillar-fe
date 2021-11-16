@@ -7,29 +7,36 @@
 //     cy.visit('http://localhost:3000/admin/markaz/create')
 // })
 
-beforeEach(() => {
-    const testEmail = `achmadafriza123@gmail.com`
-    cy.visit('http://localhost:3000/login')
-    cy.get('#email').type(testEmail)
-    cy.get('#password').type('Admin123')
-    cy.get('#submitAtLogin').contains('Masuk').click()
-    cy.wait(2000)
-    cy.visit('http://localhost:3000/admin/markaz/create')
-})
 
 describe('Test it is in the correct page', () => {
-    it('Test if create.js contains "Upload New Thumbnail" or not', () => {
+    before(() => {
+        const testEmail = `achmadafriza123@gmail.com`
+        cy.visit('http://localhost:3000/login')
+        cy.get('#email').type(testEmail)
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.wait(2000)
         cy.visit('http://localhost:3000/admin/markaz/create')
+    })
+    it('Test if create.js contains "Upload New Thumbnail" or not', () => {
         cy.get('h5').contains('Upload New Thumbnail').should('exist')
     })
 
     it('Test if create.js contains "This is create page" or not', () => {
-        cy.visit('http://localhost:3000/admin/markaz/create')
         cy.get('p').contains('This is create page').should('not.exist')
     })
 })
 
 describe(`Test functionality of inputs when create new markaz`, () => {
+    beforeEach(() => {
+        const testEmail = `achmadafriza123@gmail.com`
+        cy.visit('http://localhost:3000/login')
+        cy.get('#email').type(testEmail)
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.wait(2000)
+        cy.visit('http://localhost:3000/admin/markaz/create')
+    })
     const testMarkaz = `Markaz ${Math.random()}`
     it('Test if succeed', () => {
         cy.get(`[data-cy="dropzone"]`).attachFile('low.png', { subjectType: 'drag-n-drop' });

@@ -22,7 +22,7 @@ function AdminSantriEdit(props) {
 
     });
 
-    console.log(santri)
+    
 
     const editSantri = async (markazId, data) => {
         return axiosFormData.post(`/admin/santri/edit?id=${markazId}`, data)

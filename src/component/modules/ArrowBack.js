@@ -10,13 +10,13 @@ export default function ArrowBack(props) {
 
   const router = useRouter();
   const fullPath = router.pathname.split('/').slice(0, -1).join(' / ')
-  console.log(fullPath)
+
 
 
 
   return (
     <Box mb='2em'>
-      <Link href={`/${href}/`} passHref>
+      <Link href={href} passHref>
         <Button variant="text" startIcon={<ArrowBackIcon />}>
           {fullPath}
         </Button>

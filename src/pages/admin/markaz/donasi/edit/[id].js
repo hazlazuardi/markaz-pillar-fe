@@ -40,12 +40,12 @@ function AdminMarkazDonasiEdit(props) {
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
-        console.log("data", data)
+        
         await axiosMain
             .post(`/admin/donation/markaz?edit=${id}`, data)
             .then(response => {
                 setLoading(false)
-                console.log(response)
+                
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
@@ -56,11 +56,11 @@ function AdminMarkazDonasiEdit(props) {
             })
             .catch(error => {
                 setLoading(false)
-                console.log(error.response)
+                
                 // Check & Handle if error.response is defined
                 if (!!error.response) {
                     if (error.response.status === 400) {
-                    console.log(error.response)
+                    
                         // Check & Handle if bad request (empty fields, etc)
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
@@ -124,7 +124,7 @@ function AdminMarkazDonasiEdit(props) {
         }));
     };
 
-    console.log(category)
+    
 
     return (
         <AdminCreateOrEditDonasi

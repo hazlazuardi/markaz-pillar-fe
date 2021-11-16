@@ -10,6 +10,7 @@ const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function Markaz(props) {
   const { allMarkaz } = props;
+  const [searchMarkaz, setSearchMarkaz] = useState("")
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [locationFilter, setLocationFilter] = useState();
@@ -23,13 +24,10 @@ export default function Markaz(props) {
     error,
     mutate,
   } = useSWR(
-    `/markaz/search?page=${page - 1}&n=${entries}&${
-      !!locationFilter ? "address=" + locationFilter : ""
-    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${
-      !!categoryFilter ? "category=" + categoryFilter : ""
-    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${
-      !!categoryFilter3 ? "category=" + categoryFilter3 : ""
-    }
+    `/markaz/search?page=${page - 1}&n=${entries}&${!!locationFilter ? "address=" + locationFilter : ""
+    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${!!categoryFilter ? "category=" + categoryFilter : ""
+    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${!!categoryFilter3 ? "category=" + categoryFilter3 : ""
+    }&${!!searchMarkaz && "name=" + searchMarkaz}
 `,
     fetcher,
     {
@@ -38,9 +36,9 @@ export default function Markaz(props) {
     }
   );
 
-    const GridViewMarkaz = (
+  const GridViewMarkaz = (
     <GridView data={responseMarkaz} detail="admin/markaz" />
-    );
+  );
 
   return (
     <>
@@ -48,6 +46,8 @@ export default function Markaz(props) {
         variant="markaz"
         GridView={GridViewMarkaz}
         entries={entries}
+        searchTerm={searchMarkaz}
+        setSearchTerm={setSearchMarkaz}
         setEntries={setEntries}
         page={page}
         setPage={setPage}
@@ -70,12 +70,12 @@ export default function Markaz(props) {
 }
 
 export async function getStaticProps() {
-    const staticMarkazResponse = await axiosMain.get("/markaz/search?n=1000");
-    const staticMarkaz = staticMarkazResponse.data
-    return {
-        props: {
-            allMarkaz: staticMarkaz
-        },
-        revalidate: 10
-    }
+  const staticMarkazResponse = await axiosMain.get("/markaz/search?n=1000");
+  const staticMarkaz = staticMarkazResponse.data
+  return {
+    props: {
+      allMarkaz: staticMarkaz
+    },
+    revalidate: 10
+  }
 }

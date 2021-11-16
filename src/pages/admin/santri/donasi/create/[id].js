@@ -40,12 +40,12 @@ function AdminSantriDonasiCreate(props) {
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
-        console.log("data", data)
+        
         await axiosMain
             .post(`/admin/donation/santri?id=${id}`, data)
             .then(response => {
                 setLoading(false)
-                console.log(response)
+                
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
@@ -56,11 +56,11 @@ function AdminSantriDonasiCreate(props) {
             })
             .catch(error => {
                 setLoading(false)
-                console.log(error.response)
+                
                 // Check & Handle if error.response is defined
                 if (!!error.response) {
                     if (error.response.status === 400) {
-                    console.log(error.response)
+                    
                         // Check & Handle if bad request (empty fields, etc)
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
@@ -124,7 +124,7 @@ function AdminSantriDonasiCreate(props) {
         }));
     };
 
-    console.log(category)
+    
 
     return (
         <AdminCreateOrEditDonasi

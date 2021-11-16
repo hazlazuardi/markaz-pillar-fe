@@ -1,16 +1,17 @@
-beforeEach(() => {
-  const testEmail = `achmadafriza123@gmail.com`;
-  cy.visit("http://localhost:3000/login");
-  cy.get("#email").type(testEmail);
-  cy.get("#password").type("Admin123");
-  cy.get("#submitAtLogin").contains("Masuk").click();
-  cy.wait(2000);
-  cy.visit(
-    "http://localhost:3000/admin/santri/donasi/2/transaksi/cmzi-blybp-kgbl"
-  );
-});
 
 describe("Test it is in the correct page", () => {
+  before(() => {
+    const testEmail = `achmadafriza123@gmail.com`;
+    cy.visit("http://localhost:3000/login");
+    cy.get("#email").type(testEmail);
+    cy.get("#password").type("Admin123");
+    cy.get("#submitAtLogin").contains("Masuk").click();
+    cy.wait(2000);
+    cy.visit(
+      "http://localhost:3000/admin/santri/donasi/2/transaksi/cmzi-blybp-kgbl"
+    );
+  });
+  
   it('Test if admin santri transaksi page contains "Daftar Donasi" or not', () => {
     cy.get("[data-testid=titlePage-at-admin-or-user-template]")
       .contains("Daftar Donasi", { matchCase: false })
@@ -32,6 +33,18 @@ describe("Test it is in the correct page", () => {
 });
 
 describe(`Test if all components exist and visible`, () => {
+  beforeEach(() => {
+    const testEmail = `achmadafriza123@gmail.com`;
+    cy.visit("http://localhost:3000/login");
+    cy.get("#email").type(testEmail);
+    cy.get("#password").type("Admin123");
+    cy.get("#submitAtLogin").contains("Masuk").click();
+    cy.wait(2000);
+    cy.visit(
+      "http://localhost:3000/admin/santri/donasi/2/transaksi/cmzi-blybp-kgbl"
+    );
+  });
+  
   it("Test if all exists and visible", () => {
     cy.get("[data-testid=searchbar-at-admin-or-user-template]").should("exist");
     // cy.get('[data-testid=filterChipButton-at-admin-or-user-template]').should('exist')

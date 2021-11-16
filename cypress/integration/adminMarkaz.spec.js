@@ -1,14 +1,15 @@
-beforeEach(() => {
-    const testEmail = `achmadafriza123@gmail.com`
-    cy.visit('http://localhost:3000/login')
-    cy.get('#email').type(testEmail)
-    cy.get('#password').type('Admin123')
-    cy.get('#submitAtLogin').contains('Masuk').click()
-    cy.wait(2000)
-    cy.visit('http://localhost:3000/admin/markaz')
-})
 
 describe('Test it is in the correct page', () => {
+    before(() => {
+        const testEmail = `achmadafriza123@gmail.com`
+        cy.visit('http://localhost:3000/login')
+        cy.get('#email').type(testEmail)
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.wait(2000)
+        cy.visit('http://localhost:3000/admin/markaz')
+    })
+
     it('Test if admin markaz page contains "Daftar Markaz" or not', () => {
         cy.get('[data-testid=titlePage-at-admin-or-user-template]').contains('Daftar Markaz', { matchCase: false }).should('exist')
     })
@@ -28,17 +29,26 @@ describe('Test it is in the correct page', () => {
 })
 
 describe(`Test if all components exist and visible`, () => {
+    before(() => {
+        const testEmail = `achmadafriza123@gmail.com`
+        cy.visit('http://localhost:3000/login')
+        cy.get('#email').type(testEmail)
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.wait(2000)
+        cy.visit('http://localhost:3000/admin/markaz')
+    })
     it('Test if all exists and visible', () => {
-        cy.get('[data-testid=searchbar-at-admin-or-user-template]').should('exist')
+        cy.get('[data-testid=searchbar-at-admin-or-user-template]').should('exist').type(";").wait(600).clear().wait(600)
         // cy.get('[data-testid=filterChipButton-at-admin-or-user-template]').should('exist')
         cy.get('[data-testid=tab-grid-at-admin-or-user-template]').contains('Grid').should('exist')
         cy.get('[data-testid=gridView-at-admin-or-user-template]').should('exist')
         cy.get('[data-testid=name-at-card]').should('exist');
-        cy.get('[data-testid=tab-table-at-admin-or-user-template]').contains('Table').should('exist').click()
+        cy.get('[data-testid=tab-table-at-admin-or-user-template]').contains('Table').should('exist').click().wait(600)
         cy.get('[data-testid=tableView-at-admin-or-user-template]').should('exist')
         cy.get('[data-testid=name-at-table-row]').should('exist');
-        cy.get('[data-testid=showEntries-at-admin-or-user-template]').should('exist').click().get('li').contains('Show All').should('exist').click()
-        cy.get('[data-testid=pagination-at-admin-or-user-template]').contains('1').should('exist').click()
+        cy.get('[data-testid=showEntries-at-admin-or-user-template]').should('exist').click().get('li').contains('Show All').should('exist').click().wait(600)
+        cy.get('[data-testid=pagination-at-admin-or-user-template]', {timeout: 4000}).contains('1').should('exist').click().wait(600)
         cy.get('[data-testid=fab-at-admin-or-user-template]').should('exist')
     });
 })

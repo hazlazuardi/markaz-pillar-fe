@@ -14,7 +14,7 @@ export default function AdminUsers() {
     mutate,
   } = useSWR(`/admin/user?page=${page - 1}&n=${entries}`, fetcher);
 
-  console.log(responsePengguna);
+  
 
   const TableViewDataPengguna = (
     <TableView

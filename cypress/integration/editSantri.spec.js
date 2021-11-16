@@ -1,14 +1,15 @@
-beforeEach(() => {
-    const testEmail = `achmadafriza123@gmail.com`
-    cy.visit('http://localhost:3000/login')
-    cy.get('#email').type(testEmail)
-    cy.get('#password').type('Admin123')
-    cy.get('#submitAtLogin').contains('Masuk').click()
-    cy.wait(2000)
-    cy.visit('http://localhost:3000/admin/santri/edit/1')
-})
 
 describe('Test it is in the correct page', () => {
+    before(() => {
+        const testEmail = `achmadafriza123@gmail.com`
+        cy.visit('http://localhost:3000/login')
+        cy.get('#email').type(testEmail)
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.wait(2000)
+        cy.visit('http://localhost:3000/admin/santri/edit/1')
+    })
+
     it('Test if edit.js contains "Upload an Image" or not', () => {
         cy.get('h5').contains('Upload an Image').should('exist')
     })
@@ -19,6 +20,16 @@ describe('Test it is in the correct page', () => {
 })
 
 describe(`Test functionality of inputs when edit new santri`, () => {
+    beforeEach(() => {
+        const testEmail = `achmadafriza123@gmail.com`
+        cy.visit('http://localhost:3000/login')
+        cy.get('#email').type(testEmail)
+        cy.get('#password').type('Admin123')
+        cy.get('#submitAtLogin').contains('Masuk').click()
+        cy.wait(2000)
+        cy.visit('http://localhost:3000/admin/santri/edit/1')
+    })
+
     const testSantri = `test-santri-${Math.random()}`
     it('Test if succeed', () => {
         cy.get(`[data-cy="dropzone"]`, { timeout: 40000 }).attachFile('low.png', { subjectType: 'drag-n-drop' });
