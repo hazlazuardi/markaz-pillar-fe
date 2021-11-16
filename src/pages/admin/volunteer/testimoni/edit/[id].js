@@ -1,12 +1,12 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../context/AppContext";
-import { dispatchTypes } from "../../../../context/AppReducer";
-import { axiosFormData } from "../../../../axiosInstances";
+import { useAppContext } from "../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../context/AppReducer";
+import { axiosFormData } from "../../../../../axiosInstances";
 import { useRouter } from 'next/router';
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-import Dropzone from '../../../../component/modules/Dropzone'
+import Dropzone from '../../../../../component/modules/Dropzone'
 import Typography from '@mui/material/Typography'
 import { FormControl } from "@mui/material";
 import { Select } from "@mui/material";
@@ -14,18 +14,19 @@ import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton'
 
-function AdminCreateVolunteerTestimoni() {
+function AdminEditVolunteerTestimoni(props) {
+    const { responseTesti } = props
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const [testi, setTesti] = useState({
-        name: "",
-        description: "",
+    const [editTesti, setEditTesti] = useState({
+        name: responseTesti.name,
+        description: responseTesti.description,
     });
     const form = useRef(null);
 
     const handleChangeTestimoni = ({ target }) => {
         const { name, value } = target;
-        setTesti((prev) => ({
+        setEditTesti((prev) => ({
             ...prev,
             [name]: value,
         }));
@@ -51,7 +52,7 @@ function AdminCreateVolunteerTestimoni() {
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Testimoni Created"
+                        message: "Testimoni Edited"
                     }
                 })
             })
@@ -128,7 +129,7 @@ function AdminCreateVolunteerTestimoni() {
                         <Grid item>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <Typography variant="h5" color="initial">Create Volunteer Testimoni</Typography>
+                                    <Typography variant="h5" color="initial">Edit Volunteer Testimoni</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
@@ -165,4 +166,4 @@ function AdminCreateVolunteerTestimoni() {
     );
 }
 
-export default AdminCreateVolunteerTestimoni;
+export default AdminEditVolunteerTestimoni;

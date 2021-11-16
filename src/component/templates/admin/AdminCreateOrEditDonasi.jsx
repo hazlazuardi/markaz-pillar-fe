@@ -131,4 +131,4 @@ function AdminCreateOrEditDonasi(props) {
     );
 }
 
-export default AdminCreateOrEditMarkaz
+export default AdminCreateOrEditDonasi
