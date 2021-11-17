@@ -60,6 +60,14 @@ describe('Test it is in the correct page', () => {
       cy.url().should('eq', 'http://localhost:3000/admin/markaz/1')
     })
 
+    it('Test if admin edit markaz page redirect unauthorized users', () => {
+      cy.get('#menuIconButton').should('exist').click()
+      cy.get('button').contains('Keluar').should('exist').click()
+      cy.visit(`${frontendURL}/admin/markaz/edit/1`)
+      cy.url().should('eq', 'http://localhost:3000/')
+    })
+  
+
 })
 
 describe(`Test functionality of inputs when edit new markaz`, () => {

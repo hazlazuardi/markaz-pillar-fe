@@ -4,34 +4,33 @@ import useSWR from "swr";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
 import GridView from "../../../component/templates/admin/GridView";
 import TableView from "../../../component/templates/admin/TableView";
+import { ArrowBack } from "@mui/icons-material";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function AdminMarkaz(props) {
-  const { allMarkaz } = props;
+  const { allVolunteer } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
+  const [searchVolunteer, setSearchVolunteer] = useState("")
   const [locationFilter, setLocationFilter] = useState();
   const [nameFilter, setNameFilter] = useState();
   const [categoryFilter, setCategoryFilter] = useState();
   const [categoryFilter2, setCategoryFilter2] = useState();
   const [categoryFilter3, setCategoryFilter3] = useState();
   const {
-    data: responseMarkaz,
+    data: responseVolunteer,
     error,
     mutate,
   } = useSWR(
-    `/markaz/search?page=${page - 1}&n=${entries}&${
-      !!locationFilter ? "address=" + locationFilter : ""
-    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${
-      !!categoryFilter ? "category=" + categoryFilter : ""
-    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${
-      !!categoryFilter3 ? "category=" + categoryFilter3 : ""
-    }
+    `/markaz/search?page=${page - 1}&n=${entries}&${!!locationFilter ? "address=" + locationFilter : ""
+    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${!!categoryFilter ? "category=" + categoryFilter : ""
+    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${!!categoryFilter3 ? "category=" + categoryFilter3 : ""
+    }&${!!searchVolunteer && "name=" + searchVolunteer}
 `,
     fetcher,
     {
-      fallbackData: allMarkaz,
+      fallbackData: allVolunteer,
       refreshInterval: 30000,
     }
   );
@@ -54,14 +53,14 @@ export default function AdminMarkaz(props) {
 
   const GridViewMarkaz = (
     <GridView
-      data={responseMarkaz}
+      data={responseVolunteer}
       detail="admin/markaz"
       handleDelete={handleDeleteMarkaz}
     />
   );
   const TableViewMarkaz = (
     <TableView
-      data={responseMarkaz}
+      data={responseVolunteer}
       detail="admin/markaz"
       handleDelete={handleDeleteMarkaz}
       santriormarkaz="volunteer"
@@ -74,6 +73,7 @@ export default function AdminMarkaz(props) {
 
   return (
     <>
+      <ArrowBack href={"/admin/volunteer"} />
       <AdminOrUserTemplate
         isAdmin
         variant="volunteer"
@@ -81,9 +81,11 @@ export default function AdminMarkaz(props) {
         TableView={TableViewMarkaz}
         entries={entries}
         setEntries={setEntries}
+        searchTerm={searchVolunteer}
+        setSearchTerm={setSearchVolunteer}
         page={page}
         setPage={setPage}
-        data={responseMarkaz}
+        data={responseVolunteer}
         error={error}
         hrefCreate="/admin/markaz/create"
         locationFilter={locationFilter}

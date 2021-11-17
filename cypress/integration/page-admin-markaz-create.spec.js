@@ -59,6 +59,14 @@ describe('Test it is in the correct page', () => {
     cy.get(`[data-testid="arrowback-at-modules"]`).click()
     cy.url().should('eq', 'http://localhost:3000/admin/markaz')
   })
+
+  it('Test if admin markaz page redirect unauthorized users', () => {
+    cy.get('#menuIconButton').should('exist').click()
+    cy.get('button').contains('Keluar').should('exist').click()
+    cy.visit(`${frontendURL}/admin/markaz/create`)
+    cy.url().should('eq', 'http://localhost:3000/')
+})
+
 })
 
 describe(`Test functionality of inputs when create new markaz`, () => {

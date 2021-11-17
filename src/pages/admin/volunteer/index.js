@@ -8,16 +8,17 @@ import TableView from "../../../component/templates/admin/TableView";
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function AdminMarkaz(props) {
-  const { allMarkaz } = props;
+  const { allProgram } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
+  const [searchProgram, setSearchProgram] = useState("")
   const [locationFilter, setLocationFilter] = useState();
   const [nameFilter, setNameFilter] = useState();
   const [categoryFilter, setCategoryFilter] = useState();
   const [categoryFilter2, setCategoryFilter2] = useState();
   const [categoryFilter3, setCategoryFilter3] = useState();
   const {
-    data: responseMarkaz,
+    data: responseProgram,
     error,
     mutate,
   } = useSWR(
@@ -27,11 +28,11 @@ export default function AdminMarkaz(props) {
       !!categoryFilter ? "category=" + categoryFilter : ""
     }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${
       !!categoryFilter3 ? "category=" + categoryFilter3 : ""
-    }
+    }&${!!searchProgram && "name=" + searchProgram}
 `,
     fetcher,
     {
-      fallbackData: allMarkaz,
+      fallbackData: allProgram,
       refreshInterval: 30000,
     }
   );
@@ -54,14 +55,14 @@ export default function AdminMarkaz(props) {
 
   const GridViewMarkaz = (
     <GridView
-      data={responseMarkaz}
+      data={responseProgram}
       detail="admin/markaz"
       handleDelete={handleDeleteMarkaz}
     />
   );
   const TableViewMarkaz = (
     <TableView
-      data={responseMarkaz}
+      data={responseProgram}
       detail="admin/markaz"
       handleDelete={handleDeleteMarkaz}
       santriormarkaz="kegiatan"
@@ -81,9 +82,11 @@ export default function AdminMarkaz(props) {
         TableView={TableViewMarkaz}
         entries={entries}
         setEntries={setEntries}
+        searchTerm={searchProgram}
+        setSearchTerm={setSearchProgram}
         page={page}
         setPage={setPage}
-        data={responseMarkaz}
+        data={responseProgram}
         error={error}
         hrefCreate="/admin/markaz/create"
         locationFilter={locationFilter}
@@ -106,7 +109,7 @@ export async function getStaticProps() {
   const staticMarkaz = await axiosMain.get("/markaz/search?n=1000");
   return {
     props: {
-      allMarkaz: staticMarkaz.data,
+      allProgram: staticMarkaz.data,
     },
     revalidate: 10,
   };

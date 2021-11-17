@@ -42,13 +42,12 @@ beforeEach(function setUser() {
     },
   })
   // the page should be opened and the user should be logged in
-  cy.visit(`${frontendURL}/admin/santri/donasi/2`)
+  cy.visit(`${frontendURL}/admin/markaz/donasi/2`)
 })
 
 
-
 describe("Test it is in the correct page", () => {
-  it('Test if admin santri donasi page contains "Daftar Donasi" or not', () => {
+  it('Test if admin markaz donasi page contains "Daftar Donasi" or not', () => {
     cy.get("[data-testid=titlePage-at-admin-or-user-template]")
       .contains("Daftar Donasi", { matchCase: false })
       .should("exist");
@@ -61,16 +60,16 @@ describe("Test it is in the correct page", () => {
   it('Test ArrowBack directs to Admin Markaz', () => {
     cy.get(`[data-testid="arrowback-at-modules"]`).should('exist')
     cy.get(`[data-testid="arrowback-at-modules"]`).click()
-    cy.url().should('eq', 'http://localhost:3000/admin/santri/2')
+    cy.url().should('eq', 'http://localhost:3000/admin/markaz/2')
   })
 
+  it('Test if admin donasi markaz page redirect unauthorized users', () => {
+    cy.get('#menuIconButton').should('exist').click()
+    cy.get('button').contains('Keluar').should('exist').click()
+    cy.visit(`${frontendURL}/admin/markaz/donasi/2`)
+    cy.url().should('eq', 'http://localhost:3000/')
+  })
 
-  it("Test if admin donasi page redirect unauthorized users", () => {
-    cy.viewport("iphone-5");
-    cy.get("#menuIconButton").should("exist").click();
-    cy.get("button").contains("Keluar").should("exist").click();
-    cy.visit(`${frontendURL}/admin/santri/donasi/2`)
-  });
 });
 
 describe(`Test if all components exist and visible`, () => {
@@ -81,6 +80,7 @@ describe(`Test if all components exist and visible`, () => {
     cy.get('[data-testid=searchbar-at-admin-or-user-template]').clear()
 
     // cy.get('[data-testid=filterChipButton-at-admin-or-user-template]').should('exist')
+
     cy.get('[data-testid=tableView-at-admin-or-user-template]').should('exist')
     cy.get('[data-testid=name-at-table-row]').should('exist');
 

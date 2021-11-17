@@ -1,5 +1,5 @@
 import { AppBar, Avatar, Button, IconButton, List, ListItem, ListItemText, SwipeableDrawer, Toolbar, Typography, Container } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { Box } from '@mui/system'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -10,8 +10,8 @@ import { dispatchTypes, roleType } from '../../context/AppReducer'
 export default function NavBar() {
     const { state, dispatch } = useAppContext();
     const { currentUser, currentUserRole } = state;
-
-    const pages = [
+    const isAdmin = currentUserRole === roleType.ROLE_SUPERUSER
+    const userPages = [
         {
             name: 'Markaz',
             path: currentUserRole === roleType.ROLE_SUPERUSER ? '/admin/markaz' : '/markaz',
@@ -22,31 +22,39 @@ export default function NavBar() {
         },
         {
             name: 'Relawan',
-            path: '/relawan',
+            path: currentUserRole === roleType.ROLE_SUPERUSER ? '/admin/volunteer' : '/volunteer',
         },
         {
-            name: 'Pengajar',
-            path: '/pengajar',
+            name: currentUserRole === roleType.ROLE_SUPERUSER ? 'Pengajar' : 'Kelas',
+            path: currentUserRole === roleType.ROLE_SUPERUSER ? '/admin/mentor' : '/classes',
         },
-        {
-            name: 'Profil',
-            path: '/profile',
-        }
     ]
 
-    const drawerPages = [
+    const drawerAdminPages = [
         {
             name: 'Pengguna',
             path: "/admin/data-pengguna"
         },
     ]
 
+    const authenticatedPages = [
+        {
+            name: 'Profil',
+            path: '/profile',
+        }
+    ]
+
 
     const handleLogout = () => {
+        console.log('handlelogout')
         dispatch({
             type: dispatchTypes.LOGOUT
         })
     }
+
+    // useEffect(() => {
+    //     return;
+    // }, [handleLogout])
 
     const [open, setOpen] = useState({
         right: false
@@ -84,14 +92,21 @@ export default function NavBar() {
             )}
             <Box display='flex' flexDirection='column' width='100%' flexGrow={1} justifyContent='flex-end'>
                 <List>
-                    {pages.map((page, index) => (
+                    {userPages.map((page, index) => (
                         <ListItem button key={index}>
                             <Link href={page.path} passHref >
                                 <ListItemText sx={{ textAlign: 'center' }} primary={page.name} />
                             </ Link>
                         </ListItem>
                     ))}
-                    {drawerPages.map((page, index) => (
+                    {!!currentUser && authenticatedPages.map((page, index) => (
+                        <ListItem button key={index}>
+                            <Link href={page.path} passHref >
+                                <ListItemText sx={{ textAlign: 'center' }} primary={page.name} />
+                            </ Link>
+                        </ListItem>
+                    ))}
+                    {isAdmin && drawerAdminPages.map((page, index) => (
                         <ListItem button key={index}>
                             <Link href={page.path} passHref >
                                 <ListItemText sx={{ textAlign: 'center' }} primary={page.name} />
@@ -132,7 +147,12 @@ export default function NavBar() {
                                     <Image src="/logo.png" alt="logo" width={60} height={40} />
                                 </Box>
                             </ Link>
-                            {pages.map((page, index) => (
+                            {userPages.map((page, index) => (
+                                <Link key={index} href={page.path} passHref >
+                                    <Button color="primary" sx={{ display: { xs: 'none', sm: 'block' } }}>{page.name}</Button>
+                                </ Link>
+                            ))}
+                            {!!currentUser && authenticatedPages.map((page, index) => (
                                 <Link key={index} href={page.path} passHref >
                                     <Button color="primary" sx={{ display: { xs: 'none', sm: 'block' } }}>{page.name}</Button>
                                 </ Link>

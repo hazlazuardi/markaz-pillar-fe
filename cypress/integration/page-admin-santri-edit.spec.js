@@ -60,6 +60,13 @@ describe('Test it is in the correct page', () => {
       cy.url().should('eq', 'http://localhost:3000/admin/santri/1')
     })
 
+    it('Test if admin edit santri page redirect unauthorized users', () => {
+      cy.get('#menuIconButton').should('exist').click()
+      cy.get('button').contains('Keluar').should('exist').click()
+      cy.visit(`${frontendURL}/admin/santri/edit/1`)
+      cy.url().should('eq', 'http://localhost:3000/')
+    })
+
 })
 
 describe(`Test functionality of inputs when edit new santri`, () => {

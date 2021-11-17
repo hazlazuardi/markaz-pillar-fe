@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppContext } from "./context/AppContext";
-import { enumRoutes, enumProtectedRoutes, roleType } from "./context/AppReducer";
+import { enumRoutes, enumProtectedRoutes, enumAuthenticatedRoutes, roleType } from "./context/AppReducer";
 
 
 //check if you are on the client (browser) or server
@@ -16,12 +16,19 @@ export default function ProtectedRoutes({ router, children }) {
      * @var pathIsProtected Checks if path exists in the unprotectedRoutes routes array
      */
     let pathIsProtected = enumProtectedRoutes.includes(router.pathname);
+    let pathNeedsAuthentication = enumAuthenticatedRoutes.includes(router.pathname);
+
 
     useEffect(() => {
+        // This needs to get from localStorage in case after logout
         if (isBrowser() && stateLoaded && localStorage.getItem('currentUserRole') && !isAdmin && pathIsProtected) {
             router.push(enumRoutes.LANDING);
         }
-    }, [currentUserRole, isAdmin, pathIsProtected, router, stateLoaded])
+        // This needs to get from state since it's checking the initial state (Everyone start without logged in)
+        if(isBrowser() && stateLoaded && currentUserRole == "" && pathNeedsAuthentication) {
+            router.push(enumRoutes.LANDING);
+        }
+    }, [currentUserRole, isAdmin, pathIsProtected, pathNeedsAuthentication, router, stateLoaded])
 
     return children;
 

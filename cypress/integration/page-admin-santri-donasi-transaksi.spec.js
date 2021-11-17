@@ -64,14 +64,12 @@ describe("Test it is in the correct page", () => {
     cy.url().should('eq', 'http://localhost:3000/admin/santri/donasi/2')
   })
 
-  it("Test if admin transaksi page redirect unauthorized users", () => {
-    cy.viewport("iphone-5");
-    cy.get("#menuIconButton").should("exist").click();
-    cy.get("button").contains("Keluar").should("exist").click();
-    cy.visit(
-      "http://localhost:3000/admin/santri/donasi/2/transaksi/cmzi-blybp-kgbl"
-    );
-  });
+  it('Test if admin transaksi santri page redirect unauthorized users', () => {
+    cy.get('#menuIconButton').should('exist').click()
+    cy.get('button').contains('Keluar').should('exist').click()
+    cy.visit(`${frontendURL}/admin/santri/donasi/2/transaksi/cmzi-blybp-kgbl`)
+    cy.url().should('eq', 'http://localhost:3000/')
+  })
 });
 
 describe(`Test if all components exist and visible`, () => {

@@ -46,18 +46,25 @@ beforeEach(function setUser() {
 })
 
 describe('Test it is in the correct page', () => {
-    it('Test if it contains "Create Markaz Donation Detail', () => {
-        cy.get('h5').contains('Create Markaz Donation Detail').should('exist')
-    })
+  it('Test if it contains "Create Markaz Donation Detail', () => {
+    cy.get('h5').contains('Create Markaz Donation Detail').should('exist')
+  })
 
-    it('Test if it contains "Create Santri Donation Detail" or not', () => {
-        cy.get('p').contains('Create Santri Donation Detail').should('not.exist')
-    })
+  it('Test if it contains "Create Santri Donation Detail" or not', () => {
+    cy.get('p').contains('Create Santri Donation Detail').should('not.exist')
+  })
 
-    it('Test ArrowBack directs to Admin Markaz', () => {
-        cy.get(`[data-testid="arrowback-at-modules"]`).should('exist')
-        cy.get(`[data-testid="arrowback-at-modules"]`).click()
-        cy.url().should('eq', 'http://localhost:3000/admin/markaz/donasi/2')
-      })
-    
+  it('Test ArrowBack directs to Admin Markaz', () => {
+    cy.get(`[data-testid="arrowback-at-modules"]`).should('exist')
+    cy.get(`[data-testid="arrowback-at-modules"]`).click()
+    cy.url().should('eq', 'http://localhost:3000/admin/markaz/donasi/2')
+  })
+
+  it('Test if admin create donasi markaz page redirect unauthorized users', () => {
+    cy.get('#menuIconButton').should('exist').click()
+    cy.get('button').contains('Keluar').should('exist').click()
+    cy.visit(`${frontendURL}/admin/markaz/donasi/create/2`)
+    cy.url().should('eq', 'http://localhost:3000/')
+  })
+
 })
