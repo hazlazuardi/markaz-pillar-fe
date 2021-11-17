@@ -17,7 +17,7 @@ export default function TransaksiMarkaz() {
     data: markazs,
     error,
     mutate,
-  } = useSWR(router.isReady ? `/admin/transaction?page=${page}&n=${entries}&id=${transid}` : null, fetcher);
+  } = useSWR(router.isReady ? `/admin/transaction?page=${page - 1}&n=${entries}&id=${transid}` : null, fetcher);
 
   const TableViewMarkazTransaksi = (
     <TableView
@@ -31,15 +31,17 @@ export default function TransaksiMarkaz() {
     />
   );
 
+  const { id } = router.query
   if (error)
     return "An error has occurred. Please re-login or try again later.";
   if (!markazs) return "Loading...";
   return (
     <>
-      <ArrowBack href="/admin/markaz" />
+      <ArrowBack href={"/admin/markaz/donasi/"+id} />
       <AdminOrUserTemplate
         isAdmin
-        variant="donasi"
+        disableSearch
+        variant="transaksi"
         TableView={TableViewMarkazTransaksi}
         data={markazs}
         page={page}

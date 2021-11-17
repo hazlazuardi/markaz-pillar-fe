@@ -50,13 +50,20 @@ describe("Test it is in the correct page", () => {
 
   it('Test if admin markaz transaksi page contains "Daftar Donasi" or not', () => {
     cy.get("[data-testid=titlePage-at-admin-or-user-template]")
-      .contains("Daftar Donasi", { matchCase: false })
+      .contains("Daftar Transaksi", { matchCase: false })
       .should("exist");
   });
 
   it('Test if admin transaksi page contains "This is admin page" or not', () => {
     cy.get("p").contains("This is admin page").should("not.exist");
   });
+
+  it('Test ArrowBack directs to Admin Markaz', () => {
+    cy.get(`[data-testid="arrowback-at-modules"]`).should('exist')
+    cy.get(`[data-testid="arrowback-at-modules"]`).click()
+    cy.url().should('eq', 'http://localhost:3000/admin/markaz/donasi/2')
+  })
+
 
   it("Test if admin transaksi page redirect unauthorized users", () => {
     cy.viewport("iphone-5");
@@ -70,10 +77,6 @@ describe("Test it is in the correct page", () => {
 
 describe(`Test if all components exist and visible`, () => {
   it('Test if all exists and visible', () => {
-    cy.get('[data-testid=searchbar-at-admin-or-user-template]').should('exist')
-    cy.get('[data-testid=searchbar-at-admin-or-user-template]').type(";")
-    cy.get('[data-testid=searchbar-at-admin-or-user-template]').should('exist')
-    cy.get('[data-testid=searchbar-at-admin-or-user-template]').clear()
 
     // cy.get('[data-testid=filterChipButton-at-admin-or-user-template]').should('exist')
     // cy.get('[data-testid=tableView-at-admin-or-user-template]').should('exist')

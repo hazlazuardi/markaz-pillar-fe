@@ -12,6 +12,7 @@ import { dispatchTypes } from "../../../../../context/AppReducer";
 import { useRouter } from "next/router";
 import { axiosMain } from "../../../../../axiosInstances";
 import AdminCreateOrEditDonasi from "../../../../../component/templates/admin/AdminCreateOrEditDonasi";
+import ArrowBack from "../../../../../component/modules/ArrowBack";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
@@ -127,6 +128,8 @@ function AdminSantriDonasiCreate(props) {
     
 
     return (
+        <>
+        <ArrowBack href={"/admin/santri/donasi/"+id} />
         <AdminCreateOrEditDonasi
             form={form}
             handleSubmit={handleSubmit}
@@ -140,6 +143,7 @@ function AdminSantriDonasiCreate(props) {
             label="Scholarship Requirements"
             showCategory="none"
         />
+        </>
     );
 }
 

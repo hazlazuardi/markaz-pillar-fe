@@ -35,7 +35,7 @@ export default function DonasiSantri() {
   if (error) return "An error has occurred.";
   return (
     <>
-      <ArrowBack href="/admin/santri" />
+      <ArrowBack href={"/admin/santri/"+id} />
       <AdminOrUserTemplate
         variant="donasi"
         TableView={TableViewSantriDonasi}

@@ -58,6 +58,13 @@ describe("Test it is in the correct page", () => {
     cy.get("p").contains("This is admin page").should("not.exist");
   });
 
+  it('Test ArrowBack directs to Admin Markaz', () => {
+    cy.get(`[data-testid="arrowback-at-modules"]`).should('exist')
+    cy.get(`[data-testid="arrowback-at-modules"]`).click()
+    cy.url().should('eq', 'http://localhost:3000/admin/santri/2')
+  })
+
+
   it("Test if admin donasi page redirect unauthorized users", () => {
     cy.viewport("iphone-5");
     cy.get("#menuIconButton").should("exist").click();

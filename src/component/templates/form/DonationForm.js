@@ -6,7 +6,6 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import styles from "../../../styles/Home.module.css";
-import ArrowBack from "../../modules/ArrowBack";
 import Typography from "@mui/material/Typography";
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';

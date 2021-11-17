@@ -2,6 +2,7 @@ import { useState } from "react";
 import { axiosFormData, axiosMain } from "../../../axiosInstances";
 import AdminCreateOrEditSantri from "../../../component/templates/admin/AdminCreateOrEditSantri";
 import useSWR from "swr";
+import ArrowBack from "../../../component/modules/ArrowBack";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 function AdminSantriCreate() {
@@ -22,16 +23,19 @@ function AdminSantriCreate() {
         return axiosFormData.post(`/admin/santri?markaz_id=${markazId}`, data)
     }
 
-    
+
     return (
-        <AdminCreateOrEditSantri
-            isCreate
-            apiCall={createSantri}
-            santri={santri}
-            setSantri={setSantri}
-            allMarkaz={!!responseMarkaz && responseMarkaz.result}
-            error={error}
-        />
+        <>
+            <ArrowBack href='/admin/santri' />
+            <AdminCreateOrEditSantri
+                isCreate
+                apiCall={createSantri}
+                santri={santri}
+                setSantri={setSantri}
+                allMarkaz={!!responseMarkaz && responseMarkaz.result}
+                error={error}
+            />
+        </>
     );
 }
 

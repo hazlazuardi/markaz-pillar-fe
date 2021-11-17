@@ -4,6 +4,7 @@ import AdminCreateOrEditSantri from "../../../../component/templates/admin/Admin
 import useSWR from "swr";
 import { axiosFormData, axiosMain } from "../../../../axiosInstances";
 import { useRouter } from "next/router";
+import ArrowBack from "../../../../component/modules/ArrowBack";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 function AdminSantriEdit(props) {
@@ -22,20 +23,23 @@ function AdminSantriEdit(props) {
 
     });
 
-    
+
 
     const editSantri = async (markazId, data) => {
         return axiosFormData.post(`/admin/santri/edit?id=${markazId}`, data)
     };
 
     return (
-        <AdminCreateOrEditSantri
-            apiCall={editSantri}
-            santri={santri}
-            setSantri={setSantri}
-            allMarkaz={!!responseMarkaz && responseMarkaz.result}
-            error={error || errorSantri}
-        />
+        <>
+            <ArrowBack href={"/admin/santri/" + id} />
+            <AdminCreateOrEditSantri
+                apiCall={editSantri}
+                santri={santri}
+                setSantri={setSantri}
+                allMarkaz={!!responseMarkaz && responseMarkaz.result}
+                error={error || errorSantri}
+            />
+        </>
     );
 }
 

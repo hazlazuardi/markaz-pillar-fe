@@ -3,6 +3,8 @@ import { useAppContext } from "../../../../context/AppContext";
 import { dispatchTypes } from "../../../../context/AppReducer";
 import AdminCreateOrEditMarkaz from "../../../../component/templates/admin/AdminCreateOrEditMarkaz";
 import { axiosFormData } from "../../../../axiosInstances";
+import ArrowBack from "../../../../component/modules/ArrowBack";
+import { useRouter } from "next/router";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
@@ -42,7 +44,7 @@ export default function AdminMarkazEdit(props) {
             .post(`/admin/markaz/edit?id=${responseMarkaz.id}`, data)
             .then(response => {
                 setLoading(false)
-                
+
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
@@ -53,11 +55,11 @@ export default function AdminMarkazEdit(props) {
             })
             .catch(error => {
                 setLoading(false)
-                
+
                 // Check & Handle if error.response is undefined
                 if (!!error.response) {
                     if (error.response.status === 400) {
-                        
+
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
                             payload: {
@@ -66,7 +68,7 @@ export default function AdminMarkazEdit(props) {
                             }
                         });
                     } else if (error.response.status === 413) {
-                        
+
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
                             payload: {
@@ -75,13 +77,13 @@ export default function AdminMarkazEdit(props) {
                             }
                         });
                     } else {
-                        
+
                         dispatch({
                             type: dispatchTypes.SERVER_ERROR
                         });
                     }
                 } else {
-                    
+
                     dispatch({
                         type: dispatchTypes.SERVER_ERROR
                     });
@@ -89,17 +91,22 @@ export default function AdminMarkazEdit(props) {
             })
     };
 
+    const router = useRouter()
+    const { id } = router.query
     const [loading, setLoading] = useState(false)
     return (
-        <AdminCreateOrEditMarkaz
-            form={form}
-            loading={loading}
-            handleSubmit={handleSubmit}
-            handleChangeMarkaz={handleChangeMarkaz}
-            setThumbnail={setThumbnail}
-            thumbnail={thumbnail}
-            markaz={editedMarkaz}
-        />
+        <>
+            <ArrowBack href={'/admin/markaz/'+id} />
+            <AdminCreateOrEditMarkaz
+                form={form}
+                loading={loading}
+                handleSubmit={handleSubmit}
+                handleChangeMarkaz={handleChangeMarkaz}
+                setThumbnail={setThumbnail}
+                thumbnail={thumbnail}
+                markaz={editedMarkaz}
+            />
+        </>
     )
 }
 
