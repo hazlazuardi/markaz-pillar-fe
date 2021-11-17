@@ -1,15 +1,51 @@
+import jwt_decode from "jwt-decode";
+
+// login just once using API
+let jwtResponse
+let currentUser
+let currentUserRole
+let currentAccessToken
+let currentRefreshToken
+
+const backendURL = Cypress.env('backendURL')
+const frontendURL = Cypress.env('frontendURL')
+
+
+before(function fetchUser () {
+  cy.request('POST', `${backendURL}/authenticate`, {
+    email: Cypress.env('email'),
+    password: Cypress.env('password'),
+  })
+  .its('body')
+  .then((res) => {
+    jwtResponse = jwt_decode(res.result.accessToken)
+    currentAccessToken= res.result.accessToken
+    currentRefreshToken= res.result.refreshToken
+    currentUser = jwtResponse.sub
+    currentUserRole = jwtResponse.role
+  })
+})
+
+// but set the user before visiting the page
+// so the app thinks it is already authenticated
+beforeEach(function setUser () {
+  cy.visit('/', {
+    onBeforeLoad (win) {
+      // and before the page finishes loading
+      // set the user object in local storage
+      win.localStorage.setItem('jwt', JSON.stringify(jwtResponse))
+      win.localStorage.setItem("currentUser", JSON.stringify(currentUser))
+      win.localStorage.setItem("currentUserRole", JSON.stringify(currentUserRole))
+      win.localStorage.setItem("currentAccessToken", JSON.stringify(currentAccessToken))
+      win.localStorage.setItem("currentRefreshToken", JSON.stringify(currentRefreshToken))
+
+    },
+  })
+  // the page should be opened and the user should be logged in
+  cy.visit(`${frontendURL}/`)
+})
 
 describe('Test the appbar buttons present', () => {
-    before(() => {
-        const testEmail = `achmadafriza123@gmail.com`
-        cy.visit('http://localhost:3000/login')
-        cy.get('#email').type(testEmail)
-        cy.get('#password').type('Admin123')
-        cy.get('#submitAtLogin').contains('Masuk').click()
-        cy.wait(2000)
-        cy.visit('http://localhost:3000/')
-    })
-
     it('Test if the appbar buttons present in desktop view', () => {
         cy.viewport(600, 60)
         cy.get('a').contains('Markaz').should('be.visible')
@@ -33,17 +69,6 @@ describe('Test the appbar buttons present', () => {
 })
 
 describe('Test the drawer can be opened', () => {
-    before(() => {
-        const testEmail = `achmadafriza123@gmail.com`
-        cy.visit('http://localhost:3000/login')
-        cy.get('#email').type(testEmail)
-        cy.get('#password').type('Admin123')
-        cy.get('#submitAtLogin').contains('Masuk').click()
-        cy.wait(2000)
-        cy.visit('http://localhost:3000/')
-
-    })
-
     it('Test if the drawer buttons present', () => {
         cy.viewport(500, 60)
         cy.get('#menuIconButton').should('exist').click()
@@ -56,17 +81,6 @@ describe('Test the drawer can be opened', () => {
 })
 
 describe('Test the drawer works well', () => {
-    beforeEach(() => {
-        const testEmail = `achmadafriza123@gmail.com`
-        cy.visit('http://localhost:3000/login')
-        cy.get('#email').type(testEmail)
-        cy.get('#password').type('Admin123')
-        cy.get('#submitAtLogin').contains('Masuk').click()
-        cy.wait(2000)
-        cy.visit('http://localhost:3000/')
-
-    })
-
     it('Test if the drawer logout button works well', () => {
         cy.viewport('iphone-5')
         cy.get('#menuIconButton').should('exist').click()

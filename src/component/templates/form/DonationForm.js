@@ -49,7 +49,6 @@ export default function DonationForm(props) {
     <Grid container>
         <Grid item xs={12}>
             <Container maxWidth="lg" className={styles.container}>
-                <ArrowBack name={recipient} markazOrSantri={markazOrSantri} />
                 <Stepper activeStep={step} alternativeLabel>
                     {steps.map((label) => (
                         <Step key={label}>

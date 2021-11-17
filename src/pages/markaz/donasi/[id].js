@@ -7,12 +7,14 @@ import { dispatchTypes } from "../../../context/AppReducer";
 import { axiosMain } from '../../../axiosInstances';
 import useSWR from "swr";
 import Typography from "@mui/material/Typography";
+import ArrowBack from '../../../component/modules/ArrowBack';
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 
 export default function DonasiMarkaz() {
     const { dispatch } = useAppContext();
     const router = useRouter()
+    const { id } = router.query
     const [image, setImage] = useState({});
     const [details, setDetails] = useState({
         amount: 0,
@@ -20,7 +22,7 @@ export default function DonasiMarkaz() {
     });
     const [open, setOpen] = useState(false);
 
-    const { data: responseMarkaz, error } = useSWR(router.isReady ? `/markaz?id=${router.query.id}` : null, fetcher)
+    const { data: responseMarkaz, error } = useSWR(router.isReady ? `/markaz?id=${id}` : null, fetcher)
 
     const handleError = () => {
         setOpen(true);
@@ -113,24 +115,27 @@ export default function DonasiMarkaz() {
         }))
     }, [router])
 
-    if(responseMarkaz != null) {
-        const {name} = responseMarkaz.result
+    if (responseMarkaz != null) {
+        const { name } = responseMarkaz.result
         return (
-            <DonationForm 
-            markazOrSantri={"markaz"} 
-            recipient={name} 
-            setImage = {setImage}
-            image = {image}
-            handleChangeDetails = {handleChangeDetails}
-            details = {details}
-            handleClose = {handleClose}
-            open = {open}
-            setOpen = {setOpen}
-            handleError = {handleError}
-            handleSubmit = {handleSubmit}
-            setDetails = {setDetails}
-            router = {router}
-            />
+            <>
+                <ArrowBack href={`/markaz/donasi`} />
+                <DonationForm
+                    markazOrSantri={"markaz"}
+                    recipient={name}
+                    setImage={setImage}
+                    image={image}
+                    handleChangeDetails={handleChangeDetails}
+                    details={details}
+                    handleClose={handleClose}
+                    open={open}
+                    setOpen={setOpen}
+                    handleError={handleError}
+                    handleSubmit={handleSubmit}
+                    setDetails={setDetails}
+                    router={router}
+                />
+            </>
         )
     } else {
         return (

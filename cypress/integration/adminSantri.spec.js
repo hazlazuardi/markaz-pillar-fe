@@ -1,24 +1,51 @@
-// beforeEach(() => {
-//     const testEmail = `achmadafriza123@gmail.com`
-//     cy.visit('http://localhost:3000/login')
-//     cy.get('#email').type(testEmail)
-//     cy.get('#password').type('Admin123')
-//     cy.get('#submitAtLogin').contains('Masuk').click()
-//     cy.wait(2000)
-//     cy.visit('http://localhost:3000/admin/santri')
-// })
+import jwt_decode from "jwt-decode";
+
+// login just once using API
+let jwtResponse
+let currentUser
+let currentUserRole
+let currentAccessToken
+let currentRefreshToken
+
+const backendURL = Cypress.env('backendURL')
+const frontendURL = Cypress.env('frontendURL')
+
+
+before(function fetchUser () {
+  cy.request('POST', `${backendURL}/authenticate`, {
+    email: Cypress.env('email'),
+    password: Cypress.env('password'),
+  })
+  .its('body')
+  .then((res) => {
+    jwtResponse = jwt_decode(res.result.accessToken)
+    currentAccessToken= res.result.accessToken
+    currentRefreshToken= res.result.refreshToken
+    currentUser = jwtResponse.sub
+    currentUserRole = jwtResponse.role
+  })
+})
+
+// but set the user before visiting the page
+// so the app thinks it is already authenticated
+beforeEach(function setUser () {
+  cy.visit('/', {
+    onBeforeLoad (win) {
+      // and before the page finishes loading
+      // set the user object in local storage
+      win.localStorage.setItem('jwt', JSON.stringify(jwtResponse))
+      win.localStorage.setItem("currentUser", JSON.stringify(currentUser))
+      win.localStorage.setItem("currentUserRole", JSON.stringify(currentUserRole))
+      win.localStorage.setItem("currentAccessToken", JSON.stringify(currentAccessToken))
+      win.localStorage.setItem("currentRefreshToken", JSON.stringify(currentRefreshToken))
+
+    },
+  })
+  // the page should be opened and the user should be logged in
+  cy.visit(`${frontendURL}/admin/santri`)
+})
 
 describe('Test it is in the correct page', () => {
-    before(() => {
-        const testEmail = `achmadafriza123@gmail.com`
-        cy.visit('http://localhost:3000/login')
-        cy.get('#email').type(testEmail)
-        cy.get('#password').type('Admin123')
-        cy.get('#submitAtLogin').contains('Masuk').click()
-        cy.wait(2000)
-        cy.visit('http://localhost:3000/admin/santri')    
-    })
-
     it('Test if admin markaz page contains "Daftar Santri" or not', () => {
         cy.get('[data-testid=titlePage-at-admin-or-user-template]').contains('Daftar Santri', { matchCase: false }).should('exist')
     })
@@ -32,21 +59,12 @@ describe('Test it is in the correct page', () => {
         cy.get('#menuIconButton').should('exist').click()
         cy.get('button').contains('Keluar').should('exist').click()
         cy.visit('http://localhost:3000/admin/santri')
-        cy.url().should('eq', 'http://localhost:3000/', { timeout: 1000 })
+        cy.url().should('eq', 'http://localhost:3000/')
     })
 
 })
 
 describe(`Test if all components exist and visible`, () => {
-    before(() => {
-        const testEmail = `achmadafriza123@gmail.com`
-        cy.visit('http://localhost:3000/login')
-        cy.get('#email').type(testEmail)
-        cy.get('#password').type('Admin123')
-        cy.get('#submitAtLogin').contains('Masuk').click()
-        cy.wait(2000)
-        cy.visit('http://localhost:3000/admin/santri')    
-    })
     it('Test if all exists and visible', () => {
         cy.get('[data-testid=searchbar-at-admin-or-user-template]').should('exist')
         cy.get('[data-testid=searchbar-at-admin-or-user-template]').type(";")
@@ -63,8 +81,8 @@ describe(`Test if all components exist and visible`, () => {
         cy.get('[data-testid=tableView-at-admin-or-user-template]').should('exist')
         cy.get('[data-testid=name-at-table-row]').should('exist');
       
-        cy.get('[data-testid=pagination-at-admin-or-user-template]', {timeout: 4000}).contains('1').should('exist')
-        cy.get('[data-testid=pagination-at-admin-or-user-template]', {timeout: 4000}).contains('1').click()
+        cy.get('[data-testid=pagination-at-admin-or-user-template]').contains('1').should('exist')
+        cy.get('[data-testid=pagination-at-admin-or-user-template]').contains('1').click()
 
         cy.get('[data-testid=showEntries-at-admin-or-user-template]').should('exist')
         cy.get('[data-testid=showEntries-at-admin-or-user-template]').click()

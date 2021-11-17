@@ -17,7 +17,7 @@ export default function TransaksiMarkaz() {
     data: markazs,
     error,
     mutate,
-  } = useSWR("/admin/transaction?page=0&n=10&id=" + transid, fetcher);
+  } = useSWR(router.isReady ? `/admin/transaction?page=${page}&n=${entries}&id=${transid}` : null, fetcher);
 
   const TableViewMarkazTransaksi = (
     <TableView

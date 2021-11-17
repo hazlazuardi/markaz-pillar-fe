@@ -13,8 +13,8 @@ export default function TransaksiMarkaz() {
   const { transid } = router.query;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const { data: markazs, error } = useSWR(
-    "/admin/transaction?page=0&n=10&id=" + transid,
+  const { data: markazs, error } = useSWR(router.isReady ? 
+    `/admin/transaction?page=${page}&n=${entries}&id=${transid}` : null,
     fetcher
   );
 
