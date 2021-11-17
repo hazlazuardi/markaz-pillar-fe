@@ -9,7 +9,7 @@ import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
 import Link from "next/link";
-import { styled } from '@mui/system';
+import { styled } from "@mui/system";
 
 export default function DetailPic(props) {
   const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -28,16 +28,8 @@ export default function DetailPic(props) {
   const theme = useTheme();
   const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const { 
-    name, 
-    nominal, 
-    progress, 
-    image, 
-    donasi, 
-    admin, 
-    markazOrSantri, 
-    id
-  } = props;
+  const { name, nominal, progress, image, donasi, admin, markazOrSantri, id } =
+    props;
 
   return (
     <Grid item sm={12} lg={6} sx={{ width: "100%" }}>
@@ -46,8 +38,12 @@ export default function DetailPic(props) {
         sx={{ width: "100%", display: "flex", justifyContent: "center" }}
       >
         <Grid item xs={12} sx={{ display: largeScreen ? "none" : "block" }}>
-          <Typography variant={smallScreen ? "h6" : "h4"} mb={2} sx={{ textTransform: "uppercase" }}>
-            {name.length > 18 ? name.substring(0,18) + "..." : name}
+          <Typography
+            variant={smallScreen ? "h6" : "h4"}
+            mb={2}
+            sx={{ textTransform: "uppercase" }}
+          >
+            {name.length > 18 ? name.substring(0, 18) + "..." : name}
           </Typography>
         </Grid>
         {admin}
@@ -72,10 +68,15 @@ export default function DetailPic(props) {
             mb={1}
           />
         </Grid>
-        {progress != -1 ? (
+        {progress === -1 ? (
           <Box>
             <Grid item sm={12} sx={{ textAlign: "center" }}>
-              <Typography variant="body2" mb={1} color="primary" fontWeight="bold">
+              <Typography
+                variant="body2"
+                mb={1}
+                color="primary"
+                fontWeight="bold"
+              >
                 NOMINAL YANG DIBUTUHKAN
               </Typography>
             </Grid>
@@ -87,7 +88,7 @@ export default function DetailPic(props) {
             </Grid>
             <Grid item sm={12}>
               <Box sx={{ textAlign: "center", width: "auto" }}>
-                <Link href={`/${markazOrSantri}/donasi/` + id} passHref>
+                <Link href={`/${markazOrSantri}/donasi/${id}`} passHref>
                   <Button variant="contained">{donasi}</Button>
                 </Link>
               </Box>
