@@ -7,7 +7,6 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import DonationProgress from "../../modules/DonationProgress";
 import Profile from "../../modules/Profile";
-import ArrowBack from "../../modules/ArrowBack";
 import DetailPic from "../../modules/DetailPic";
 
 function Detail(props) {
@@ -19,14 +18,14 @@ function Detail(props) {
     adminbutton,
     markazOrSantri,
     donated,
-    nominal
+    nominal,
   } = props;
   const theme = useTheme();
   const largeScreen = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
     <div>
-      <Grid container sx={{display:"flex", justifyContent:"center"}}>
+      <Grid container sx={{ display: "flex", justifyContent: "center" }}>
         <Grid item xs={12}>
           <Container maxWidth="lg" className={styles.container}>
             <Grid
@@ -38,8 +37,16 @@ function Detail(props) {
               <DetailPic
                 image={image}
                 name={consistent.name}
-                nominal={donated != null && nominal != null ? `${donated}/${nominal}` : ""}
-                progress={donated != null && nominal != null ? donated / nominal * 100 : -1}
+                nominal={
+                  donated != null && nominal != null
+                    ? `${donated}/${nominal}`
+                    : ""
+                }
+                progress={
+                  donated != null && nominal != null
+                    ? (donated / nominal) * 100
+                    : -1
+                }
                 donasi={donatetext}
                 admin={adminbutton}
                 markazOrSantri={markazOrSantri}

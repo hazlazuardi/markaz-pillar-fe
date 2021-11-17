@@ -10,12 +10,12 @@ export async function getStaticProps(context) {
   const response = await fetch(`${BASE_URL}/markaz?id=` + id);
   const data = await response.json();
   const markazs = data.result;
-  
+
   return {
     props: {
       markazs: markazs,
     },
-    revalidate: 1
+    revalidate: 1,
   };
 }
 
@@ -23,7 +23,7 @@ export async function getStaticPaths() {
   const response = await fetch(`${BASE_URL}/markaz/search?n=1000`);
   const data = await response.json();
   const markazs = data.result;
-  
+
   const paths = markazs.map((markaz) => ({
     params: { id: markaz.id.toString() },
   }));
@@ -42,6 +42,7 @@ export default function santriLayoutDetail(props) {
   const consistent = {
     name: markaz.name,
     background: markaz.background,
+    id: markaz.id,
   };
 
   const edit = "edit/" + markaz.id;
@@ -57,8 +58,12 @@ export default function santriLayoutDetail(props) {
   );
 
   // Process category
-  const temp = markaz.category.split("_")
-  const markazCategory = `${temp[0].toLowerCase().replace(/\b\w/g, l => l.toUpperCase())} ${temp[1].toLowerCase().replace(/\b\w/g, l => l.toUpperCase())}`
+  const temp = markaz.category.split("_");
+  const markazCategory = `${temp[0]
+    .toLowerCase()
+    .replace(/\b\w/g, (l) => l.toUpperCase())} ${temp[1]
+    .toLowerCase()
+    .replace(/\b\w/g, (l) => l.toUpperCase())}`;
 
   const inconsistent = {
     Alamat: markaz.address,
