@@ -39,16 +39,29 @@ describe(`Test if all components exist and visible`, () => {
         cy.visit('http://localhost:3000/admin/markaz')
     })
     it('Test if all exists and visible', () => {
-        cy.get('[data-testid=searchbar-at-admin-or-user-template]').should('exist').type(";").wait(600).clear().wait(600)
+        cy.get('[data-testid=searchbar-at-admin-or-user-template]').should('exist')
+        cy.get('[data-testid=searchbar-at-admin-or-user-template]').type(";")
+        cy.get('[data-testid=searchbar-at-admin-or-user-template]').should('exist')
+        cy.get('[data-testid=searchbar-at-admin-or-user-template]').clear()
+        
         // cy.get('[data-testid=filterChipButton-at-admin-or-user-template]').should('exist')
-        cy.get('[data-testid=tab-grid-at-admin-or-user-template]').contains('Grid').should('exist')
+        cy.get('[data-testid=tab-grid-at-admin-or-user-template]', {timeout:6000}).contains('Grid').should('exist')
         cy.get('[data-testid=gridView-at-admin-or-user-template]').should('exist')
         cy.get('[data-testid=name-at-card]').should('exist');
-        cy.get('[data-testid=tab-table-at-admin-or-user-template]').contains('Table').should('exist').click().wait(600)
+
+        cy.get('[data-testid=tab-table-at-admin-or-user-template]').contains('Table').should('exist')
+        cy.get('[data-testid=tab-table-at-admin-or-user-template]', {timeout:6000}).contains('Table').click()
         cy.get('[data-testid=tableView-at-admin-or-user-template]').should('exist')
         cy.get('[data-testid=name-at-table-row]').should('exist');
-        cy.get('[data-testid=showEntries-at-admin-or-user-template]').should('exist').click().get('li').contains('Show All').should('exist').click().wait(600)
-        cy.get('[data-testid=pagination-at-admin-or-user-template]', {timeout: 4000}).contains('1').should('exist').click().wait(600)
+
+        cy.get('[data-testid=pagination-at-admin-or-user-template]', {timeout: 6000}).contains('1').should('exist')
+        cy.get('[data-testid=pagination-at-admin-or-user-template]', {timeout: 6000}).contains('1').click()
+
+        cy.get('[data-testid=showEntries-at-admin-or-user-template]').should('exist')
+        cy.get('[data-testid=showEntries-at-admin-or-user-template]').click()
+        cy.get('[data-testid=showEntries-at-admin-or-user-template]', {timeout:6000}).get('li').contains('Show All').should('exist')
+        cy.get('[data-testid=showEntries-at-admin-or-user-template]', {timeout:6000}).get('li').contains('Show All').click()
+
         cy.get('[data-testid=fab-at-admin-or-user-template]').should('exist')
     });
 })
