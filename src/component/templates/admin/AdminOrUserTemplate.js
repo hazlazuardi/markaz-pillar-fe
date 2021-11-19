@@ -61,7 +61,7 @@ function AdminOrUserTemplate(props) {
 
   const isAdmin = GridView && TableView;
 
-  const [doAnimateHeight, setDoAnimateHeight] = useState(true);
+  const [doAnimateHeight, setDoAnimateHeight] = useState(false);
 
   // *******************************************************
   // Show Entries
@@ -117,6 +117,7 @@ function AdminOrUserTemplate(props) {
   }, [debouncedFilter])
 
   useEffect(() => {
+    setDoAnimateHeight(false);
     return () => {
       setDoAnimateHeight(true);
     };

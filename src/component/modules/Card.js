@@ -40,8 +40,8 @@ export default function Card(props) {
         />
         <Grid container spacing={2} className={styles.textCenter}>
           <Grid item xs={12} mt={2}>
-            <Link  href={`/${detail}/` + id} passHref>
-              <Typography data-testid='name-at-card' variant="h6">{name.length > 18 ? name.substring(0, 18) + "..." : name}</Typography>
+            <Link href={`${path}/` + id} passHref>
+              <Typography data-testid='name-at-gridview-card' variant="h6">{name.length > 18 ? name.substring(0, 18) + "..." : name}</Typography>
             </Link>
           </Grid>
           <Grid
@@ -66,18 +66,18 @@ export default function Card(props) {
 
             {path.includes('admin') ? (<>
               <Link href={`${path}/edit/` + id} passHref>
-                <Button data-testid='edit-button-at-card' variant="contained">Edit</Button>
+                <Button data-testid='edit-button-at-gridview-card' variant="contained">Edit</Button>
               </Link>
 
-              <Button data-testid='delete-button-at-card' variant="outlined" onClick={() => handleDelete(id)} >Delete</Button>
+              <Button data-testid='delete-button-at-gridview-card' variant="outlined" onClick={() => handleDelete(id)} >Delete</Button>
             </>
             ) : (
               <>
                 <Link href={`${path}/donasi/` + id} passHref>
-                  <Button data-testid='donasi-button-at-card' variant="contained">Donasi</Button>
+                  <Button data-testid='donasi-button-at-gridview-card' variant="contained">Donasi</Button>
                 </Link>
                 <Link href={`${path}/` + id} passHref>
-                  <Button data-testid='lihat-detail-button-at-card' variant="outlined">Lihat Detail</Button>
+                  <Button data-testid='lihat-detail-button-at-gridview-card' variant="outlined">Lihat Detail</Button>
                 </Link>
               </>)
             }
@@ -91,3 +91,4 @@ export default function Card(props) {
 
 // TODO:
 // 1. Ubah conditional nya jadi sesuaiin router.pathname, bukan currentUserRole!
+

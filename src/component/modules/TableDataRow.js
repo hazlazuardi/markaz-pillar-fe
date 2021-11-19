@@ -115,7 +115,7 @@ function TableDataRow(props) {
         </>
       );
     } else {
-      console.log("tablebutton terpanggil");
+      
       return "buttons";
     }
   }

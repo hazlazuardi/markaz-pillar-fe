@@ -46,8 +46,8 @@ export default function Profile() {
 
     useEffect(() => {
         const adagak = localStorage.getItem("currentUser")
-        console.log("adagak", adagak)
-        console.log("type adagak: ", typeof adagak)
+        
+        
         if (data != null)
             setDonations(data.result)
     }, [data])

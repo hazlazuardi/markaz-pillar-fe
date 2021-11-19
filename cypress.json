@@ -9,7 +9,11 @@
     "backendURL": "https://api.staging.markazpillar.afriza.co",
     "frontendURL": "http://localhost:3000"
   },
-  "defaultCommandTimeout" : 10000,
+  "retries": {
+    "runMode": 2,
+    "openMode": 0
+  },
+  "defaultCommandTimeout": 20000,
   "video": false,
   "projectId": "h85wgm"
 }

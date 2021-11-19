@@ -36,6 +36,7 @@ export default function Markaz(props) {
     }
   );
 
+  
   const GridViewMarkaz = (
     <GridView data={responseMarkaz} detail="admin/markaz" />
   );

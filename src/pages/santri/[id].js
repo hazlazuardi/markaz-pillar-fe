@@ -1,94 +1,106 @@
 import React, { useState, useEffect } from "react";
-import DetailTemplate from "../../component/templates/detail/Detail";
+import DetailView from '../../component/templates/DetailView'
 import { axiosMain } from '../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../component/modules/ArrowBack";
+import ProgressDonasiFooter from "../../component/modules/ProgressDonasiFooter"
+import { markazCategory } from "../../context/AppReducer";
+import { Stack } from "@mui/material";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
-export default function SantriLayoutDetail(props) {
-  let staticSantri = props.santri;
-  const [santri, setSantri] = useState(staticSantri)
+export default function MarkazLayoutDetail(props) {
+  const { detailSantri } = props
   const router = useRouter();
   const { id } = router.query
-  const { data: responseSantri, error } = useSWR(router.isReady ? `/santri?id=${id}` : null, fetcher)
+  const { data: responseDetailSantri, error } = useSWR(router.isReady ? `/santri?id=${id}` : null,
+    fetcher,
+    { fallbackData: detailSantri, refreshInterval: 10000 }
+  )
 
-  const consistent = {
-    name: santri.name,
-    background: santri.background,
-    id: santri.id
-  };
+  const dataResult = {
+    ...responseDetailSantri.result
+  }
+  const convertedDataSantri = {
+    title: dataResult.name,
+    description: dataResult.background,
+    image: dataResult.thumbnailURL,
+    details: [
+      {
+        subtitle: "Tempat Markaz",
+        detail: dataResult.markaz.name
+      },
+      {
+        subtitle: "Jenis Kelamin",
+        detail: dataResult.gender
+      },
+      {
+        subtitle: "Domisili Asal",
+        detail: dataResult.birthPlace
+      },
+      {
+        subtitle: "Kebutuhan Beasiswa",
+        detail: dataResult.desc
+      },
+      {
+        subtitle: "Tempat & Tanggal Lahir",
+        detail: `${dataResult.birthPlace}, ${dataResult.birthDate}`
+      },
 
-  const inconsistent = {
-    "Tempat Markaz": santri.markaz.name,
-    "Jenis Kelamin": santri.gender,
-    "Domisili Asal": santri.birthPlace,
-    "Kebutuhan Beasiswa": santri.desc,
-    "Tempat & Tanggal Lahir": `${santri.birthPlace}, ${santri.birthDate}`,
-  };
+    ],
+    donation: [
+      {
+        subtitle: "Nominal yang dibutuhkan",
+        detail: dataResult.nominal
+      },
+    ]
+  }
 
-
-  useEffect(() => {
-    if (!!responseSantri) {
-      setSantri(responseSantri.result);
-      
+  const convertedData = {
+    ...responseDetailSantri,
+    result: {
+      ...convertedDataSantri
     }
-  }, [responseSantri])
+  }
+
+  // useEffect(() => {
+  //   if (!!responseDetailSantri) {
+  //     setMarkaz(responseDetailSantri.result);
+
+  //   }
+  // }, [responseDetailSantri])
+  
   if (error) return "An error has occurred.";
-  if (!responseSantri) return "Loading...";
+  if (!responseDetailSantri) return "Loading...";
   return (
     <>
       <ArrowBack href='/santri' />
-      <DetailTemplate
-        consistent={consistent}
-        inconsistent={inconsistent}
-        nominal={santri.nominal}
-        donated={santri.donated}
-        image={santri.thumbnailURL}
-        markazOrSantri="santri"
-        donatetext="Donasi Sekarang"
-      />
+      <DetailView variant='santri' data={convertedData} />
+      <ProgressDonasiFooter />
     </>
   );
 }
 
 export async function getStaticProps(context) {
   const id = context.params.id;
-
-  var santri = []
-  await axiosMain
-    .get(`/santri?id=${id}`)
-    .then(response => {
-
-      santri = response.data.result
-
-    })
-    .catch(e => {
-
-      santri = "error"
-    })
+  const staticDetailSantriResponse = await axiosMain.get(`/santri?id=${id}`)
+  const staticDetailSantri = staticDetailSantriResponse.data
   return {
     props: {
-      santri: santri,
+      detailSantri: staticDetailSantri,
     },
     revalidate: 10
   };
 }
 
 export async function getStaticPaths() {
-  var paths = []
-  var allSantri = []
-  await axiosMain
-    .get(`/santri/search?n=1000`)
-    .then(response => {
-      allSantri = response.data.result
-      paths = allSantri.map((santri) => ({
-        params: { id: santri.id.toString() },
-      }));
-    })
-    .catch(e => {
-      throw e.response
-    })
+  const staticAllSantriResponse = await axiosMain.get(`/santri/search?n=1000`)
+  const staticAllSantri = await staticAllSantriResponse.data
+
+  const paths = await staticAllSantri.result.map((santri) => ({
+    params: { id: santri.id.toString() },
+  }));
+
   return {
     paths: paths,
     fallback: false,

@@ -21,8 +21,8 @@
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.4",
-    "@mui/lab": "^5.0.0-alpha.53",
-    "@mui/material": "^5.0.3",
+    "@mui/lab": "^5.0.0-alpha.55",
+    "@mui/material": "^5.1.1",
     "@mui/styles": "^5.0.1",
     "axios": "^0.23.0",
     "form-data": "^4.0.0",
@@ -38,6 +38,7 @@
     "react-debounce-input": "^3.2.5",
     "react-dom": "^17.0.2",
     "react-dropzone": "^11.4.2",
+    "react-lines-ellipsis": "^0.15.0",
     "react-swipeable-views": "^0.14.0",
     "sharp": "^0.29.1",
     "swr": "^1.0.1"
