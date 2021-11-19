@@ -40,7 +40,7 @@ function AdminCreateOrEditSantri(props) {
         event.preventDefault();
         const data = buildSantriFormData(santri, thumbnail)
 
-        apiCall(santri.markaz_id, data)
+        apiCall(isCreate ? santri.markaz_id : santri.id, data)
             .then(response => {
                 setLoading(false)
                 dispatch({

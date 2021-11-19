@@ -1,73 +1,81 @@
 import React, { useState, useEffect } from "react";
-import DetailTemplate from "../../component/templates/detail/Detail";
+import DetailView from '../../component/templates/DetailView'
 import { axiosMain } from '../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../component/modules/ArrowBack";
+import ProgressDonasiFooter from "../../component/modules/ProgressDonasiFooter"
+import { markazCategory } from "../../context/AppReducer";
+import { Stack } from "@mui/material";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function MarkazLayoutDetail(props) {
-  const staticMarkaz = props.detailMarkaz;
-  const [markaz, setMarkaz] = useState(staticMarkaz)
+  const { detailMarkaz } = props
   const router = useRouter();
   const { id } = router.query
-  const { data: responseMarkaz, error } = useSWR(router.isReady ? `/markaz?id=${id}` : null, fetcher)
+  const { data: responseDetailMarkaz, error } = useSWR(router.isReady ? `/markaz?id=${id}` : null,
+    fetcher,
+    { fallbackData: detailMarkaz, refreshInterval: 10000 }
+  )
 
-  const image = markaz.thumbnailURL;
+  const dataResult = {
+    ...responseDetailMarkaz.result
+  }
+  const convertedDataMarkaz = {
+    title: dataResult.name,
+    description: dataResult.background,
+    image: dataResult.thumbnailURL,
+    details: [
+      {
+        subtitle: "Contact Name",
+        detail: dataResult.contactName
+      },
+      {
+        subtitle: "Category",
+        detail: markazCategory[dataResult.category]
+      },
+      {
+        subtitle: "Contact Person",
+        detail: dataResult.contactPerson
+      },
+    ],
+    donation: [
+      {
+        subtitle: "Nominal yang dibutuhkan",
+        detail: dataResult.nominal
+      },
+    ]
+  }
 
-  // Process category
-  const temp = markaz.category.split("_")
-  const markazCategory = `${temp[0].toLowerCase().replace(/\b\w/g, l => l.toUpperCase())} ${temp[1].toLowerCase().replace(/\b\w/g, l => l.toUpperCase())}`
-
-
-  const consistent = {
-    name: markaz.name,
-    background: markaz.background,
-    id: markaz.id
-  };
-
-  const inconsistent = {
-    Alamat: markaz.address,
-    "Contact Person": `${markaz.contactName} (${markaz.contactInfo})`,
-    Kategori: markazCategory,
-    "Kebutuhan Fasilitas": markaz.description,
-  };
-
-  useEffect(() => {
-    if (!!responseMarkaz) {
-      setMarkaz(responseMarkaz.result);
-      
+  const convertedData = {
+    ...responseDetailMarkaz,
+    result: {
+      ...convertedDataMarkaz
     }
-  }, [responseMarkaz])
+  }
+
+  // useEffect(() => {
+  //   if (!!responseDetailMarkaz) {
+  //     setMarkaz(responseDetailMarkaz.result);
+
+  //   }
+  // }, [responseDetailMarkaz])
+  
   if (error) return "An error has occurred.";
-  if (!responseMarkaz) return "Loading...";
+  if (!responseDetailMarkaz) return "Loading...";
   return (
     <>
       <ArrowBack href='/markaz' />
-      <DetailTemplate
-        consistent={consistent}
-        inconsistent={inconsistent}
-        nominal={markaz.nominal}
-        donated={markaz.donated}
-        image={image}
-        donatetext="Donasi Sekarang"
-        markazOrSantri="markaz"
-      />
+      <DetailView variant='markaz' data={convertedData} />
+      <ProgressDonasiFooter />
     </>
   );
 }
 
 export async function getStaticProps(context) {
   const id = context.params.id;
-
-  var staticDetailMarkaz = []
-  await axiosMain
-    .get(`/markaz?id=${id}`)
-    .then(response => {
-
-      staticDetailMarkaz = response.data.result
-
-    })
+  const staticDetailMarkazResponse = await axiosMain.get(`/markaz?id=${id}`)
+  const staticDetailMarkaz = staticDetailMarkazResponse.data
   return {
     props: {
       detailMarkaz: staticDetailMarkaz,
@@ -77,19 +85,13 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  var paths = []
-  var allMarkaz = []
-  await axiosMain
-    .get(`/markaz/search?n=1000`)
-    .then(response => {
-      allMarkaz = response.data.result
-      paths = allMarkaz.map((markaz) => ({
-        params: { id: markaz.id.toString() },
-      }));
-    })
-    .catch(e => {
-      throw e.response
-    })
+  const staticAllMarkazResponse = await axiosMain.get(`/markaz/search?n=1000`)
+  const staticAllMarkaz = await staticAllMarkazResponse.data
+
+  const paths = await staticAllMarkaz.result.map((markaz) => ({
+    params: { id: markaz.id.toString() },
+  }));
+
   return {
     paths: paths,
     fallback: false,

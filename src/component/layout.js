@@ -38,8 +38,7 @@ export default function Layout({ children }) {
             {showHeader ? (
                 <>
                     <Navbar />
-                    <Box sx={{ height: '5em' }} />
-                    <Container maxWidth="lg">
+                    <Container maxWidth="lg" sx={{ pt: 12 }} >
                         {children}
                     </Container>
                     <Box sx={{ height: '6em' }} />

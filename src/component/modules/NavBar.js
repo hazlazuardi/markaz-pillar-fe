@@ -1,7 +1,7 @@
-import { AppBar, Avatar, Button, IconButton, List, ListItem, ListItemText, SwipeableDrawer, Toolbar, Typography, Container } from '@mui/material'
+import { AppBar, Avatar, Button, IconButton, List, ListItem, ListItemText, SwipeableDrawer, Toolbar, Typography, Container, Stack } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { Box } from '@mui/system'
+import { Box, minWidth } from '@mui/system'
 import MenuIcon from '@mui/icons-material/Menu'
 import Link from 'next/link'
 import { useAppContext } from '../../context/AppContext'
@@ -14,19 +14,19 @@ export default function NavBar() {
     const userPages = [
         {
             name: 'Markaz',
-            path: currentUserRole === roleType.ROLE_SUPERUSER ? '/admin/markaz' : '/markaz',
+            path: isAdmin ? '/admin/markaz' : '/markaz',
         },
         {
             name: 'Santri',
-            path: currentUserRole === roleType.ROLE_SUPERUSER ? '/admin/santri' : '/santri',
+            path: isAdmin ? '/admin/santri' : '/santri',
         },
         {
             name: 'Relawan',
-            path: currentUserRole === roleType.ROLE_SUPERUSER ? '/admin/volunteer' : '/volunteer',
+            path: isAdmin ? '/admin/volunteer' : '/volunteer',
         },
         {
-            name: currentUserRole === roleType.ROLE_SUPERUSER ? 'Pengajar' : 'Kelas',
-            path: currentUserRole === roleType.ROLE_SUPERUSER ? '/admin/mentor' : '/classes',
+            name: isAdmin ? 'Pengajar' : 'Kelas',
+            path: isAdmin ? '/admin/mentor' : '/classes',
         },
     ]
 
@@ -46,7 +46,7 @@ export default function NavBar() {
 
 
     const handleLogout = () => {
-        console.log('handlelogout')
+
         dispatch({
             type: dispatchTypes.LOGOUT
         })
@@ -72,8 +72,13 @@ export default function NavBar() {
                 },
                 height: '100%',
                 display: { xs: 'flex', sm: 'flex' },
-                mb: '2em'
+                mb: '2em',
+                minWidth: {
+                    xs: 200,
+                    sm: 300
+                }
             }}
+            p={2}
             role="presentation"
             onClick={toggleDrawer(false)}
             onKeyDown={toggleDrawer(false)}
@@ -118,10 +123,9 @@ export default function NavBar() {
             </Box>
 
             {!currentUser && (
-                <Container maxWidth="lg" >
-
+                <Stack spacing={1}>
                     <Link href='/login' passHref>
-                        <Button fullWidth sx={{ mb: '1em' }} variant="contained" color="primary" size='large'>
+                        <Button fullWidth variant="contained" color="primary" size='large'>
                             Masuk
                         </Button>
                     </Link>
@@ -130,8 +134,7 @@ export default function NavBar() {
                             Daftar
                         </Button>
                     </Link>
-                </Container>
-
+                </Stack>
             )}
         </Box>
     );

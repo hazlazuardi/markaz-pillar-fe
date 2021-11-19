@@ -19,9 +19,9 @@ export const roleType = {
 }
 
 export const markazCategory = {
-    MARKAZ_UMUM: "markaz_umum",
-    MARKAZ_AKHWAT: "markaz_akhwat",
-    MARKAZ_IKHWAN: "markaz_ikhwan"
+    MARKAZ_UMUM: "Markaz Umum",
+    MARKAZ_AKHWAT: "Markaz Akhwat",
+    MARKAZ_IKHWAN: "Markaz Ikhwan"
 }
 
 export const enumRoutes = {
@@ -53,7 +53,7 @@ export const enumRoutes = {
 
     ADMIN_PROGRAM_VOLUNTEER: "/admin/volunteer",
     ADMIN_PESERTA_VOLUNTEER: "/admin/volunteer/[id]",
-    
+
     ADMIN_DATA_PENGGUNA: "/admin/data-pengguna",
 
     LANDING: "/",
