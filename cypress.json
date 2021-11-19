@@ -1,10 +1,15 @@
 {
-    "baseUrl": "http://localhost:3000",
-    "env": {
-      "codeCoverage": {
-        "url": "/api/__coverage__"
-      }
+  "baseUrl": "http://localhost:3000",
+  "env": {
+    "codeCoverage": {
+      "url": "/api/__coverage__"
     },
-    "video": false
-
+    "email": "achmadafriza123@gmail.com",
+    "password": "Admin123",
+    "backendURL": "https://api.staging.markazpillar.afriza.co",
+    "frontendURL": "http://localhost:3000"
+  },
+  "defaultCommandTimeout" : 10000,
+  "video": false,
+  "projectId": "h85wgm"
 }

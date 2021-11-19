@@ -3,6 +3,7 @@ import DetailTemplate from "../../component/templates/detail/Detail";
 import { axiosMain } from '../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
+import ArrowBack from "../../component/modules/ArrowBack";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function SantriLayoutDetail(props) {
@@ -30,21 +31,24 @@ export default function SantriLayoutDetail(props) {
   useEffect(() => {
     if (!!responseSantri) {
       setSantri(responseSantri.result);
-      console.log('santri set', responseSantri)
+      
     }
   }, [responseSantri])
   if (error) return "An error has occurred.";
   if (!responseSantri) return "Loading...";
   return (
-    <DetailTemplate
-      consistent={consistent}
-      inconsistent={inconsistent}
-      nominal={santri.nominal}
-      donated={santri.donated}
-      image={santri.thumbnailURL}
-      markazOrSantri="santri"
-      donatetext="Donasi Sekarang"
-    />
+    <>
+      <ArrowBack href='/santri' />
+      <DetailTemplate
+        consistent={consistent}
+        inconsistent={inconsistent}
+        nominal={santri.nominal}
+        donated={santri.donated}
+        image={santri.thumbnailURL}
+        markazOrSantri="santri"
+        donatetext="Donasi Sekarang"
+      />
+    </>
   );
 }
 

@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import { axiosFormData } from "../../../axiosInstances";
 import { useAppContext } from "../../../context/AppContext";
 import { dispatchTypes } from "../../../context/AppReducer";
-import { axiosMain } from '../../../axiosInstances';
 import useSWR from "swr";
 import Typography from "@mui/material/Typography";
 
@@ -121,7 +120,7 @@ export default function DonasiSantri() {
             markazOrSantri={"santri"} 
             recipient={name} 
             setImage = {setImage}
-            image = {image}
+            image = {!!image && image}
             handleChangeDetails = {handleChangeDetails}
             details = {details}
             handleClose = {handleClose}

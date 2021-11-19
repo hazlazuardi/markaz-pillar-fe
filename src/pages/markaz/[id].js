@@ -36,7 +36,7 @@ export default function MarkazLayoutDetail(props) {
   useEffect(() => {
     if (!!responseMarkaz) {
       setMarkaz(responseMarkaz.result);
-      console.log('santri set', responseMarkaz)
+      
     }
   }, [responseMarkaz])
   if (error) return "An error has occurred.";

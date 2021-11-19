@@ -12,6 +12,7 @@ import { dispatchTypes } from "../../../../../context/AppReducer";
 import { useRouter } from "next/router";
 import { axiosMain } from "../../../../../axiosInstances";
 import AdminCreateOrEditDonasi from "../../../../../component/templates/admin/AdminCreateOrEditDonasi";
+import ArrowBack from "../../../../../component/modules/ArrowBack";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
@@ -36,16 +37,16 @@ function AdminMarkazDonasiEdit(props) {
     };
 
     const router = useRouter()
-    const {id} = router.query
+    const { id } = router.query
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
-        console.log("data", data)
+
         await axiosMain
             .post(`/admin/donation/markaz?edit=${id}`, data)
             .then(response => {
                 setLoading(false)
-                console.log(response)
+
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
@@ -56,11 +57,11 @@ function AdminMarkazDonasiEdit(props) {
             })
             .catch(error => {
                 setLoading(false)
-                console.log(error.response)
+
                 // Check & Handle if error.response is defined
                 if (!!error.response) {
                     if (error.response.status === 400) {
-                    console.log(error.response)
+
                         // Check & Handle if bad request (empty fields, etc)
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
@@ -88,13 +89,13 @@ function AdminMarkazDonasiEdit(props) {
 
     const [isActive, setIsActive] = useState();
 
-//      const handleIsActive = (event) => {
-//        setIsActive(event.target.isActive);
-//      };
+    //      const handleIsActive = (event) => {
+    //        setIsActive(event.target.isActive);
+    //      };
 
     const handleIsActive = (event) => {
         const {
-          target: { value },
+            target: { value },
         } = event;
         setIsActive(event.target.isActive);
         setData((prev) => ({
@@ -104,19 +105,19 @@ function AdminMarkazDonasiEdit(props) {
     };
 
     const names = [
-      'RENOVASI',
-      'PEMBANGUNAN_MARKAZ'
+        'RENOVASI',
+        'PEMBANGUNAN_MARKAZ'
     ];
 
     const [category, setCategory] = useState([]);
 
     const handleChange = (event) => {
         const {
-          target: { value },
+            target: { value },
         } = event;
         setCategory(
-          // On autofill we get a the stringified value.
-          typeof value === 'string' ? value.split(',') : value,
+            // On autofill we get a the stringified value.
+            typeof value === 'string' ? value.split(',') : value,
         );
         setData((prev) => ({
             ...prev,
@@ -124,21 +125,24 @@ function AdminMarkazDonasiEdit(props) {
         }));
     };
 
-    console.log(category)
+
 
     return (
-        <AdminCreateOrEditDonasi
-            form={form}
-            handleSubmit={handleSubmit}
-            donasi={data}
-            createOrEdit="Edit"
-            markazOrSantri="Markaz"
-            handleChange={handleChange}
-            handleChangeDonasi={handleChangeDonasi}
-            handleIsActive={handleIsActive}
-            names={names}
-            label="Facility Requirements"
-        />
+        <>
+            <ArrowBack href={"/admin/markaz/donasi/" + id} />
+            <AdminCreateOrEditDonasi
+                form={form}
+                handleSubmit={handleSubmit}
+                donasi={data}
+                createOrEdit="Edit"
+                markazOrSantri="Markaz"
+                handleChange={handleChange}
+                handleChangeDonasi={handleChangeDonasi}
+                handleIsActive={handleIsActive}
+                names={names}
+                label="Facility Requirements"
+            />
+        </>
     );
 }
 

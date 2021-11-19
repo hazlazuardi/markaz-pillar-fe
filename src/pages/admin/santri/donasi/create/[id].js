@@ -12,6 +12,7 @@ import { dispatchTypes } from "../../../../../context/AppReducer";
 import { useRouter } from "next/router";
 import { axiosMain } from "../../../../../axiosInstances";
 import AdminCreateOrEditDonasi from "../../../../../component/templates/admin/AdminCreateOrEditDonasi";
+import ArrowBack from "../../../../../component/modules/ArrowBack";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
@@ -40,12 +41,12 @@ function AdminSantriDonasiCreate(props) {
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
-        console.log("data", data)
+        
         await axiosMain
             .post(`/admin/donation/santri?id=${id}`, data)
             .then(response => {
                 setLoading(false)
-                console.log(response)
+                
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
@@ -56,11 +57,11 @@ function AdminSantriDonasiCreate(props) {
             })
             .catch(error => {
                 setLoading(false)
-                console.log(error.response)
+                
                 // Check & Handle if error.response is defined
                 if (!!error.response) {
                     if (error.response.status === 400) {
-                    console.log(error.response)
+                    
                         // Check & Handle if bad request (empty fields, etc)
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
@@ -124,9 +125,11 @@ function AdminSantriDonasiCreate(props) {
         }));
     };
 
-    console.log(category)
+    
 
     return (
+        <>
+        <ArrowBack href={"/admin/santri/donasi/"+id} />
         <AdminCreateOrEditDonasi
             form={form}
             handleSubmit={handleSubmit}
@@ -140,6 +143,7 @@ function AdminSantriDonasiCreate(props) {
             label="Scholarship Requirements"
             showCategory="none"
         />
+        </>
     );
 }
 

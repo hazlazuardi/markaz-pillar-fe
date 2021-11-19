@@ -28,23 +28,66 @@ export const enumRoutes = {
     LOGIN: "/login",
     PROFILE: "/profile",
     REGISTRATION: "/registration",
-    MEMBER_SANTRI: "/santri",
+
     MEMBER_MARKAZ: "/markaz",
-    ADMIN_SANTRI: "/admin/santri",
+    MEMBER_SANTRI: "/santri",
+
     ADMIN_MARKAZ: "/admin/markaz",
+    ADMIN_MARKAZ_DETAIL: "/admin/markaz/[id]",
     ADMIN_MARKAZ_CREATE: "/admin/markaz/create",
+    ADMIN_MARKAZ_EDIT: "/admin/markaz/edit/[id]",
+    ADMIN_MARKAZ_DONASI: "/admin/markaz/donasi/[id]",
+    ADMIN_MARKAZ_DONASI_CREATE: "/admin/markaz/donasi/create/[id]",
+    ADMIN_MARKAZ_DONASI_EDIT: "/admin/markaz/donasi/edit/[id]",
+    ADMIN_MARKAZ_TRANSAKSI: "/admin/markaz/donasi/[id]/transaksi/[transid]",
+
+
+    ADMIN_SANTRI: "/admin/santri",
+    ADMIN_SANTRI_DETAIL: "/admin/santri/[id]",
     ADMIN_SANTRI_CREATE: "/admin/santri/create",
-    ADMIN_MARKAZ_EDIT: "/admin/markaz/edit",
-    ADMIN_SANTRI_EDIT: "/admin/santri/edit",
+    ADMIN_SANTRI_EDIT: "/admin/santri/edit/[id]",
+    ADMIN_SANTRI_DONASI: "/admin/santri/donasi/[id]",
+    ADMIN_SANTRI_DONASI_CREATE: "/admin/santri/donasi/create/[id]",
+    ADMIN_SANTRI_DONASI_EDIT: "/admin/santri/donasi/edit/[id]",
+    ADMIN_SANTRI_TRANSAKSI: "/admin/santri/donasi/[id]/transaksi/[transid]",
+
+    ADMIN_PROGRAM_VOLUNTEER: "/admin/volunteer",
+    ADMIN_PESERTA_VOLUNTEER: "/admin/volunteer/[id]",
+    
     ADMIN_DATA_PENGGUNA: "/admin/data-pengguna",
+
     LANDING: "/",
 
 };
 
 export const enumProtectedRoutes = [
     enumRoutes.ADMIN_MARKAZ,
+    enumRoutes.ADMIN_MARKAZ_DETAIL,
+    enumRoutes.ADMIN_MARKAZ_CREATE,
+    enumRoutes.ADMIN_MARKAZ_EDIT,
+    enumRoutes.ADMIN_MARKAZ_DONASI,
+    enumRoutes.ADMIN_MARKAZ_DONASI_CREATE,
+    enumRoutes.ADMIN_MARKAZ_DONASI_EDIT,
+    enumRoutes.ADMIN_MARKAZ_TRANSAKSI,
+
     enumRoutes.ADMIN_SANTRI,
-    enumRoutes.ADMIN_DATA_PENGGUNA
+    enumRoutes.ADMIN_SANTRI_DETAIL,
+    enumRoutes.ADMIN_SANTRI_CREATE,
+    enumRoutes.ADMIN_SANTRI_EDIT,
+    enumRoutes.ADMIN_SANTRI_DONASI,
+    enumRoutes.ADMIN_SANTRI_DONASI_CREATE,
+    enumRoutes.ADMIN_SANTRI_DONASI_EDIT,
+    enumRoutes.ADMIN_SANTRI_TRANSAKSI,
+
+    enumRoutes.ADMIN_PROGRAM_VOLUNTEER,
+    enumRoutes.ADMIN_PESERTA_VOLUNTEER,
+
+    enumRoutes.ADMIN_DATA_PENGGUNA,
+]
+
+export const enumAuthenticatedRoutes = [
+    enumRoutes.PROFILE,
+
 ]
 
 // Initialize variables
@@ -150,6 +193,7 @@ export const AppReducer = (state, action) => {
             }
         }
         case dispatchTypes.LOGOUT: {
+            localStorage.clear()
             return {
                 ...state,
                 currentUser: "",

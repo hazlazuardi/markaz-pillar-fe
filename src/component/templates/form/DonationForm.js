@@ -6,7 +6,6 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import styles from "../../../styles/Home.module.css";
-import ArrowBack from "../../modules/ArrowBack";
 import Typography from "@mui/material/Typography";
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
@@ -49,7 +48,6 @@ export default function DonationForm(props) {
     <Grid container>
         <Grid item xs={12}>
             <Container maxWidth="lg" className={styles.container}>
-                <ArrowBack name={recipient} markazOrSantri={markazOrSantri} />
                 <Stepper activeStep={step} alternativeLabel>
                     {steps.map((label) => (
                         <Step key={label}>

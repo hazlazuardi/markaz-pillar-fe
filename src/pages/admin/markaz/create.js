@@ -3,6 +3,7 @@ import { useAppContext } from "../../../context/AppContext";
 import { dispatchTypes } from "../../../context/AppReducer";
 import AdminCreateOrEditMarkaz from "../../../component/templates/admin/AdminCreateOrEditMarkaz";
 import { axiosFormData } from "../../../axiosInstances";
+import ArrowBack from "../../../component/modules/ArrowBack";
 
 function AdminMarkazCreate() {
     const { dispatch } = useAppContext();
@@ -88,6 +89,8 @@ function AdminMarkazCreate() {
 
     const [loading, setLoading] = useState(false)
     return (
+        <>
+        <ArrowBack href='/admin/markaz' />
         <AdminCreateOrEditMarkaz
             form={form}
             loading={loading}
@@ -98,6 +101,7 @@ function AdminMarkazCreate() {
             markaz={markaz}
 
         />
+        </>
     );
 }
 
