@@ -13,6 +13,7 @@ import { Select } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import { MenuItem } from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton'
+import AdminCreateOrEditProgres from "../../../../../component/templates/admin/AdminCreateOrEditProgres";
 
 function AdminCreateSantriProgressDonasi() {
     const { dispatch } = useAppContext();
@@ -95,72 +96,17 @@ function AdminCreateSantriProgressDonasi() {
     const pathname = router.pathname;
     const [loading, setLoading] = useState(false)
     return (
-        <div>
-            <Container>
-                <form ref={form} onSubmit={handleSubmit} style={{ marginTop: "5%" }}>
-                    <Grid
-                        container
-                        direction="column"
-                        justifyContent="space-between"
-                        alignItems="stretch"
-                        spacing={5}
-                    >
-                        <Grid item>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12}>
-                                    <Typography variant="h5" color="initial">{pathname.includes('create') ? 'Upload New Thumbnail' : 'Edit Thumbnail'}</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Dropzone
-                                        name="thumbnail"
-                                        setFile={setThumbnail}
-                                        accept={"application/pdf"}
-                                    />
-                                </Grid>
-                                {thumbnail.name &&
-                                    <Grid item xs={12}>
-                                        <Typography id='dropzone-uploaded' variant="body1" color="initial">Uploaded: {thumbnail.name}</Typography>
-                                    </Grid>
-                                }
-                            </Grid>
-                        </Grid>
-                        <Grid item>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12}>
-                                    <Typography variant="h5" color="initial">Create Progres Donasi Santri</Typography>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        id='progresNameAtComponentAdminCreateOrEditProgres'
-                                        name="progressDate"
-                                        label="Date (YYYY-MM-DD)"
-                                        fullWidth
-                                        onChange={handleChangeProgres}
-                                        value={progres.progressDate}
-
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        id='progresDescriptionAtComponentAdminCreateOrEditProgres'
-                                        name="description"
-                                        label="Descripton"
-                                        fullWidth
-                                        value={progres.description}
-                                        onChange={handleChangeProgres}
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <LoadingButton id='progresSubmitAtComponentAdminCreateOrEditProgres' fullWidth type='submit' loading={loading} loadingIndicator="Menyimpan..." variant="contained">
-                                        Simpan
-                                    </LoadingButton>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </form>
-            </Container>
-        </div>
+        <AdminCreateOrEditProgres
+            form={form}
+            handleSubmit={handleSubmit}
+            thumbnail={thumbnail}
+            setThumbnail={setThumbnail}
+            loading={loading}
+            createOrEdit="Create"
+            markazOrSantri="Santri"
+            handleChangeProgres={handleChangeProgres}
+            progres={progres}
+        />
     );
 }
 

@@ -1,21 +1,33 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../context/AppReducer";
+import { useAppContext } from "../../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../../context/AppReducer";
 import { useRouter } from "next/router";
-import { axiosMain } from "../../../../../axiosInstances";
-import AdminCreateOrEditDonasi from "../../../../../component/templates/admin/AdminCreateOrEditDonasi";
-import ArrowBack from "../../../../../component/modules/ArrowBack";
+import { axiosMain } from "../../../../../../../axiosInstances";
+import AdminCreateOrEditDonasi from "../../../../../../../component/templates/admin/AdminCreateOrEditDonasi";
+import ArrowBack from "../../../../../../../component/modules/ArrowBack";
+import useSWR from "swr";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
+const fetcher = url => axiosMain.get(url).then(res => res.data)
 
-function AdminMarkazDonasiEdit(props) {
+function AdminMarkazDonasiEdit() {
+    const router = useRouter();
+    const { id, transid } = router.query
+    const {
+        data: responseDonasi,
+        error,
+        mutate,
+    } = useSWR(
+        router.isReady ?
+        `/admin/donation?id=${transid}`: null,
+        fetcher,
+    );
     const { dispatch } = useAppContext();
     const [data, setData] = useState({
-        name: "",
-        categories: [],
-        description: "",
-        nominal: 0,
-        isActive: null
+        name: responseDonasi ? responseDonasi.name : "" ,
+        categories: responseDonasi ? responseDonasi.categories : [],
+        description: responseDonasi ? responseDonasi.description : "",
+        nominal: responseDonasi ? responseDonasi.nominal : "",
+        isActive: responseDonasi ? responseDonasi.isActive : null,
     });
     const form = useRef(null);
 
@@ -27,8 +39,6 @@ function AdminMarkazDonasiEdit(props) {
         }));
     };
 
-    const router = useRouter()
-    const { id } = router.query
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
@@ -136,5 +146,7 @@ function AdminMarkazDonasiEdit(props) {
         </>
     );
 }
+
+
 
 export default AdminMarkazDonasiEdit;
