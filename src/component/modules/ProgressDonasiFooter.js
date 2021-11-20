@@ -1,12 +1,13 @@
 import React from 'react'
 import Grid from '@mui/material/Grid'
 import Container from '@mui/material/Container'
-import { Card, CardContent, CardMedia, IconButton, Stack, Typography, useMediaQuery } from '@mui/material'
+import { Button, Card, CardActions, CardContent, CardMedia, IconButton, Stack, Typography, useMediaQuery } from '@mui/material'
 import { Box, width } from '@mui/system'
 import Image from 'next/image'
 import LinesEllipsis from 'react-lines-ellipsis'
 
-export default function ProgressDonasiFooter() {
+export default function ProgressDonasiFooter(props) {
+    const { isAdmin } = props
 
     const data = [
         {
@@ -35,7 +36,7 @@ export default function ProgressDonasiFooter() {
     const IMAGE_SIZE = 200
     return (
         <>
-            <Typography variant='h4' component='h2' sx={{ mb: '1em' }}>Progress Donasi</Typography>
+            <Typography variant='h4' component='h2' sx={{ mb: 3, mt: 12 }}>Progress Donasi</Typography>
             <Grid container spacing={2}  >
                 {!!data && data.map(progress => (
                     <Grid key={progress.id} item xs={12} md={6} >
@@ -43,7 +44,7 @@ export default function ProgressDonasiFooter() {
                             <CardMedia sx={isXXS ? { width: '100%', height: '100%' } : { width: IMAGE_SIZE, height: IMAGE_SIZE }} alt="Live from space album cover">
                                 <Box position='relative' sx={isXXS ? { width: '100%', height: '100%' } : { width: IMAGE_SIZE, height: IMAGE_SIZE }}>
                                     <Image src='https://source.unsplash.com/random' layout={isXXS ? 'responsive' : 'fill'}
-                                        objectFit='cover' alt='Backdrop' width={isXXS ? 16 : IMAGE_SIZE} height={isXXS ? 16 : IMAGE_SIZE} />
+                                        objectFit='cover' alt='Backdrop' width={isXXS ? 16 : undefined} height={isXXS ? 16 : undefined} />
                                 </Box>
                             </CardMedia>
                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -57,12 +58,18 @@ export default function ProgressDonasiFooter() {
                                             basedOn='words'
                                         />
                                     </Typography>
+                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                        <Typography variant="subtitle1" color="text.secondary" component="div">
+                                            {progress.progressDate}
+                                        </Typography>
+                                    </Box>
                                 </CardContent>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }} pl={2} >
-                                    <Typography variant="subtitle1" color="text.secondary" component="div">
-                                        {progress.progressDate}
-                                    </Typography>
-                                </Box>
+                                {isAdmin && (
+                                    <CardActions>
+                                        <Button>Edit</Button>
+                                        <Button>Delete</Button>
+                                    </CardActions>
+                                )}
                             </Box>
                         </Card>
                     </Grid>

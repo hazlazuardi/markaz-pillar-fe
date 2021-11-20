@@ -9,7 +9,7 @@ import { markazCategory } from "../../context/AppReducer";
 import { Stack } from "@mui/material";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
-export default function MarkazLayoutDetail(props) {
+export default function MarkazDetail(props) {
   const { detailMarkaz } = props
   const router = useRouter();
   const { id } = router.query
