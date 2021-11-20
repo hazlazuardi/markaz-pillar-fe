@@ -14,12 +14,9 @@ export const axiosMain = axios.create({
 })
 
 axiosMain.interceptors.response.use((response) => {
-    console.log("SUCCESS")
     return response
 }, 
 function (error) {
-    console.log("ERROR")
-    console.log(JSON.parse(localStorage.getItem('currentRefreshToken')))
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
@@ -36,7 +33,6 @@ function (error) {
                         // 2) Change Authorization header
                         axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('currentAccessToken');
                         // 3) return originalRequest object with Axios.
-                        console.log("Token Refreshed")
                         return axios(originalRequest);
                     }
                 })
