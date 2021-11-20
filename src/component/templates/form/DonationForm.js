@@ -16,7 +16,6 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Dropzone from '../../modules/Dropzone';
-import MuiAlert from '@mui/material/Alert';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
@@ -28,8 +27,7 @@ const steps = [
 
 export default function DonationForm(props) {
 
-    const {recipient, 
-        markazOrSantri, 
+    const {recipient,  
         setImage, 
         image,
         handleChangeDetails, 
