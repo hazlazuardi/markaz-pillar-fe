@@ -17,7 +17,8 @@ const status_list = [
 ];
 
 function SimpleDialog(props) {
-  const { onClose, selectedValue, open, idtrans, mutate } = props;
+  const { onClose, selectedValue, open, idtrans, apiCall, id, status, mutate } =
+    props;
 
   const [loading, setLoading] = useState(true);
 
@@ -25,12 +26,10 @@ function SimpleDialog(props) {
     onClose(selectedValue);
   };
 
-  const handleChangeStatus = async (id, Status) => {
+  // console.log(status, "id uwu");
+  const handleChangeStatus = async () => {
     setLoading(true);
-    await axiosMain
-      .post(`/admin/transaction/status?id=${id}`, {
-        status: `${Status}`,
-      })
+    apiCall(id, status)
       .then((res) => {
         setLoading(false);
       })
@@ -106,6 +105,7 @@ export default function DialogTrans(props) {
         open={open}
         onClose={handleClose}
         idtrans={transid}
+        {...props}
       />
     </div>
   );

@@ -4,6 +4,7 @@ import useSWR from "swr";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
 import GridView from "../../../component/templates/admin/GridView";
 import TableView from "../../../component/templates/admin/TableView";
+import ArrowBack from "../../../component/modules/ArrowBack";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
@@ -11,7 +12,7 @@ export default function AdminMarkaz(props) {
   // const { allProgram } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const [searchProgram, setSearchProgram] = useState("")
+  const [searchProgram, setSearchProgram] = useState("");
   const [locationFilter, setLocationFilter] = useState();
   const [nameFilter, setNameFilter] = useState();
   const [categoryFilter, setCategoryFilter] = useState();
@@ -22,12 +23,11 @@ export default function AdminMarkaz(props) {
     error,
     mutate,
   } = useSWR(
-    `/markaz/search?page=${page - 1}&n=${entries}&${!!locationFilter ? "address=" + locationFilter : ""
-    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${!!categoryFilter ? "category=" + categoryFilter : ""
-    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${!!categoryFilter3 ? "category=" + categoryFilter3 : ""
-    }&${!!searchProgram && "name=" + searchProgram}
+    `/volunteer?page=${page - 1}&n=${entries}&${
+      !!searchProgram && "name=" + searchProgram
+    }
 `,
-    fetcher,
+    fetcher
     // {
     //   fallbackData: allProgram,
     //   refreshInterval: 30000,
@@ -57,7 +57,7 @@ export default function AdminMarkaz(props) {
         detail="admin/markaz"
         handleDelete={handleDeleteMarkaz}
       />
-    )
+    );
   };
 
   const TableViewAdminVolunteer = () => {
@@ -67,16 +67,16 @@ export default function AdminMarkaz(props) {
         detail="admin/markaz"
         handleDelete={handleDeleteMarkaz}
         santriormarkaz="kegiatan"
-        tableTempatMarkaz="Volunteer Dibutuhkan"
-        tableDomisili="Volunteer Saat Ini"
-        tableJenisKelamin="Lokasi"
-      //   tableTanggalLahir="Lokasi"
+        titleTwo="Volunteer Dibutuhkan"
+        titleThree="Volunteer Saat Ini"
+        titleFour="Lokasi"
       />
-    )
-  }
+    );
+  };
 
   return (
     <>
+      <ArrowBack href={"/admin/volunteer/"} />
       <AdminOrUserTemplate
         isAdmin
         variant="kegiatan"
@@ -106,13 +106,3 @@ export default function AdminMarkaz(props) {
     </>
   );
 }
-
-// export async function getStaticProps() {
-//   const staticMarkaz = await axiosMain.get("/markaz/search?n=1000");
-//   return {
-//     props: {
-//       allProgram: staticMarkaz.data,
-//     },
-//     revalidate: 10,
-//   };
-// }

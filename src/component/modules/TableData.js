@@ -7,7 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -19,14 +18,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-
 export default function CustomizedTables(props) {
   const {
     children,
-    tableTempatMarkaz,
-    tableDomisili,
-    tableJenisKelamin,
-    tableTanggalLahir,
+    titleTwo,
+    titleThree,
+    titleFour,
+    titleFive,
     santriormarkaz,
   } = props;
 
@@ -36,15 +34,15 @@ export default function CustomizedTables(props) {
         <TableHead>
           <TableRow>
             <StyledTableCell align="left">Nama</StyledTableCell>
-            <StyledTableCell align="left">{tableTempatMarkaz}</StyledTableCell>
-            <StyledTableCell align="left">{tableDomisili}</StyledTableCell>
-            <StyledTableCell align="left">{tableJenisKelamin}</StyledTableCell>
-            <StyledTableCell align="left">{tableTanggalLahir}</StyledTableCell>
-            <StyledTableCell align="left">
-              {santriormarkaz === "markaz" || santriormarkaz === "santri"
-                ? "Daftar Donasi"
-                : null}
-            </StyledTableCell>
+            <StyledTableCell align="left">{titleTwo}</StyledTableCell>
+            <StyledTableCell align="left">{titleThree}</StyledTableCell>
+            <StyledTableCell align="left">{titleFour}</StyledTableCell>
+            {!!titleFive && (
+              <StyledTableCell align="left">{titleFive}</StyledTableCell>
+            )}
+            {santriormarkaz === "markaz" || santriormarkaz === "santri" ? (
+              <StyledTableCell align="left">Daftar Donasi</StyledTableCell>
+            ) : null}
             <StyledTableCell align="center">Action</StyledTableCell>
           </TableRow>
         </TableHead>

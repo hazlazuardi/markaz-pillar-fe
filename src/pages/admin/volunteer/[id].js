@@ -5,6 +5,7 @@ import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserT
 import GridView from "../../../component/templates/admin/GridView";
 import TableView from "../../../component/templates/admin/TableView";
 import { ArrowBack } from "@mui/icons-material";
+import { useRouter } from "next/router";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
@@ -12,23 +13,23 @@ export default function AdminMarkaz(props) {
   // const { allVolunteer } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const [searchVolunteer, setSearchVolunteer] = useState("")
+  const [searchVolunteer, setSearchVolunteer] = useState("");
   const [locationFilter, setLocationFilter] = useState();
   const [nameFilter, setNameFilter] = useState();
   const [categoryFilter, setCategoryFilter] = useState();
   const [categoryFilter2, setCategoryFilter2] = useState();
   const [categoryFilter3, setCategoryFilter3] = useState();
+  const router = useRouter();
   const {
     data: responseVolunteer,
     error,
     mutate,
   } = useSWR(
-    `/markaz/search?page=${page - 1}&n=${entries}&${!!locationFilter ? "address=" + locationFilter : ""
-    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${!!categoryFilter ? "category=" + categoryFilter : ""
-    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${!!categoryFilter3 ? "category=" + categoryFilter3 : ""
-    }&${!!searchVolunteer && "name=" + searchVolunteer}
-`,
-    fetcher,
+    router.isReady
+      ? `/admin/volunteer/registration?page=${page - 1}&n=${entries}
+`
+      : null,
+    fetcher
     // {
     //   fallbackData: allVolunteer,
     //   refreshInterval: 30000,
@@ -51,6 +52,12 @@ export default function AdminMarkaz(props) {
       });
   };
 
+  const changeStatus = async (id, status) => {
+    return axiosMain.post(`/admin/volunteer/registration/status?id=${id}`, {
+      status: `${status}`,
+    });
+  };
+
   const GridViewAdminVolunteerDetail = () => {
     return (
       <GridView
@@ -58,7 +65,7 @@ export default function AdminMarkaz(props) {
         detail="admin/markaz"
         handleDelete={handleDeleteMarkaz}
       />
-    )
+    );
   };
 
   const TableViewAdminVolunteerDetail = () => {
@@ -68,13 +75,14 @@ export default function AdminMarkaz(props) {
         detail="admin/markaz"
         handleDelete={handleDeleteMarkaz}
         santriormarkaz="volunteer"
-        tableTempatMarkaz="Nomor KTP"
-        tableDomisili="Email"
-        tableJenisKelamin="Nomor Telpon"
-        tableTanggalLahir="Status"
+        titleTwo="Nomor KTP"
+        titleThree="Email"
+        titleFour="Nomor Telpon"
+        titleFive="Status"
+        apiCall={changeStatus()}
       />
-    )
-  }
+    );
+  };
 
   return (
     <>

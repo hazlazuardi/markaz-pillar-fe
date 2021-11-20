@@ -11,7 +11,7 @@ export default function AdminMarkaz(props) {
   // const { allMarkaz } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const [searchMarkaz, setSearchMarkaz] = useState("")
+  const [searchMarkaz, setSearchMarkaz] = useState("");
   const [locationFilter, setLocationFilter] = useState();
   const [nameFilter, setNameFilter] = useState();
   const [categoryFilter, setCategoryFilter] = useState();
@@ -22,12 +22,15 @@ export default function AdminMarkaz(props) {
     error,
     mutate,
   } = useSWR(
-    `/markaz/search?page=${page - 1}&n=${entries}&${!!locationFilter ? "address=" + locationFilter : ""
-    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${!!categoryFilter ? "category=" + categoryFilter : ""
-    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${!!categoryFilter3 ? "category=" + categoryFilter3 : ""
+    `/markaz/search?page=${page - 1}&n=${entries}&${
+      !!locationFilter ? "address=" + locationFilter : ""
+    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${
+      !!categoryFilter ? "category=" + categoryFilter : ""
+    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${
+      !!categoryFilter3 ? "category=" + categoryFilter3 : ""
     }&${!!searchMarkaz && "name=" + searchMarkaz}
 `,
-    fetcher,
+    fetcher
     // {
     //   fallbackData: allMarkaz,
     //   refreshInterval: 30000,
@@ -52,9 +55,13 @@ export default function AdminMarkaz(props) {
 
   const GridViewAdminMarkaz = () => {
     return (
-      <GridView data={responseMarkaz} detail="admin/markaz" handleDelete={handleDeleteMarkaz} />
-    )
-  }
+      <GridView
+        data={responseMarkaz}
+        detail="admin/markaz"
+        handleDelete={handleDeleteMarkaz}
+      />
+    );
+  };
   const TableViewMarkaz = () => {
     return (
       <TableView
@@ -62,12 +69,11 @@ export default function AdminMarkaz(props) {
         detail="admin/markaz"
         handleDelete={handleDeleteMarkaz}
         santriormarkaz="markaz"
-        tableTempatMarkaz="Kategori"
-        // tableDomisili="Contact Person"
-        tableJenisKelamin="Contact Person"
-        tableTanggalLahir="Kontak"
+        titleTwo="Kategori"
+        titleThree="Contact Person"
+        titleFour="Kontak"
       />
-    )
+    );
   };
 
   const handleChangeName = (event) => {
@@ -130,7 +136,7 @@ export default function AdminMarkaz(props) {
         setPage={setPage}
         data={responseMarkaz}
         error={error}
-        hrefCreate='/admin/markaz/create'
+        hrefCreate="/admin/markaz/create"
         locationFilter={locationFilter}
         setLocationFilter={setLocationFilter}
         nameFilter={nameFilter}
@@ -147,14 +153,3 @@ export default function AdminMarkaz(props) {
     </>
   );
 }
-
-// export async function getStaticProps() {
-//   const staticMarkaz = await axiosMain.get("/markaz/search?n=1000");
-//   return {
-//     props: {
-//       allMarkaz: staticMarkaz.data,
-//     },
-//     revalidate: 10,
-//   };
-// }
-

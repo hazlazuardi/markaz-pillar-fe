@@ -11,33 +11,35 @@ const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 export default function DonasiMarkaz(props) {
   const router = useRouter();
   const { id } = router.query;
-  const [searchDonasiMarkaz, setSearchDonasiMarkaz] = useState("")
+  const [searchDonasiMarkaz, setSearchDonasiMarkaz] = useState("");
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const { data: responseDonasiMarkaz, error } = useSWR(router.isReady ? 
-    `/admin/donation/markaz?id=${id}&page=${page - 1}&n=${entries}&${!!searchDonasiMarkaz && "s=" + searchDonasiMarkaz}` : null,
-    fetcher,
+  const { data: responseDonasiMarkaz, error } = useSWR(
+    router.isReady
+      ? `/admin/donation/markaz?id=${id}&page=${page - 1}&n=${entries}&${
+          !!searchDonasiMarkaz && "s=" + searchDonasiMarkaz
+        }`
+      : null,
+    fetcher
   );
-
 
   const TableViewMarkazDonasi = (
     <TableView
       data={responseDonasiMarkaz}
       santriormarkaz="donasi"
       detail="admin/markaz"
-      tableTempatMarkaz="ID Donasi"
-      tableDomisili="Nominal Donasi"
-      tableJenisKelamin="Jumlah Donasi Terkumpul"
-      tableTanggalLahir="Status"
-      isDonasi
+      titleTwo="ID Donasi"
+      titleThree="Nominal Donasi"
+      titleFour="Jumlah Donasi Terkumpul"
+      titleFive="Status"
       iddonasi={id}
     />
   );
-  
+
   if (error) return "An error has occurred.";
   return (
     <>
-      <ArrowBack href={"/admin/markaz/"+id} />
+      <ArrowBack href={"/admin/markaz/" + id} />
       <AdminOrUserTemplate
         variant="donasi"
         TableView={TableViewMarkazDonasi}
