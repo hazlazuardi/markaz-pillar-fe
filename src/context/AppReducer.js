@@ -51,8 +51,8 @@ export const enumRoutes = {
     ADMIN_SANTRI_DONASI_EDIT: "/admin/santri/donasi/edit/[id]",
     ADMIN_SANTRI_TRANSAKSI: "/admin/santri/donasi/[id]/transaksi/[transid]",
 
-    ADMIN_PROGRAM_VOLUNTEER: "/admin/volunteer",
-    ADMIN_PESERTA_VOLUNTEER: "/admin/volunteer/[id]",
+    ADMIN_PROGRAM_VOLUNTEER: "/admin/kegiatan",
+    ADMIN_PESERTA_VOLUNTEER: "/admin/kegiatan/[id]",
 
     ADMIN_DATA_PENGGUNA: "/admin/data-pengguna",
 

@@ -1,13 +1,15 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../context/AppContext";
-import { dispatchTypes } from "../../../../context/AppReducer";
-import { axiosFormData } from "../../../../axiosInstances";
+import { useAppContext } from "../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../context/AppReducer";
+import { axiosFormData } from "../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-import AdminCreateOrEditTestimoni from "../../../../component/templates/admin/AdminCreateOrEditTestimoni";
+import AdminCreateOrEditTestimoni from "../../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
 
 function AdminCreateVolunteerTestimoni() {
+    const router = useRouter();
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
+    const { kegiatanid } = router.query
     const [testi, setTesti] = useState({
         name: "",
         description: "",
@@ -30,11 +32,11 @@ function AdminCreateVolunteerTestimoni() {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("testi", testiBlob);
+        data.append("detail", testiBlob);
 
 
         await axiosFormData
-            .post("/admin/volunteer/testimoni", data)
+            .post(`/admin/volunteer/testimony?program_id=${kegiatanid}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -83,8 +85,6 @@ function AdminCreateVolunteerTestimoni() {
             })
     };
 
-    const router = useRouter()
-    const pathname = router.pathname;
     const [loading, setLoading] = useState(false)
     return (
         <AdminCreateOrEditTestimoni

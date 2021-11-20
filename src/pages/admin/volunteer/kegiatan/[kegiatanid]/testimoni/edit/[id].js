@@ -1,17 +1,31 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../context/AppReducer";
-import { axiosFormData } from "../../../../../axiosInstances";
+import { useAppContext } from "../../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../../context/AppReducer";
+import {axiosFormData, axiosMain} from "../../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-import AdminCreateOrEditTestimoni from "../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
+import AdminCreateOrEditTestimoni from "../../../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
+import useSWR from "swr";
 
-function AdminEditVolunteerTestimoni(props) {
-    const { responseTesti } = props
+const fetcher = url => axiosMain.get(url).then(res => res.data)
+
+function AdminEditVolunteerTestimoni() {
+    const router = useRouter();
+    const { id, kegiatanid } = router.query
+    const {
+        data: responseTestimoni,
+        error,
+        mutate,
+    } = useSWR(
+        router.isReady ?
+            `/admin/volunteer?id=${kegiatanid}`: null,
+        fetcher,
+    );
+
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
     const [testi, setEditTesti] = useState({
-        name: "",
-        description: "",
+        name: responseTestimoni ? responseTestimoni.name : "",
+        description: responseTestimoni ? responseTestimoni.description: "",
     });
     const form = useRef(null);
 
@@ -31,11 +45,10 @@ function AdminEditVolunteerTestimoni(props) {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("testi", testiBlob);
-
+        data.append("detail", testiBlob);
 
         await axiosFormData
-            .post("/admin/volunteer/testimoni", data)
+            .post(`/admin/volunteer/testimony/edit?id=${id}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -84,7 +97,6 @@ function AdminEditVolunteerTestimoni(props) {
             })
     };
 
-    const router = useRouter()
     const pathname = router.pathname;
     const [loading, setLoading] = useState(false)
     return (

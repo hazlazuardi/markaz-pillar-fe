@@ -1,23 +1,37 @@
 import { useState, useRef } from "react";
 import { useAppContext } from "../../../../../context/AppContext";
 import { dispatchTypes } from "../../../../../context/AppReducer";
-import { axiosFormData } from "../../../../../axiosInstances";
+import {axiosFormData, axiosMain} from "../../../../../axiosInstances";
 import { useRouter } from 'next/router';
 import AdminCreateOrEditKegiatan from "../../../../../component/templates/admin/AdminCreateOrEditKegiatan";
+import useSWR from "swr";
 
-function AdminEditVolunteerKegiatan(props) {
+const fetcher = url => axiosMain.get(url).then(res => res.data)
+
+function AdminEditVolunteerKegiatan() {
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const { responseVolunteer } = props
+    const router = useRouter();
+    const { id } = router.query
+    const {
+        data: responseKegiatan,
+        error,
+        mutate,
+    } = useSWR(
+        router.isReady ?
+            `/volunteer/edit?id=${id}`: null,
+        fetcher,
+    );
+
     const [kegiatan, setKegiatan] = useState({
-        name: "",
-        description: "",
-        term: "",
-        benefit: "",
-        volunteerNeeded: 0,
-        location: "",
-        schedule: "",
-        isActive: null
+        name: responseKegiatan ? responseKegiatan.name: "",
+        description: responseKegiatan ? responseKegiatan.description: "",
+        term: responseKegiatan ? responseKegiatan.term: "",
+        benefit: responseKegiatan ? responseKegiatan.benefit: "",
+        volunteerNeeded: responseKegiatan ? responseKegiatan.volunteerNeeded: 0,
+        location: responseKegiatan ? responseKegiatan.location: "",
+        schedule: responseKegiatan ? responseKegiatan.schedule: "",
+        isActive: responseKegiatan ? responseKegiatan.isActive: null
     });
     const form = useRef(null);
 
@@ -37,11 +51,12 @@ function AdminEditVolunteerKegiatan(props) {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("kegiatan", kegiatanBlob);
+        data.append("detail", kegiatanBlob);
 
+        console.log(kegiatan);
 
         await axiosFormData
-            .post("/admin/volunteer/kegiatan", data)
+            .post("/admin/volunteer", data)
             .then(response => {
                 setLoading(false)
 
@@ -90,8 +105,6 @@ function AdminEditVolunteerKegiatan(props) {
             })
     };
 
-    const router = useRouter()
-    const pathname = router.pathname;
     const [loading, setLoading] = useState(false)
     return (
         <AdminCreateOrEditKegiatan

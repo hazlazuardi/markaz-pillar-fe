@@ -16,7 +16,6 @@ function AdminCreateVolunteerKegiatan() {
         volunteerNeeded: 0,
         location: "",
         schedule: "",
-        isActive: null
     });
     const form = useRef(null);
 
@@ -38,11 +37,12 @@ function AdminCreateVolunteerKegiatan() {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("kegiatan", kegiatanBlob);
+        data.append("detail", kegiatanBlob);
 
+        console.log(kegiatan);
 
         await axiosFormData
-            .post("/admin/volunteer/kegiatan", data)
+            .post("/admin/volunteer", data)
             .then(response => {
                 setLoading(false)
 
@@ -91,12 +91,6 @@ function AdminCreateVolunteerKegiatan() {
                 }
             })
     };
-
-    const router = useRouter()
-    if (submitted) {
-        console.log(submitted)
-        router.push("/admin/volunteer/kegiatan")
-    }
 
     const [loading, setLoading] = useState(false)
     return (
