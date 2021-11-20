@@ -14,31 +14,33 @@ export const axiosMain = axios.create({
 })
 
 axiosMain.interceptors.response.use((response) => {
-    console.log("NO ERROR")
+    console.log("SUCCESS")
     return response
 }, 
 function (error) {
-    console.log("ERROR JAAAAAAAAa")
+    console.log("ERROR")
+    console.log(JSON.parse(localStorage.getItem('currentRefreshToken')))
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
-        return axios.post('/authenticate/refresh',
-            {
-                "refreshToken": localStorage.getItem('currentRefreshToken'),
-                "accessToken": localStorage.getItem('currentAccessToken')
+        if(JSON.parse(localStorage.getItem('currentRefreshToken')) != "") {
+            return axios.post('/authenticate/refresh', {
+                refreshToken: JSON.parse(localStorage.getItem('currentRefreshToken')),
+                accessToken: JSON.parse(localStorage.getItem('currentAccessToken'))
             })
-            .then(res => {
-                if (res.status === 201) {
-                    // 1) put token to LocalStorage
-                    localStorage.setItem("currentAccessToken", res.data.accessToken);
-                    localStorage.setItem("currentRefreshToken", res.data.refreshToken);
-                    // 2) Change Authorization header
-                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('currentAccessToken');
-                    // 3) return originalRequest object with Axios.
-                    console.log("Token Refreshed")
-                    return axios(originalRequest);
-                }
-            })
+                .then(res => {
+                    if (res.status === 200) {
+                        // 1) put token to LocalStorage
+                        localStorage.setItem("currentAccessToken", res.data.accessToken);
+                        localStorage.setItem("currentRefreshToken", res.data.refreshToken);
+                        // 2) Change Authorization header
+                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('currentAccessToken');
+                        // 3) return originalRequest object with Axios.
+                        console.log("Token Refreshed")
+                        return axios(originalRequest);
+                    }
+                })
+        }
     }
     return Promise.reject(error);
 })
