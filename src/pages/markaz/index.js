@@ -119,7 +119,7 @@ export default function Markaz(props) {
 }
 
 export async function getStaticProps() {
-  const staticMarkazResponse = await axiosMain.get("/markaz/search?n=1000");
+  const staticMarkazResponse = await axiosMain.get("/markaz/search");
   const staticMarkaz = staticMarkazResponse.data
   return {
     props: {

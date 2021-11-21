@@ -16,8 +16,9 @@ export default function AdminUsers() {
 
   
 
-  const TableViewDataPengguna = (
-    <TableView
+  const TableViewDataPengguna = () => {
+    return (
+      <TableView
       data={responsePengguna}
       detail="admin/markaz"
       //   handleDelete={handleDeleteMarkaz}
@@ -27,7 +28,8 @@ export default function AdminUsers() {
       tableTanggalLahir="Alamat"
       santriormarkaz="pengguna"
     />
-  );
+    )
+  }
   return (
     <>
       <AdminOrUserTemplate
@@ -37,7 +39,7 @@ export default function AdminUsers() {
         setPage={setPage}
         entries={entries}
         setEntries={setEntries}
-        TableView={TableViewDataPengguna}
+        TableView={<TableViewDataPengguna />}
       />
     </>
   );

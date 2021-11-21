@@ -22,12 +22,9 @@ export default function AdminMarkaz(props) {
     error,
     mutate,
   } = useSWR(
-    `/markaz/search?page=${page - 1}&n=${entries}&${
-      !!locationFilter ? "address=" + locationFilter : ""
-    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${
-      !!categoryFilter ? "category=" + categoryFilter : ""
-    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${
-      !!categoryFilter3 ? "category=" + categoryFilter3 : ""
+    `/markaz/search?page=${page - 1}&n=${entries}&${!!locationFilter ? "address=" + locationFilter : ""
+    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${!!categoryFilter ? "category=" + categoryFilter : ""
+    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${!!categoryFilter3 ? "category=" + categoryFilter3 : ""
     }&${!!searchProgram && "name=" + searchProgram}
 `,
     fetcher,
@@ -53,33 +50,38 @@ export default function AdminMarkaz(props) {
       });
   };
 
-  const GridViewMarkaz = (
-    <GridView
-      data={responseProgram}
-      detail="admin/markaz"
-      handleDelete={handleDeleteMarkaz}
-    />
-  );
-  const TableViewMarkaz = (
-    <TableView
-      data={responseProgram}
-      detail="admin/markaz"
-      handleDelete={handleDeleteMarkaz}
-      santriormarkaz="kegiatan"
-      tableTempatMarkaz="Volunteer Dibutuhkan"
-      tableDomisili="Volunteer Saat Ini"
-      tableJenisKelamin="Lokasi"
+  const GridViewAdminVolunteer = () => {
+    return (
+      <GridView
+        data={responseProgram}
+        detail="admin/markaz"
+        handleDelete={handleDeleteMarkaz}
+      />
+    )
+  };
+
+  const TableViewAdminVolunteer = () => {
+    return (
+      <TableView
+        data={responseProgram}
+        detail="admin/markaz"
+        handleDelete={handleDeleteMarkaz}
+        santriormarkaz="kegiatan"
+        tableTempatMarkaz="Volunteer Dibutuhkan"
+        tableDomisili="Volunteer Saat Ini"
+        tableJenisKelamin="Lokasi"
       //   tableTanggalLahir="Lokasi"
-    />
-  );
+      />
+    )
+  }
 
   return (
     <>
       <AdminOrUserTemplate
         isAdmin
         variant="kegiatan"
-        GridView={GridViewMarkaz}
-        TableView={TableViewMarkaz}
+        GridView={<GridViewAdminVolunteer />}
+        TableView={<TableViewAdminVolunteer />}
         entries={entries}
         setEntries={setEntries}
         searchTerm={searchProgram}

@@ -33,7 +33,7 @@ export default function Santri(props) {
     mutate();
   }, [ageFilter, nameFilter, mutate]);
 
-  const GridViewMarkaz = () => {
+  const GridViewSantri = () => {
     return (
       <GridView data={responseSantri} detail="santri" />
     );
@@ -82,7 +82,7 @@ export default function Santri(props) {
     <>
       <AdminOrUserTemplate
         variant="santri"
-        GridView={<GridViewMarkaz/>}
+        GridView={<GridViewSantri/>}
         entries={entries}
         setEntries={setEntries}
         searchTerm={searchSantri}
