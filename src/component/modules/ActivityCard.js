@@ -73,6 +73,7 @@ export default function ActivityCard(props) {
                                     <Grid item sm={4} xs={12} p={1} sx={{alignSelf:"flex-end"}}>
                                         <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", textAlign:"right"}}>
                                             <Link href={`/${recipientType}/` + targetId} passHref>{`Lihat ${(recipientType)}`}</Link>
+                                            <DeleteOutlineIcon/>
                                         </Typography>
                                     </Grid>
                                 </Grid>
