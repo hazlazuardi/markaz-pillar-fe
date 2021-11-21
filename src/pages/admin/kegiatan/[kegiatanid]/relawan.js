@@ -32,7 +32,7 @@ export default function AdminMarkaz(props) {
     fetcher
   );
 
-  // console.log(!!responseVolunteer ? responseVolunteer.result : "");
+  //
 
   const changeStatus = async (ids, status) => {
     return axiosMain.post(`/admin/volunteer/registration/status?id=${ids}`, {
