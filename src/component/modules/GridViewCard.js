@@ -21,7 +21,7 @@ export default function GridViewCard(props) {
                     <CardMedia sx={isXXS ? { width: '100%', height: '100%' } : { width: IMAGE_SIZE, height: IMAGE_SIZE }} alt="Live from space album cover">
                         <Box position='relative' sx={isXXS ? { width: '100%', height: '100%' } : { width: IMAGE_SIZE, height: IMAGE_SIZE }}>
                             <Image src={!!image ? image : 'https://source.unsplash.com/random'} layout={isXXS ? 'responsive' : 'fill'}
-                                objectFit='cover' alt='Backdrop' width={isXXS ? 16 : IMAGE_SIZE} height={isXXS ? 16 : IMAGE_SIZE} />
+                                objectFit='cover' alt='Backdrop' width={isXXS ? 16 : undefined} height={isXXS ? 16 : undefined} />
                         </Box>
                     </CardMedia>
                     <CardContent>
