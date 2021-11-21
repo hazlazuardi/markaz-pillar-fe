@@ -32,19 +32,24 @@ export default function Profile(props) {
   const [entries, setEntries] = useState(10);
   const [statusFilter, setStatusFilter] = useState();
   const [typeFilter, setTypeFilter] = useState("ALL");
-  const [show, setShow] = useState();
+//   const [show, setShow] = useState();
 
   const { data, error, mutate } = useSWR(
     `/user/activity?page=${page - 1}&n=${entries}${
       !!typeFilter ? "&type=" + typeFilter : ""
     }${!!statusFilter ? "&status=" + statusFilter : ""}`,
     fetcher,
+    { fallbackData: allActivity, refreshInterval: 30000 }
   );
 
   useEffect(() => {
     mutate();
   }, [statusFilter, typeFilter, mutate]);
 
+
+//   useEffect(() => {
+//       setShow("ALL");
+//   })
 
   const handleLogout = () => {
     localStorage.clear();
@@ -70,6 +75,10 @@ export default function Profile(props) {
       mutate();
     }
   };
+
+  useEffect(() => {
+    if (data != null) setActivities(data.result);
+  }, [data]);
 
   const handleChangeStatus = (event) => {
     setStatusFilter(event.target.value);
@@ -124,7 +133,7 @@ export default function Profile(props) {
               targetId={activity.targetId}
             />
           );
-        } else {
+        } else if (activity.type == "VOLUNTEER"){
           return (
             <ActivityCard
               type={"Volunteer"}
@@ -145,39 +154,61 @@ export default function Profile(props) {
       </Grid>
     );
 
+  const donations =
+    activities.length != 0 ? (
+      activities
+        .filter((activity) => activity.type == "TRANSACTION")
+        .map((activity) => (
+          <ActivityCard
+            type={"Donasi"}
+            name={activity.data.targetName}
+            status={activity.data.status}
+            date={activity.createdAt}
+            secInfo={activity.data.amount}
+            recipientType={activity.data.targetType}
+            key={activity.id}
+            targetId={activity.targetId}
+          />
+        ))
+    ) : (
+      <Grid item lg={6} xs={12}>
+        <Typography>No activities yet</Typography>
+      </Grid>
+    );
 
-    
-  useEffect(() => {
-    const { newData, mutate } = useSWR(
-        `/user/activity?page=${page - 1}&n=${entries}${
-          !!typeFilter ? "&type=" + typeFilter : ""
-        }${!!statusFilter ? "&status=" + statusFilter : ""}`,
-        fetcher,
-        { fallbackData: allActivity, refreshInterval: 30000 }
-      );
-    setActivities(newData.result)
-}, [tabIndex, statusFilter])
+  const volunteers =
+    activities.length != 0 ? (
+      activities
+        .filter((activity) => activity.type == "VOLUNTEER")
+        .map((activity) => (
+          <ActivityCard
+            type={"Volunteer"}
+            name={activity.data.program.name}
+            status={activity.data.status}
+            date={activity.createdAt}
+            secInfo={activity.data.program.location}
+            recipientType={"volunteer"}
+            key={activity.id}
+            targetId={activity.targetId}
+          />
+        ))
+    ) : (
+      <Grid item lg={6} xs={12}>
+        <Typography>No activities yet</Typography>
+      </Grid>
+    );
 
-    useEffect(() => {
-        if (data != null) setActivities(data.result);
-    }, [data]);
-
-console.log(activities)
-
-//   const showData = () => {
-//     if (tabIndex == 0) {
-//         setShow(allActivities)
-//     //   return allActivities;
-//     } else if (tabIndex == 1) {
-//         setShow(donations)
-//     //   return donations;
-//     } else if (tabIndex == 2) {
-//         setShow(volunteers)
-//     //   return volunteers;
-//     } else {
-//       return "No activities yet";
-//     }
-//   };
+  const showData = () => {
+    if (tabIndex == 0) {
+      return allActivities;
+    } else if (tabIndex == 1) {
+      return donations;
+    } else if (tabIndex == 2) {
+      return volunteers;
+    } else {
+      return "No activities yet";
+    }
+  };
 
   return (
     <Container maxWidth="lg" className={styles.container}>
@@ -279,7 +310,7 @@ console.log(activities)
 
         <Grid item xs={12}>
           <Grid container spacing={2}>
-            {/* {showData()} */}
+            {showData()}
           </Grid>
         </Grid>
 
@@ -295,14 +326,3 @@ console.log(activities)
     </Container>
   );
 }
-
-export async function getStaticProps() {
-    const staticAllActivityResponse = await axiosMain.get("/user/activity?n=1000");
-    const staticAllActivity= staticAllActivityResponse.data;
-    return {
-      props: {
-        allActivity: staticAllActivity,
-      },
-      revalidate: 10,
-    };
-  }
