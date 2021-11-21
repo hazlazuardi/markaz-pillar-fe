@@ -26,29 +26,32 @@ export default function Santri(props) {
     mutate();
   }, [ageFilter, nameFilter, mutate]);
 
-  const GridViewMarkaz = <GridView data={responseSantri} detail="santri" />;
-
-  return (
-    <>
-      <AdminOrUserTemplate
-        variant="santri"
-        GridView={GridViewMarkaz}
-        entries={entries}
-        setEntries={setEntries}
-        searchTerm={searchSantri}
-        setSearchTerm={setSearchSantri}
-        page={page}
-        setPage={setPage}
-        data={responseSantri}
-        error={error}
-        ageFilter={ageFilter}
-        setAgeFilter={setAgeFilter}
-        nameFilter={nameFilter}
-        setNameFilter={setNameFilter}
-        mutate={mutate}
-      />
-    </>
-  );
+  const GridViewSantri = () => {
+    return (
+      <GridView data={responseSantri} detail="santri" />
+    )
+}
+return (
+  <>
+    <AdminOrUserTemplate
+      variant="santri"
+      GridView={<GridViewSantri />}
+      entries={entries}
+      setEntries={setEntries}
+      searchTerm={searchSantri}
+      setSearchTerm={setSearchSantri}
+      page={page}
+      setPage={setPage}
+      data={responseSantri}
+      error={error}
+      ageFilter={ageFilter}
+      setAgeFilter={setAgeFilter}
+      nameFilter={nameFilter}
+      setNameFilter={setNameFilter}
+      mutate={mutate}
+    />
+  </>
+);
 }
 
 export async function getStaticProps() {

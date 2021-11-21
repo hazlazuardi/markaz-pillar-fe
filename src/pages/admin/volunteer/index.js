@@ -8,7 +8,7 @@ import TableView from "../../../component/templates/admin/TableView";
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function AdminMarkaz(props) {
-  const { allProgram } = props;
+  // const { allProgram } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [searchProgram, setSearchProgram] = useState("")
@@ -22,19 +22,16 @@ export default function AdminMarkaz(props) {
     error,
     mutate,
   } = useSWR(
-    `/markaz/search?page=${page - 1}&n=${entries}&${
-      !!locationFilter ? "address=" + locationFilter : ""
-    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${
-      !!categoryFilter ? "category=" + categoryFilter : ""
-    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${
-      !!categoryFilter3 ? "category=" + categoryFilter3 : ""
+    `/markaz/search?page=${page - 1}&n=${entries}&${!!locationFilter ? "address=" + locationFilter : ""
+    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${!!categoryFilter ? "category=" + categoryFilter : ""
+    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${!!categoryFilter3 ? "category=" + categoryFilter3 : ""
     }&${!!searchProgram && "name=" + searchProgram}
 `,
     fetcher,
-    {
-      fallbackData: allProgram,
-      refreshInterval: 30000,
-    }
+    // {
+    //   fallbackData: allProgram,
+    //   refreshInterval: 30000,
+    // }
   );
 
   // *******************************************************
@@ -53,33 +50,38 @@ export default function AdminMarkaz(props) {
       });
   };
 
-  const GridViewMarkaz = (
-    <GridView
-      data={responseProgram}
-      detail="admin/markaz"
-      handleDelete={handleDeleteMarkaz}
-    />
-  );
-  const TableViewMarkaz = (
-    <TableView
-      data={responseProgram}
-      detail="admin/markaz"
-      handleDelete={handleDeleteMarkaz}
-      santriormarkaz="kegiatan"
-      tableTempatMarkaz="Volunteer Dibutuhkan"
-      tableDomisili="Volunteer Saat Ini"
-      tableJenisKelamin="Lokasi"
+  const GridViewAdminVolunteer = () => {
+    return (
+      <GridView
+        data={responseProgram}
+        detail="admin/markaz"
+        handleDelete={handleDeleteMarkaz}
+      />
+    )
+  };
+
+  const TableViewAdminVolunteer = () => {
+    return (
+      <TableView
+        data={responseProgram}
+        detail="admin/markaz"
+        handleDelete={handleDeleteMarkaz}
+        santriormarkaz="kegiatan"
+        tableTempatMarkaz="Volunteer Dibutuhkan"
+        tableDomisili="Volunteer Saat Ini"
+        tableJenisKelamin="Lokasi"
       //   tableTanggalLahir="Lokasi"
-    />
-  );
+      />
+    )
+  }
 
   return (
     <>
       <AdminOrUserTemplate
         isAdmin
         variant="kegiatan"
-        GridView={GridViewMarkaz}
-        TableView={TableViewMarkaz}
+        GridView={<GridViewAdminVolunteer />}
+        TableView={<TableViewAdminVolunteer />}
         entries={entries}
         setEntries={setEntries}
         searchTerm={searchProgram}
@@ -105,12 +107,12 @@ export default function AdminMarkaz(props) {
   );
 }
 
-export async function getStaticProps() {
-  const staticMarkaz = await axiosMain.get("/markaz/search?n=1000");
-  return {
-    props: {
-      allProgram: staticMarkaz.data,
-    },
-    revalidate: 10,
-  };
-}
+// export async function getStaticProps() {
+//   const staticMarkaz = await axiosMain.get("/markaz/search?n=1000");
+//   return {
+//     props: {
+//       allProgram: staticMarkaz.data,
+//     },
+//     revalidate: 10,
+//   };
+// }

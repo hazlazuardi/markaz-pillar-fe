@@ -1,84 +1,122 @@
-import React from "react";
-import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
-import DetailTemplate from "../../../component/templates/detail/Detail";
+import React, { useState, useEffect } from "react";
+import DetailView from '../../../component/templates/DetailView'
+import { axiosMain } from '../../../axiosInstances';
+import useSWR from "swr";
+import { useRouter } from "next/router";
 import ArrowBack from "../../../component/modules/ArrowBack";
+import ProgressDonasiFooter from "../../../component/modules/ProgressDonasiFooter"
+import { markazCategory } from "../../../context/AppReducer";
+import { Stack } from "@mui/material";
+import Add from "@mui/icons-material/Add";
+import { DonutLarge } from "@mui/icons-material";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
+const fetcher = url => axiosMain.get(url).then(res => res.data)
+export default function AdminDetailSantri(props) {
+  // const { detailAdminSantri } = props
+  const router = useRouter();
+  const { id } = router.query
+  const { data: responseDetailAdminSantri, error } = useSWR(router.isReady ? `/santri?id=${id}` : null,
+    fetcher,
+    // { fallbackData: detailAdminSantri, refreshInterval: 10000 }
+  )
 
-export async function getStaticProps(context) {
-  const id = context.params.id;
-  const response = await fetch(`${BASE_URL}/santri?id=` + id);
-  const data = await response.json();
-  const santri = data.result;
+  const [convertedData, setconvertedData] = useState({})
+  useEffect(() => {
+    if (responseDetailAdminSantri) {
+      const dataResult = {
+        ...responseDetailAdminSantri.result
+      }
+      const convertedDataSantri = {
+        title: dataResult.name,
+        description: dataResult.background,
+        image: dataResult.thumbnailURL,
+        details: [
+          {
+            subtitle: "Tempat Markaz",
+            detail: dataResult.markaz.name
+          },
+          {
+            subtitle: "Jenis Kelamin",
+            detail: dataResult.gender
+          },
+          {
+            subtitle: "Domisili Asal",
+            detail: dataResult.birthPlace
+          },
+          {
+            subtitle: "Kebutuhan Beasiswa",
+            detail: dataResult.desc
+          },
+          {
+            subtitle: "Tempat & Tanggal Lahir",
+            detail: `${dataResult.birthPlace}, ${dataResult.birthDate}`
+          },
 
-  return {
-    props: {
-      santri: santri,
+        ],
+        donation: [
+          {
+            subtitle: "Nominal yang dibutuhkan",
+            detail: dataResult.nominal
+          },
+        ]
+      }
+
+      const toConvertedData = {
+        ...responseDetailAdminSantri,
+        result: {
+          ...convertedDataSantri
+        }
+      }
+      setconvertedData(toConvertedData)
+    }
+  }, [responseDetailAdminSantri])
+
+  const adminMarkazDetailActions = [
+    {
+      name: "Create Donasi",
+      icon: <Add />,
+      onClick: '/admin/santri/donasi/create'
+    }, {
+      name: "Edit Progress Donasi",
+      icon: <DonutLarge />,
+      onClick: '/admin/markaz/donasi/create'
     },
-  };
-}
+  ]
 
-export async function getStaticPaths() {
-  const response = await fetch(`${BASE_URL}/santri/search?n=1000`);
-  const data = await response.json();
-  const allSantri = data.result;
-
-  const paths = allSantri.map((santri) => ({
-    params: { id: santri.id.toString() },
-  }));
-
-  return {
-    paths: paths,
-    fallback: false,
-  };
-}
-
-export default function santriLayoutDetail(props) {
-  const santri = props.santri;
-
-  const image = santri.thumbnailURL;
-
-  const consistent = {
-    name: santri.name,
-    background: santri.background,
-  };
-
-  const edit = "edit/" + santri.id;
-  const button = (
-    <div>
-      <Button>
-        <Link href={edit} underline="none">
-          Edit
-        </Link>
-      </Button>
-      <Button>Delete</Button>
-    </div>
-  );
-
-  const ttl = santri.birthPlace + ", " + santri.birthDate;
-
-  const tempatmarkaz = santri.markaz.name + ", " + santri.markaz.address;
-
-  const inconsistent = {
-    "Tempat Markaz": tempatmarkaz,
-    "Jenis Kelamin": santri.gender,
-    "Domisili Asal": santri.birthPlace,
-    "Tempat & Tanggal Lahir": ttl,
-    "Kebutuhan Beasiswa": santri.description,
-  };
-
+  if (error) return "An error has occurred.";
+  if (!responseDetailAdminSantri) return "Loading...";
   return (
-    <>
-      <ArrowBack href='/admin/santri' />
-      <DetailTemplate
-        consistent={consistent}
-        inconsistent={inconsistent}
-        image={image}
-        donatetext="Kelola Donasi"
-        adminbutton={button}
-        markazOrSantri="admin/santri"
-      />
-    </>
+    <Stack spacing={4}>
+      <ArrowBack href='/santri' />
+      <DetailView isAdmin variant='santri' data={convertedData} speedDialActions={adminMarkazDetailActions} />
+      <ProgressDonasiFooter isAdmin />
+    </Stack>
   );
 }
+
+// export async function getStaticProps(context) {
+//   const id = context.params.id;
+//   const staticDetailSantriResponse = await axiosMain.get(`/santri?id=${id}`)
+//   const staticDetailSantri = staticDetailSantriResponse.data
+//   return {
+//     props: {
+//       detailAdminSantri: staticDetailSantri,
+//     },
+//     revalidate: 10
+//   };
+// }
+
+// export async function getStaticPaths() {
+//   const staticAllSantriResponse = await axiosMain.get(`/santri/search?n=1000`)
+//   const staticAllSantri = await staticAllSantriResponse.data
+
+//   const paths = await staticAllSantri.result.map((santri) => ({
+//     params: { id: santri.id.toString() },
+//   }));
+
+//   return {
+//     paths: paths,
+//     fallback: false,
+//   };
+// }
+

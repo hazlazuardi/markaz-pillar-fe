@@ -72,7 +72,7 @@ export default function FilterSantri(props) {
     <>
       <Button
         variant="text"
-        href
+        
         ref={anchorRef}
         id="composition-button"
         aria-controls={open ? "composition-menu" : undefined}
