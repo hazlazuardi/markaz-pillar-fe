@@ -2,7 +2,7 @@ import { useState } from "react";
 import { axiosMain } from "../../../axiosInstances";
 import useSWR from "swr";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
-import GridView from "../../../component/templates/admin/GridView";
+import GridViewVolunteer from "../../../component/templates/admin/GridViewVolunteer";
 import TableView from "../../../component/templates/admin/TableView";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
@@ -51,7 +51,7 @@ export default function AdminVolunteer(props) {
 
   const GridViewAdminVolunteer = () => {
     return (
-      <GridView
+      <GridViewVolunteer
         data={responseProgram}
         detail="admin/volunteer"
         handleDelete={handleDeleteMarkaz}
