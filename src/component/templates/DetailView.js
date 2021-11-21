@@ -27,7 +27,7 @@ export default function DetailView(props) {
       name: "Create Donasi",
       icon: <Add />,
       onClick: `${path}/donasi/create`
-    }
+    },
   ]
 
   const [open, setOpen] = useState(false);
