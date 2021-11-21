@@ -1,89 +1,116 @@
-import React from "react";
-import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
-import DetailTemplate from "../../../component/templates/detail/Detail";
+import React, { useState, useEffect } from "react";
+import DetailView from '../../../component/templates/DetailView'
+import { axiosMain } from '../../../axiosInstances';
+import useSWR from "swr";
+import { useRouter } from "next/router";
 import ArrowBack from "../../../component/modules/ArrowBack";
+import ProgressDonasiFooter from "../../../component/modules/ProgressDonasiFooter"
+import { markazCategory } from "../../../context/AppReducer";
+import { Stack } from "@mui/material";
+import Add from "@mui/icons-material/Add";
+import { DonutLarge } from "@mui/icons-material";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
+const fetcher = url => axiosMain.get(url).then(res => res.data)
+export default function AdminMarkazDetail(props) {
+  // const { detailAdminMarkaz } = props
+  const router = useRouter();
+  const { id } = router.query
+  const { data: responseDetailAdminMarkaz, error } = useSWR(router.isReady ? `/markaz?id=${id}` : null,
+    fetcher,
+    // { fallbackData: detailAdminMarkaz, refreshInterval: 10000 }
+  )
 
-export async function getStaticProps(context) {
-  const id = context.params.id;
-  const response = await fetch(`${BASE_URL}/markaz?id=` + id);
-  const data = await response.json();
-  const markazs = data.result;
 
-  return {
-    props: {
-      markazs: markazs,
+  const [convertedData, setconvertedData] = useState({})
+  useEffect(() => {
+    if (responseDetailAdminMarkaz) {
+      const dataResult = {
+        ...responseDetailAdminMarkaz.result
+      }
+      const convertedDataAdminMarkaz = {
+        title: dataResult.name,
+        description: dataResult.background,
+        image: dataResult.thumbnailURL,
+        details: [
+          {
+            subtitle: "Contact Name",
+            detail: dataResult.contactName
+          },
+          {
+            subtitle: "Category",
+            detail: markazCategory[dataResult.category]
+          },
+          {
+            subtitle: "Contact Person",
+            detail: dataResult.contactPerson
+          },
+        ],
+        donation: [
+          {
+            subtitle: "Nominal yang dibutuhkan",
+            detail: dataResult.nominal
+          },
+        ]
+      }
+
+      const toConvertedData = {
+        ...responseDetailAdminMarkaz,
+        result: {
+          ...convertedDataAdminMarkaz
+        }
+      }
+
+      setconvertedData(toConvertedData)
+    }
+  }, [responseDetailAdminMarkaz])
+
+  const adminMarkazDetailActions = [
+    {
+      name: "Create Donasi",
+      icon: <Add />,
+      onClick: `/admin/markaz/donasi/create`
     },
-    revalidate: 1,
-  };
-}
+    {
+      name: "Update Progress Donasi",
+      icon: <Add />,
+      onClick: `/admin/markaz/donasi/create`
+    },
+  ]
 
-export async function getStaticPaths() {
-  const response = await fetch(`${BASE_URL}/markaz/search?n=1000`);
-  const data = await response.json();
-  const markazs = data.result;
-
-  const paths = markazs.map((markaz) => ({
-    params: { id: markaz.id.toString() },
-  }));
-
-  return {
-    paths: paths,
-    fallback: false,
-  };
-}
-
-export default function santriLayoutDetail(props) {
-  const markaz = props.markazs;
-
-  const image = markaz.thumbnailURL;
-
-  const consistent = {
-    name: markaz.name,
-    background: markaz.background,
-    id: markaz.id,
-  };
-
-  const edit = "edit/" + markaz.id;
-  const button = (
-    <div>
-      <Button>
-        <Link href={edit} underline="none">
-          Edit
-        </Link>
-      </Button>
-      <Button>Delete</Button>
-    </div>
-  );
-
-  // Process category
-  const temp = markaz.category.split("_");
-  const markazCategory = `${temp[0]
-    .toLowerCase()
-    .replace(/\b\w/g, (l) => l.toUpperCase())} ${temp[1]
-    .toLowerCase()
-    .replace(/\b\w/g, (l) => l.toUpperCase())}`;
-
-  const inconsistent = {
-    Alamat: markaz.address,
-    "Contact Person": markaz.contactPerson,
-    Kategori: markazCategory,
-    "Kebutuhan Fasilitas": markaz.description,
-  };
-
+  if (error) return "An error has occurred.";
+  if (!responseDetailAdminMarkaz) return "Loading...";
   return (
     <>
       <ArrowBack href='/admin/markaz' />
-      <DetailTemplate
-        consistent={consistent}
-        inconsistent={inconsistent}
-        image={image}
-        donatetext="Kelola Donasi"
-        adminbutton={button}
-        markazOrSantri="admin/markaz"
-      />
+      <DetailView isAdmin variant='markaz' data={convertedData} speedDialActions={adminMarkazDetailActions} />
+      <ProgressDonasiFooter isAdmin />
     </>
-      );
+  );
 }
+
+// export async function getStaticProps(context) {
+//   const id = context.params.id;
+//   const staticDetailMarkazResponse = await axiosMain.get(`/markaz?id=${id}`)
+//   const staticDetailMarkaz = staticDetailMarkazResponse.data
+//   return {
+//     props: {
+//       detailAdminMarkaz: staticDetailMarkaz,
+//     },
+//     revalidate: 10
+//   };
+// }
+
+// export async function getStaticPaths() {
+//   const staticAllMarkazResponse = await axiosMain.get(`/markaz/search?n=1000`)
+//   const staticAllMarkaz = await staticAllMarkazResponse.data
+
+//   const paths = await staticAllMarkaz.result.map((markaz) => ({
+//     params: { id: markaz.id.toString() },
+//   }));
+
+//   return {
+//     paths: paths,
+//     fallback: false,
+//   };
+// }
+

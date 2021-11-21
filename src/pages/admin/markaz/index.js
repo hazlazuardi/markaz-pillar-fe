@@ -8,7 +8,7 @@ import TableView from "../../../component/templates/admin/TableView";
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function AdminMarkaz(props) {
-  const { allMarkaz } = props;
+  // const { allMarkaz } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [searchMarkaz, setSearchMarkaz] = useState("")
@@ -28,10 +28,10 @@ export default function AdminMarkaz(props) {
     }&${!!searchMarkaz && "name=" + searchMarkaz}
 `,
     fetcher,
-    {
-      fallbackData: allMarkaz,
-      refreshInterval: 30000,
-    }
+    // {
+    //   fallbackData: allMarkaz,
+    //   refreshInterval: 30000,
+    // }
   );
 
   // *******************************************************
@@ -50,29 +50,78 @@ export default function AdminMarkaz(props) {
       });
   };
 
-  const GridViewMarkaz = (
-    <GridView data={responseMarkaz} detail="admin/markaz" handleDelete={handleDeleteMarkaz} />
-  )
-  const TableViewMarkaz = (
-    <TableView
-      data={responseMarkaz}
-      detail="admin/markaz"
-      handleDelete={handleDeleteMarkaz}
-      santriormarkaz="markaz"
-      tableTempatMarkaz="Kategori"
-      // tableDomisili="Contact Person"
-      tableJenisKelamin="Contact Person"
-      tableTanggalLahir="Kontak"
-    />
-  );
+  const GridViewAdminMarkaz = () => {
+    return (
+      <GridView data={responseMarkaz} detail="admin/markaz" handleDelete={handleDeleteMarkaz} />
+    )
+  }
+  const TableViewMarkaz = () => {
+    return (
+      <TableView
+        data={responseMarkaz}
+        detail="admin/markaz"
+        handleDelete={handleDeleteMarkaz}
+        santriormarkaz="markaz"
+        tableTempatMarkaz="Kategori"
+        // tableDomisili="Contact Person"
+        tableJenisKelamin="Contact Person"
+        tableTanggalLahir="Kontak"
+      />
+    )
+  };
+
+  const handleChangeName = (event) => {
+    setNameFilter(event.target.value);
+    setLocationFilter("");
+    setCategoryFilter("");
+    setCategoryFilter2("");
+    setCategoryFilter3("");
+    mutate();
+  };
+
+  const handleChangeLocation = (event) => {
+    setLocationFilter(event.target.value);
+    setNameFilter("");
+    setCategoryFilter("");
+    setCategoryFilter2("");
+    setCategoryFilter3("");
+    mutate();
+  };
+
+  const radioMarkaz = [
+    {
+      title: "Lokasi",
+      value: locationFilter,
+      onChange: handleChangeLocation,
+      labels: [
+        {
+          value: "false",
+          label: "Luar Jabodetabek",
+        },
+        { value: "true", label: "Jabodetabok" },
+      ],
+    },
+    {
+      title: "Urutkan Nama",
+      value: nameFilter,
+      onChange: handleChangeName,
+      labels: [
+        {
+          value: "ASC",
+          label: "A-Z",
+        },
+        { value: "DESC", label: "Z-A" },
+      ],
+    },
+  ];
 
   return (
     <>
       <AdminOrUserTemplate
         isAdmin
         variant="markaz"
-        GridView={GridViewMarkaz}
-        TableView={TableViewMarkaz}
+        GridView={<GridViewAdminMarkaz />}
+        TableView={<TableViewMarkaz />}
         searchTerm={searchMarkaz}
         setSearchTerm={setSearchMarkaz}
         entries={entries}
@@ -93,18 +142,19 @@ export default function AdminMarkaz(props) {
         categoryFilter3={categoryFilter3}
         setCategoryFilter3={setCategoryFilter3}
         mutate={mutate}
+        FilterRadioObject={radioMarkaz}
       />
     </>
   );
 }
 
-export async function getStaticProps() {
-  const staticMarkaz = await axiosMain.get("/markaz/search?n=1000");
-  return {
-    props: {
-      allMarkaz: staticMarkaz.data,
-    },
-    revalidate: 10,
-  };
-}
+// export async function getStaticProps() {
+//   const staticMarkaz = await axiosMain.get("/markaz/search?n=1000");
+//   return {
+//     props: {
+//       allMarkaz: staticMarkaz.data,
+//     },
+//     revalidate: 10,
+//   };
+// }
 

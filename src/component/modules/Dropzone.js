@@ -32,7 +32,7 @@ const rejectStyle = {
   borderColor: '#ff1744'
 };
 
-export default function Dropzone({ setFile }) {
+export default function Dropzone({ setFile, accept, fileSize }) {
   const { dispatch } = useAppContext();
 
   const onDropAccepted = useCallback((acceptedFiles) => {
@@ -47,11 +47,32 @@ export default function Dropzone({ setFile }) {
   }, [setFile]);
 
   const onDropRejected = useCallback((fileRejections) => {
+    var message = ""
+
+    if(accept == "image/*") {
+
+      if(fileRejections[0].errors[0].code == "file-too-large") {
+        message = "File is larger than 1 MB"
+      } else {
+        message = "File must be an Image"
+      }
+
+    } else {
+
+      if(fileRejections[0].errors[0].code == "file-too-large") {
+        message = "File is larger than 10 MB"
+      } else {
+        message = "File must be a PDF"
+      }
+      
+    }
+
+
     dispatch({
       type: dispatchTypes.SNACKBAR_CUSTOM,
       payload: {
           severity: 'error',
-          message: "File is larger than 1 MB"
+          message: message
       }
   })
   }, [dispatch]);
@@ -63,7 +84,7 @@ export default function Dropzone({ setFile }) {
     isDragActive,
     isDragAccept,
     isDragReject,
-  } = useDropzone({ accept: 'image/*', onDropAccepted, onDropRejected, maxSize: 1048576 });
+  } = useDropzone({ accept: accept, onDropAccepted, onDropRejected, maxSize: fileSize });
 
   const style = useMemo(() => ({
     ...baseStyle,

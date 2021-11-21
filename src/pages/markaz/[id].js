@@ -9,7 +9,7 @@ import { markazCategory } from "../../context/AppReducer";
 import { Stack } from "@mui/material";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
-export default function MarkazLayoutDetail(props) {
+export default function MarkazDetail(props) {
   const { detailMarkaz } = props
   const router = useRouter();
   const { id } = router.query
@@ -44,7 +44,8 @@ export default function MarkazLayoutDetail(props) {
         subtitle: "Nominal yang dibutuhkan",
         detail: dataResult.nominal
       },
-    ]
+    ],
+    progress: dataResult.progress
   }
 
   const convertedData = {
@@ -67,7 +68,7 @@ export default function MarkazLayoutDetail(props) {
     <>
       <ArrowBack href='/markaz' />
       <DetailView variant='markaz' data={convertedData} />
-      <ProgressDonasiFooter />
+      <ProgressDonasiFooter data={convertedData} />
     </>
   );
 }
