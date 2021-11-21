@@ -32,7 +32,7 @@ export default function Profile(props) {
   const [entries, setEntries] = useState(10);
   const [statusFilter, setStatusFilter] = useState();
   const [typeFilter, setTypeFilter] = useState("ALL");
-//   const [show, setShow] = useState();
+  const [show, setShow] = useState();
 
   const { data, error, mutate } = useSWR(
     `/user/activity?page=${page - 1}&n=${entries}${
@@ -46,10 +46,6 @@ export default function Profile(props) {
     mutate();
   }, [statusFilter, typeFilter, mutate]);
 
-
-//   useEffect(() => {
-//       setShow("ALL");
-//   })
 
   const handleLogout = () => {
     localStorage.clear();
