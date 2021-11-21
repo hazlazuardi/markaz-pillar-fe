@@ -45,7 +45,7 @@ export default function TransaksiMarkaz() {
   );
 
   const { id } = router.query;
-  // console.log(!!markazs ? markazs.result : "");
+  //
   if (error)
     return "An error has occurred. Please re-login or try again later.";
   if (!markazs) return "Loading...";
