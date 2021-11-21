@@ -101,7 +101,8 @@ function AdminCreateOrEditSantri(props) {
                                     <Dropzone
                                         name="thumbnail"
                                         setFile={setThumbnail}
-                                        accept={"application/pdf"}
+                                        accept={"image/*"}
+                                        fileSize={1048576}
                                     />
                                 </Grid>
                                 {thumbnail.name &&
