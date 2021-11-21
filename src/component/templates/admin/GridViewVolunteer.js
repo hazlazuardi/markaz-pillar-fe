@@ -7,8 +7,8 @@ import Masonry from "@mui/lab/Masonry";
 import { Box } from "@mui/system";
 import { Container, useMediaQuery } from "@mui/material";
 
-export default function GridView(props) {
-  const { data, markazOrSantri, intr1Butt, detail, handleDelete } = props;
+export default function GridViewVolunteer(props) {
+  const { data, markazOrSantri, intr1Butt, detail, handleDelete, pageType } = props;
   // array of objects
   const fullResponseResult = data.result;
 
@@ -58,7 +58,7 @@ export default function GridView(props) {
                   telp = "083553420"
                   alamat = "Jl. Tebet timur"
                   thumbnail = "url"
-                  pageType={"daftar kegiatan"}
+                  pageType={pageType}
                 />
               </Box>
             ))}

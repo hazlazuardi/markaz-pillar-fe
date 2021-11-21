@@ -78,16 +78,6 @@ export default function AdminMarkaz(props) {
         data={responseVolunteer}
         error={error}
         hrefCreate="/admin/volunteer/create"
-        locationFilter={locationFilter}
-        setLocationFilter={setLocationFilter}
-        nameFilter={nameFilter}
-        setNameFilter={setNameFilter}
-        categoryFilter={categoryFilter}
-        setCategoryFilter={setCategoryFilter}
-        categoryFilter2={categoryFilter2}
-        setCategoryFilter2={setCategoryFilter2}
-        categoryFilter3={categoryFilter3}
-        setCategoryFilter3={setCategoryFilter3}
         mutate={mutate}
       />
     </>
