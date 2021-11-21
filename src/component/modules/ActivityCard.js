@@ -6,6 +6,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Image from 'next/image'
+import Link from "next/link";
 
 
 export default function ActivityCard(props) {
@@ -14,7 +15,7 @@ export default function ActivityCard(props) {
     const theme = useTheme();
     const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const {type, target, status, date, amount, recipientType} = props
+    const {type, target, status, date, amount, recipientType, targetId} = props
 
     const temp_list = status.split("_")
     const processedStatus = `${temp_list[0]} ${temp_list[1]}`.toLowerCase()
@@ -41,7 +42,7 @@ export default function ActivityCard(props) {
 
                                     <Grid item sm={3} xs={12} p={1}>
                                         <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>Target Donasi</Typography>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>{target.length > 16? capitalizeFirstLetter(target.substring(0, 16) + "...") : capitalizeFirstLetter(target)}</Typography>
+                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>{target.length > 15? capitalizeFirstLetter(target.substring(0, 15) + "...") : capitalizeFirstLetter(target)}</Typography>
                                     </Grid>
 
                                     <Grid item sm={5} xs={12} p={1}>
@@ -63,8 +64,8 @@ export default function ActivityCard(props) {
                                     </Grid>
                                     
                                     <Grid item sm={4} xs={12} p={1} sx={{alignSelf:"flex-end"}}>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>
-                                            Lihat {capitalizeFirstLetter(recipientType.toLowerCase())}<DeleteOutlineIcon/>
+                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", textAlign:"right"}}>
+                                            <Link href={`/${recipientType.toLowerCase()}/` + targetId} passHref>{`Lihat ${capitalizeFirstLetter(recipientType.toLowerCase())}`}</Link>
                                         </Typography>
                                     </Grid>
                                 </Grid>
