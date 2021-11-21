@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router'
+import { useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { dispatchTypes } from '../context/AppReducer';
 import jwtDecode from 'jwt-decode';
@@ -7,12 +6,10 @@ import jwtDecode from 'jwt-decode';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import Copyright from '../component/modules/Copyright';
 
 import { FormHelperText, IconButton } from '@mui/material';
@@ -27,29 +24,26 @@ import { axiosMain } from '../axiosInstances';
 import Image from 'next/image'
 import Cookies from 'universal-cookie';
 
-export default function Registration() {
-    const router = useRouter();
-    const cookies = new Cookies();
 
-    const { state, dispatch } = useAppContext();
-    const { currentUser } = state;
+export default function GoogleRegister() {
+    const cookies = new Cookies()
+    const { dispatch } = useAppContext();
 
     const [data, setData] = useState({
-        "email": "",
         "username": "",
-        "fullName": "",
-        "password": "",
+        "email" : cookies.get('email'),
+        "fullName": cookies.get('fullName'),
         "phoneNum": "",
-        "address": ""
+        "address": "",
+        "password": ""
     });
+
     const [error, setError] = useState({
         status: null,
-        email: "",
         username: "",
-        fullName: "",
-        password: "",
         phoneNum: "",
-        address: ""
+        address: "",
+        password: "",
     })
 
     const handleChange = ({ target }) => {
@@ -64,15 +58,14 @@ export default function Registration() {
         })))
     };
 
-    const [loading, setLoading] = useState(false)
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true)
         await axiosMain
-            .post("/register", data)
+            .post(`oauth/create?state=${cookies.get("state")}`, data)
             .then(response => {
                 setLoading(false)
-                
+                console.log(response)
                 const decodedJWT = jwtDecode(response.data.result.accessToken)
                 dispatch({
                     type: dispatchTypes.REGISTRATION_SUCCEED,
@@ -83,6 +76,7 @@ export default function Registration() {
                         currentRefreshToken: response.data.result.refreshToken
                     }
                 });
+                router.replace("/")
 
             })
             .catch(e => {
@@ -104,21 +98,8 @@ export default function Registration() {
             })
     }
 
-    const handleOAuth = async (event) => {
-        await axiosMain
-            .post("/oauth/state")
-            .then(response => {
-                cookies.remove('state')
-                cookies.set('state', response.data.result.state);
-                router.replace(`https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?redirect_uri=http://localhost:3000/oauth/google/callback&prompt=consent&response_type=code&client_id=620820262877-85f9anugmu77f59ibtu3qfbf2nmat00j.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20openid&access_type=offline&flowName=GeneralOAuthFlow&state=${response.data.result.state}`)
-            })
-    }
-    
-    useEffect(() => {
-        if (currentUser) {
-            router.push("/")
-        }
-    }, [router, currentUser])
+    const [loading, setLoading] = useState(false)
+
     const [show, setShow] = useState(false)
     const handleClickShowPassword = () => {
         setShow(!show)
@@ -152,35 +133,9 @@ export default function Registration() {
                         }}
                     >
                         <Typography component="h1" variant="h5">
-                            Daftarkan diri anda
-                        </Typography>
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                            onClick={handleOAuth}
-                        >
                             Daftar dengan Google
-                        </Button>
-                        <Divider orientation="horizontal" flexItem>
-                            atau
-                        </Divider>
+                        </Typography>
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                                onChange={handleChange}
-                                value={data.email}
-                                error={(error.email.length > 0 && data.email.length > 0) || (error.email.length > 0 && data.email.length === 0)}
-                                helperText={(error.email && data.email.length > 0) && "Harap masukkan alamat email dengan benar" || (error.email && data.email.length === 0 && "Email harus diisi")}
-                                placeholder="Hazmi@gmail.com"
-                            />
                             <TextField
                                 margin="normal"
                                 required
@@ -194,20 +149,6 @@ export default function Registration() {
                                 error={(error.username.length > 0 && data.username.length > 0) || (error.username.length > 0 && data.username.length === 0)}
                                 helperText={(error.username && data.username.length > 0) && "Harap masukkan username dengan benar" || (error.username && data.username.length === 0 && "Username harus diisi")}
                                 placeholder="hazmi132"
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="fullName"
-                                label="Nama Lengkap"
-                                type="text"
-                                id="fullName"
-                                onChange={handleChange}
-                                value={data.fullName}
-                                error={(error.fullName.length > 0 && data.fullName.length > 0) || (error.fullName.length > 0 && data.fullName.length === 0)}
-                                helperText={(error.fullName && data.fullName.length > 0) && "Harap masukkan nama lengkap dengan benar" || (error.fullName && data.fullName.length === 0 && "Nama Lengkap harus diisi")}
-                                placeholder="Hazmi Al Munawaroh"
                             />
                             <TextField
                                 margin="normal"
@@ -280,20 +221,13 @@ export default function Registration() {
                                 sx={{ mt: 3, mb: 2 }}
                                 disabled={data.password.length < 8 || loading}
                             >
-                                Daftar
+                                Lanjutkan
                             </Button>
-                            <Grid container>
-                                <Grid item>
-                                    <Link href="/login" variant="body2">
-                                        {"Sudah memiliki akun? Masuk"}
-                                    </Link>
-                                </Grid>
-                            </Grid>
                             <Copyright sx={{ mt: 5 }} />
                         </Box>
                     </Box>
                 </Grid>
             </Grid>
         </>
-    );
+    )
 }
