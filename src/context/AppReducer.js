@@ -10,7 +10,8 @@ export const dispatchTypes = {
     SNACKBAR_CLOSE: "snackbar_close",
     SNACKBAR_CUSTOM: "snackbar_custom",
     STATE_LOADED: "state_loaded",
-    SERVER_ERROR: "server_error"
+    SERVER_ERROR: "server_error",
+    LOGIN_NEEDED: 'login_needed'
 }
 
 export const roleType = {
@@ -130,6 +131,16 @@ export const initialState = {
 export const AppReducer = (state, action) => {
 
     switch (action.type) {
+        case dispatchTypes.LOGIN_NEEDED: {
+            return {
+                ...state,
+                snackbarStatus: true,
+                snackbarSeverity: 'secondary',
+                snackbarMessage: "Harap login sebelum berdonasi"
+
+            }
+        }
+
         case dispatchTypes.LOGIN_SUCCEED: {
             return {
                 ...state,

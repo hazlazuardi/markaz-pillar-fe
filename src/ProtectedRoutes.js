@@ -25,7 +25,7 @@ export default function ProtectedRoutes({ router, children }) {
             router.push(enumRoutes.LANDING);
         }
         // This needs to get from state since it's checking the initial state (Everyone start without logged in)
-        if(isBrowser() && stateLoaded && currentUserRole == "" && pathNeedsAuthentication) {
+        if(isBrowser() && stateLoaded && localStorage.getItem('currentUserRole') && currentUserRole == "" && pathNeedsAuthentication) {
             router.push(enumRoutes.LANDING);
         }
     }, [currentUserRole, isAdmin, pathIsProtected, pathNeedsAuthentication, router, stateLoaded])

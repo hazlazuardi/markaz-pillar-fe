@@ -26,9 +26,9 @@ export default function Profile() {
     const { currentUser, currentUserRole } = state;
     const router = useRouter();
     const [tabIndex, setTabIndex] = useState(0);
-    const [donations, setDonations] = useState([])
+    const [activities, setActivities] = useState([])
 
-    const { data} = useSWR(`/transaction?n=1000`, fetcher)
+    const { data } = useSWR(`/user/activity?page=0&n=10`, fetcher)
 
     const handleLogout = () => {
         localStorage.clear();
@@ -44,8 +44,85 @@ export default function Profile() {
 
     useEffect(() => {        
         if (data != null)
-            setDonations(data.result)
+            setActivities(data.result)
     }, [data])
+
+    const allActivities = activities.length != 0 ? activities.map(activity => {
+        if(activity.type == "TRANSACTION") {
+            return (<ActivityCard
+                type={"Donasi"}
+                name={activity.data.targetName}
+                status={activity.data.status}
+                date={activity.createdAt}
+                secInfo={activity.data.amount}
+                recipientType={activity.data.targetType}
+                key={activity.id}
+                targetId={activity.targetId}
+            />)
+        } else {
+            return (<ActivityCard
+                type={"Volunteer"}
+                name={activity.data.program.name}
+                status={activity.data.status}
+                date={activity.createdAt}
+                secInfo={activity.data.program.location}
+                recipientType={"volunteer"}
+                key={activity.id}
+                targetId={activity.targetId}
+            />)
+        }
+    })
+        : <Grid item lg={6} xs={12}>
+            <Typography>No activities yet</Typography>
+        </Grid>
+
+    const donations = activities.length != 0 ? 
+        activities.filter(activity => activity.type == "TRANSACTION")
+            .map(activity => (
+            <ActivityCard
+                type={"Donasi"}
+                name={activity.data.targetName}
+                status={activity.data.status}
+                date={activity.createdAt}
+                secInfo={activity.data.amount}
+                recipientType={activity.data.targetType}
+                key={activity.id}
+                targetId={activity.targetId}
+            />
+        ))
+        : <Grid item lg={6} xs={12}>
+            <Typography>No activities yet</Typography>
+        </Grid>
+
+    const volunteers = activities.length != 0 ? 
+    activities.filter(activity => activity.type == "VOLUNTEER")
+        .map(activity => (
+        <ActivityCard
+            type={"Volunteer"}
+            name={activity.data.program.name}
+            status={activity.data.status}
+            date={activity.createdAt}
+            secInfo={activity.data.program.location}
+            recipientType={"volunteer"}
+            key={activity.id}
+            targetId={activity.targetId}
+        />
+    ))
+    : <Grid item lg={6} xs={12}>
+        <Typography>No activities yet</Typography>
+    </Grid>
+    
+    const showData = () => {
+        if(tabIndex == 0) {
+            return allActivities
+        } else if (tabIndex == 1){
+            return donations
+        } else if (tabIndex == 2){
+            return volunteers
+        } else {
+            "No activities yet"
+        }
+    }
 
     return (
         <Container maxWidth="lg" className={styles.container}>
@@ -115,22 +192,7 @@ export default function Profile() {
 
                 <Grid item xs={12}>
                     <Grid container spacing={2}>
-                        {donations.length != 0 ? donations.map(donation => (
-                            <ActivityCard
-                                type={"Donasi"}
-                                target={donation.targetName}
-                                status={donation.status}
-                                date={donation.createdAt}
-                                amount={donation.amount}
-                                recipientType={donation.targetType}
-                                key={donation.trxId}
-                                targetId={donation.targetId}
-                            />
-                        ))
-                            : <Grid item lg={6} xs={12}>
-                                <Typography>No activities yet</Typography>
-                            </Grid>
-                        }
+                        { showData() }
                     </Grid>
                 </Grid>
 

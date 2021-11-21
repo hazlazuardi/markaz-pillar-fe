@@ -7,6 +7,7 @@ import ArrowBack from "../../component/modules/ArrowBack";
 import ProgressDonasiFooter from "../../component/modules/ProgressDonasiFooter"
 import { markazCategory } from "../../context/AppReducer";
 import { Stack } from "@mui/material";
+import AppContext from '../../context/AppContext'
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function MarkazDetail(props) {
@@ -51,6 +52,7 @@ export default function MarkazDetail(props) {
   const convertedData = {
     ...responseDetailMarkaz,
     result: {
+      ...dataResult,
       ...convertedDataMarkaz
     }
   }
@@ -61,13 +63,13 @@ export default function MarkazDetail(props) {
 
   //   }
   // }, [responseDetailMarkaz])
-  
+
   if (error) return "An error has occurred.";
   if (!responseDetailMarkaz) return "Loading...";
   return (
     <>
       <ArrowBack href='/markaz' />
-      <DetailView variant='markaz' data={convertedData} />
+      <DetailView variant='markaz' data={convertedData} hrefDonasi={`/markaz/donasi/${id}`} />
       <ProgressDonasiFooter data={convertedData} />
     </>
   );

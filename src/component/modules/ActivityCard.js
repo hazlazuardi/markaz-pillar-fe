@@ -2,7 +2,6 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Image from 'next/image'
@@ -15,7 +14,7 @@ export default function ActivityCard(props) {
     const theme = useTheme();
     const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const {type, target, status, date, amount, recipientType, targetId} = props
+    const {type, name, status, date, secInfo, targetId, recipientType} = props
 
     const temp_list = status.split("_")
     const processedStatus = `${temp_list[0]} ${temp_list[1]}`.toLowerCase()
@@ -23,6 +22,12 @@ export default function ActivityCard(props) {
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
+
+    // Difference in detail info
+    const header1 = type == "Volunteer" ? "Volunteer" : "Donasi"
+    const header2 = type == "Volunteer" ? "Tanggal mendaftar" : "Tanggal kegiatan"
+    const header3 = type == "Volunteer" ? "Lokasi" : "Jumlah donasi"
+    const info1 = type == "Volunteer"? capitalizeFirstLetter(secInfo) : `Rp${secInfo},00`
 
     return (
         <Grid item lg={6} xs={12}>
@@ -41,8 +46,8 @@ export default function ActivityCard(props) {
                                     </Grid>
 
                                     <Grid item sm={3} xs={12} p={1}>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>Target Donasi</Typography>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>{target.length > 15? capitalizeFirstLetter(target.substring(0, 15) + "...") : capitalizeFirstLetter(target)}</Typography>
+                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>{header1}</Typography>
+                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>{name.length > 15? capitalizeFirstLetter(name.substring(0, 15) + "...") : capitalizeFirstLetter(name)}</Typography>
                                     </Grid>
 
                                     <Grid item sm={5} xs={12} p={1}>
@@ -54,13 +59,13 @@ export default function ActivityCard(props) {
                             <Grid item xs={12}>
                                 <Grid container sx={{display:"flex", justifyContent:"center", alignItems:"center"}}>
                                     <Grid item sm={4} xs={12} p={1}>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>Tanggal Kegiatan</Typography>
+                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>{header2}</Typography>
                                         <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>{date.split("T")[0]}</Typography>
                                     </Grid>
                                     
                                     <Grid item sm={4} xs={12} p={1}>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>Jumlah Donasi</Typography>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>Rp{amount},00</Typography>
+                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>{header3}</Typography>
+                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>{info1}</Typography>
                                     </Grid>
                                     
                                     <Grid item sm={4} xs={12} p={1} sx={{alignSelf:"flex-end"}}>
