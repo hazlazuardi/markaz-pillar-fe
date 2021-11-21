@@ -47,9 +47,12 @@ export default function AdminSantri(props) {
       });
   };
 
-  const GridViewMarkaz = (
-    <GridView data={responseSantri} detail="admin/santri" handleDelete={handleDeleteSantri} />
-  )
+  const GridViewMarkaz = () => {
+    return (
+      <GridView data={responseSantri} detail="admin/santri" handleDelete={handleDeleteSantri} />
+    );
+  };
+
   const TableViewMarkaz = (
       <TableView
           data={responseSantri}
@@ -63,12 +66,51 @@ export default function AdminSantri(props) {
       />
   );
 
+  const handleChangeAge = (event) => {
+    setAgeFilter(event.target.value);
+    setNameFilter("");
+    mutate();
+  };
+
+  const handleChangeName = (event) => {
+    setNameFilter(event.target.value);
+    setAgeFilter("");
+    mutate();
+  };
+
+  const radioSantri = [
+    {
+      title: "Urutkan Nama",
+      value: nameFilter,
+      onChange: handleChangeName,
+      labels: [
+        {
+          value: "ASC",
+          label: "A-Z",
+        },
+        { value: "DESC", label: "Z-A" },
+      ],
+    },
+    {
+      title: "Urutkan Umur",
+      value: ageFilter,
+      onChange: handleChangeAge,
+      labels: [
+        {
+          value: "ASC",
+          label: "Tertua",
+        },
+        { value: "DESC", label: "Termuda" },
+      ],
+    },
+  ];
+
   return (
     <>
       <AdminOrUserTemplate
         isAdmin
         variant="santri"
-        GridView={GridViewMarkaz}
+        GridView={<GridViewMarkaz/>}
         TableView={TableViewMarkaz}
         entries={entries}
         searchTerm={searchSantri}
@@ -84,6 +126,7 @@ export default function AdminSantri(props) {
         nameFilter={nameFilter}
         setNameFilter={setNameFilter}
         mutate={mutate}
+        FilterRadioObject={radioSantri}
       />
     </>
   );

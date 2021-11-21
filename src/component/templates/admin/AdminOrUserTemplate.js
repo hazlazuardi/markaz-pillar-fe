@@ -22,10 +22,7 @@ import SwipeableViews from "react-swipeable-views";
 import { SwipeableEnableScroll } from "../../../component/SwipeableEnableScroll";
 import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/system";
-import FilterMarkaz from "../../../component/modules/FilterMarkaz";
-import FilterMarkazMobile from "../../../component/modules/FilterMarkazMobile";
-import FilterSantri from "../../../component/modules/FilterSantri";
-import FilterSantriMobile from "../../../component/modules/FilterSantriMobile";
+import FilterComponent from "../../../component/modules/FilterComponent";
 // import FilterListIcon from '@mui/icons-material/FilterList';
 // import Chip from "@mui/material/Chip";
 
@@ -56,7 +53,8 @@ function AdminOrUserTemplate(props) {
     categoryFilter3,
     setCategoryFilter3,
     mutate,
-    disableSearch
+    disableSearch,
+    FilterRadioObject,
   } = props;
 
   const isAdmin = GridView && TableView;
@@ -133,64 +131,29 @@ function AdminOrUserTemplate(props) {
   // *******************************************************
   // const [openFilter, setOpenFilter] = useState(false)
   const Filter = useCallback(() => {
-    if (variant == "markaz" && size == "small") {
-      return (
-        <FilterMarkazMobile
-          data-testid="filterChipButton-at-admin-or-user-template"
-          locationFilter={locationFilter}
-          setLocationFilter={setLocationFilter}
-          nameFilter={nameFilter}
-          setNameFilter={setNameFilter}
-          categoryFilter={categoryFilter}
-          setCategoryFilter={setCategoryFilter}
-          categoryFilter2={categoryFilter2}
-          setCategoryFilter2={setCategoryFilter2}
-          categoryFilter3={categoryFilter3}
-          setCategoryFilter3={setCategoryFilter3}
-          mutate={mutate}
-        />
-      );
-    } else if (variant == "markaz" && size == "medium") {
-      return (
-        <FilterMarkaz
-          data-testid="filterChipButton-at-admin-or-user-template"
-          locationFilter={locationFilter}
-          setLocationFilter={setLocationFilter}
-          nameFilter={nameFilter}
-          setNameFilter={setNameFilter}
-          categoryFilter={categoryFilter}
-          setCategoryFilter={setCategoryFilter}
-          categoryFilter2={categoryFilter2}
-          setCategoryFilter2={setCategoryFilter2}
-          categoryFilter3={categoryFilter3}
-          setCategoryFilter3={setCategoryFilter3}
-          mutate={mutate}
-        />
-      );
-    } else if (variant == "santri" && size == "small") {
-      return (
-        <FilterSantriMobile
-          data-testid="filterChipButton-at-admin-or-user-template"
-          ageFilter={ageFilter}
-          setAgeFilter={setAgeFilter}
-          nameFilter={nameFilter}
-          setNameFilter={setNameFilter}
-          mutate={mutate}
-        />
-      );
-    } else {
-      return (
-        <FilterSantri
-          data-testid="filterChipButton-at-admin-or-user-template"
-          ageFilter={ageFilter}
-          setAgeFilter={setAgeFilter}
-          nameFilter={nameFilter}
-          setNameFilter={setNameFilter}
-          mutate={mutate}
-        />
-      );
-    }
-  }, [ageFilter, categoryFilter, categoryFilter2, categoryFilter3, locationFilter, mutate, nameFilter, setAgeFilter, setCategoryFilter, setCategoryFilter2, setCategoryFilter3, setLocationFilter, setNameFilter, size, variant])
+    
+    return (
+      <FilterComponent
+        data-testid="filterChipButton-at-admin-or-user-template"
+        locationFilter={locationFilter}
+        setLocationFilter={setLocationFilter}
+        ageFilter={ageFilter}
+        setAgeFilter={setAgeFilter}
+        nameFilter={nameFilter}
+        setNameFilter={setNameFilter}
+        categoryFilter={categoryFilter}
+        setCategoryFilter={setCategoryFilter}
+        categoryFilter2={categoryFilter2}
+        setCategoryFilter2={setCategoryFilter2}
+        categoryFilter3={categoryFilter3}
+        setCategoryFilter3={setCategoryFilter3}
+        mutate={mutate}
+        size={size}
+        variant={variant}
+        FilterRadioObject={FilterRadioObject}
+      />
+    );
+  }, [variant, size])
 
   // *******************************************************
   // Header Component
@@ -226,7 +189,7 @@ function AdminOrUserTemplate(props) {
       </>
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [handleSearch, variant, ageFilter, categoryFilter, categoryFilter2, categoryFilter3, locationFilter, mutate, nameFilter, setAgeFilter, setCategoryFilter, setCategoryFilter2, setCategoryFilter3, setLocationFilter, setNameFilter, size])
+  }, [handleSearch, variant, size])
 
   // *******************************************************
   // Body Component
