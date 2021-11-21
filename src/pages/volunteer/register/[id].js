@@ -11,7 +11,7 @@ import { axiosFormData } from "../../../axiosInstances";
 import { useAppContext } from "../../../context/AppContext";
 import { dispatchTypes } from "../../../context/AppReducer";
 
-export default function register() {
+export default function RegisterVolunteer() {
     const { dispatch } = useAppContext();
     const router = useRouter();
 
