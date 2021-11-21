@@ -19,7 +19,7 @@ function AdminEditVolunteerKegiatan() {
         mutate,
     } = useSWR(
         router.isReady ?
-            `/volunteer/edit?id=${id}`: null,
+            `/volunteer/edit?id=${transid}`: null,
         fetcher,
     );
 

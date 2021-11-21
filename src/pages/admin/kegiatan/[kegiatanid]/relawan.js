@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { axiosMain } from "../../../axiosInstances";
+import { axiosMain } from "../../../../axiosInstances";
 import useSWR from "swr";
-import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
-import GridView from "../../../component/templates/admin/GridView";
-import TableView from "../../../component/templates/admin/TableView";
-import ArrowBack from "../../../component/modules/ArrowBack";
+import AdminOrUserTemplate from "../../../../component/templates/admin/AdminOrUserTemplate";
+import GridView from "../../../../component/templates/admin/GridView";
+import TableView from "../../../../component/templates/admin/TableView";
+import ArrowBack from "../../../../component/modules/ArrowBack";
 import { useRouter } from "next/router";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
@@ -63,7 +63,7 @@ export default function AdminMarkaz(props) {
 
   return (
     <>
-      <ArrowBack href={"/admin/volunteer"} />
+      <ArrowBack href={"/admin/kegiatan"} />
       <AdminOrUserTemplate
         isAdmin
         variant="volunteer"
