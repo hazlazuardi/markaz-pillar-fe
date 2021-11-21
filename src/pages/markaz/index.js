@@ -36,18 +36,63 @@ export default function Markaz(props) {
     }
   );
 
-
+  
   const GridViewMarkaz = () => {
     return (
       <GridView data={responseMarkaz} detail="admin/markaz" />
-    );
-  }
+     );
+    };
+
+  const handleChangeName = (event) => {
+    setNameFilter(event.target.value);
+    setLocationFilter("");
+    setCategoryFilter("");
+    setCategoryFilter2("");
+    setCategoryFilter3("");
+    mutate();
+  };
+
+  const handleChangeLocation = (event) => {
+    setLocationFilter(event.target.value);
+    setNameFilter("");
+    setCategoryFilter("");
+    setCategoryFilter2("");
+    setCategoryFilter3("");
+    mutate();
+  };
+
+  const radioMarkaz = [
+    {
+      title: "Lokasi",
+      value: locationFilter,
+      onChange: handleChangeLocation,
+      labels: [
+        {
+          value: "false",
+          label: "Luar Jabodetabek",
+        },
+        { value: "true", label: "Jabodetabok" },
+      ],
+    },
+    {
+      title: "Urutkan Nama",
+      value: nameFilter,
+      onChange: handleChangeName,
+      labels: [
+        {
+          value: "ASC",
+          label: "A-Z",
+        },
+        { value: "DESC", label: "Z-A" },
+      ],
+    },
+  ];
 
   return (
     <>
       <AdminOrUserTemplate
         variant="markaz"
-        GridView={<GridViewMarkaz />}
+        GridView={<GridViewMarkaz/>}
         entries={entries}
         searchTerm={searchMarkaz}
         setSearchTerm={setSearchMarkaz}
@@ -67,6 +112,7 @@ export default function Markaz(props) {
         categoryFilter3={categoryFilter3}
         setCategoryFilter3={setCategoryFilter3}
         mutate={mutate}
+        FilterRadioObject={radioMarkaz}
       />
     </>
   );

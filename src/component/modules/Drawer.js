@@ -1,0 +1,51 @@
+import {
+  SwipeableDrawer,
+} from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, minWidth } from "@mui/system";
+
+export default function NavBar(props) {
+  const { children, open, toggleDrawer } = props;
+
+  const list = () => (
+    <Box
+      sx={{
+        width: {
+          xs: "100%", // theme.breakpoints.up('xs')
+          sm: "100%", // theme.breakpoints.up('sm')
+        },
+        height: "100%",
+        display: { xs: "flex", sm: "flex" },
+        mb: "2em",
+        minWidth: {
+          xs: 200,
+          sm: 300,
+        },
+      }}
+      p={2}
+      role="presentation"
+      onKeyDown={toggleDrawer(false)}
+      flexDirection="column"
+      justifyContent="space-between"
+    >
+      {children}
+    </Box>
+  );
+  return (
+    <>
+      {/* Drawer */}
+      <Box>
+        <SwipeableDrawer
+          anchor="bottom"
+          open={open.bottom}
+          onClose={toggleDrawer(false)}
+          onOpen={toggleDrawer(true)}
+          sx={{ display: { xs: "block", sm: "block" } }}
+          disableSwipeToOpen={false}
+        >
+          {list()}
+        </SwipeableDrawer>
+      </Box>
+    </>
+  );
+}
