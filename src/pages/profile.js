@@ -25,11 +25,10 @@ export default function Profile() {
     const { state, dispatch } = useAppContext();
     const { currentUser, currentUserRole } = state;
     const router = useRouter();
-    const [doAnimateHeight, setDoAnimateHeight] = useState(true)
     const [tabIndex, setTabIndex] = useState(0);
     const [donations, setDonations] = useState([])
 
-    const { data, error } = useSWR(`/transaction?n=1000`, fetcher)
+    const { data} = useSWR(`/transaction?n=1000`, fetcher)
 
     const handleLogout = () => {
         localStorage.clear();
@@ -41,13 +40,9 @@ export default function Profile() {
 
     const handleTabIndex = (event, tab) => {
         setTabIndex(tab);
-        setDoAnimateHeight(false)
     };
 
-    useEffect(() => {
-        const adagak = localStorage.getItem("currentUser")
-        
-        
+    useEffect(() => {        
         if (data != null)
             setDonations(data.result)
     }, [data])
@@ -123,12 +118,13 @@ export default function Profile() {
                         {donations.length != 0 ? donations.map(donation => (
                             <ActivityCard
                                 type={"Donasi"}
-                                target={donation.donationName}
+                                target={donation.targetName}
                                 status={donation.status}
                                 date={donation.createdAt}
                                 amount={donation.amount}
-                                recipientType={donation.donationType}
+                                recipientType={donation.targetType}
                                 key={donation.trxId}
+                                targetId={donation.targetId}
                             />
                         ))
                             : <Grid item lg={6} xs={12}>
