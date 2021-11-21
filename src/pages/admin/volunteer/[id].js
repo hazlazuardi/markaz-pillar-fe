@@ -19,6 +19,7 @@ export default function AdminMarkaz(props) {
   const [categoryFilter2, setCategoryFilter2] = useState();
   const [categoryFilter3, setCategoryFilter3] = useState();
   const router = useRouter();
+  const [statusFilter, setStatusFilter] = useState();
   const { id } = router.query;
   const {
     data: responseVolunteer,
@@ -26,11 +27,15 @@ export default function AdminMarkaz(props) {
     mutate,
   } = useSWR(
     router.isReady
-      ? `/admin/volunteer/registration?page=${page - 1}&n=${entries}&id=${id}
-`
+      ? `/admin/volunteer/registration?page=${page - 1}&n=${entries}&id=${id}${!!statusFilter ? "&status=" + statusFilter : ""}`
       : null,
     fetcher
   );
+
+  useEffect(() => {
+    mutate();
+  }, [statusFilter, mutate]);
+
 
   // console.log(!!responseVolunteer ? responseVolunteer.result : "");
 
@@ -61,6 +66,27 @@ export default function AdminMarkaz(props) {
     );
   };
 
+  const handleChangeStatus = (event) => {
+    setStatusFilter(event.target.value);
+    mutate();
+  };
+
+  const radioRegister = [
+    {
+      title: "Status",
+      value: statusFilter,
+      onChange: handleChangeStatus,
+      labels: [
+        {
+          value: "MENUNGGU_KONFIRMASI",
+          label: "Menunggu Konfirmasi",
+        },
+        { value: "PENDAFTARAN_DITERIMA", label: "Pendaftaran Diterima" },
+        { value: "PENDAFTARAN_DITOLAK", label: "Pendaftaran Ditolak" },
+      ],
+    },
+  ];
+
   return (
     <>
       <ArrowBack href={"/admin/volunteer"} />
@@ -89,6 +115,7 @@ export default function AdminMarkaz(props) {
         categoryFilter3={categoryFilter3}
         setCategoryFilter3={setCategoryFilter3}
         mutate={mutate}
+        FilterRadioObject={radioRegister}
       />
     </>
   );
