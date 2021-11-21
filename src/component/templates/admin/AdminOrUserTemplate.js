@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import debounce from 'lodash.debounce'
+import debounce from "lodash.debounce";
 import PropTypes from "prop-types";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
@@ -78,11 +78,14 @@ function AdminOrUserTemplate(props) {
   // Pagination
   // *******************************************************
   const matchXs = useMediaQuery("(max-width:600px)");
-  const handlePagination = useCallback((event, value) => {
-    setPage(value);
-    // disable it until API Calls done
-    setDoAnimateHeight(false);
-  }, [setPage]);
+  const handlePagination = useCallback(
+    (event, value) => {
+      setPage(value);
+      // disable it until API Calls done
+      setDoAnimateHeight(false);
+    },
+    [setPage]
+  );
 
   // *******************************************************
   // Tabs
@@ -102,20 +105,25 @@ function AdminOrUserTemplate(props) {
   // Search
   // *******************************************************
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedFilter = useCallback(debounce(query => {
-    if (!query) return setSearchTerm("")
-    setPage(1)
-    setSearchTerm(query)
-  }
-    , 500), [])
+  const debouncedFilter = useCallback(
+    debounce((query) => {
+      if (!query) return setSearchTerm("");
+      setPage(1);
+      setSearchTerm(query);
+    }, 500),
+    []
+  );
 
-  const handleSearch = useCallback(event => {
-    const query = event.target.value
-    debouncedFilter(query)
-  }, [debouncedFilter])
+  const handleSearch = useCallback(
+    (event) => {
+      const query = event.target.value;
+      debouncedFilter(query);
+    },
+    [debouncedFilter]
+  );
 
   useEffect(() => {
-    setDoAnimateHeight(false);
+    setDoAnimateHeight(true);
     return () => {
       setDoAnimateHeight(true);
     };
@@ -125,13 +133,11 @@ function AdminOrUserTemplate(props) {
   const size = matches ? "small" : "medium";
   const axis = theme.direction === "rtl" ? "x-reverse" : "x";
 
-
   // *******************************************************
   // Filter Component
   // *******************************************************
   // const [openFilter, setOpenFilter] = useState(false)
   const Filter = useCallback(() => {
-    
     return (
       <FilterComponent
         data-testid="filterChipButton-at-admin-or-user-template"
@@ -153,7 +159,7 @@ function AdminOrUserTemplate(props) {
         FilterRadioObject={FilterRadioObject}
       />
     );
-  }, [variant, size])
+  }, [variant, size]);
 
   // *******************************************************
   // Header Component
@@ -165,7 +171,7 @@ function AdminOrUserTemplate(props) {
         <Typography
           data-testid="titlePage-at-admin-or-user-template"
           variant="h4"
-          component='h2'
+          component="h2"
           sx={{ textTransform: "capitalize" }}
           color="initial"
         >
@@ -183,13 +189,13 @@ function AdminOrUserTemplate(props) {
               size="small"
             />
             {/* <Chip icon={<FilterListIcon />} label="Filter" color='primary' onClick={() => setOpenFilter(true)} /> */}
-            {variant === "markaz" | variant === "santri" && (<Filter />)}
+            {(variant === "markaz") | (variant === "santri") && <Filter />}
           </>
         )}
       </>
-    )
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [handleSearch, variant, size])
+  }, [handleSearch, variant, size]);
 
   // *******************************************************
   // Body Component
@@ -239,7 +245,14 @@ function AdminOrUserTemplate(props) {
             </SwipeableViews>
           </TabContext>
         ) : (
-          <Box mt="2em" data-testid={GridView ? "gridView-at-admin-or-user-template" : "tableView-at-admin-or-user-template"} >
+          <Box
+            mt="2em"
+            data-testid={
+              GridView
+                ? "gridView-at-admin-or-user-template"
+                : "tableView-at-admin-or-user-template"
+            }
+          >
             {!!data && data.totalElement !== 0 ? (
               GridView || TableView
             ) : (
@@ -279,8 +292,22 @@ function AdminOrUserTemplate(props) {
           </Stack>
         )}
       </>
-    )
-  }, [GridView, TableView, axis, data, doAnimateHeight, entries, handleChangeEntries, handlePagination, isAdmin, matchXs, page, tabIndex, theme.direction])
+    );
+  }, [
+    GridView,
+    TableView,
+    axis,
+    data,
+    doAnimateHeight,
+    entries,
+    handleChangeEntries,
+    handlePagination,
+    isAdmin,
+    matchXs,
+    page,
+    tabIndex,
+    theme.direction,
+  ]);
 
   if (error) return "An error has occurred.";
   return (

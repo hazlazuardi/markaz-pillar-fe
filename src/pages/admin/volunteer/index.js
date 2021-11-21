@@ -4,7 +4,6 @@ import useSWR from "swr";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
 import GridView from "../../../component/templates/admin/GridView";
 import TableView from "../../../component/templates/admin/TableView";
-import ArrowBack from "../../../component/modules/ArrowBack";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
@@ -76,7 +75,6 @@ export default function AdminMarkaz(props) {
 
   return (
     <>
-      <ArrowBack href={"/admin/volunteer/"} />
       <AdminOrUserTemplate
         isAdmin
         variant="kegiatan"

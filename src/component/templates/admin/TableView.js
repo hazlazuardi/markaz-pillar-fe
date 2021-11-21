@@ -17,7 +17,6 @@ export default function TableView(props) {
   } = props;
   // array of objects
   const users = data.result;
-  // console.log(users);
 
   function fieldOne(field) {
     if (santriormarkaz === "transaksi") {
@@ -98,6 +97,10 @@ export default function TableView(props) {
       return "Menunggu Konfirmasi";
     } else if (status === "DONASI_DITOLAK") {
       return "Donasi Ditolak";
+    } else if (status === "PENDAFTARAN_DITOLAK") {
+      return "Pendaftaran Ditolak";
+    } else if (status === "PENDAFTARAN_DITERIMA") {
+      return "Pendaftaran Diterima";
     }
   }
 
@@ -140,11 +143,12 @@ export default function TableView(props) {
           detail={detail}
           iddonasi={iddonasi}
           uniqueid={user.uniqueId}
-          transid={user.trxId}
+          trxId={user.trxId}
           paymenturl={user.paymentURL}
           handleDelete={handleDelete}
           mutate={mutate}
           status={user.status}
+          userdata={user}
           {...props}
         />
       ))}

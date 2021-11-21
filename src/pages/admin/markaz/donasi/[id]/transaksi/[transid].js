@@ -24,9 +24,9 @@ export default function TransaksiMarkaz() {
     fetcher
   );
 
-  const changeStatus = async (Status) => {
-    return axiosMain.post(`/admin/transaction/status?id=${id}`, {
-      status: `${Status}`,
+  const changeStatus = async (ids, status) => {
+    return axiosMain.post(`/admin/transaction/status?id=${ids}`, {
+      status: `${status}`,
     });
   };
 
@@ -38,8 +38,9 @@ export default function TransaksiMarkaz() {
       titleTwo="ID Transaksi"
       titleThree="Nominal Donasi"
       titleFour="Status"
-      mutate={mutate}
       apiCall={changeStatus}
+      mutate={mutate}
+      dialogType="statusTransaksi"
     />
   );
 

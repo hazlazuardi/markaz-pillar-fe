@@ -13,16 +13,20 @@ export default function TransaksiMarkaz() {
   const { transid } = router.query;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const { data: markazs, error } = useSWR(
+  const {
+    data: markazs,
+    error,
+    mutate,
+  } = useSWR(
     router.isReady
       ? `/admin/transaction?page=${page - 1}&n=${entries}&id=${transid}`
       : null,
     fetcher
   );
 
-  const changeStatus = async (Status) => {
-    return axiosMain.post(`/admin/transaction/status?id=${id}`, {
-      status: `${Status}`,
+  const changeStatus = async (ids, status) => {
+    return axiosMain.post(`/admin/transaction/status?id=${ids}`, {
+      status: `${status}`,
     });
   };
 
@@ -35,10 +39,13 @@ export default function TransaksiMarkaz() {
       titleThree="Nominal Donasi"
       titleFour="Status"
       apiCall={changeStatus}
+      mutate={mutate}
+      dialogType="statusTransaksi"
     />
   );
 
   const { id } = router.query;
+  // console.log(!!markazs ? markazs.result : "");
   if (error)
     return "An error has occurred. Please re-login or try again later.";
   if (!markazs) return "Loading...";
