@@ -3,7 +3,7 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
-import Link from "@mui/material/Link";
+import Link from 'next/link'
 import Dialog from "./Dialog";
 import ButtonGroup from "@mui/material/ButtonGroup";
 
@@ -48,6 +48,8 @@ function TableDataRow(props) {
   } = props;
   const router = useRouter();
 
+  console.log(uniqueid)
+
   function TableButtons() {
     if (
       santriormarkaz === "santri" ||
@@ -70,18 +72,28 @@ function TableDataRow(props) {
     } else if (santriormarkaz === "donasi") {
       return (
         <>
-          <Button
-            variant="outlined"
-            onClick={() => router.push(`${iddonasi}/transaksi/${uniqueid}`)}
-          >
-            manage
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() => router.push(`edit/${iddonasi}`)}
-          >
-            Edit
-          </Button>
+          <Link href={{
+            pathname: `donasi/${iddonasi}/transaksi`,
+            query: { ...router.query }
+          }} passHref >
+            <Button
+              variant="outlined"
+            // onClick={() => router.push(`${iddonasi}/transaksi/${uniqueid}`)}
+            >
+              manage
+            </Button>
+          </Link>
+          <Link href={{
+            pathname: `donasi/${iddonasi}/edit`,
+            query: { ...router.query }
+          }} passHref >
+            <Button
+              variant="outlined"
+            // onClick={() => router.push(`donasi/${iddonasi}/edit`)} {`donasi/${donasi_id}/edit`} 
+            >
+              Edit
+            </Button>
+          </Link>
         </>
       );
     } else if (santriormarkaz === "transaksi") {
@@ -101,13 +113,13 @@ function TableDataRow(props) {
           </Button>
           <Button
             variant="outlined"
-            onClick={() => router.push(`volunteer/${id}`)}
+            onClick={() => router.push(`/admin/kegiatan/${id}/relawan`)}
           >
             manage
           </Button>
         </>
       );
-    } else if (santriormarkaz === "kegiatan") {
+    } else if (santriormarkaz === "volunteer") {
       return (
         <ButtonGroup variant="outlined" aria-label="outlined button group">
           <Dialog mutate={mutate} isStatus {...props} />
@@ -134,7 +146,7 @@ function TableDataRow(props) {
         <StyledTableCell align="left">
           <Button
             variant="outlined"
-            onClick={() => router.push(`/admin/${santriormarkaz}/donasi/${id}`)}
+            onClick={() => router.push(`/admin/${santriormarkaz}/${id}/donasi`)}
           >
             Lihat Daftar
           </Button>

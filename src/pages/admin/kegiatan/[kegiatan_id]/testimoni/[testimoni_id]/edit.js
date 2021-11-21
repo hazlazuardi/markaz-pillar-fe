@@ -1,36 +1,37 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../../../../../context/AppReducer";
-import {axiosFormData, axiosMain} from "../../../../../../../../../axiosInstances";
+import { useAppContext } from "../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../context/AppReducer";
+import { axiosFormData, axiosMain } from "../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-import AdminCreateOrEditProgres from "../../../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
+import AdminCreateOrEditTestimoni from "../../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
 import useSWR from "swr";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 
-function AdminEditMarkazProgressDonasi(props) {
+function AdminEditVolunteerTestimoni() {
     const router = useRouter();
-    const { transid, progresid } = router.query
+    const { testimoni_id, kegiatan_id } = router.query
     const {
-        data: responseProgres,
+        data: responseTestimoni,
         error,
         mutate,
     } = useSWR(
         router.isReady ?
-            `/admin/donation?id=${transid}`: null,
+            `/admin/volunteer/testimony?id=${testimoni_id}` : null,
         fetcher,
     );
+
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const [progres, setEditedProgres] = useState({
-        progressDate: responseProgres ? responseProgres.progressDate: "",
-        description: responseProgres ? responseProgres.description: "",
+    const [testi, setEditTesti] = useState({
+        name: responseTestimoni ? responseTestimoni.name : "",
+        description: responseTestimoni ? responseTestimoni.description : "",
     });
     const form = useRef(null);
 
-    const handleChangeProgres = ({ target }) => {
+    const handleChangeTestimoni = ({ target }) => {
         const { name, value } = target;
-        setEditedProgres((prev) => ({
+        setEditTesti((prev) => ({
             ...prev,
             [name]: value,
         }));
@@ -40,14 +41,14 @@ function AdminEditMarkazProgressDonasi(props) {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
-        const progresBlob = new Blob([JSON.stringify(progres)], {
+        const testiBlob = new Blob([JSON.stringify(testi)], {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("detail", progresBlob);
+        data.append("detail", testiBlob);
 
         await axiosFormData
-            .post(`/admin/donation/progress/edit?id=${progresid}`, data)
+            .post(`/admin/volunteer/testimony/edit?id=${testimoni_id}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -55,7 +56,7 @@ function AdminEditMarkazProgressDonasi(props) {
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Progres Edited"
+                        message: "Testimoni Edited"
                     }
                 })
             })
@@ -95,20 +96,21 @@ function AdminEditMarkazProgressDonasi(props) {
                 }
             })
     };
+
+    const pathname = router.pathname;
     const [loading, setLoading] = useState(false)
     return (
-        <AdminCreateOrEditProgres
+        <AdminCreateOrEditTestimoni
             form={form}
             handleSubmit={handleSubmit}
             thumbnail={thumbnail}
             setThumbnail={setThumbnail}
             loading={loading}
             createOrEdit="Edit"
-            markazOrSantri="Markaz"
-            handleChangeProgres={handleChangeProgres}
-            progres={progres}
+            handleChangeTestimoni={handleChangeTestimoni}
+            testi={testi}
         />
     );
 }
 
-export default AdminEditMarkazProgressDonasi;
+export default AdminEditVolunteerTestimoni;

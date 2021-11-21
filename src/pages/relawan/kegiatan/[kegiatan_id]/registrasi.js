@@ -4,12 +4,12 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Typography from '@mui/material/Typography';
-import Dropzone from "../../../component/modules/Dropzone";
+import Dropzone from "../../../../component/modules/Dropzone";
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/router'
-import { axiosFormData } from "../../../axiosInstances";
-import { useAppContext } from "../../../context/AppContext";
-import { dispatchTypes } from "../../../context/AppReducer";
+import { axiosFormData } from "../../../../axiosInstances";
+import { useAppContext } from "../../../../context/AppContext";
+import { dispatchTypes } from "../../../../context/AppReducer";
 
 export default function RegisterVolunteer() {
     const { dispatch } = useAppContext();

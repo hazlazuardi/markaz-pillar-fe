@@ -1,43 +1,24 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../context/AppContext";
-import { dispatchTypes } from "../../../../context/AppReducer";
-import {axiosFormData, axiosMain} from "../../../../axiosInstances";
+import { useAppContext } from "../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../context/AppReducer";
+import { axiosFormData } from "../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-import AdminCreateOrEditKegiatan from "../../../../component/templates/admin/AdminCreateOrEditKegiatan";
-import useSWR from "swr";
+import AdminCreateOrEditTestimoni from "../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
-
-function AdminEditVolunteerKegiatan() {
+function AdminCreateVolunteerTestimoni() {
+    const router = useRouter();
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const router = useRouter();
-    const { id } = router.query
-    const {
-        data: responseKegiatan,
-        error,
-        mutate,
-    } = useSWR(
-        router.isReady ?
-            `/volunteer/edit?id=${transid}`: null,
-        fetcher,
-    );
-
-    const [kegiatan, setKegiatan] = useState({
-        name: responseKegiatan ? responseKegiatan.name: "",
-        description: responseKegiatan ? responseKegiatan.description: "",
-        term: responseKegiatan ? responseKegiatan.term: "",
-        benefit: responseKegiatan ? responseKegiatan.benefit: "",
-        volunteerNeeded: responseKegiatan ? responseKegiatan.volunteerNeeded: 0,
-        location: responseKegiatan ? responseKegiatan.location: "",
-        schedule: responseKegiatan ? responseKegiatan.schedule: "",
-        isActive: responseKegiatan ? responseKegiatan.isActive: null
+    const { kegiatan_id } = router.query
+    const [testi, setTesti] = useState({
+        name: "",
+        description: "",
     });
     const form = useRef(null);
 
-    const handleChangeKegiatan = ({ target }) => {
+    const handleChangeTestimoni = ({ target }) => {
         const { name, value } = target;
-        setKegiatan((prev) => ({
+        setTesti((prev) => ({
             ...prev,
             [name]: value,
         }));
@@ -47,16 +28,15 @@ function AdminEditVolunteerKegiatan() {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
-        const kegiatanBlob = new Blob([JSON.stringify(kegiatan)], {
+        const testiBlob = new Blob([JSON.stringify(testi)], {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("detail", kegiatanBlob);
+        data.append("detail", testiBlob);
 
-        console.log(kegiatan);
 
         await axiosFormData
-            .post("/admin/volunteer", data)
+            .post(`/admin/volunteer/testimony?program_id=${kegiatan_id}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -64,7 +44,7 @@ function AdminEditVolunteerKegiatan() {
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Kegiatan Edited"
+                        message: "Testimoni Created"
                     }
                 })
             })
@@ -107,17 +87,17 @@ function AdminEditVolunteerKegiatan() {
 
     const [loading, setLoading] = useState(false)
     return (
-        <AdminCreateOrEditKegiatan
+        <AdminCreateOrEditTestimoni
             form={form}
             handleSubmit={handleSubmit}
             thumbnail={thumbnail}
             setThumbnail={setThumbnail}
             loading={loading}
-            createOrEdit="Edit"
-            handleChangeKegiatan={handleChangeKegiatan}
-            kegiatan={kegiatan}
+            createOrEdit="Create"
+            handleChangeTestimoni={handleChangeTestimoni}
+            testi={testi}
         />
     );
 }
 
-export default AdminEditVolunteerKegiatan;
+export default AdminCreateVolunteerTestimoni;

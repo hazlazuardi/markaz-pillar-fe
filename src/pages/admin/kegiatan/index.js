@@ -7,7 +7,7 @@ import TableView from "../../../component/templates/admin/TableView";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
-export default function AdminVolunteer(props) {
+export default function AdminKegiatan(props) {
   // const { allProgram } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
@@ -38,7 +38,7 @@ export default function AdminVolunteer(props) {
   // *******************************************************
   const handleDeleteMarkaz = async (id) => {
     await axiosMain
-      .delete(`/admin/markaz?id=${id}`)
+      .delete(`/admin/volunteer?id=${id}`)
       .then((response) => {
         mutate();
       })
@@ -89,7 +89,7 @@ export default function AdminVolunteer(props) {
         setPage={setPage}
         data={responseProgram}
         error={error}
-        hrefCreate="/admin/volunteer/create"
+        hrefCreate="/admin/kegiatan/create"
         mutate={mutate}
       />
     </>

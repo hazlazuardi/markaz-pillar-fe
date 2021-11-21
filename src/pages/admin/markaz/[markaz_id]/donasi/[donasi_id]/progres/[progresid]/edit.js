@@ -1,24 +1,37 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../context/AppReducer";
-import { axiosFormData } from "../../../../../axiosInstances";
+import { useAppContext } from "../../../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../../../context/AppReducer";
+import { axiosFormData, axiosMain } from "../../../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-import AdminCreateOrEditTestimoni from "../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
+// import AdminCreateOrEditProgres from "../../../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
+import AdminCreateOrEditProgres from '../../../../../../../../component/templates/admin/AdminCreateOrEditProgres'
+import useSWR from "swr";
 
-function AdminCreateVolunteerTestimoni() {
+const fetcher = url => axiosMain.get(url).then(res => res.data)
+
+function AdminEditMarkazProgressDonasi(props) {
     const router = useRouter();
+    const { donasi_id, progresid } = router.query
+    const {
+        data: responseProgres,
+        error,
+        mutate,
+    } = useSWR(
+        router.isReady ?
+            `/admin/donation?id=${donasi_id}` : null,
+        fetcher,
+    );
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const { kegiatanid } = router.query
-    const [testi, setTesti] = useState({
-        name: "",
-        description: "",
+    const [progres, setEditedProgres] = useState({
+        progressDate: responseProgres ? responseProgres.progressDate : "",
+        description: responseProgres ? responseProgres.description : "",
     });
     const form = useRef(null);
 
-    const handleChangeTestimoni = ({ target }) => {
+    const handleChangeProgres = ({ target }) => {
         const { name, value } = target;
-        setTesti((prev) => ({
+        setEditedProgres((prev) => ({
             ...prev,
             [name]: value,
         }));
@@ -28,15 +41,14 @@ function AdminCreateVolunteerTestimoni() {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
-        const testiBlob = new Blob([JSON.stringify(testi)], {
+        const progresBlob = new Blob([JSON.stringify(progres)], {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("detail", testiBlob);
-
+        data.append("detail", progresBlob);
 
         await axiosFormData
-            .post(`/admin/volunteer/testimony?program_id=${kegiatanid}`, data)
+            .post(`/admin/donation/progress/edit?id=${progresid}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -44,7 +56,7 @@ function AdminCreateVolunteerTestimoni() {
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Testimoni Created"
+                        message: "Progres Edited"
                     }
                 })
             })
@@ -84,20 +96,20 @@ function AdminCreateVolunteerTestimoni() {
                 }
             })
     };
-
     const [loading, setLoading] = useState(false)
     return (
-        <AdminCreateOrEditTestimoni
+        <AdminCreateOrEditProgres
             form={form}
             handleSubmit={handleSubmit}
             thumbnail={thumbnail}
             setThumbnail={setThumbnail}
             loading={loading}
-            createOrEdit="Create"
-            handleChangeTestimoni={handleChangeTestimoni}
-            testi={testi}
+            createOrEdit="Edit"
+            markazOrSantri="Markaz"
+            handleChangeProgres={handleChangeProgres}
+            progres={progres}
         />
     );
 }
 
-export default AdminCreateVolunteerTestimoni;
+export default AdminEditMarkazProgressDonasi;

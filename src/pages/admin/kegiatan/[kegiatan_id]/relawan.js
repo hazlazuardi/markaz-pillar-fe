@@ -9,20 +9,21 @@ import { useRouter } from "next/router";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
-export default function AdminMarkaz(props) {
+export default function AdminRelawan(props) {
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [searchVolunteer, setSearchVolunteer] = useState("");
   const router = useRouter();
   const [statusFilter, setStatusFilter] = useState();
-  const { id } = router.query;
+  const { kegiatan_id } = router.query;
   const {
     data: responseVolunteer,
     error,
     mutate,
   } = useSWR(
     router.isReady
-      ? `/admin/volunteer/registration?page=${page - 1}&n=${entries}&id=${id}${!!statusFilter ? "&status=" + statusFilter : ""}`
+      ? `/admin/volunteer/registration?page=${page - 1}&n=${entries}&id=${kegiatan_id}${!!statusFilter ? "&status=" + statusFilter : ""}
+`
       : null,
     fetcher
   );
@@ -87,7 +88,7 @@ export default function AdminMarkaz(props) {
       <ArrowBack href={"/admin/kegiatan"} />
       <AdminOrUserTemplate
         isAdmin
-        variant="volunteer"
+        variant="relawan"
         GridView={<GridViewAdminVolunteerDetail />}
         TableView={<TableViewAdminVolunteerDetail />}
         entries={entries}
@@ -98,7 +99,7 @@ export default function AdminMarkaz(props) {
         setPage={setPage}
         data={responseVolunteer}
         error={error}
-        hrefCreate="/admin/volunteer/create"
+        hrefCreate="/admin/kegiatan/create"
         mutate={mutate}
         FilterRadioObject={radioRegister}
       />

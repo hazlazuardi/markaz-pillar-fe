@@ -13,12 +13,12 @@ export default function AdminMarkazEdit(props) {
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
     const [editedMarkaz, setEditedMarkaz] = useState({
-        name: responseMarkaz.name,
-        background: responseMarkaz.background,
-        category: responseMarkaz.category,
-        address: responseMarkaz.address,
-        contactName: responseMarkaz.contactName,
-        contactInfo: responseMarkaz.contactInfo
+        name: responseMarkaz ? responseMarkaz.name : null,
+        background: responseMarkaz ? responseMarkaz.background : null,
+        category: responseMarkaz ? responseMarkaz.category : null,
+        address: responseMarkaz ? responseMarkaz.address : null,
+        contactName: responseMarkaz ? responseMarkaz.contactName : null,
+        contactInfo: responseMarkaz ? responseMarkaz.contactInfo : null
     });
     const form = useRef(null);
 
@@ -92,11 +92,11 @@ export default function AdminMarkazEdit(props) {
     };
 
     const router = useRouter()
-    const { id } = router.query
+    const { markaz_id } = router.query
     const [loading, setLoading] = useState(false)
     return (
         <>
-            <ArrowBack href={'/admin/markaz/'+id} />
+            <ArrowBack href={'/admin/markaz/' + markaz_id} />
             <AdminCreateOrEditMarkaz
                 form={form}
                 loading={loading}
@@ -110,31 +110,31 @@ export default function AdminMarkazEdit(props) {
     )
 }
 
-export async function getStaticProps(context) {
-    const id = context.params.id;
-    const response = await fetch(`${BASE_URL}/markaz?id=` + id);
-    const data = await response.json();
-    const markaz = data.result;
+// export async function getStaticProps(context) {
+//     const markaz_id = context.params.markaz_id;
+//     const response = await fetch(`${BASE_URL}/markaz?id=` + markaz_id);
+//     const data = await response.json();
+//     const markaz = data.result;
 
-    return {
-        props: {
-            responseMarkaz: markaz,
-        },
-    };
-}
+//     return {
+//         props: {
+//             responseMarkaz: markaz,
+//         },
+//     };
+// }
 
-export async function getStaticPaths() {
-    const response = await fetch(`${BASE_URL}/markaz/search?n=1000`);
-    const data = await response.json();
-    const allMarkaz = data.result;
+// export async function getStaticPaths() {
+//     const response = await fetch(`${BASE_URL}/markaz/search?n=1000`);
+//     const data = await response.json();
+//     const allMarkaz = data.result;
 
-    const paths = allMarkaz.map((markaz) => ({
-        params: { id: markaz.id.toString() },
-    }));
+//     const paths = allMarkaz.map((markaz) => ({
+//         params: { id: markaz.id.toString() },
+//     }));
 
-    return {
-        paths: paths,
-        fallback: false,
-    };
-}
+//     return {
+//         paths: paths,
+//         fallback: false,
+//     };
+// }
 

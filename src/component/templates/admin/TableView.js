@@ -11,7 +11,6 @@ export default function TableView(props) {
     titleThree,
     titleFour,
     titleFive,
-    iddonasi,
     handleDelete,
     mutate,
   } = props;
@@ -141,7 +140,7 @@ export default function TableView(props) {
           tanggal={fieldFive(user)}
           santriormarkaz={santriormarkaz}
           detail={detail}
-          iddonasi={iddonasi}
+          iddonasi={user.uniqueId}
           uniqueid={user.uniqueId}
           trxId={user.trxId}
           paymenturl={user.paymentURL}
