@@ -13,7 +13,6 @@ const Callback = () => {
 
     useEffect(() => {
         if(router.isReady) {
-            console.log("HELLO")
             axiosMain.post(`/oauth/token?state=${cookies.get("state")}`, {
                 code: router.query.code
             }).then(response => {
