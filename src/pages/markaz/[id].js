@@ -44,7 +44,8 @@ export default function MarkazDetail(props) {
         subtitle: "Nominal yang dibutuhkan",
         detail: dataResult.nominal
       },
-    ]
+    ],
+    progress: dataResult.progress
   }
 
   const convertedData = {
@@ -67,7 +68,7 @@ export default function MarkazDetail(props) {
     <>
       <ArrowBack href='/markaz' />
       <DetailView variant='markaz' data={convertedData} />
-      <ProgressDonasiFooter />
+      <ProgressDonasiFooter data={convertedData} />
     </>
   );
 }

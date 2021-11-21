@@ -125,7 +125,7 @@ export default function FilterMarkaz(props) {
     <>
       <Button
         variant="text"
-        href
+        
         ref={anchorRef}
         id="composition-button"
         aria-controls={open ? "composition-menu" : undefined}

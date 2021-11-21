@@ -51,25 +51,30 @@ export default function AdminMarkaz(props) {
       });
   };
 
-  const GridViewMarkaz = (
-    <GridView
-      data={responseVolunteer}
-      detail="admin/markaz"
-      handleDelete={handleDeleteMarkaz}
-    />
-  );
-  const TableViewMarkaz = (
-    <TableView
-      data={responseVolunteer}
-      detail="admin/markaz"
-      handleDelete={handleDeleteMarkaz}
-      santriormarkaz="volunteer"
-      tableTempatMarkaz="Nomor KTP"
-      tableDomisili="Email"
-      tableJenisKelamin="Nomor Telpon"
-      tableTanggalLahir="Status"
-    />
-  );
+  const GridViewAdminVolunteerDetail = () => {
+    return (
+      <GridView
+        data={responseVolunteer}
+        detail="admin/markaz"
+        handleDelete={handleDeleteMarkaz}
+      />
+    )
+  };
+
+  const TableViewAdminVolunteerDetail = () => {
+    return (
+      <TableView
+        data={responseVolunteer}
+        detail="admin/markaz"
+        handleDelete={handleDeleteMarkaz}
+        santriormarkaz="volunteer"
+        tableTempatMarkaz="Nomor KTP"
+        tableDomisili="Email"
+        tableJenisKelamin="Nomor Telpon"
+        tableTanggalLahir="Status"
+      />
+    )
+  }
 
   return (
     <>
@@ -77,8 +82,8 @@ export default function AdminMarkaz(props) {
       <AdminOrUserTemplate
         isAdmin
         variant="volunteer"
-        GridView={GridViewMarkaz}
-        TableView={TableViewMarkaz}
+        GridView={<GridViewAdminVolunteerDetail />}
+        TableView={<TableViewAdminVolunteerDetail />}
         entries={entries}
         setEntries={setEntries}
         searchTerm={searchVolunteer}

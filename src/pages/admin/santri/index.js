@@ -19,8 +19,7 @@ export default function AdminSantri(props) {
     error,
     mutate,
   } = useSWR(
-    `/santri/search?page=${page - 1}&n=${entries}&${
-      !!ageFilter ? "sortedAge=" + ageFilter : ""
+    `/santri/search?page=${page - 1}&n=${entries}&${!!ageFilter ? "sortedAge=" + ageFilter : ""
     }${!!nameFilter ? "sortedName=" + nameFilter : ""}
     &${!!searchSantri && "name=" + searchSantri}
     `,
@@ -47,29 +46,34 @@ export default function AdminSantri(props) {
       });
   };
 
-  const GridViewMarkaz = (
-    <GridView data={responseSantri} detail="admin/santri" handleDelete={handleDeleteSantri} />
-  )
-  const TableViewMarkaz = (
+  const GridViewAdminSantri = () => {
+    return (
+      <GridView data={responseSantri} detail="admin/santri" handleDelete={handleDeleteSantri} />
+    )
+  }
+
+  const TableViewAdminSantri = () => {
+    return (
       <TableView
-          data={responseSantri}
-          detail="admin/santri"
-          handleDelete={handleDeleteSantri}
-          santriormarkaz="santri"
-          tableTempatMarkaz="Tempat Markaz"
-          tableDomisili="Domisili"
-          tableJenisKelamin="Jenis Kelamin"
-          tableTanggalLahir="Tanggal Lahir"
+        data={responseSantri}
+        detail="admin/santri"
+        handleDelete={handleDeleteSantri}
+        santriormarkaz="santri"
+        tableTempatMarkaz="Tempat Markaz"
+        tableDomisili="Domisili"
+        tableJenisKelamin="Jenis Kelamin"
+        tableTanggalLahir="Tanggal Lahir"
       />
-  );
+    )
+  }
 
   return (
     <>
       <AdminOrUserTemplate
         isAdmin
         variant="santri"
-        GridView={GridViewMarkaz}
-        TableView={TableViewMarkaz}
+        GridView={<GridViewAdminSantri />}
+        TableView={<TableViewAdminSantri />}
         entries={entries}
         searchTerm={searchSantri}
         setSearchTerm={setSearchSantri}
