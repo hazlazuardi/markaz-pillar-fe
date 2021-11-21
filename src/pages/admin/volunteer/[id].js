@@ -41,13 +41,7 @@ export default function AdminMarkaz(props) {
   };
 
   const GridViewAdminVolunteerDetail = () => {
-    return (
-      <GridView
-        data={responseVolunteer}
-        detail="admin/markaz"
-        handleDelete={handleDeleteMarkaz}
-      />
-    );
+    return <GridView data={responseVolunteer} detail="admin/markaz" />;
   };
 
   const TableViewAdminVolunteerDetail = () => {
