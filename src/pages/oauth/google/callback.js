@@ -13,10 +13,10 @@ const Callback = () => {
 
     useEffect(() => {
         if(router.isReady) {
+            console.log("HELLO")
             axiosMain.post(`/oauth/token?state=${cookies.get("state")}`, {
                 code: router.query.code
             }).then(response => {
-                console.log(response)
                 if(response.data.result.token == null) {
                     cookies.remove('fullName')
                     cookies.remove('email')
@@ -39,7 +39,7 @@ const Callback = () => {
                 }
             })
         }
-    }, [router, cookies, dispatch])
+    }, [router])
 
     return (
         <div>
