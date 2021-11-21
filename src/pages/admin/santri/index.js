@@ -11,7 +11,7 @@ export default function AdminSantri(props) {
   // const { allSantri } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const [searchSantri, setSearchSantri] = useState("")
+  const [searchSantri, setSearchSantri] = useState("");
   const [ageFilter, setAgeFilter] = useState();
   const [nameFilter, setNameFilter] = useState();
   const {
@@ -19,11 +19,12 @@ export default function AdminSantri(props) {
     error,
     mutate,
   } = useSWR(
-    `/santri/search?page=${page - 1}&n=${entries}&${!!ageFilter ? "sortedAge=" + ageFilter : ""
+    `/santri/search?page=${page - 1}&n=${entries}&${
+      !!ageFilter ? "sortedAge=" + ageFilter : ""
     }${!!nameFilter ? "sortedName=" + nameFilter : ""}
     &${!!searchSantri && "name=" + searchSantri}
     `,
-    fetcher,
+    fetcher
     // {
     //   fallbackData: allSantri,
     //   refreshInterval: 30000,
@@ -48,9 +49,13 @@ export default function AdminSantri(props) {
 
   const GridViewAdminSantri = () => {
     return (
-      <GridView data={responseSantri} detail="admin/santri" handleDelete={handleDeleteSantri} />
-    )
-  }
+      <GridView
+        data={responseSantri}
+        detail="admin/santri"
+        handleDelete={handleDeleteSantri}
+      />
+    );
+  };
 
   const TableViewAdminSantri = () => {
     return (
@@ -59,13 +64,13 @@ export default function AdminSantri(props) {
         detail="admin/santri"
         handleDelete={handleDeleteSantri}
         santriormarkaz="santri"
-        tableTempatMarkaz="Tempat Markaz"
-        tableDomisili="Domisili"
-        tableJenisKelamin="Jenis Kelamin"
-        tableTanggalLahir="Tanggal Lahir"
+        titleTwo="Tempat Markaz"
+        titleThree="Domisili"
+        titleFour="Jenis Kelamin"
+        titleFive="Tanggal Lahir"
       />
-    )
-  }
+    );
+  };
 
   const handleChangeAge = (event) => {
     setAgeFilter(event.target.value);
@@ -121,7 +126,7 @@ export default function AdminSantri(props) {
         setPage={setPage}
         data={responseSantri}
         error={error}
-        hrefCreate='/admin/santri/create'
+        hrefCreate="/admin/santri/create"
         ageFilter={ageFilter}
         setAgeFilter={setAgeFilter}
         nameFilter={nameFilter}
@@ -132,14 +137,3 @@ export default function AdminSantri(props) {
     </>
   );
 }
-
-// export async function getStaticProps() {
-//   const staticSantri = await axiosMain.get("/santri/search?n=1000");
-//   return {
-//     props: {
-//       allSantri: staticSantri.data,
-//     },
-//     revalidate: 10,
-//   };
-// }
-

@@ -4,7 +4,8 @@ import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 import Link from "@mui/material/Link";
-import Popover from "./Dialog";
+import Dialog from "./Dialog";
+import ButtonGroup from "@mui/material/ButtonGroup";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -41,7 +42,6 @@ function TableDataRow(props) {
     detail,
     uniqueid,
     iddonasi,
-    transid,
     paymenturl,
     handleDelete,
     mutate,
@@ -87,7 +87,7 @@ function TableDataRow(props) {
     } else if (santriormarkaz === "transaksi") {
       return (
         <>
-          <Popover transid={transid} mutate={mutate} isStatus />
+          <Dialog mutate={mutate} isStatus {...props} />
           <Link href={paymenturl} target="_blank" underline="none">
             <Button variant="outlined">download</Button>
           </Link>
@@ -109,13 +109,12 @@ function TableDataRow(props) {
       );
     } else if (santriormarkaz === "volunteer") {
       return (
-        <>
-          <Popover transid={transid} mutate={mutate} isStatus />
-          <Popover transid={transid} mutate={mutate} isDownloadVolunteer />
-        </>
+        <ButtonGroup variant="outlined" aria-label="outlined button group">
+          <Dialog mutate={mutate} isStatus {...props} />
+          <Dialog mutate={mutate} isDownloadVolunteer {...props} />
+        </ButtonGroup>
       );
     } else {
-      
       return "buttons";
     }
   }
@@ -130,17 +129,17 @@ function TableDataRow(props) {
       <StyledTableCell align="left">{markaz}</StyledTableCell>
       <StyledTableCell align="left">{domisili}</StyledTableCell>
       <StyledTableCell align="left">{kelamin}</StyledTableCell>
-      <StyledTableCell align="left">{tanggal}</StyledTableCell>
-      <StyledTableCell align="left">
-        {santriormarkaz === "santri" || santriormarkaz === "markaz" ? (
+      {!!tanggal && <StyledTableCell align="left">{tanggal}</StyledTableCell>}
+      {santriormarkaz === "santri" || santriormarkaz === "markaz" ? (
+        <StyledTableCell align="left">
           <Button
             variant="outlined"
             onClick={() => router.push(`/admin/${santriormarkaz}/donasi/${id}`)}
           >
             Lihat Daftar
           </Button>
-        ) : null}
-      </StyledTableCell>
+        </StyledTableCell>
+      ) : null}
       <StyledTableCell align="center">
         <TableButtons />
       </StyledTableCell>

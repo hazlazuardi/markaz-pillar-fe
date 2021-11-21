@@ -17,27 +17,40 @@ export default function TransaksiMarkaz() {
     data: markazs,
     error,
     mutate,
-  } = useSWR(router.isReady ? `/admin/transaction?page=${page - 1}&n=${entries}&id=${transid}` : null, fetcher);
+  } = useSWR(
+    router.isReady
+      ? `/admin/transaction?page=${page - 1}&n=${entries}&id=${transid}`
+      : null,
+    fetcher
+  );
+
+  const changeStatus = async (ids, status) => {
+    return axiosMain.post(`/admin/transaction/status?id=${ids}`, {
+      status: `${status}`,
+    });
+  };
 
   const TableViewMarkazTransaksi = (
     <TableView
       data={markazs}
       santriormarkaz="transaksi"
       detail="admin/markaz"
-      tableTempatMarkaz="ID Transaksi"
-      tableDomisili="Nominal Donasi"
-      tableJenisKelamin="Status"
+      titleTwo="ID Transaksi"
+      titleThree="Nominal Donasi"
+      titleFour="Status"
+      apiCall={changeStatus}
       mutate={mutate}
+      dialogType="statusTransaksi"
     />
   );
 
-  const { id } = router.query
+  const { id } = router.query;
   if (error)
     return "An error has occurred. Please re-login or try again later.";
   if (!markazs) return "Loading...";
   return (
     <>
-      <ArrowBack href={"/admin/markaz/donasi/"+id} />
+      <ArrowBack href={"/admin/markaz/donasi/" + id} />
       <AdminOrUserTemplate
         isAdmin
         disableSearch

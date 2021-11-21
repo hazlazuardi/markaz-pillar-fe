@@ -14,22 +14,20 @@ export default function AdminUsers() {
     mutate,
   } = useSWR(`/admin/user?page=${page - 1}&n=${entries}`, fetcher);
 
-  
-
   const TableViewDataPengguna = () => {
     return (
       <TableView
-      data={responsePengguna}
-      detail="admin/markaz"
-      //   handleDelete={handleDeleteMarkaz}
-      tableTempatMarkaz="Username"
-      tableDomisili="Email"
-      tableJenisKelamin="Nomor Telpon"
-      tableTanggalLahir="Alamat"
-      santriormarkaz="pengguna"
-    />
-    )
-  }
+        data={responsePengguna}
+        detail="admin/markaz"
+        //   handleDelete={handleDeleteMarkaz}
+        titleTwo="Username"
+        titleThree="Email"
+        titleFour="Nomor Telpon"
+        titleFive="Alamat"
+        santriormarkaz="pengguna"
+      />
+    );
+  };
   return (
     <>
       <AdminOrUserTemplate

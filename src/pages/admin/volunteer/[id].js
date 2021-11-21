@@ -4,61 +4,44 @@ import useSWR from "swr";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
 import GridView from "../../../component/templates/admin/GridView";
 import TableView from "../../../component/templates/admin/TableView";
-import { ArrowBack } from "@mui/icons-material";
+import ArrowBack from "../../../component/modules/ArrowBack";
+import { useRouter } from "next/router";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function AdminMarkaz(props) {
-  // const { allVolunteer } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const [searchVolunteer, setSearchVolunteer] = useState("")
+  const [searchVolunteer, setSearchVolunteer] = useState("");
   const [locationFilter, setLocationFilter] = useState();
   const [nameFilter, setNameFilter] = useState();
   const [categoryFilter, setCategoryFilter] = useState();
   const [categoryFilter2, setCategoryFilter2] = useState();
   const [categoryFilter3, setCategoryFilter3] = useState();
+  const router = useRouter();
+  const { id } = router.query;
   const {
     data: responseVolunteer,
     error,
     mutate,
   } = useSWR(
-    `/markaz/search?page=${page - 1}&n=${entries}&${!!locationFilter ? "address=" + locationFilter : ""
-    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${!!categoryFilter ? "category=" + categoryFilter : ""
-    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${!!categoryFilter3 ? "category=" + categoryFilter3 : ""
-    }&${!!searchVolunteer && "name=" + searchVolunteer}
-`,
-    fetcher,
-    // {
-    //   fallbackData: allVolunteer,
-    //   refreshInterval: 30000,
-    // }
+    router.isReady
+      ? `/admin/volunteer/registration?page=${page - 1}&n=${entries}&id=${id}
+`
+      : null,
+    fetcher
   );
 
-  // *******************************************************
-  // Delete
-  // *******************************************************
-  const handleDeleteMarkaz = async (id) => {
-    await axiosMain
-      .delete(`/admin/markaz?id=${id}`)
-      .then((response) => {
-        mutate();
-      })
-      .catch((e) => {
-        if (e.response.data.status === 401) {
-          localStorage.clear();
-        }
-      });
+  // console.log(!!responseVolunteer ? responseVolunteer.result : "");
+
+  const changeStatus = async (ids, status) => {
+    return axiosMain.post(`/admin/volunteer/registration/status?id=${ids}`, {
+      status: `${status}`,
+    });
   };
 
   const GridViewAdminVolunteerDetail = () => {
-    return (
-      <GridView
-        data={responseVolunteer}
-        detail="admin/markaz"
-        handleDelete={handleDeleteMarkaz}
-      />
-    )
+    return <GridView data={responseVolunteer} detail="admin/markaz" />;
   };
 
   const TableViewAdminVolunteerDetail = () => {
@@ -66,15 +49,17 @@ export default function AdminMarkaz(props) {
       <TableView
         data={responseVolunteer}
         detail="admin/markaz"
-        handleDelete={handleDeleteMarkaz}
         santriormarkaz="volunteer"
-        tableTempatMarkaz="Nomor KTP"
-        tableDomisili="Email"
-        tableJenisKelamin="Nomor Telpon"
-        tableTanggalLahir="Status"
+        titleTwo="Nomor KTP"
+        titleThree="Email"
+        titleFour="Nomor Telpon"
+        titleFive="Status"
+        apiCall={changeStatus}
+        mutate={mutate}
+        dialogType="statusVolunteer"
       />
-    )
-  }
+    );
+  };
 
   return (
     <>
@@ -92,7 +77,7 @@ export default function AdminMarkaz(props) {
         setPage={setPage}
         data={responseVolunteer}
         error={error}
-        hrefCreate="/admin/markaz/create"
+        hrefCreate="/admin/volunteer/create"
         locationFilter={locationFilter}
         setLocationFilter={setLocationFilter}
         nameFilter={nameFilter}
