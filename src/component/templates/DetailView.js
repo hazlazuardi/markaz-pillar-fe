@@ -35,6 +35,19 @@ export default function DetailView(props) {
   const handleClose = () => setOpen(false);
   const classes = useStyles()
   const isSM = useMediaQuery("(max-width:600px)");
+
+  if (!data) {
+    console.log("no data")
+    return (
+      <>
+        <Box>
+          <Typography>Loading...</Typography>
+        </Box>
+      </>
+    )
+  }
+
+  console.log("data", result)
   return (
     <>
       <Grid
@@ -53,7 +66,7 @@ export default function DetailView(props) {
           <Typography variant='h4' color='primary' component='h1' gutterBottom sx={{ textTransform: 'capitalize', fontWeight: '600' }} >{!!data ? result.title : variant + '...'}</Typography>
           {!!data ? (
             <Box display='flex' flexDirection='column' height='100%'  >
-              <Typography variant={isSM ? 'h4' : 'h1'} component='body' gutterBottom mb={4} sx={{fontWeight: '200'}} >{result.description}</Typography>
+              <Typography variant={isSM ? 'h4' : 'h1'} component='body' gutterBottom mb={4} sx={{ fontWeight: '200' }} >{result.description}</Typography>
               <Grid data-testid='detail-at-detailview' container spacing={2}>
                 {result.details.map((detail, index) => (
                   <>
