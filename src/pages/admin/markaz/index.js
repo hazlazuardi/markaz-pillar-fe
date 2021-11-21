@@ -70,6 +70,51 @@ export default function AdminMarkaz(props) {
     )
   };
 
+  const handleChangeName = (event) => {
+    setNameFilter(event.target.value);
+    setLocationFilter("");
+    setCategoryFilter("");
+    setCategoryFilter2("");
+    setCategoryFilter3("");
+    mutate();
+  };
+
+  const handleChangeLocation = (event) => {
+    setLocationFilter(event.target.value);
+    setNameFilter("");
+    setCategoryFilter("");
+    setCategoryFilter2("");
+    setCategoryFilter3("");
+    mutate();
+  };
+
+  const radioMarkaz = [
+    {
+      title: "Lokasi",
+      value: locationFilter,
+      onChange: handleChangeLocation,
+      labels: [
+        {
+          value: "false",
+          label: "Luar Jabodetabek",
+        },
+        { value: "true", label: "Jabodetabok" },
+      ],
+    },
+    {
+      title: "Urutkan Nama",
+      value: nameFilter,
+      onChange: handleChangeName,
+      labels: [
+        {
+          value: "ASC",
+          label: "A-Z",
+        },
+        { value: "DESC", label: "Z-A" },
+      ],
+    },
+  ];
+
   return (
     <>
       <AdminOrUserTemplate
@@ -97,6 +142,7 @@ export default function AdminMarkaz(props) {
         categoryFilter3={categoryFilter3}
         setCategoryFilter3={setCategoryFilter3}
         mutate={mutate}
+        FilterRadioObject={radioMarkaz}
       />
     </>
   );
