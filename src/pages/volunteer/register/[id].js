@@ -104,7 +104,7 @@ export default function RegisterVolunteer() {
         if(router.isReady) {
             setProgramId(router.query.id)
         }   
-    }, [router.query.id])
+    }, [router.query.id, router.isReady])
 
     return (
         <div>
