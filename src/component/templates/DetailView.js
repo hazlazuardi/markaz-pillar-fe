@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Add from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
 import { createStyles, makeStyles } from "@mui/styles";
+import DonationProgressBar from "../modules/DonationProgressBar";
 
 const useStyles = makeStyles((theme) => ({
   staticTooltipLabel: {
@@ -16,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function DetailView(props) {
-  const { isAdmin, data, variant, speedDialActions } = props
+  const { isAdmin, data, variant, speedDialActions, hrefDonasi } = props
+  
   const result = !!data ? data.result : null
   const router = useRouter()
   const { id } = router.query
@@ -60,13 +62,14 @@ export default function DetailView(props) {
           <Container disableGutters >
             <Image src={result.image} layout='responsive'
               width={16} height={16} quality={65} sizes={20} alt='Backdrop' />
+            <DonationProgressBar {...props} donated={result.donated} nominal={result.nominal} hrefDonasi={hrefDonasi} />
           </Container>
         </Grid>
         <Grid item xs={12} md={6} width='100%'>
           <Typography variant='h4' color='primary' component='h1' gutterBottom sx={{ textTransform: 'capitalize', fontWeight: '600' }} >{!!data ? result.title : variant + '...'}</Typography>
           {!!data ? (
             <Box display='flex' flexDirection='column' height='100%'  >
-              <Typography variant={isSM ? 'h4' : 'h1'} component='body' gutterBottom mb={4} sx={{ fontWeight: '200' }} >{result.description}</Typography>
+              <Typography variant={isSM ? 'h4' : 'h2'} component='body' gutterBottom mb={4} sx={{ fontWeight: '200' }} >{result.description}</Typography>
               <Grid data-testid='detail-at-detailview' container spacing={2}>
                 {result.details.map((detail, index) => (
                   <>

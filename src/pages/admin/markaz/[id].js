@@ -34,6 +34,7 @@ export default function AdminMarkazDetail(props) {
       setConvertedData({
         ...responseDetailAdminMarkaz,
         result: {
+          ...dataResult,
           title: dataResult.name,
           description: dataResult.background,
           image: dataResult.thumbnailURL,
@@ -79,12 +80,13 @@ export default function AdminMarkazDetail(props) {
     },
   ]
 
+  console.log("dataCV", convertedData)
   if (error) return "An error has occurred.";
   if (!responseDetailAdminMarkaz) return "Loading...";
   return (
     <>
       <ArrowBack href='/admin/markaz' />
-      <DetailView isAdmin variant='markaz' data={convertedData} speedDialActions={adminMarkazDetailActions} />
+      <DetailView isAdmin variant='markaz' data={convertedData} speedDialActions={adminMarkazDetailActions} hrefDonasi={`/admin/markaz/donasi/${id}`} />
       <ProgressDonasiFooter isAdmin data={convertedData} apiCall={deleteProgress} mutate={mutate} />
     </>
   );
