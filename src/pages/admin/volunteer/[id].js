@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { axiosMain } from "../../../axiosInstances";
 import useSWR from "swr";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
@@ -9,7 +9,7 @@ import { ArrowBack } from "@mui/icons-material";
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function AdminMarkaz(props) {
-  const { allVolunteer } = props;
+  // const { allVolunteer } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [searchVolunteer, setSearchVolunteer] = useState("")
@@ -29,10 +29,10 @@ export default function AdminMarkaz(props) {
     }&${!!searchVolunteer && "name=" + searchVolunteer}
 `,
     fetcher,
-    {
-      fallbackData: allVolunteer,
-      refreshInterval: 30000,
-    }
+    // {
+    //   fallbackData: allVolunteer,
+    //   refreshInterval: 30000,
+    // }
   );
 
   // *******************************************************
@@ -51,25 +51,30 @@ export default function AdminMarkaz(props) {
       });
   };
 
-  const GridViewMarkaz = (
-    <GridView
-      data={responseVolunteer}
-      detail="admin/markaz"
-      handleDelete={handleDeleteMarkaz}
-    />
-  );
-  const TableViewMarkaz = (
-    <TableView
-      data={responseVolunteer}
-      detail="admin/markaz"
-      handleDelete={handleDeleteMarkaz}
-      santriormarkaz="volunteer"
-      tableTempatMarkaz="Nomor KTP"
-      tableDomisili="Email"
-      tableJenisKelamin="Nomor Telpon"
-      tableTanggalLahir="Status"
-    />
-  );
+  const GridViewAdminVolunteerDetail = () => {
+    return (
+      <GridView
+        data={responseVolunteer}
+        detail="admin/markaz"
+        handleDelete={handleDeleteMarkaz}
+      />
+    )
+  };
+
+  const TableViewAdminVolunteerDetail = () => {
+    return (
+      <TableView
+        data={responseVolunteer}
+        detail="admin/markaz"
+        handleDelete={handleDeleteMarkaz}
+        santriormarkaz="volunteer"
+        tableTempatMarkaz="Nomor KTP"
+        tableDomisili="Email"
+        tableJenisKelamin="Nomor Telpon"
+        tableTanggalLahir="Status"
+      />
+    )
+  }
 
   return (
     <>
@@ -77,8 +82,8 @@ export default function AdminMarkaz(props) {
       <AdminOrUserTemplate
         isAdmin
         variant="volunteer"
-        GridView={GridViewMarkaz}
-        TableView={TableViewMarkaz}
+        GridView={<GridViewAdminVolunteerDetail />}
+        TableView={<TableViewAdminVolunteerDetail />}
         entries={entries}
         setEntries={setEntries}
         searchTerm={searchVolunteer}

@@ -53,7 +53,8 @@ export default function DetailSantri(props) {
         subtitle: "Nominal yang dibutuhkan",
         detail: dataResult.nominal
       },
-    ]
+    ],
+    progress: dataResult.progress
   }
 
   const convertedData = {
@@ -76,7 +77,7 @@ export default function DetailSantri(props) {
     <>
       <ArrowBack href='/santri' />
       <DetailView variant='santri' data={convertedData} />
-      <ProgressDonasiFooter />
+      <ProgressDonasiFooter data={convertedData} />
     </>
   );
 }

@@ -7,30 +7,8 @@ import Image from 'next/image'
 import LinesEllipsis from 'react-lines-ellipsis'
 
 export default function ProgressDonasiFooter(props) {
-    const { isAdmin } = props
-
-    const data = [
-        {
-            id: 0,
-            progressDate: '21-12-2001',
-            description: 'Kipas ini sangat bermanfaat bagi Jeff Bezos karena rumahnya sangat gerah.'
-        },
-        {
-            id: 1,
-            progressDate: '09-10-2001',
-            description: 'Jeff Bezos kali ini memiliki sepeda untuk beli mangga di pasar.'
-        },
-        {
-            id: 2,
-            progressDate: '31-04-2001',
-            description: 'Jeff.'
-        },
-        {
-            id: 3,
-            progressDate: '31-04-2001',
-            description: 'Hazmiiiii.'
-        },
-    ]
+    const { isAdmin, data } = props
+    const result = !!data ? data.result.progress : null
 
     const isXXS = useMediaQuery("(max-width:400px)");
     const IMAGE_SIZE = 200
@@ -38,7 +16,7 @@ export default function ProgressDonasiFooter(props) {
         <>
             <Typography variant='h4' component='h2' sx={{ mb: 3, mt: 12 }}>Progress Donasi</Typography>
             <Grid container spacing={2}  >
-                {!!data && data.map(progress => (
+                {!!result && !!result.length > 0 ? result.map(progress => (
                     <Grid key={progress.id} item xs={12} md={6} >
                         <Card sx={isXXS ? { display: 'block' } : { display: 'flex' }} variant='outlined' >
                             <CardMedia sx={isXXS ? { width: '100%', height: '100%' } : { width: IMAGE_SIZE, height: IMAGE_SIZE }} alt="Live from space album cover">
@@ -73,7 +51,12 @@ export default function ProgressDonasiFooter(props) {
                             </Box>
                         </Card>
                     </Grid>
-                ))}
+                )) :
+                    (
+                        <Container>
+                            <Typography>No Progress yet</Typography>
+                        </Container>
+                    )}
             </Grid>
         </>
     )
