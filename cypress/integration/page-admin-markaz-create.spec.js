@@ -83,7 +83,6 @@ describe(`Test functionality of inputs when create new markaz`, () => {
     cy.get('#markazContactNameAtComponentAdminCreateOrEditMarkaz').type('Rija')
     cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
     // cy.get('#snackbarAtLayout').contains('Markaz Created').should('exist')
-    cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
   });
 
   it('Test if fails if empty field(s)', () => {
@@ -95,7 +94,6 @@ describe(`Test functionality of inputs when create new markaz`, () => {
     cy.get('#category-select').click().get('li').contains('Markaz Umum').click()
     cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
     cy.get('#snackbarAtLayout').should('exist')
-    cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
   });
 
   it('Test if fails if image is too big', () => {
@@ -107,6 +105,5 @@ describe(`Test functionality of inputs when create new markaz`, () => {
     cy.get('#markazAddressAtComponentAdminCreateOrEditMarkaz').type('0811114433')
     cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
     cy.get('#snackbarAtLayout').should('exist')
-    cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
   });
 });

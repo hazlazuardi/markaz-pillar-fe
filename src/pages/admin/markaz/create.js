@@ -4,6 +4,7 @@ import { dispatchTypes } from "../../../context/AppReducer";
 import AdminCreateOrEditMarkaz from "../../../component/templates/admin/AdminCreateOrEditMarkaz";
 import { axiosFormData } from "../../../axiosInstances";
 import ArrowBack from "../../../component/modules/ArrowBack";
+import { useRouter } from "next/router";
 
 function AdminMarkazCreate() {
     const { dispatch } = useAppContext();
@@ -15,6 +16,7 @@ function AdminMarkazCreate() {
         address: "",
     });
     const form = useRef(null);
+    const router = useRouter()
 
     const handleChangeMarkaz = ({ target }) => {
         const { name, value } = target;
@@ -23,8 +25,6 @@ function AdminMarkazCreate() {
             [name]: value,
         }));
     };
-
-    const [submitted, setSubmitted] = useState(false);
 
     const handleSubmit = async (event) => {
         setLoading(true)
@@ -41,7 +41,7 @@ function AdminMarkazCreate() {
             .post("/admin/markaz", data)
             .then(response => {
                 setLoading(false)
-                
+
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
@@ -49,15 +49,15 @@ function AdminMarkazCreate() {
                         message: "Markaz Created"
                     }
                 })
-                setSubmitted(true)
+                router.push('/admin/markaz')
             })
             .catch(error => {
                 setLoading(false)
-                
+
                 // Check & Handle if error.response is defined
                 if (!!error.response) {
                     if (error.response.status === 400) {
-                        
+
                         // Check & Handle if bad request (empty fields, etc)
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
@@ -90,25 +90,20 @@ function AdminMarkazCreate() {
             })
     };
 
-    if (submitted) {
-      console.log(submitted)
-      router.push("/admin/markaz")
-    }
-
     const [loading, setLoading] = useState(false)
     return (
         <>
-        <ArrowBack href='/admin/markaz' />
-        <AdminCreateOrEditMarkaz
-            form={form}
-            loading={loading}
-            handleSubmit={handleSubmit}
-            handleChangeMarkaz={handleChangeMarkaz}
-            setThumbnail={setThumbnail}
-            thumbnail={thumbnail}
-            markaz={markaz}
+            <ArrowBack href='/admin/markaz' />
+            <AdminCreateOrEditMarkaz
+                form={form}
+                loading={loading}
+                handleSubmit={handleSubmit}
+                handleChangeMarkaz={handleChangeMarkaz}
+                setThumbnail={setThumbnail}
+                thumbnail={thumbnail}
+                markaz={markaz}
 
-        />
+            />
         </>
     );
 }

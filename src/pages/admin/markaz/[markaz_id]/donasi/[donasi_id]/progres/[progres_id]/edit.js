@@ -11,7 +11,7 @@ const fetcher = url => axiosMain.get(url).then(res => res.data)
 
 function AdminEditMarkazProgressDonasi(props) {
     const router = useRouter();
-    const { donasi_id, progresid } = router.query
+    const { donasi_id, progres_id } = router.query
     const {
         data: responseProgres,
         error,
@@ -48,7 +48,7 @@ function AdminEditMarkazProgressDonasi(props) {
         data.append("detail", progresBlob);
 
         await axiosFormData
-            .post(`/admin/donation/progress/edit?id=${progresid}`, data)
+            .post(`/admin/donation/progress/edit?id=${progres_id}`, data)
             .then(response => {
                 setLoading(false)
 
