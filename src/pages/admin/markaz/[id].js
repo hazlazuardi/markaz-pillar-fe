@@ -15,54 +15,56 @@ export default function AdminMarkazDetail(props) {
   // const { detailAdminMarkaz } = props
   const router = useRouter();
   const { id } = router.query
-  const { data: responseDetailAdminMarkaz, error } = useSWR(router.isReady ? `/markaz?id=${id}` : null,
+  const { data: responseDetailAdminMarkaz, error, mutate } = useSWR(router.isReady ? `/markaz?id=${id}` : null,
     fetcher,
     // { fallbackData: detailAdminMarkaz, refreshInterval: 10000 }
   )
 
+  const deleteProgress = async (id) => {
+    return axiosMain.delete(`/admin/donation/progress?id=${id}`)
+  }
 
-  const [convertedData, setconvertedData] = useState({})
+
+  const [convertedData, setConvertedData] = useState()
   useEffect(() => {
-    if (responseDetailAdminMarkaz) {
-      const dataResult = {
-        ...responseDetailAdminMarkaz.result
-      }
-      const convertedDataAdminMarkaz = {
-        title: dataResult.name,
-        description: dataResult.background,
-        image: dataResult.thumbnailURL,
-        details: [
-          {
-            subtitle: "Contact Name",
-            detail: dataResult.contactName
-          },
-          {
-            subtitle: "Category",
-            detail: markazCategory[dataResult.category]
-          },
-          {
-            subtitle: "Contact Person",
-            detail: dataResult.contactPerson
-          },
-        ],
-        donation: [
-          {
-            subtitle: "Nominal yang dibutuhkan",
-            detail: dataResult.nominal
-          },
-        ]
-      }
+    console.log("ada")
 
-      const toConvertedData = {
+    if (!!responseDetailAdminMarkaz) {
+      const dataResult = responseDetailAdminMarkaz.result
+      setConvertedData({
         ...responseDetailAdminMarkaz,
         result: {
-          ...convertedDataAdminMarkaz
+          title: dataResult.name,
+          description: dataResult.background,
+          image: dataResult.thumbnailURL,
+          details: [
+            {
+              subtitle: "Contact Name",
+              detail: dataResult.contactName
+            },
+            {
+              subtitle: "Category",
+              detail: markazCategory[dataResult.category]
+            },
+            {
+              subtitle: "Contact Person",
+              detail: dataResult.contactPerson
+            },
+          ],
+          donation: [
+            {
+              subtitle: "Nominal yang dibutuhkan",
+              detail: dataResult.nominal
+            },
+          ],
+          progress: dataResult.progress
         }
-      }
-
-      setconvertedData(toConvertedData)
+      })
+    } else {
+      mutate()
     }
-  }, [responseDetailAdminMarkaz])
+    console.log("gada")
+  }, [mutate, responseDetailAdminMarkaz])
 
   const adminMarkazDetailActions = [
     {
@@ -73,7 +75,7 @@ export default function AdminMarkazDetail(props) {
     {
       name: "Update Progress Donasi",
       icon: <Add />,
-      onClick: `/admin/markaz/donasi/create`
+      onClick: `/admin/markaz/donasi/progress/create`
     },
   ]
 
@@ -83,7 +85,7 @@ export default function AdminMarkazDetail(props) {
     <>
       <ArrowBack href='/admin/markaz' />
       <DetailView isAdmin variant='markaz' data={convertedData} speedDialActions={adminMarkazDetailActions} />
-      <ProgressDonasiFooter isAdmin />
+      <ProgressDonasiFooter isAdmin data={convertedData} apiCall={deleteProgress} mutate={mutate} />
     </>
   );
 }
