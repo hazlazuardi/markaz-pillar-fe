@@ -2,12 +2,12 @@ import { useState } from "react";
 import { axiosMain } from "../../../axiosInstances";
 import useSWR from "swr";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
-import GridView from "../../../component/templates/admin/GridView";
+import GridViewVolunteer from "../../../component/templates/admin/GridViewVolunteer";
 import TableView from "../../../component/templates/admin/TableView";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
-export default function AdminMarkaz(props) {
+export default function AdminVolunteer(props) {
   // const { allProgram } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
@@ -51,7 +51,7 @@ export default function AdminMarkaz(props) {
 
   const GridViewAdminVolunteer = () => {
     return (
-      <GridView
+      <GridViewVolunteer
         data={responseProgram}
         detail="admin/markaz"
         handleDelete={handleDeleteMarkaz}
@@ -88,17 +88,7 @@ export default function AdminMarkaz(props) {
         setPage={setPage}
         data={responseProgram}
         error={error}
-        hrefCreate="/admin/markaz/create"
-        locationFilter={locationFilter}
-        setLocationFilter={setLocationFilter}
-        nameFilter={nameFilter}
-        setNameFilter={setNameFilter}
-        categoryFilter={categoryFilter}
-        setCategoryFilter={setCategoryFilter}
-        categoryFilter2={categoryFilter2}
-        setCategoryFilter2={setCategoryFilter2}
-        categoryFilter3={categoryFilter3}
-        setCategoryFilter3={setCategoryFilter3}
+        hrefCreate="/admin/volunteer/create"
         mutate={mutate}
       />
     </>
