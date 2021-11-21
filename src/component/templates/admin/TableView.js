@@ -7,11 +7,10 @@ export default function TableView(props) {
     data,
     santriormarkaz,
     detail,
-    tableTempatMarkaz,
-    tableDomisili,
-    tableJenisKelamin,
-    tableTanggalLahir,
-    isDonasi,
+    titleTwo,
+    titleThree,
+    titleFour,
+    titleFive,
     iddonasi,
     handleDelete,
     mutate,
@@ -41,9 +40,9 @@ export default function TableView(props) {
     } else if (santriormarkaz === "pengguna") {
       return field.username;
     } else if (santriormarkaz === "kegiatan") {
-      return "field.volunteerNeeded";
+      return field.volunteerNeeded;
     } else if (santriormarkaz === "volunteer") {
-      return "field.ktp";
+      return field.ktp;
     }
   }
 
@@ -51,7 +50,7 @@ export default function TableView(props) {
     if (santriormarkaz === "santri") {
       return field.birthPlace;
     } else if (santriormarkaz === "markaz") {
-      return "";
+      return field.contactName;
     } else if (santriormarkaz === "donasi") {
       return field.nominal;
     } else if (santriormarkaz === "transaksi") {
@@ -59,9 +58,9 @@ export default function TableView(props) {
     } else if (santriormarkaz === "pengguna") {
       return field.email;
     } else if (santriormarkaz === "kegiatan") {
-      return "field.volunteerAmount";
+      return field.volunteerApplied;
     } else if (santriormarkaz === "volunteer") {
-      return "field.email";
+      return field.email;
     }
   }
 
@@ -69,7 +68,7 @@ export default function TableView(props) {
     if (santriormarkaz === "santri") {
       return genderConverter(field.gender);
     } else if (santriormarkaz === "markaz") {
-      return field.contactName;
+      return field.contactInfo;
     } else if (santriormarkaz === "donasi") {
       return field.donated;
     } else if (santriormarkaz === "transaksi") {
@@ -77,9 +76,9 @@ export default function TableView(props) {
     } else if (santriormarkaz === "pengguna") {
       return field.phoneNum;
     } else if (santriormarkaz === "kegiatan") {
-      return "field.location";
+      return field.location;
     } else if (santriormarkaz === "volunteer") {
-      return "field.notelp";
+      return field.phoneNum;
     }
   }
 
@@ -98,6 +97,10 @@ export default function TableView(props) {
       return "Menunggu Konfirmasi";
     } else if (status === "DONASI_DITOLAK") {
       return "Donasi Ditolak";
+    } else if (status === "PENDAFTARAN_DITOLAK") {
+      return "Pendaftaran Ditolak";
+    } else if (status === "PENDAFTARAN_DITERIMA") {
+      return "Pendaftaran Diterima";
     }
   }
 
@@ -105,7 +108,7 @@ export default function TableView(props) {
     if (santriormarkaz === "santri") {
       return field.birthDate;
     } else if (santriormarkaz === "markaz") {
-      return field.contactInfo;
+      return null;
     } else if (santriormarkaz === "donasi") {
       return field.isActive ? "Donasi Ditampilkan" : "Donasi Disembunyikan";
     } else if (santriormarkaz === "transaksi") {
@@ -115,16 +118,16 @@ export default function TableView(props) {
     } else if (santriormarkaz === "kegiatan") {
       return null;
     } else if (santriormarkaz === "volunteer") {
-      return "field.status";
+      return statusConverter(field.status);
     }
   }
 
   return (
     <TableData
-      tableTempatMarkaz={tableTempatMarkaz}
-      tableDomisili={tableDomisili}
-      tableJenisKelamin={tableJenisKelamin}
-      tableTanggalLahir={tableTanggalLahir}
+      titleTwo={titleTwo}
+      titleThree={titleThree}
+      titleFour={titleFour}
+      titleFive={titleFive}
       santriormarkaz={santriormarkaz}
     >
       {users.map((user) => (
@@ -138,13 +141,15 @@ export default function TableView(props) {
           tanggal={fieldFive(user)}
           santriormarkaz={santriormarkaz}
           detail={detail}
-          isDonasi={isDonasi}
           iddonasi={iddonasi}
           uniqueid={user.uniqueId}
-          transid={user.trxId}
+          trxId={user.trxId}
           paymenturl={user.paymentURL}
           handleDelete={handleDelete}
           mutate={mutate}
+          status={user.status}
+          userdata={user}
+          {...props}
         />
       ))}
     </TableData>

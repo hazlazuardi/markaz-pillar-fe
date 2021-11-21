@@ -15,61 +15,54 @@ export default function AdminDetailSantri(props) {
   // const { detailAdminSantri } = props
   const router = useRouter();
   const { id } = router.query
-  const { data: responseDetailAdminSantri, error } = useSWR(router.isReady ? `/santri?id=${id}` : null,
+  const { data: responseDetailAdminSantri, error, mutate } = useSWR(router.isReady ? `/santri?id=${id}` : null,
     fetcher,
     // { fallbackData: detailAdminSantri, refreshInterval: 10000 }
   )
 
-  const [convertedData, setconvertedData] = useState({})
+  const deleteProgress = async (id) => {
+    return axiosMain.delete(`/admin/donation/progress?id=${id}`)
+  }
+
+  const [convertedData, setConvertedData] = useState()
   useEffect(() => {
-    if (responseDetailAdminSantri) {
-      const dataResult = {
-        ...responseDetailAdminSantri.result
-      }
-      const convertedDataSantri = {
-        title: dataResult.name,
-        description: dataResult.background,
-        image: dataResult.thumbnailURL,
-        details: [
-          {
-            subtitle: "Tempat Markaz",
-            detail: dataResult.markaz.name
-          },
-          {
-            subtitle: "Jenis Kelamin",
-            detail: dataResult.gender
-          },
-          {
-            subtitle: "Domisili Asal",
-            detail: dataResult.birthPlace
-          },
-          {
-            subtitle: "Kebutuhan Beasiswa",
-            detail: dataResult.desc
-          },
-          {
-            subtitle: "Tempat & Tanggal Lahir",
-            detail: `${dataResult.birthPlace}, ${dataResult.birthDate}`
-          },
-
-        ],
-        donation: [
-          {
-            subtitle: "Nominal yang dibutuhkan",
-            detail: dataResult.nominal
-          },
-        ]
-      }
-
-      const toConvertedData = {
+    if (!!responseDetailAdminSantri) {
+      const dataResult = responseDetailAdminSantri.result
+      setConvertedData({
         ...responseDetailAdminSantri,
         result: {
-          ...convertedDataSantri
+          title: dataResult.name,
+          description: dataResult.background,
+          image: dataResult.thumbnailURL,
+          details: [
+            {
+              subtitle: "Tempat Markaz",
+              detail: dataResult.markaz.name
+            },
+            {
+              subtitle: "Jenis Kelamin",
+              detail: dataResult.gender
+            },
+            {
+              subtitle: "Domisili Asal",
+              detail: dataResult.birthPlace
+            },
+            {
+              subtitle: "Kebutuhan Beasiswa",
+              detail: dataResult.desc
+            },
+            {
+              subtitle: "Tempat & Tanggal Lahir",
+              detail: `${dataResult.birthPlace}, ${dataResult.birthDate}`
+            },
+          ],
+          progress: dataResult.progress
         }
-      }
-      setconvertedData(toConvertedData)
+      })
+    } else {
+      mutate()
     }
-  }, [responseDetailAdminSantri])
+  }, [mutate, responseDetailAdminSantri])
 
   const adminMarkazDetailActions = [
     {
@@ -79,7 +72,7 @@ export default function AdminDetailSantri(props) {
     }, {
       name: "Edit Progress Donasi",
       icon: <DonutLarge />,
-      onClick: '/admin/markaz/donasi/create'
+      onClick: `/admin/santri/donasi/progress/create`
     },
   ]
 
@@ -89,7 +82,7 @@ export default function AdminDetailSantri(props) {
     <Stack spacing={4}>
       <ArrowBack href='/santri' />
       <DetailView isAdmin variant='santri' data={convertedData} speedDialActions={adminMarkazDetailActions} />
-      <ProgressDonasiFooter isAdmin />
+      <ProgressDonasiFooter isAdmin data={convertedData} apiCall={deleteProgress} mutate={mutate} />
     </Stack>
   );
 }

@@ -6,33 +6,54 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
-import Typography from "@mui/material/Typography";
-import { axiosMain } from "../../axiosInstances";
-import Router from "next/router";
+import Link from "@mui/material/Link";
 
 const status_list = [
   "MENUNGGU_KONFIRMASI",
   "DONASI_DITOLAK",
   "DONASI_DITERIMA",
+  "PENDAFTARAN_DITOLAK",
+  "PENDAFTARAN_DITERIMA",
 ];
 
-function SimpleDialog(props) {
-  const { onClose, selectedValue, open, idtrans, mutate } = props;
+const transaksi_status_list = [
+  "MENUNGGU_KONFIRMASI",
+  "DONASI_DITOLAK",
+  "DONASI_DITERIMA",
+];
 
-  const [loading, setLoading] = useState(true);
+const volunteer_status_list = [
+  "MENUNGGU_KONFIRMASI",
+  "PENDAFTARAN_DITOLAK",
+  "PENDAFTARAN_DITERIMA",
+];
+
+const download_list = ["cvURL", "essayURL", "pictureURL"];
+
+function SimpleDialog(props) {
+  const {
+    onClose,
+    selectedValue,
+    open,
+    apiCall,
+    id,
+    mutate,
+    dialogType,
+    trxId,
+    data,
+    isStatus,
+    isDownloadVolunteer,
+    userdata,
+  } = props;
 
   const handleClose = () => {
     onClose(selectedValue);
   };
 
-  const handleChangeStatus = async (id, Status) => {
-    setLoading(true);
-    await axiosMain
-      .post(`/admin/transaction/status?id=${id}`, {
-        status: `${Status}`,
-      })
+  const handleChangeStatus = async (idF, statusF) => {
+    apiCall(idF, statusF)
       .then((res) => {
-        setLoading(false);
+        mutate();
       })
       .catch((e) => {
         if (e.response.data.status === 401) {
@@ -40,37 +61,93 @@ function SimpleDialog(props) {
         }
       });
     onClose(true);
-    Router.reload();
-    // mutate();
   };
 
-  function statusConverter(status) {
-    if (status === "DONASI_DITERIMA") {
+  // const handleDownload = async (download) => {
+  //   return router.push(`${userdata.download}`);
+  // };
+
+  function transaksiStatusConverter(field) {
+    if (field === "DONASI_DITERIMA") {
       return "Donasi Diterima";
-    } else if (status === "MENUNGGU_KONFIRMASI") {
+    } else if (field === "MENUNGGU_KONFIRMASI") {
       return "Menunggu Konfirmasi";
-    } else if (status === "DONASI_DITOLAK") {
+    } else if (field === "DONASI_DITOLAK") {
       return "Donasi Ditolak";
     }
   }
 
-  useEffect(() => {
-    setLoading(false);
-  }, [handleChangeStatus, loading]);
+  function volunteerStatusConverter(field) {
+    if (field === "MENUNGGU_KONFIRMASI") {
+      return "Menunggu Konfirmasi";
+    } else if (field === "PENDAFTARAN_DITOLAK") {
+      return "Pendaftaran Ditolak";
+    } else if (field === "PENDAFTARAN_DITERIMA") {
+      return "Pendaftaran Diterima";
+    }
+  }
+
+  function downloadStatusConverter(field) {
+    if (field === "cvURL") {
+      return "CV";
+    } else if (field === "essayURL") {
+      return "Essay";
+    } else if (field === "pictureURL") {
+      return "Picture";
+    }
+  }
+
+  const DialogList = () => {
+    if (dialogType === "statusVolunteer" && isStatus) {
+      {
+        return (
+          <List sx={{ pt: 0 }}>
+            {volunteer_status_list.map((statusL) => (
+              <ListItem button onClick={() => handleChangeStatus(id, statusL)}>
+                <ListItemText primary={volunteerStatusConverter(statusL)} />
+              </ListItem>
+            ))}
+          </List>
+        );
+      }
+    } else if (dialogType === "statusTransaksi" && isStatus) {
+      return (
+        <List sx={{ pt: 0 }}>
+          {transaksi_status_list.map((statusL) => (
+            <ListItem button onClick={() => handleChangeStatus(trxId, statusL)}>
+              <ListItemText primary={transaksiStatusConverter(statusL)} />
+            </ListItem>
+          ))}
+        </List>
+      );
+    } else if (dialogType === "statusVolunteer" && isDownloadVolunteer) {
+      return (
+        <List sx={{ pt: 0 }}>
+          <Link href={userdata.cvURL} target="_blank" underline="none">
+            <ListItem button>
+              <ListItemText primary="CV" />
+            </ListItem>
+          </Link>
+          <Link href={userdata.essayURL} target="_blank" underline="none">
+            <ListItem button>
+              <ListItemText primary="Essay" />
+            </ListItem>
+          </Link>
+          <Link href={userdata.pictureURL} target="_blank" underline="none">
+            <ListItem button>
+              <ListItemText primary="Picture" />
+            </ListItem>
+          </Link>
+        </List>
+      );
+    }
+  };
+
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Set Status</DialogTitle>
-      <List sx={{ pt: 0 }}>
-        {status_list.map((status) => (
-          <ListItem
-            button
-            onClick={() => handleChangeStatus(idtrans, status)}
-            // key={email}
-          >
-            <ListItemText primary={statusConverter(status)} />
-          </ListItem>
-        ))}
-      </List>
+      {isStatus && <DialogTitle>Set Status</DialogTitle>}
+      {isDownloadVolunteer && <DialogTitle>Download</DialogTitle>}
+      {DialogList()}
     </Dialog>
   );
 }
@@ -82,7 +159,7 @@ SimpleDialog.propTypes = {
 };
 
 export default function DialogTrans(props) {
-  const { transid, isStatus, isDownloadVolunteer } = props;
+  const { isStatus, isDownloadVolunteer } = props;
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(status_list[1]);
 
@@ -105,7 +182,7 @@ export default function DialogTrans(props) {
         selectedValue={selectedValue}
         open={open}
         onClose={handleClose}
-        idtrans={transid}
+        {...props}
       />
     </div>
   );
