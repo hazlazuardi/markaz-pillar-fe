@@ -1,23 +1,30 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../../context/AppReducer";
-import { axiosFormData } from "../../../../../../axiosInstances";
+import { useAppContext } from "../../../../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../../../../context/AppReducer";
+import {axiosFormData, axiosMain} from "../../../../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-import Container from "@mui/material/Container";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Dropzone from '../../../../../../component/modules/Dropzone';
-import Typography from '@mui/material/Typography';
-import LoadingButton from '@mui/lab/LoadingButton';
-import AdminCreateOrEditProgres from "../../../../../../component/templates/admin/AdminCreateOrEditProgres";
+import AdminCreateOrEditProgres from "../../../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
+import useSWR from "swr";
+
+const fetcher = url => axiosMain.get(url).then(res => res.data)
 
 function AdminEditMarkazProgressDonasi(props) {
+    const router = useRouter();
+    const { transid, progresid } = router.query
+    const {
+        data: responseProgres,
+        error,
+        mutate,
+    } = useSWR(
+        router.isReady ?
+            `/admin/donation?id=${transid}`: null,
+        fetcher,
+    );
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const { responseMarkaz } = props
     const [progres, setEditedProgres] = useState({
-        progressDate: "",
-        description: "",
+        progressDate: responseProgres ? responseProgres.progressDate: "",
+        description: responseProgres ? responseProgres.description: "",
     });
     const form = useRef(null);
 
@@ -33,14 +40,14 @@ function AdminEditMarkazProgressDonasi(props) {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
-        const progresBlob = new Blob([JSON.stringify(editedProgres)], {
+        const progresBlob = new Blob([JSON.stringify(progres)], {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("progres", progresBlob);
+        data.append("detail", progresBlob);
 
         await axiosFormData
-            .post("/admin/markaz", data)
+            .post(`/admin/donation/progress/edit?id=${progresid}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -88,9 +95,6 @@ function AdminEditMarkazProgressDonasi(props) {
                 }
             })
     };
-
-    const router = useRouter()
-    const pathname = router.pathname;
     const [loading, setLoading] = useState(false)
     return (
         <AdminCreateOrEditProgres

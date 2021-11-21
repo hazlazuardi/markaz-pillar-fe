@@ -1,12 +1,14 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../context/AppReducer";
-import { axiosFormData } from "../../../../../axiosInstances";
+import { useAppContext } from "../../../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../../../context/AppReducer";
+import { axiosFormData } from "../../../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-import AdminCreateOrEditProgres from "../../../../../component/templates/admin/AdminCreateOrEditProgres";
+import AdminCreateOrEditProgres from "../../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
 
-function AdminCreateMarkazProgressDonasi() {
+function AdminCreateSantriProgressDonasi() {
+    const router = useRouter();
     const { dispatch } = useAppContext();
+    const { transid } = router.query
     const [thumbnail, setThumbnail] = useState({});
     const [progres, setProgres] = useState({
         progressDate: "",
@@ -30,10 +32,10 @@ function AdminCreateMarkazProgressDonasi() {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("progres", progresBlob);
+        data.append("detail", progresBlob);
 
         await axiosFormData
-            .post("/admin/markaz", data)
+            .post(`/admin/donation/progress?donation_id=${transid}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -82,8 +84,6 @@ function AdminCreateMarkazProgressDonasi() {
             })
     };
 
-    const router = useRouter()
-    const pathname = router.pathname;
     const [loading, setLoading] = useState(false)
     return (
         <AdminCreateOrEditProgres
@@ -93,11 +93,11 @@ function AdminCreateMarkazProgressDonasi() {
             setThumbnail={setThumbnail}
             loading={loading}
             createOrEdit="Create"
-            markazOrSantri="Markaz"
+            markazOrSantri="Santri"
             handleChangeProgres={handleChangeProgres}
             progres={progres}
         />
     );
 }
 
-export default AdminCreateMarkazProgressDonasi;
+export default AdminCreateSantriProgressDonasi;

@@ -46,12 +46,12 @@ beforeEach(function setUser () {
 })
 
 describe('Test it is in the correct page', () => {
-    it('Test if edit.js contains "Upload an Image" or not', () => {
+    it('Test if [progresid].js contains "Upload an Image" or not', () => {
         cy.get('h5').contains('Upload an Image').should('exist')
     })
 
-    it('Test if edit.js contains "This is edit page" or not', () => {
-        cy.get('p').contains('This is edit page').should('not.exist')
+    it('Test if [progresid].js contains "This is [progresid] page" or not', () => {
+        cy.get('p').contains('This is [progresid] page').should('not.exist')
     })
 
     it('Test ArrowBack directs to Admin Markaz', () => {
@@ -60,7 +60,7 @@ describe('Test it is in the correct page', () => {
       cy.url().should('eq', 'http://localhost:3000/admin/santri/1')
     })
 
-    it('Test if admin edit santri page redirect unauthorized users', () => {
+    it('Test if admin [progresid] santri page redirect unauthorized users', () => {
       cy.get('#menuIconButton').should('exist').click()
       cy.get('button').contains('Keluar').should('exist').click()
       cy.visit(`${frontendURL}/admin/santri/edit/1`)

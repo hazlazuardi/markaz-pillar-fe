@@ -1,15 +1,16 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../../context/AppReducer";
-import { axiosFormData } from "../../../../../../axiosInstances";
+import { useAppContext } from "../../../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../../../context/AppReducer";
+import { axiosFormData } from "../../../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-import AdminCreateOrEditProgres from "../../../../../../component/templates/admin/AdminCreateOrEditProgres";
+import AdminCreateOrEditProgres from "../../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
 
-function AdminEditSantriProgressDonasi(props) {
+function AdminCreateMarkazProgressDonasi() {
+    const router = useRouter();
     const { dispatch } = useAppContext();
+    const { transid } = router.query
     const [thumbnail, setThumbnail] = useState({});
-    const { responseMarkaz } = props
-    const [editedProgres, setEditedProgres] = useState({
+    const [progres, setProgres] = useState({
         progressDate: "",
         description: "",
     });
@@ -17,7 +18,7 @@ function AdminEditSantriProgressDonasi(props) {
 
     const handleChangeProgres = ({ target }) => {
         const { name, value } = target;
-        setEditedProgres((prev) => ({
+        setProgres((prev) => ({
             ...prev,
             [name]: value,
         }));
@@ -27,14 +28,14 @@ function AdminEditSantriProgressDonasi(props) {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
-        const progresBlob = new Blob([JSON.stringify(editedProgres)], {
+        const progresBlob = new Blob([JSON.stringify(progres)], {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("progres", progresBlob);
+        data.append("detail", progresBlob);
 
         await axiosFormData
-            .post("/admin/santri", data)
+            .post(`/admin/donation/progress?donation_id=${transid}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -42,7 +43,7 @@ function AdminEditSantriProgressDonasi(props) {
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Progres Edited"
+                        message: "Progres Created"
                     }
                 })
             })
@@ -83,8 +84,6 @@ function AdminEditSantriProgressDonasi(props) {
             })
     };
 
-    const router = useRouter()
-    const pathname = router.pathname;
     const [loading, setLoading] = useState(false)
     return (
         <AdminCreateOrEditProgres
@@ -93,12 +92,12 @@ function AdminEditSantriProgressDonasi(props) {
             thumbnail={thumbnail}
             setThumbnail={setThumbnail}
             loading={loading}
-            createOrEdit="Edit"
-            markazOrSantri="Santri"
+            createOrEdit="Create"
+            markazOrSantri="Markaz"
             handleChangeProgres={handleChangeProgres}
-            progres={editedProgres}
-            />
+            progres={progres}
+        />
     );
 }
 
-export default AdminEditSantriProgressDonasi;
+export default AdminCreateMarkazProgressDonasi;

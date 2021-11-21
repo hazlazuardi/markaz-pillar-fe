@@ -1,32 +1,37 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../context/AppReducer";
-import { axiosFormData } from "../../../../../axiosInstances";
+import { useAppContext } from "../../../../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../../../../context/AppReducer";
+import {axiosFormData, axiosMain} from "../../../../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-import Container from "@mui/material/Container";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Dropzone from '../../../../../component/modules/Dropzone'
-import Typography from '@mui/material/Typography'
-import { FormControl } from "@mui/material";
-import { Select } from "@mui/material";
-import { InputLabel } from "@mui/material";
-import { MenuItem } from "@mui/material";
-import LoadingButton from '@mui/lab/LoadingButton'
-import AdminCreateOrEditProgres from "../../../../../component/templates/admin/AdminCreateOrEditProgres";
+import AdminCreateOrEditProgres from "../../../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
+import useSWR from "swr";
 
-function AdminCreateSantriProgressDonasi() {
+const fetcher = url => axiosMain.get(url).then(res => res.data)
+
+function AdminEditSantriProgressDonasi(props) {
+    const router = useRouter();
+    const { transid, progresid } = router.query
+    const {
+        data: responseProgres,
+        error,
+        mutate,
+    } = useSWR(
+        router.isReady ?
+            `/admin/donation?id=${transid}`: null,
+        fetcher,
+    );
+
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const [progres, setProgres] = useState({
-        progressDate: "",
-        description: "",
+    const [editedProgres, setEditedProgres] = useState({
+        progressDate: responseProgres ? responseProgres.progressDate: "",
+        description: responseProgres ? responseProgres.description: "",
     });
     const form = useRef(null);
 
     const handleChangeProgres = ({ target }) => {
         const { name, value } = target;
-        setProgres((prev) => ({
+        setEditedProgres((prev) => ({
             ...prev,
             [name]: value,
         }));
@@ -36,14 +41,14 @@ function AdminCreateSantriProgressDonasi() {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
-        const progresBlob = new Blob([JSON.stringify(progres)], {
+        const progresBlob = new Blob([JSON.stringify(editedProgres)], {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("progres", progresBlob);
+        data.append("detail", progresBlob);
 
         await axiosFormData
-            .post("/admin/santri", data)
+            .post(`/admin/donation/progress/edit?id=${progresid}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -51,7 +56,7 @@ function AdminCreateSantriProgressDonasi() {
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Progres Created"
+                        message: "Progres Edited"
                     }
                 })
             })
@@ -92,8 +97,6 @@ function AdminCreateSantriProgressDonasi() {
             })
     };
 
-    const router = useRouter()
-    const pathname = router.pathname;
     const [loading, setLoading] = useState(false)
     return (
         <AdminCreateOrEditProgres
@@ -102,12 +105,12 @@ function AdminCreateSantriProgressDonasi() {
             thumbnail={thumbnail}
             setThumbnail={setThumbnail}
             loading={loading}
-            createOrEdit="Create"
+            createOrEdit="Edit"
             markazOrSantri="Santri"
             handleChangeProgres={handleChangeProgres}
-            progres={progres}
-        />
+            progres={editedProgres}
+            />
     );
 }
 
-export default AdminCreateSantriProgressDonasi;
+export default AdminEditSantriProgressDonasi;

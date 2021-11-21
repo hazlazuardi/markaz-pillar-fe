@@ -1,21 +1,33 @@
-import { useCallback, useState, useRef } from "react";
-import { useAppContext } from "../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../context/AppReducer";
+import { useState, useRef } from "react";
+import { useAppContext } from "../../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../../context/AppReducer";
 import { useRouter } from "next/router";
-import { axiosMain } from "../../../../../axiosInstances";
-import AdminCreateOrEditDonasi from "../../../../../component/templates/admin/AdminCreateOrEditDonasi";
-import ArrowBack from "../../../../../component/modules/ArrowBack";
+import { axiosMain } from "../../../../../../../axiosInstances";
+import AdminCreateOrEditDonasi from "../../../../../../../component/templates/admin/AdminCreateOrEditDonasi";
+import ArrowBack from "../../../../../../../component/modules/ArrowBack";
+import useSWR from "swr";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
+const fetcher = url => axiosMain.get(url).then(res => res.data)
 
-function AdminSantriDonasiEdit(props) {
+function AdminSantriDonasiEdit() {
+    const router = useRouter();
+    const { id, transid } = router.query
+    const {
+        data: responseDonasi,
+        error,
+        mutate,
+    } = useSWR(
+        router.isReady ?
+            `/admin/donation?id=${transid}`: null,
+        fetcher,
+    );
     const { dispatch } = useAppContext();
     const [data, setData] = useState({
-        name: "",
-        categories: [],
-        description: "",
-        nominal: "",
-        isActive: null
+        name: responseDonasi ? responseDonasi.name : "" ,
+        categories: responseDonasi ? responseDonasi.categories : [],
+        description: responseDonasi ? responseDonasi.description : "",
+        nominal: responseDonasi ? responseDonasi.nominal : "",
+        isActive: responseDonasi ? responseDonasi.isActive : null,
     });
     const form = useRef(null);
 
@@ -27,14 +39,12 @@ function AdminSantriDonasiEdit(props) {
         }));
     };
 
-    const router = useRouter()
-    const { id } = router.query
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
 
         await axiosMain
-            .post(`/admin/donation/santri/edit?id=${id}`, data)
+            .post(`/admin/donation/santri?edit=${id}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -80,10 +90,6 @@ function AdminSantriDonasiEdit(props) {
 
     const [isActive, setIsActive] = useState();
 
-    //      const handleIsActive = (event) => {
-    //        setIsActive(event.target.isActive);
-    //      };
-
     const handleIsActive = (event) => {
         const {
             target: { value },
@@ -117,7 +123,6 @@ function AdminSantriDonasiEdit(props) {
     };
 
 
-
     return (
         <>
             <ArrowBack href={"/admin/santri/donasi/" + id} />
@@ -132,10 +137,11 @@ function AdminSantriDonasiEdit(props) {
                 handleIsActive={handleIsActive}
                 names={names}
                 label="Scholarship Requirements"
-                showCategory="none"
             />
         </>
     );
 }
+
+
 
 export default AdminSantriDonasiEdit;
