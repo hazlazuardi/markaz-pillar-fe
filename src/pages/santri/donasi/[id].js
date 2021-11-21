@@ -110,7 +110,7 @@ export default function DonasiSantri() {
             ...prev,
             santri : router.query.id
         }))   
-    }, [responseSantri])
+    }, [responseSantri, router.query.id])
 
     
     if(responseSantri != null) {
