@@ -5,10 +5,23 @@ import { Button, Card, CardActions, CardContent, CardMedia, IconButton, Stack, T
 import { Box, width } from '@mui/system'
 import Image from 'next/image'
 import LinesEllipsis from 'react-lines-ellipsis'
+import Link from 'next/link'
 
 export default function ProgressDonasiFooter(props) {
-    const { isAdmin, data } = props
+    const { isAdmin, data, apiCall, mutate } = props
     const result = !!data ? data.result.progress : null
+
+
+    const handleDelete = id => {
+        apiCall(id)
+            .then(res => {
+                console.log("Deleted")
+                mutate()
+            })
+            .catch(e =>
+                console.log("Error Delete")
+            )
+    }
 
     const isXXS = useMediaQuery("(max-width:400px)");
     const IMAGE_SIZE = 200
@@ -21,7 +34,7 @@ export default function ProgressDonasiFooter(props) {
                         <Card sx={isXXS ? { display: 'block' } : { display: 'flex' }} variant='outlined' >
                             <CardMedia sx={isXXS ? { width: '100%', height: '100%' } : { width: IMAGE_SIZE, height: IMAGE_SIZE }} alt="Live from space album cover">
                                 <Box position='relative' sx={isXXS ? { width: '100%', height: '100%' } : { width: IMAGE_SIZE, height: IMAGE_SIZE }}>
-                                    <Image src='https://source.unsplash.com/random' layout={isXXS ? 'responsive' : 'fill'}
+                                    <Image src={progress.thumbnailURL ? progress.thumbnailURL : 'https://source.unsplash.com/random'} layout={isXXS ? 'responsive' : 'fill'}
                                         objectFit='cover' alt='Backdrop' width={isXXS ? 16 : undefined} height={isXXS ? 16 : undefined} />
                                 </Box>
                             </CardMedia>
@@ -44,8 +57,10 @@ export default function ProgressDonasiFooter(props) {
                                 </CardContent>
                                 {isAdmin && (
                                     <CardActions>
-                                        <Button>Edit</Button>
-                                        <Button>Delete</Button>
+                                        <Link href={`/admin/markaz/donasi/progress/edit/${progress.id}`} passHref >
+                                            <Button>Edit</Button>
+                                        </Link>
+                                        <Button onClick={() => handleDelete(progress.id)} >Delete</Button>
                                     </CardActions>
                                 )}
                             </Box>
