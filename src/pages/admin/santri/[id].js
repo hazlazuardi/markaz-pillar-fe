@@ -12,58 +12,64 @@ import { DonutLarge } from "@mui/icons-material";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function AdminDetailSantri(props) {
-  const { detailAdminSantri } = props
+  // const { detailAdminSantri } = props
   const router = useRouter();
   const { id } = router.query
   const { data: responseDetailAdminSantri, error } = useSWR(router.isReady ? `/santri?id=${id}` : null,
     fetcher,
-    { fallbackData: detailAdminSantri, refreshInterval: 10000 }
+    // { fallbackData: detailAdminSantri, refreshInterval: 10000 }
   )
 
-  const dataResult = {
-    ...responseDetailAdminSantri.result
-  }
-  const convertedDataSantri = {
-    title: dataResult.name,
-    description: dataResult.background,
-    image: dataResult.thumbnailURL,
-    details: [
-      {
-        subtitle: "Tempat Markaz",
-        detail: dataResult.markaz.name
-      },
-      {
-        subtitle: "Jenis Kelamin",
-        detail: dataResult.gender
-      },
-      {
-        subtitle: "Domisili Asal",
-        detail: dataResult.birthPlace
-      },
-      {
-        subtitle: "Kebutuhan Beasiswa",
-        detail: dataResult.desc
-      },
-      {
-        subtitle: "Tempat & Tanggal Lahir",
-        detail: `${dataResult.birthPlace}, ${dataResult.birthDate}`
-      },
+  const [convertedData, setconvertedData] = useState({})
+  useEffect(() => {
+    if (responseDetailAdminSantri) {
+      const dataResult = {
+        ...responseDetailAdminSantri.result
+      }
+      const convertedDataSantri = {
+        title: dataResult.name,
+        description: dataResult.background,
+        image: dataResult.thumbnailURL,
+        details: [
+          {
+            subtitle: "Tempat Markaz",
+            detail: dataResult.markaz.name
+          },
+          {
+            subtitle: "Jenis Kelamin",
+            detail: dataResult.gender
+          },
+          {
+            subtitle: "Domisili Asal",
+            detail: dataResult.birthPlace
+          },
+          {
+            subtitle: "Kebutuhan Beasiswa",
+            detail: dataResult.desc
+          },
+          {
+            subtitle: "Tempat & Tanggal Lahir",
+            detail: `${dataResult.birthPlace}, ${dataResult.birthDate}`
+          },
 
-    ],
-    donation: [
-      {
-        subtitle: "Nominal yang dibutuhkan",
-        detail: dataResult.nominal
-      },
-    ]
-  }
+        ],
+        donation: [
+          {
+            subtitle: "Nominal yang dibutuhkan",
+            detail: dataResult.nominal
+          },
+        ]
+      }
 
-  const convertedData = {
-    ...responseDetailAdminSantri,
-    result: {
-      ...convertedDataSantri
+      const toConvertedData = {
+        ...responseDetailAdminSantri,
+        result: {
+          ...convertedDataSantri
+        }
+      }
+      setconvertedData(toConvertedData)
     }
-  }
+  }, [responseDetailAdminSantri])
 
   const adminMarkazDetailActions = [
     {
@@ -88,29 +94,29 @@ export default function AdminDetailSantri(props) {
   );
 }
 
-export async function getStaticProps(context) {
-  const id = context.params.id;
-  const staticDetailSantriResponse = await axiosMain.get(`/santri?id=${id}`)
-  const staticDetailSantri = staticDetailSantriResponse.data
-  return {
-    props: {
-      detailAdminSantri: staticDetailSantri,
-    },
-    revalidate: 10
-  };
-}
+// export async function getStaticProps(context) {
+//   const id = context.params.id;
+//   const staticDetailSantriResponse = await axiosMain.get(`/santri?id=${id}`)
+//   const staticDetailSantri = staticDetailSantriResponse.data
+//   return {
+//     props: {
+//       detailAdminSantri: staticDetailSantri,
+//     },
+//     revalidate: 10
+//   };
+// }
 
-export async function getStaticPaths() {
-  const staticAllSantriResponse = await axiosMain.get(`/santri/search?n=1000`)
-  const staticAllSantri = await staticAllSantriResponse.data
+// export async function getStaticPaths() {
+//   const staticAllSantriResponse = await axiosMain.get(`/santri/search?n=1000`)
+//   const staticAllSantri = await staticAllSantriResponse.data
 
-  const paths = await staticAllSantri.result.map((santri) => ({
-    params: { id: santri.id.toString() },
-  }));
+//   const paths = await staticAllSantri.result.map((santri) => ({
+//     params: { id: santri.id.toString() },
+//   }));
 
-  return {
-    paths: paths,
-    fallback: false,
-  };
-}
+//   return {
+//     paths: paths,
+//     fallback: false,
+//   };
+// }
 

@@ -8,7 +8,7 @@ import TableView from "../../../component/templates/admin/TableView";
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function AdminSantri(props) {
-  const { allSantri } = props;
+  // const { allSantri } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [searchSantri, setSearchSantri] = useState("")
@@ -24,10 +24,10 @@ export default function AdminSantri(props) {
     &${!!searchSantri && "name=" + searchSantri}
     `,
     fetcher,
-    {
-      fallbackData: allSantri,
-      refreshInterval: 30000,
-    }
+    // {
+    //   fallbackData: allSantri,
+    //   refreshInterval: 30000,
+    // }
   );
 
   // *******************************************************
@@ -133,13 +133,13 @@ export default function AdminSantri(props) {
   );
 }
 
-export async function getStaticProps() {
-  const staticSantri = await axiosMain.get("/santri/search?n=1000");
-  return {
-    props: {
-      allSantri: staticSantri.data,
-    },
-    revalidate: 10,
-  };
-}
+// export async function getStaticProps() {
+//   const staticSantri = await axiosMain.get("/santri/search?n=1000");
+//   return {
+//     props: {
+//       allSantri: staticSantri.data,
+//     },
+//     revalidate: 10,
+//   };
+// }
 

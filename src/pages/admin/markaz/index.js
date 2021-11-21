@@ -8,7 +8,7 @@ import TableView from "../../../component/templates/admin/TableView";
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function AdminMarkaz(props) {
-  const { allMarkaz } = props;
+  // const { allMarkaz } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [searchMarkaz, setSearchMarkaz] = useState("")
@@ -28,10 +28,10 @@ export default function AdminMarkaz(props) {
     }&${!!searchMarkaz && "name=" + searchMarkaz}
 `,
     fetcher,
-    {
-      fallbackData: allMarkaz,
-      refreshInterval: 30000,
-    }
+    // {
+    //   fallbackData: allMarkaz,
+    //   refreshInterval: 30000,
+    // }
   );
 
   // *******************************************************
@@ -148,13 +148,13 @@ export default function AdminMarkaz(props) {
   );
 }
 
-export async function getStaticProps() {
-  const staticMarkaz = await axiosMain.get("/markaz/search?n=1000");
-  return {
-    props: {
-      allMarkaz: staticMarkaz.data,
-    },
-    revalidate: 10,
-  };
-}
+// export async function getStaticProps() {
+//   const staticMarkaz = await axiosMain.get("/markaz/search?n=1000");
+//   return {
+//     props: {
+//       allMarkaz: staticMarkaz.data,
+//     },
+//     revalidate: 10,
+//   };
+// }
 
