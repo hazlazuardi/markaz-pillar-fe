@@ -34,13 +34,15 @@ export const enumRoutes = {
     MEMBER_SANTRI: "/santri",
 
     ADMIN_MARKAZ: "/admin/markaz",
-    ADMIN_MARKAZ_DETAIL: "/admin/markaz/[id]",
+    ADMIN_MARKAZ_DETAIL: "/admin/markaz/[markaz_id]",
     ADMIN_MARKAZ_CREATE: "/admin/markaz/create",
-    ADMIN_MARKAZ_EDIT: "/admin/markaz/[progresid]/[id]",
-    ADMIN_MARKAZ_DONASI: "/admin/markaz/donasi/[id]",
-    ADMIN_MARKAZ_DONASI_CREATE: "/admin/markaz/donasi/create/[id]",
-    ADMIN_MARKAZ_DONASI_EDIT: "/admin/markaz/donasi/[progresid]/[id]",
-    ADMIN_MARKAZ_TRANSAKSI: "/admin/markaz/donasi/[id]/transaksi/[transid]",
+    ADMIN_MARKAZ_EDIT: "/admin/markaz/[markaz_id]/edit",
+    ADMIN_MARKAZ_DONASI: "/admin/markaz/[markaz_id]/donasi",
+    ADMIN_MARKAZ_DONASI_CREATE: "/admin/markaz/[markaz_id]/donasi/create",
+    ADMIN_MARKAZ_DONASI_EDIT: "/admin/markaz/[markaz_id]/donasi/[donasi_id]/edit",
+    ADMIN_MARKAZ_TRANSAKSI: "/admin/markaz/[markaz_id]/donasi/[donasi_id]/transaksi",
+    ADMIN_MARKAZ_PROGRESS_DONASI_CREATE: "/admin/markaz/[markaz_id]/donasi/[donasi_id]/progres/create",
+    ADMIN_MARKAZ_PROGRESS_DONASI_EDIT: "/admin/markaz/[markaz_id]/donasi/[donasi_id]/progres/[progres_id]/edit",
 
 
     ADMIN_SANTRI: "/admin/santri",
@@ -51,6 +53,16 @@ export const enumRoutes = {
     ADMIN_SANTRI_DONASI_CREATE: "/admin/santri/donasi/create/[id]",
     ADMIN_SANTRI_DONASI_EDIT: "/admin/santri/donasi/[progresid]/[id]",
     ADMIN_SANTRI_TRANSAKSI: "/admin/santri/donasi/[id]/transaksi/[transid]",
+
+
+    ADMIN_KEGIATAN: "/admin/kegiatan",
+    ADMIN_KEGIATAN_CREATE: "/admin/kegiatan/create",
+    ADMIN_KEGIATAN_EDIT: "/admin/kegiatan/[kegiatan_id]/edit",
+    ADMIN_KEGIATAN_DETAIL: "/admin/kegiatan/[kegiatan_id]",
+    ADMIN_KEGIATAN_DAFTAR: "/admin/kegiatan/[kegiatan_id]/relawan",
+    ADMIN_KEGIATAN_TESTIMONI_CREATE: "/admin/kegiatan/[kegiatan_id]/testimoni/create",
+    ADMIN_KEGIATAN_TESTIMONI_EDIT: "/admin/kegiatan/[kegiatan_id]/testimoni/[testimoni_id]/edit",
+
 
     ADMIN_PROGRAM_VOLUNTEER: "/admin/kegiatan",
     ADMIN_PESERTA_VOLUNTEER: "/admin/kegiatan/[id]",

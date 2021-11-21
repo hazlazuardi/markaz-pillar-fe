@@ -44,7 +44,7 @@ beforeEach(function setUser() {
     },
   })
   // the page should be opened and the user should be logged in
-  cy.visit(`${frontendURL}/admin/markaz/donasi/${MARKAZ_ID}`)
+  cy.visit(`${frontendURL}/admin/markaz/${MARKAZ_ID}/donasi`)
 })
 
 
@@ -68,7 +68,7 @@ describe("Test it is in the correct page", () => {
   it('Test if admin donasi markaz page redirect unauthorized users', () => {
     cy.get('#menuIconButton').should('exist').click()
     cy.get('button').contains('Keluar').should('exist').click()
-    cy.visit(`${frontendURL}/admin/markaz/donasi/${MARKAZ_ID}`)
+    cy.visit(`${frontendURL}/admin/markaz/${MARKAZ_ID}/donasi`)
     cy.url().should('eq', `${frontendURL}/`)
   })
 
