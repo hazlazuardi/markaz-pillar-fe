@@ -1,48 +1,42 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../context/AppContext";
-import { dispatchTypes } from "../../../../context/AppReducer";
-import { axiosFormData } from "../../../../axiosInstances";
+import { useAppContext } from "../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../context/AppReducer";
+import { axiosFormData } from "../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-import AdminCreateOrEditKegiatan from "../../../../component/templates/admin/AdminCreateOrEditKegiatan";
+import AdminCreateOrEditTestimoni from "../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
 
-function AdminCreateVolunteerKegiatan() {
+function AdminCreateVolunteerTestimoni() {
+    const router = useRouter();
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const [kegiatan, setKegiatan] = useState({
+    const { kegiatanid } = router.query
+    const [testi, setTesti] = useState({
         name: "",
         description: "",
-        term: "",
-        benefit: "",
-        volunteerNeeded: 0,
-        location: "",
-        schedule: "",
     });
     const form = useRef(null);
 
-    const handleChangeKegiatan = ({ target }) => {
+    const handleChangeTestimoni = ({ target }) => {
         const { name, value } = target;
-        setKegiatan((prev) => ({
+        setTesti((prev) => ({
             ...prev,
             [name]: value,
         }));
     };
 
-    const [submitted, setSubmitted] = useState(false);
-
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
-        const kegiatanBlob = new Blob([JSON.stringify(kegiatan)], {
+        const testiBlob = new Blob([JSON.stringify(testi)], {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("detail", kegiatanBlob);
+        data.append("detail", testiBlob);
 
-        console.log(kegiatan);
 
         await axiosFormData
-            .post("/admin/volunteer", data)
+            .post(`/admin/volunteer/testimony?program_id=${kegiatanid}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -50,10 +44,9 @@ function AdminCreateVolunteerKegiatan() {
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Kegiatan Created"
+                        message: "Testimoni Created"
                     }
                 })
-                setSubmitted(true);
             })
             .catch(error => {
                 setLoading(false)
@@ -94,17 +87,17 @@ function AdminCreateVolunteerKegiatan() {
 
     const [loading, setLoading] = useState(false)
     return (
-        <AdminCreateOrEditKegiatan
+        <AdminCreateOrEditTestimoni
             form={form}
             handleSubmit={handleSubmit}
             thumbnail={thumbnail}
             setThumbnail={setThumbnail}
             loading={loading}
             createOrEdit="Create"
-            handleChangeKegiatan={handleChangeKegiatan}
-            kegiatan={kegiatan}
+            handleChangeTestimoni={handleChangeTestimoni}
+            testi={testi}
         />
     );
 }
 
-export default AdminCreateVolunteerKegiatan;
+export default AdminCreateVolunteerTestimoni;
