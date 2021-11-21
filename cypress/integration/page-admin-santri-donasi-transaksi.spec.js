@@ -7,6 +7,9 @@ let currentUserRole
 let currentAccessToken
 let currentRefreshToken
 
+const TRASAKSI_ID_SANTRI = 'cnav-ylsii-bqao'
+const SANTRI_ID = 1;
+
 const backendURL = Cypress.env('backendURL')
 const frontendURL = Cypress.env('frontendURL')
 
@@ -42,7 +45,7 @@ beforeEach(function setUser () {
     },
   })
   // the page should be opened and the user should be logged in
-  cy.visit(`${frontendURL}/admin/santri/donasi/2/transaksi/cmzi-blybp-kgbl`)
+  cy.visit(`${frontendURL}/admin/santri/donasi/${SANTRI_ID}/transaksi/${TRASAKSI_ID_SANTRI}`)
 })
 
 
@@ -61,13 +64,13 @@ describe("Test it is in the correct page", () => {
   it('Test ArrowBack directs to Admin Markaz', () => {
     cy.get(`[data-testid="arrowback-at-modules"]`).should('exist')
     cy.get(`[data-testid="arrowback-at-modules"]`).click()
-    cy.url().should('eq', 'http://localhost:3000/admin/santri/donasi/2')
+    cy.url().should('eq', `${frontendURL}/admin/santri/donasi/${SANTRI_ID}`)
   })
 
   it('Test if admin transaksi santri page redirect unauthorized users', () => {
     cy.get('#menuIconButton').should('exist').click()
     cy.get('button').contains('Keluar').should('exist').click()
-    cy.visit(`${frontendURL}/admin/santri/donasi/2/transaksi/cmzi-blybp-kgbl`)
+    cy.visit(`${frontendURL}/admin/santri/donasi/${SANTRI_ID}/transaksi/${TRASAKSI_ID_SANTRI}`)
     cy.url().should('eq', 'http://localhost:3000/')
   })
 });

@@ -47,7 +47,7 @@ export default function Markaz(props) {
     <>
       <AdminOrUserTemplate
         variant="markaz"
-        GridView={GridViewMarkaz}
+        GridView={<GridViewMarkaz />}
         entries={entries}
         searchTerm={searchMarkaz}
         setSearchTerm={setSearchMarkaz}
@@ -73,7 +73,7 @@ export default function Markaz(props) {
 }
 
 export async function getStaticProps() {
-  const staticMarkazResponse = await axiosMain.get("/markaz/search?n=1000");
+  const staticMarkazResponse = await axiosMain.get("/markaz/search");
   const staticMarkaz = staticMarkazResponse.data
   return {
     props: {
