@@ -1,30 +1,33 @@
-import { useCallback, useState, useRef } from "react";
-import Container from "@mui/material/Container";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Typography from '@mui/material/Typography'
-import { useAppContext } from "../../../../../context/AppContext";
-import { FormControl } from "@mui/material";
-import { Select } from "@mui/material";
-import { InputLabel } from "@mui/material";
-import { MenuItem } from "@mui/material";
-import { dispatchTypes } from "../../../../../context/AppReducer";
+import { useState, useRef } from "react";
+import { useAppContext } from "../../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../../context/AppReducer";
 import { useRouter } from "next/router";
-import { axiosMain } from "../../../../../axiosInstances";
-import AdminCreateOrEditDonasi from "../../../../../component/templates/admin/AdminCreateOrEditDonasi";
-import ArrowBack from "../../../../../component/modules/ArrowBack";
+import { axiosMain } from "../../../../../../../axiosInstances";
+import AdminCreateOrEditDonasi from "../../../../../../../component/templates/admin/AdminCreateOrEditDonasi";
+import ArrowBack from "../../../../../../../component/modules/ArrowBack";
+import useSWR from "swr";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
+const fetcher = url => axiosMain.get(url).then(res => res.data)
 
-function AdminMarkazDonasiEdit(props) {
-    const { responseMarkaz } = props
+function AdminSantriDonasiEdit() {
+    const router = useRouter();
+    const { id, transid } = router.query
+    const {
+        data: responseDonasi,
+        error,
+        mutate,
+    } = useSWR(
+        router.isReady ?
+            `/admin/donation?id=${transid}`: null,
+        fetcher,
+    );
     const { dispatch } = useAppContext();
     const [data, setData] = useState({
-        name: "",
-        categories: [],
-        description: "",
-        nominal: "",
-        isActive: null
+        name: responseDonasi ? responseDonasi.name : "" ,
+        categories: responseDonasi ? responseDonasi.categories : [],
+        description: responseDonasi ? responseDonasi.description : "",
+        nominal: responseDonasi ? responseDonasi.nominal : "",
+        isActive: responseDonasi ? responseDonasi.isActive : null,
     });
     const form = useRef(null);
 
@@ -36,14 +39,12 @@ function AdminMarkazDonasiEdit(props) {
         }));
     };
 
-    const router = useRouter()
-    const { id } = router.query
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
 
         await axiosMain
-            .post(`/admin/donation/markaz?edit=${id}`, data)
+            .post(`/admin/donation/santri?edit=${id}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -51,7 +52,7 @@ function AdminMarkazDonasiEdit(props) {
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Donasi Markaz Edited"
+                        message: "Donasi Santri Edited"
                     }
                 })
             })
@@ -89,10 +90,6 @@ function AdminMarkazDonasiEdit(props) {
 
     const [isActive, setIsActive] = useState();
 
-    //      const handleIsActive = (event) => {
-    //        setIsActive(event.target.isActive);
-    //      };
-
     const handleIsActive = (event) => {
         const {
             target: { value },
@@ -126,24 +123,25 @@ function AdminMarkazDonasiEdit(props) {
     };
 
 
-
     return (
         <>
-            <ArrowBack href={"/admin/markaz/donasi/" + id} />
+            <ArrowBack href={"/admin/santri/donasi/" + id} />
             <AdminCreateOrEditDonasi
                 form={form}
                 handleSubmit={handleSubmit}
                 donasi={data}
                 createOrEdit="Edit"
-                markazOrSantri="Markaz"
+                markazOrSantri="Santri"
                 handleChange={handleChange}
                 handleChangeDonasi={handleChangeDonasi}
                 handleIsActive={handleIsActive}
                 names={names}
-                label="Facility Requirements"
+                label="Scholarship Requirements"
             />
         </>
     );
 }
 
-export default AdminMarkazDonasiEdit;
+
+
+export default AdminSantriDonasiEdit;

@@ -1,64 +1,80 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../context/AppContext";
-import { dispatchTypes } from "../../../context/AppReducer";
-import AdminCreateOrEditMarkaz from "../../../component/templates/admin/AdminCreateOrEditMarkaz";
-import { axiosFormData } from "../../../axiosInstances";
-import ArrowBack from "../../../component/modules/ArrowBack";
+import { useAppContext } from "../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../context/AppReducer";
+import {axiosFormData, axiosMain} from "../../../../../axiosInstances";
+import { useRouter } from 'next/router';
+import AdminCreateOrEditKegiatan from "../../../../../component/templates/admin/AdminCreateOrEditKegiatan";
+import useSWR from "swr";
 
-function AdminMarkazCreate() {
+const fetcher = url => axiosMain.get(url).then(res => res.data)
+
+function AdminEditVolunteerKegiatan() {
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const [markaz, setMarkaz] = useState({
-        name: "",
-        background: "",
-        category: "",
-        address: "",
+    const router = useRouter();
+    const { id } = router.query
+    const {
+        data: responseKegiatan,
+        error,
+        mutate,
+    } = useSWR(
+        router.isReady ?
+            `/volunteer/edit?id=${id}`: null,
+        fetcher,
+    );
+
+    const [kegiatan, setKegiatan] = useState({
+        name: responseKegiatan ? responseKegiatan.name: "",
+        description: responseKegiatan ? responseKegiatan.description: "",
+        term: responseKegiatan ? responseKegiatan.term: "",
+        benefit: responseKegiatan ? responseKegiatan.benefit: "",
+        volunteerNeeded: responseKegiatan ? responseKegiatan.volunteerNeeded: 0,
+        location: responseKegiatan ? responseKegiatan.location: "",
+        schedule: responseKegiatan ? responseKegiatan.schedule: "",
+        isActive: responseKegiatan ? responseKegiatan.isActive: null
     });
     const form = useRef(null);
 
-    const handleChangeMarkaz = ({ target }) => {
+    const handleChangeKegiatan = ({ target }) => {
         const { name, value } = target;
-        setMarkaz((prev) => ({
+        setKegiatan((prev) => ({
             ...prev,
             [name]: value,
         }));
     };
 
-    const [submitted, setSubmitted] = useState(false);
-
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
-        const markazBlob = new Blob([JSON.stringify(markaz)], {
+        const kegiatanBlob = new Blob([JSON.stringify(kegiatan)], {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("markaz", markazBlob);
+        data.append("detail", kegiatanBlob);
 
+        console.log(kegiatan);
 
         await axiosFormData
-            .post("/admin/markaz", data)
+            .post("/admin/volunteer", data)
             .then(response => {
                 setLoading(false)
-                
+
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Markaz Created"
+                        message: "Kegiatan Edited"
                     }
                 })
-                setSubmitted(true)
             })
             .catch(error => {
                 setLoading(false)
-                
-                // Check & Handle if error.response is defined
+
+                // Check & Handle if error.response is undefined
                 if (!!error.response) {
                     if (error.response.status === 400) {
-                        
-                        // Check & Handle if bad request (empty fields, etc)
+
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
                             payload: {
@@ -67,7 +83,7 @@ function AdminMarkazCreate() {
                             }
                         });
                     } else if (error.response.status === 413) {
-                        // Check & Handle if image file is too large (> 1MB)
+
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
                             payload: {
@@ -76,13 +92,12 @@ function AdminMarkazCreate() {
                             }
                         });
                     } else {
-                        // Check & Handle if other error code
+
                         dispatch({
                             type: dispatchTypes.SERVER_ERROR
                         });
                     }
                 } else {
-                    // Check & Handle if error.response is undefined
                     dispatch({
                         type: dispatchTypes.SERVER_ERROR
                     });
@@ -90,27 +105,19 @@ function AdminMarkazCreate() {
             })
     };
 
-    if (submitted) {
-      console.log(submitted)
-      router.push("/admin/markaz")
-    }
-
     const [loading, setLoading] = useState(false)
     return (
-        <>
-        <ArrowBack href='/admin/markaz' />
-        <AdminCreateOrEditMarkaz
+        <AdminCreateOrEditKegiatan
             form={form}
-            loading={loading}
             handleSubmit={handleSubmit}
-            handleChangeMarkaz={handleChangeMarkaz}
-            setThumbnail={setThumbnail}
             thumbnail={thumbnail}
-            markaz={markaz}
-
+            setThumbnail={setThumbnail}
+            loading={loading}
+            createOrEdit="Edit"
+            handleChangeKegiatan={handleChangeKegiatan}
+            kegiatan={kegiatan}
         />
-        </>
     );
 }
 
-export default AdminMarkazCreate;
+export default AdminEditVolunteerKegiatan;

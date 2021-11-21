@@ -1,24 +1,27 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../context/AppContext";
-import { dispatchTypes } from "../../../context/AppReducer";
-import AdminCreateOrEditMarkaz from "../../../component/templates/admin/AdminCreateOrEditMarkaz";
-import { axiosFormData } from "../../../axiosInstances";
-import ArrowBack from "../../../component/modules/ArrowBack";
+import { useAppContext } from "../../../../context/AppContext";
+import { dispatchTypes } from "../../../../context/AppReducer";
+import { axiosFormData } from "../../../../axiosInstances";
+import { useRouter } from 'next/router';
+import AdminCreateOrEditKegiatan from "../../../../component/templates/admin/AdminCreateOrEditKegiatan";
 
-function AdminMarkazCreate() {
+function AdminCreateVolunteerKegiatan() {
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const [markaz, setMarkaz] = useState({
+    const [kegiatan, setKegiatan] = useState({
         name: "",
-        background: "",
-        category: "",
-        address: "",
+        description: "",
+        term: "",
+        benefit: "",
+        volunteerNeeded: 0,
+        location: "",
+        schedule: "",
     });
     const form = useRef(null);
 
-    const handleChangeMarkaz = ({ target }) => {
+    const handleChangeKegiatan = ({ target }) => {
         const { name, value } = target;
-        setMarkaz((prev) => ({
+        setKegiatan((prev) => ({
             ...prev,
             [name]: value,
         }));
@@ -30,35 +33,35 @@ function AdminMarkazCreate() {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
-        const markazBlob = new Blob([JSON.stringify(markaz)], {
+        const kegiatanBlob = new Blob([JSON.stringify(kegiatan)], {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("markaz", markazBlob);
+        data.append("detail", kegiatanBlob);
 
+        console.log(kegiatan);
 
         await axiosFormData
-            .post("/admin/markaz", data)
+            .post("/admin/volunteer", data)
             .then(response => {
                 setLoading(false)
-                
+
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Markaz Created"
+                        message: "Kegiatan Created"
                     }
                 })
-                setSubmitted(true)
+                setSubmitted(true);
             })
             .catch(error => {
                 setLoading(false)
-                
-                // Check & Handle if error.response is defined
+
+                // Check & Handle if error.response is undefined
                 if (!!error.response) {
                     if (error.response.status === 400) {
-                        
-                        // Check & Handle if bad request (empty fields, etc)
+
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
                             payload: {
@@ -67,7 +70,7 @@ function AdminMarkazCreate() {
                             }
                         });
                     } else if (error.response.status === 413) {
-                        // Check & Handle if image file is too large (> 1MB)
+
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
                             payload: {
@@ -76,13 +79,12 @@ function AdminMarkazCreate() {
                             }
                         });
                     } else {
-                        // Check & Handle if other error code
+
                         dispatch({
                             type: dispatchTypes.SERVER_ERROR
                         });
                     }
                 } else {
-                    // Check & Handle if error.response is undefined
                     dispatch({
                         type: dispatchTypes.SERVER_ERROR
                     });
@@ -90,27 +92,19 @@ function AdminMarkazCreate() {
             })
     };
 
-    if (submitted) {
-      console.log(submitted)
-      router.push("/admin/markaz")
-    }
-
     const [loading, setLoading] = useState(false)
     return (
-        <>
-        <ArrowBack href='/admin/markaz' />
-        <AdminCreateOrEditMarkaz
+        <AdminCreateOrEditKegiatan
             form={form}
-            loading={loading}
             handleSubmit={handleSubmit}
-            handleChangeMarkaz={handleChangeMarkaz}
-            setThumbnail={setThumbnail}
             thumbnail={thumbnail}
-            markaz={markaz}
-
+            setThumbnail={setThumbnail}
+            loading={loading}
+            createOrEdit="Create"
+            handleChangeKegiatan={handleChangeKegiatan}
+            kegiatan={kegiatan}
         />
-        </>
     );
 }
 
-export default AdminMarkazCreate;
+export default AdminCreateVolunteerKegiatan;

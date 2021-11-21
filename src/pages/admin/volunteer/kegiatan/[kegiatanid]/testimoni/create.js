@@ -1,64 +1,60 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../context/AppContext";
-import { dispatchTypes } from "../../../context/AppReducer";
-import AdminCreateOrEditMarkaz from "../../../component/templates/admin/AdminCreateOrEditMarkaz";
-import { axiosFormData } from "../../../axiosInstances";
-import ArrowBack from "../../../component/modules/ArrowBack";
+import { useAppContext } from "../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../context/AppReducer";
+import { axiosFormData } from "../../../../../../axiosInstances";
+import { useRouter } from 'next/router';
+import AdminCreateOrEditTestimoni from "../../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
 
-function AdminMarkazCreate() {
+function AdminCreateVolunteerTestimoni() {
+    const router = useRouter();
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const [markaz, setMarkaz] = useState({
+    const { kegiatanid } = router.query
+    const [testi, setTesti] = useState({
         name: "",
-        background: "",
-        category: "",
-        address: "",
+        description: "",
     });
     const form = useRef(null);
 
-    const handleChangeMarkaz = ({ target }) => {
+    const handleChangeTestimoni = ({ target }) => {
         const { name, value } = target;
-        setMarkaz((prev) => ({
+        setTesti((prev) => ({
             ...prev,
             [name]: value,
         }));
     };
 
-    const [submitted, setSubmitted] = useState(false);
-
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
-        const markazBlob = new Blob([JSON.stringify(markaz)], {
+        const testiBlob = new Blob([JSON.stringify(testi)], {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("markaz", markazBlob);
+        data.append("detail", testiBlob);
 
 
         await axiosFormData
-            .post("/admin/markaz", data)
+            .post(`/admin/volunteer/testimony?program_id=${kegiatanid}`, data)
             .then(response => {
                 setLoading(false)
-                
+
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Markaz Created"
+                        message: "Testimoni Created"
                     }
                 })
-                setSubmitted(true)
             })
             .catch(error => {
                 setLoading(false)
-                
-                // Check & Handle if error.response is defined
+
+                // Check & Handle if error.response is undefined
                 if (!!error.response) {
                     if (error.response.status === 400) {
-                        
-                        // Check & Handle if bad request (empty fields, etc)
+
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
                             payload: {
@@ -67,7 +63,7 @@ function AdminMarkazCreate() {
                             }
                         });
                     } else if (error.response.status === 413) {
-                        // Check & Handle if image file is too large (> 1MB)
+
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
                             payload: {
@@ -76,13 +72,12 @@ function AdminMarkazCreate() {
                             }
                         });
                     } else {
-                        // Check & Handle if other error code
+
                         dispatch({
                             type: dispatchTypes.SERVER_ERROR
                         });
                     }
                 } else {
-                    // Check & Handle if error.response is undefined
                     dispatch({
                         type: dispatchTypes.SERVER_ERROR
                     });
@@ -90,27 +85,19 @@ function AdminMarkazCreate() {
             })
     };
 
-    if (submitted) {
-      console.log(submitted)
-      router.push("/admin/markaz")
-    }
-
     const [loading, setLoading] = useState(false)
     return (
-        <>
-        <ArrowBack href='/admin/markaz' />
-        <AdminCreateOrEditMarkaz
+        <AdminCreateOrEditTestimoni
             form={form}
-            loading={loading}
             handleSubmit={handleSubmit}
-            handleChangeMarkaz={handleChangeMarkaz}
-            setThumbnail={setThumbnail}
             thumbnail={thumbnail}
-            markaz={markaz}
-
+            setThumbnail={setThumbnail}
+            loading={loading}
+            createOrEdit="Create"
+            handleChangeTestimoni={handleChangeTestimoni}
+            testi={testi}
         />
-        </>
     );
 }
 
-export default AdminMarkazCreate;
+export default AdminCreateVolunteerTestimoni;

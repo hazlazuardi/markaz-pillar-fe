@@ -7,7 +7,6 @@ import { FormControl } from "@mui/material";
 import  Select  from "@mui/material/Select";
 import  InputLabel  from "@mui/material/InputLabel";
 import  MenuItem  from "@mui/material/MenuItem";
-import LoadingButton from '@mui/lab/LoadingButton'
 import { useRouter } from 'next/router';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import FormLabel from '@mui/material/FormLabel';
@@ -16,7 +15,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from "@mui/material/Button";
 
-function AdminCreateOrEditMarkaz(props) {
+function AdminCreateOrEditDonasi(props) {
     const {
         form,
         handleSubmit,
@@ -32,7 +31,6 @@ function AdminCreateOrEditMarkaz(props) {
     } = props;
 
     const router = useRouter()
-    const pathname = router.pathname;
     return (
         <div>
             <Container>
@@ -133,4 +131,4 @@ function AdminCreateOrEditMarkaz(props) {
     );
 }
 
-export default AdminCreateOrEditMarkaz
+export default AdminCreateOrEditDonasi

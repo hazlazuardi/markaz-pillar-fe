@@ -1,64 +1,71 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../context/AppContext";
-import { dispatchTypes } from "../../../context/AppReducer";
-import AdminCreateOrEditMarkaz from "../../../component/templates/admin/AdminCreateOrEditMarkaz";
-import { axiosFormData } from "../../../axiosInstances";
-import ArrowBack from "../../../component/modules/ArrowBack";
+import { useAppContext } from "../../../../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../../../../context/AppReducer";
+import {axiosFormData, axiosMain} from "../../../../../../../../../axiosInstances";
+import { useRouter } from 'next/router';
+import AdminCreateOrEditProgres from "../../../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
+import useSWR from "swr";
 
-function AdminMarkazCreate() {
+const fetcher = url => axiosMain.get(url).then(res => res.data)
+
+function AdminEditMarkazProgressDonasi(props) {
+    const router = useRouter();
+    const { transid, progresid } = router.query
+    const {
+        data: responseProgres,
+        error,
+        mutate,
+    } = useSWR(
+        router.isReady ?
+            `/admin/donation?id=${transid}`: null,
+        fetcher,
+    );
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const [markaz, setMarkaz] = useState({
-        name: "",
-        background: "",
-        category: "",
-        address: "",
+    const [progres, setEditedProgres] = useState({
+        progressDate: responseProgres ? responseProgres.progressDate: "",
+        description: responseProgres ? responseProgres.description: "",
     });
     const form = useRef(null);
 
-    const handleChangeMarkaz = ({ target }) => {
+    const handleChangeProgres = ({ target }) => {
         const { name, value } = target;
-        setMarkaz((prev) => ({
+        setEditedProgres((prev) => ({
             ...prev,
             [name]: value,
         }));
     };
 
-    const [submitted, setSubmitted] = useState(false);
-
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
-        const markazBlob = new Blob([JSON.stringify(markaz)], {
+        const progresBlob = new Blob([JSON.stringify(progres)], {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("markaz", markazBlob);
-
+        data.append("detail", progresBlob);
 
         await axiosFormData
-            .post("/admin/markaz", data)
+            .post(`/admin/donation/progress/edit?id=${progresid}`, data)
             .then(response => {
                 setLoading(false)
-                
+
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Markaz Created"
+                        message: "Progres Edited"
                     }
                 })
-                setSubmitted(true)
             })
             .catch(error => {
                 setLoading(false)
-                
-                // Check & Handle if error.response is defined
+
+                // Check & Handle if error.response is undefined
                 if (!!error.response) {
                     if (error.response.status === 400) {
-                        
-                        // Check & Handle if bad request (empty fields, etc)
+
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
                             payload: {
@@ -67,7 +74,7 @@ function AdminMarkazCreate() {
                             }
                         });
                     } else if (error.response.status === 413) {
-                        // Check & Handle if image file is too large (> 1MB)
+
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
                             payload: {
@@ -76,41 +83,32 @@ function AdminMarkazCreate() {
                             }
                         });
                     } else {
-                        // Check & Handle if other error code
+
                         dispatch({
                             type: dispatchTypes.SERVER_ERROR
                         });
                     }
                 } else {
-                    // Check & Handle if error.response is undefined
                     dispatch({
                         type: dispatchTypes.SERVER_ERROR
                     });
                 }
             })
     };
-
-    if (submitted) {
-      console.log(submitted)
-      router.push("/admin/markaz")
-    }
-
     const [loading, setLoading] = useState(false)
     return (
-        <>
-        <ArrowBack href='/admin/markaz' />
-        <AdminCreateOrEditMarkaz
+        <AdminCreateOrEditProgres
             form={form}
-            loading={loading}
             handleSubmit={handleSubmit}
-            handleChangeMarkaz={handleChangeMarkaz}
-            setThumbnail={setThumbnail}
             thumbnail={thumbnail}
-            markaz={markaz}
-
+            setThumbnail={setThumbnail}
+            loading={loading}
+            createOrEdit="Edit"
+            markazOrSantri="Markaz"
+            handleChangeProgres={handleChangeProgres}
+            progres={progres}
         />
-        </>
     );
 }
 
-export default AdminMarkazCreate;
+export default AdminEditMarkazProgressDonasi;
