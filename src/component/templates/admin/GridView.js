@@ -11,6 +11,8 @@ export default function GridView(props) {
   // array of objects
   const fullResponseResult = data.result;
 
+  console.log(fullResponseResult)
+
   //   return (
   //     <Grid
   //       container
@@ -45,20 +47,10 @@ export default function GridView(props) {
             sx={{ justifyItems: "center", alignContent: "center" }}
           >
             {fullResponseResult.map((result) => (
-              <Box
-                key={result.id}
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <GridViewCard
-                  fullResponseResult={result}
-                  image={result.thumbnailURL}
-                  title={result.name}
-                  description={result.background}
-                />
+              <Box key={result.id} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                {markazOrSantri === "kegiatan"? (
+                  <GridViewCard fullResponseResult={result} image={result.thumbnailURL} title={result.name} description={result.description} />
+                ):(<GridViewCard fullResponseResult={result} image={result.thumbnailURL} title={result.name} description={result.background} />)}
               </Box>
             ))}
           </Masonry>

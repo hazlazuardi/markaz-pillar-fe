@@ -32,7 +32,7 @@ export default function AdminVolunteer(props) {
     //   refreshInterval: 30000,
     // }
   );
-
+  
   // *******************************************************
   // Delete
   // *******************************************************
@@ -53,8 +53,9 @@ export default function AdminVolunteer(props) {
     return (
       <GridView
         data={responseProgram}
-        detail="admin/markaz"
+        detail="admin/volunteer"
         handleDelete={handleDeleteMarkaz}
+        markazOrSantri="kegiatan"
       />
     );
   };
@@ -63,7 +64,7 @@ export default function AdminVolunteer(props) {
     return (
       <TableView
         data={responseProgram}
-        detail="admin/markaz"
+        detail="admin/volunteer"
         handleDelete={handleDeleteMarkaz}
         santriormarkaz="kegiatan"
         titleTwo="Volunteer Dibutuhkan"
