@@ -107,7 +107,7 @@ function TableDataRow(props) {
           </Button>
         </>
       );
-    } else if (santriormarkaz === "volunteer") {
+    } else if (santriormarkaz === "kegiatan") {
       return (
         <ButtonGroup variant="outlined" aria-label="outlined button group">
           <Dialog mutate={mutate} isStatus {...props} />

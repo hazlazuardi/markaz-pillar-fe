@@ -1,37 +1,21 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../context/AppReducer";
-import {axiosFormData, axiosMain} from "../../../../../axiosInstances";
+import { useAppContext } from "../../../context/AppContext";
+import { dispatchTypes } from "../../../context/AppReducer";
+import { axiosFormData } from "../../../axiosInstances";
 import { useRouter } from 'next/router';
-import AdminCreateOrEditKegiatan from "../../../../../component/templates/admin/AdminCreateOrEditKegiatan";
-import useSWR from "swr";
+import AdminCreateOrEditKegiatan from "../../../component/templates/admin/AdminCreateOrEditKegiatan";
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
-
-function AdminEditVolunteerKegiatan() {
+function AdminCreateVolunteerKegiatan() {
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const router = useRouter();
-    const { id } = router.query
-    const {
-        data: responseKegiatan,
-        error,
-        mutate,
-    } = useSWR(
-        router.isReady ?
-            `/volunteer/edit?id=${id}`: null,
-        fetcher,
-    );
-
     const [kegiatan, setKegiatan] = useState({
-        name: responseKegiatan ? responseKegiatan.name: "",
-        description: responseKegiatan ? responseKegiatan.description: "",
-        term: responseKegiatan ? responseKegiatan.term: "",
-        benefit: responseKegiatan ? responseKegiatan.benefit: "",
-        volunteerNeeded: responseKegiatan ? responseKegiatan.volunteerNeeded: 0,
-        location: responseKegiatan ? responseKegiatan.location: "",
-        schedule: responseKegiatan ? responseKegiatan.schedule: "",
-        isActive: responseKegiatan ? responseKegiatan.isActive: null
+        name: "",
+        description: "",
+        term: "",
+        benefit: "",
+        volunteerNeeded: 0,
+        location: "",
+        schedule: "",
     });
     const form = useRef(null);
 
@@ -42,6 +26,8 @@ function AdminEditVolunteerKegiatan() {
             [name]: value,
         }));
     };
+
+    const [submitted, setSubmitted] = useState(false);
 
     const handleSubmit = async (event) => {
         setLoading(true)
@@ -64,9 +50,10 @@ function AdminEditVolunteerKegiatan() {
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Kegiatan Edited"
+                        message: "Kegiatan Created"
                     }
                 })
+                setSubmitted(true);
             })
             .catch(error => {
                 setLoading(false)
@@ -113,11 +100,11 @@ function AdminEditVolunteerKegiatan() {
             thumbnail={thumbnail}
             setThumbnail={setThumbnail}
             loading={loading}
-            createOrEdit="Edit"
+            createOrEdit="Create"
             handleChangeKegiatan={handleChangeKegiatan}
             kegiatan={kegiatan}
         />
     );
 }
 
-export default AdminEditVolunteerKegiatan;
+export default AdminCreateVolunteerKegiatan;

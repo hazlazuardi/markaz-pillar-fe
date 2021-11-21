@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../../../context/AppReducer";
-import {axiosFormData, axiosMain} from "../../../../../../../axiosInstances";
+import { useAppContext } from "../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../context/AppReducer";
+import {axiosFormData, axiosMain} from "../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-import AdminCreateOrEditTestimoni from "../../../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
+import AdminCreateOrEditTestimoni from "../../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
 import useSWR from "swr";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)

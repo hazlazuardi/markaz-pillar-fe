@@ -1,24 +1,43 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../../context/AppReducer";
-import { axiosFormData } from "../../../../../../axiosInstances";
+import { useAppContext } from "../../../../context/AppContext";
+import { dispatchTypes } from "../../../../context/AppReducer";
+import {axiosFormData, axiosMain} from "../../../../axiosInstances";
 import { useRouter } from 'next/router';
-import AdminCreateOrEditTestimoni from "../../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
+import AdminCreateOrEditKegiatan from "../../../../component/templates/admin/AdminCreateOrEditKegiatan";
+import useSWR from "swr";
 
-function AdminCreateVolunteerTestimoni() {
-    const router = useRouter();
+const fetcher = url => axiosMain.get(url).then(res => res.data)
+
+function AdminEditVolunteerKegiatan() {
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
-    const { kegiatanid } = router.query
-    const [testi, setTesti] = useState({
-        name: "",
-        description: "",
+    const router = useRouter();
+    const { id } = router.query
+    const {
+        data: responseKegiatan,
+        error,
+        mutate,
+    } = useSWR(
+        router.isReady ?
+            `/volunteer/edit?id=${transid}`: null,
+        fetcher,
+    );
+
+    const [kegiatan, setKegiatan] = useState({
+        name: responseKegiatan ? responseKegiatan.name: "",
+        description: responseKegiatan ? responseKegiatan.description: "",
+        term: responseKegiatan ? responseKegiatan.term: "",
+        benefit: responseKegiatan ? responseKegiatan.benefit: "",
+        volunteerNeeded: responseKegiatan ? responseKegiatan.volunteerNeeded: 0,
+        location: responseKegiatan ? responseKegiatan.location: "",
+        schedule: responseKegiatan ? responseKegiatan.schedule: "",
+        isActive: responseKegiatan ? responseKegiatan.isActive: null
     });
     const form = useRef(null);
 
-    const handleChangeTestimoni = ({ target }) => {
+    const handleChangeKegiatan = ({ target }) => {
         const { name, value } = target;
-        setTesti((prev) => ({
+        setKegiatan((prev) => ({
             ...prev,
             [name]: value,
         }));
@@ -28,15 +47,16 @@ function AdminCreateVolunteerTestimoni() {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
-        const testiBlob = new Blob([JSON.stringify(testi)], {
+        const kegiatanBlob = new Blob([JSON.stringify(kegiatan)], {
             type: "application/json",
         });
         data.append("thumbnail", thumbnail);
-        data.append("detail", testiBlob);
+        data.append("detail", kegiatanBlob);
 
+        console.log(kegiatan);
 
         await axiosFormData
-            .post(`/admin/volunteer/testimony?program_id=${kegiatanid}`, data)
+            .post("/admin/volunteer", data)
             .then(response => {
                 setLoading(false)
 
@@ -44,7 +64,7 @@ function AdminCreateVolunteerTestimoni() {
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: "Testimoni Created"
+                        message: "Kegiatan Edited"
                     }
                 })
             })
@@ -87,17 +107,17 @@ function AdminCreateVolunteerTestimoni() {
 
     const [loading, setLoading] = useState(false)
     return (
-        <AdminCreateOrEditTestimoni
+        <AdminCreateOrEditKegiatan
             form={form}
             handleSubmit={handleSubmit}
             thumbnail={thumbnail}
             setThumbnail={setThumbnail}
             loading={loading}
-            createOrEdit="Create"
-            handleChangeTestimoni={handleChangeTestimoni}
-            testi={testi}
+            createOrEdit="Edit"
+            handleChangeKegiatan={handleChangeKegiatan}
+            kegiatan={kegiatan}
         />
     );
 }
 
-export default AdminCreateVolunteerTestimoni;
+export default AdminEditVolunteerKegiatan;
