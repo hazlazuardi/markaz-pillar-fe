@@ -42,13 +42,12 @@ function AdminCreateOrEditProgres(props) {
                                     <Dropzone
                                         name="thumbnail"
                                         setFile={setThumbnail}
-                                        accept={"application/pdf"}
-                                    />
+                                        accept={"image/*"} />
                                 </Grid>
                                 {thumbnail.name &&
-                                <Grid item xs={12}>
-                                    <Typography id='dropzone-uploaded' variant="body1" color="initial">Uploaded: {thumbnail.name}</Typography>
-                                </Grid>
+                                    <Grid item xs={12}>
+                                        <Typography id='dropzone-uploaded' variant="body1" color="initial">Uploaded: {thumbnail.name}</Typography>
+                                    </Grid>
                                 }
                             </Grid>
                         </Grid>

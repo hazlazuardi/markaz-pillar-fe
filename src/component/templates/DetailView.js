@@ -152,7 +152,7 @@ export default function DetailView(props) {
                 tooltipOpen
                 classes={classes}
                 TooltipClasses={classes}
-                onClick={() => router.push(`${action.onClick}/${id}`)}
+                onClick={() => router.push(`${action.onClick}`)}
               />
             ))}
           </SpeedDial>

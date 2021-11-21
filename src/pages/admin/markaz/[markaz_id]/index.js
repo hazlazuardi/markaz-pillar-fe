@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import DetailView from "../../../component/templates/DetailView";
-import { axiosMain } from "../../../axiosInstances";
+import DetailView from '../../../../component/templates/DetailView'
+import { axiosMain } from '../../../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
-import ArrowBack from "../../../component/modules/ArrowBack";
-import ProgressDonasiFooter from "../../../component/modules/ProgressDonasiFooter";
-import { markazCategory } from "../../../context/AppReducer";
+import ArrowBack from "../../../../component/modules/ArrowBack";
+import ProgressDonasiFooter from "../../../../component/modules/ProgressDonasiFooter"
+import { markazCategory } from "../../../../context/AppReducer";
 import { Stack } from "@mui/material";
 import Add from "@mui/icons-material/Add";
 import { DonutLarge } from "@mui/icons-material";
@@ -14,14 +14,9 @@ const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 export default function AdminMarkazDetail(props) {
   // const { detailAdminMarkaz } = props
   const router = useRouter();
-  const { id } = router.query;
-  const {
-    data: responseDetailAdminMarkaz,
-    error,
-    mutate,
-  } = useSWR(
-    router.isReady ? `/markaz?id=${id}` : null,
-    fetcher
+  const { markaz_id } = router.query
+  const { data: responseDetailAdminMarkaz, error, mutate } = useSWR(router.isReady ? `/markaz?id=${markaz_id}` : null,
+    fetcher,
     // { fallbackData: detailAdminMarkaz, refreshInterval: 10000 }
   );
 
@@ -29,7 +24,8 @@ export default function AdminMarkazDetail(props) {
     return axiosMain.delete(`/admin/donation/progress?id=${id}`);
   };
 
-  const [convertedData, setConvertedData] = useState();
+  const [convertedData, setConvertedData] = useState()
+  const [hrefUpdateProgressDonasi, setHrefUpdateProgressDonasi] = useState("")
   useEffect(() => {
     if (!!responseDetailAdminMarkaz) {
       const dataResult = responseDetailAdminMarkaz.result;
@@ -60,24 +56,26 @@ export default function AdminMarkazDetail(props) {
               detail: dataResult.nominal,
             },
           ],
-          progress: dataResult.progress,
-        },
-      });
+          progress: dataResult.progress
+        }
+      })
+      setHrefUpdateProgressDonasi(`/admin/markaz/${markaz_id}/donasi/${dataResult.donationId}/progres/create`)
     } else {
       mutate();
     }
-  }, [mutate, responseDetailAdminMarkaz]);
+    console.log("gada")
+  }, [markaz_id, mutate, responseDetailAdminMarkaz])
 
   const adminMarkazDetailActions = [
     {
       name: "Create Donasi",
       icon: <Add />,
-      onClick: `/admin/markaz/donasi/create`,
+      onClick: `/admin/markaz/${markaz_id}/donasi/create`
     },
     {
       name: "Update Progress Donasi",
       icon: <Add />,
-      onClick: `/admin/markaz/donasi/progress/create`,
+      onClick: hrefUpdateProgressDonasi
     },
   ];
 
@@ -85,27 +83,16 @@ export default function AdminMarkazDetail(props) {
   if (!responseDetailAdminMarkaz) return "Loading...";
   return (
     <>
-      <ArrowBack href="/admin/markaz" />
-      <DetailView
-        isAdmin
-        variant="markaz"
-        data={convertedData}
-        speedDialActions={adminMarkazDetailActions}
-        hrefDonasi={`/admin/markaz/donasi/${id}`}
-      />
-      <ProgressDonasiFooter
-        isAdmin
-        data={convertedData}
-        apiCall={deleteProgress}
-        mutate={mutate}
-      />
+      <ArrowBack href='/admin/markaz' />
+      <DetailView isAdmin variant='markaz' data={convertedData} speedDialActions={adminMarkazDetailActions} hrefDonasi={`/admin/markaz/${markaz_id}/donasi`} />
+      <ProgressDonasiFooter isAdmin data={convertedData} apiCall={deleteProgress} mutate={mutate} />
     </>
   );
 }
 
 // export async function getStaticProps(context) {
-//   const id = context.params.id;
-//   const staticDetailMarkazResponse = await axiosMain.get(`/markaz?id=${id}`)
+//   const id = context.params.markaz_id;
+//   const staticDetailMarkazResponse = await axiosMain.get(`/markaz?id=${markaz_id}`)
 //   const staticDetailMarkaz = staticDetailMarkazResponse.data
 //   return {
 //     props: {

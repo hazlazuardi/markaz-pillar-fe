@@ -28,16 +28,16 @@ function AdminMarkazDonasiCreate(props) {
     };
 
     const router = useRouter()
-    const {id} = router.query
+    const { markaz_id } = router.query
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
-        
+
         await axiosMain
-            .post(`/admin/donation/markaz?id=${id}`, data)
+            .post(`/admin/donation/markaz?id=${markaz_id}`, data)
             .then(response => {
                 setLoading(false)
-                
+
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
@@ -48,11 +48,11 @@ function AdminMarkazDonasiCreate(props) {
             })
             .catch(error => {
                 setLoading(false)
-                
+
                 // Check & Handle if error.response is defined
                 if (!!error.response) {
                     if (error.response.status === 400) {
-                    
+
                         // Check & Handle if bad request (empty fields, etc)
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
@@ -80,13 +80,13 @@ function AdminMarkazDonasiCreate(props) {
 
     const [isActive, setIsActive] = useState();
 
-//      const handleIsActive = (event) => {
-//        setIsActive(event.target.isActive);
-//      };
+    //      const handleIsActive = (event) => {
+    //        setIsActive(event.target.isActive);
+    //      };
 
     const handleIsActive = (event) => {
         const {
-          target: { value },
+            target: { value },
         } = event;
         setIsActive(event.target.isActive);
         setData((prev) => ({
@@ -96,19 +96,19 @@ function AdminMarkazDonasiCreate(props) {
     };
 
     const names = [
-      'RENOVASI',
-      'PEMBANGUNAN_MARKAZ'
+        'RENOVASI',
+        'PEMBANGUNAN_MARKAZ'
     ];
 
     const [category, setCategory] = useState([]);
 
     const handleChange = (event) => {
         const {
-          target: { value },
+            target: { value },
         } = event;
         setCategory(
-          // On autofill we get a the stringified value.
-          typeof value === 'string' ? value.split(',') : value,
+            // On autofill we get a the stringified value.
+            typeof value === 'string' ? value.split(',') : value,
         );
         setData((prev) => ({
             ...prev,
@@ -116,23 +116,23 @@ function AdminMarkazDonasiCreate(props) {
         }));
     };
 
-    
+
 
     return (
         <>
-        <ArrowBack href={"/admin/markaz/donasi/"+id} />
-        <AdminCreateOrEditDonasi
-            form={form}
-            handleSubmit={handleSubmit}
-            donasi={data}
-            createOrEdit="Create"
-            markazOrSantri="Markaz"
-            handleChange={handleChange}
-            handleChangeDonasi={handleChangeDonasi}
-            handleIsActive={handleIsActive}
-            names={names}
-            label="Facility Requirements"
-        />
+            <ArrowBack href={`/admin/markaz/${markaz_id}`} />
+            <AdminCreateOrEditDonasi
+                form={form}
+                handleSubmit={handleSubmit}
+                donasi={data}
+                createOrEdit="Create"
+                markazOrSantri="Markaz"
+                handleChange={handleChange}
+                handleChangeDonasi={handleChangeDonasi}
+                handleIsActive={handleIsActive}
+                names={names}
+                label="Facility Requirements"
+            />
         </>
     );
 }

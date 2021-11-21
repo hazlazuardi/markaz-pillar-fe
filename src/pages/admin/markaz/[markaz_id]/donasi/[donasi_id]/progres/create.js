@@ -1,14 +1,17 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../../../../context/AppReducer";
-import { axiosFormData } from "../../../../../../../../axiosInstances";
+import { useAppContext } from "../../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../../context/AppReducer";
+import { axiosFormData } from "../../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-import AdminCreateOrEditProgres from "../../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
+//import AdminCreateOrEditProgres from "../../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
+import AdminCreateOrEditProgres from "../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
+import ArrowBack from "../../../../../../../component/modules/ArrowBack";
+
 
 function AdminCreateMarkazProgressDonasi() {
     const router = useRouter();
     const { dispatch } = useAppContext();
-    const { transid } = router.query
+    const { markaz_id, donasi_id } = router.query
     const [thumbnail, setThumbnail] = useState({});
     const [progres, setProgres] = useState({
         progressDate: "",
@@ -35,7 +38,7 @@ function AdminCreateMarkazProgressDonasi() {
         data.append("detail", progresBlob);
 
         await axiosFormData
-            .post(`/admin/donation/progress?donation_id=${transid}`, data)
+            .post(`/admin/donation/progress?donation_id=${donasi_id}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -86,17 +89,20 @@ function AdminCreateMarkazProgressDonasi() {
 
     const [loading, setLoading] = useState(false)
     return (
-        <AdminCreateOrEditProgres
-            form={form}
-            handleSubmit={handleSubmit}
-            thumbnail={thumbnail}
-            setThumbnail={setThumbnail}
-            loading={loading}
-            createOrEdit="Create"
-            markazOrSantri="Markaz"
-            handleChangeProgres={handleChangeProgres}
-            progres={progres}
-        />
+        <>
+            <ArrowBack href={`/admin/markaz/${markaz_id}`} />
+            <AdminCreateOrEditProgres
+                form={form}
+                handleSubmit={handleSubmit}
+                thumbnail={thumbnail}
+                setThumbnail={setThumbnail}
+                loading={loading}
+                createOrEdit="Create"
+                markazOrSantri="Markaz"
+                handleChangeProgres={handleChangeProgres}
+                progres={progres}
+            />
+        </>
     );
 }
 

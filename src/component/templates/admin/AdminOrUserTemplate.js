@@ -317,7 +317,7 @@ function AdminOrUserTemplate(props) {
       <Header />
       {!!data ? <Body /> : null}
       {/* {openFilter && <Filter /> } */}
-      {hrefCreate && (
+      {!!hrefCreate && (
         <Link href={hrefCreate} underline="none">
           <Fab
             data-testid="fab-at-admin-or-user-template"

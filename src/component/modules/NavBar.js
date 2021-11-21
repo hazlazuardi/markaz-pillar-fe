@@ -22,7 +22,7 @@ export default function NavBar() {
         },
         {
             name: 'Relawan',
-            path: isAdmin ? '/admin/kegiatan' : '/kegiatan',
+            path: isAdmin ? '/admin/kegiatan' : '/relawan',
         },
         {
             name: isAdmin ? 'Pengajar' : 'Kelas',

@@ -10,15 +10,14 @@ const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function DonasiMarkaz(props) {
   const router = useRouter();
-  const { id } = router.query;
+  const { markaz_id } = router.query;
   const [searchDonasiMarkaz, setSearchDonasiMarkaz] = useState("");
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const { data: responseDonasiMarkaz, error } = useSWR(
     router.isReady
-      ? `/admin/donation/markaz?id=${id}&page=${page - 1}&n=${entries}&${
-          !!searchDonasiMarkaz && "s=" + searchDonasiMarkaz
-        }`
+      ? `/admin/donation/markaz?id=${markaz_id}&page=${page - 1}&n=${entries}&${!!searchDonasiMarkaz && "s=" + searchDonasiMarkaz
+      }`
       : null,
     fetcher
   );
@@ -32,14 +31,15 @@ export default function DonasiMarkaz(props) {
       titleThree="Nominal Donasi"
       titleFour="Jumlah Donasi Terkumpul"
       titleFive="Status"
-      iddonasi={id}
     />
   );
+
+  console.log(!!responseDonasiMarkaz ? responseDonasiMarkaz.result : null)
 
   if (error) return "An error has occurred.";
   return (
     <>
-      <ArrowBack href={"/admin/markaz/" + id} />
+      <ArrowBack href={"/admin/markaz/" + markaz_id} />
       <AdminOrUserTemplate
         variant="donasi"
         TableView={TableViewMarkazDonasi}
@@ -50,7 +50,7 @@ export default function DonasiMarkaz(props) {
         setPage={setPage}
         entries={entries}
         setEntries={setEntries}
-        hrefCreate={`/admin/markaz/donasi/create/${id}`}
+        hrefCreate={`/admin/markaz/${markaz_id}/donasi/create`}
       />
     </>
   );
