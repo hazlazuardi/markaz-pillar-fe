@@ -183,7 +183,7 @@ function AdminOrUserTemplate(props) {
               size="small"
             />
             {/* <Chip icon={<FilterListIcon />} label="Filter" color='primary' onClick={() => setOpenFilter(true)} /> */}
-            <Filter />
+            {variant === "markaz" | variant === "santri" && (<Filter />)}
           </>
         )}
       </>
