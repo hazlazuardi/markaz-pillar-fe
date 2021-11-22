@@ -53,7 +53,7 @@ export default function AdminVolunteer(props) {
     return (
       <GridView
         data={responseProgram}
-        detail="admin/volunteer"
+        detail="admin/kegiatan"
         handleDelete={handleDeleteMarkaz}
         markazOrSantri="kegiatan"
       />
@@ -64,7 +64,7 @@ export default function AdminVolunteer(props) {
     return (
       <TableView
         data={responseProgram}
-        detail="admin/volunteer"
+        detail="admin/kegiatan"
         handleDelete={handleDeleteMarkaz}
         santriormarkaz="kegiatan"
         titleTwo="Volunteer Dibutuhkan"
