@@ -84,7 +84,6 @@ describe(`Test if all components exist and visible`, () => {
     // cy.get('[data-testid=filterChipButton-at-admin-or-user-template]').should('exist')
 
     cy.get('[data-testid=tableView-at-admin-or-user-template]').should('exist')
-    cy.get('[data-testid=name-at-table-row]').should('exist');
 
     cy.get('[data-testid=pagination-at-admin-or-user-template]').contains('1').should('exist')
     cy.get('[data-testid=pagination-at-admin-or-user-template]').contains('1').click()

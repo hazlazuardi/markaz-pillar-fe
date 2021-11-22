@@ -4,6 +4,7 @@ import { dispatchTypes } from "../../../../../context/AppReducer";
 import { axiosFormData } from "../../../../../axiosInstances";
 import { useRouter } from 'next/router';
 import AdminCreateOrEditTestimoni from "../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
+import ArrowBack from "../../../../../component/modules/ArrowBack";
 
 function AdminCreateVolunteerTestimoni() {
     const router = useRouter();
@@ -87,16 +88,19 @@ function AdminCreateVolunteerTestimoni() {
 
     const [loading, setLoading] = useState(false)
     return (
-        <AdminCreateOrEditTestimoni
-            form={form}
-            handleSubmit={handleSubmit}
-            thumbnail={thumbnail}
-            setThumbnail={setThumbnail}
-            loading={loading}
-            createOrEdit="Create"
-            handleChangeTestimoni={handleChangeTestimoni}
-            testi={testi}
-        />
+        <>
+            <ArrowBack href={`/admin/kegiatan/${kegiatan_id}`} />
+            <AdminCreateOrEditTestimoni
+                form={form}
+                handleSubmit={handleSubmit}
+                thumbnail={thumbnail}
+                setThumbnail={setThumbnail}
+                loading={loading}
+                createOrEdit="Create"
+                handleChangeTestimoni={handleChangeTestimoni}
+                testi={testi}
+            />
+        </>
     );
 }
 

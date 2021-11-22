@@ -48,9 +48,7 @@ export default function GridView(props) {
           >
             {fullResponseResult.map((result) => (
               <Box key={result.id} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                {markazOrSantri === "kegiatan"? (
-                  <GridViewCard fullResponseResult={result} image={result.thumbnailURL} title={result.name} description={result.description} />
-                ):(<GridViewCard fullResponseResult={result} image={result.thumbnailURL} title={result.name} description={result.background} />)}
+                <GridViewCard fullResponseResult={result} image={result.thumbnailURL} title={result.name} description={result.background} {...props} />
               </Box>
             ))}
           </Masonry>
