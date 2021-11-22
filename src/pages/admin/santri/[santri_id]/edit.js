@@ -10,9 +10,9 @@ const fetcher = url => axiosMain.get(url).then(res => res.data)
 function AdminSantriEdit(props) {
     const { santriDetail } = props;
     const router = useRouter()
-    const { id } = router.query
+    const { santri_id } = router.query
     const { data: responseMarkaz, error } = useSWR(`/markaz/search?n=1000`, fetcher)
-    const { data: responseSantri, error: errorSantri } = useSWR(`/santri?id=${router.isReady && id}`, fetcher, {
+    const { data: responseSantri, error: errorSantri } = useSWR(`/santri?id=${router.isReady && santri_id}`, fetcher, {
         fallbackData: santriDetail,
         refreshInterval: 10000,
     }
@@ -31,7 +31,7 @@ function AdminSantriEdit(props) {
 
     return (
         <>
-            <ArrowBack href={"/admin/santri/" + id} />
+            <ArrowBack href={"/admin/santri/" + santri_id} />
             <AdminCreateOrEditSantri
                 apiCall={editSantri}
                 santri={santri}
@@ -46,7 +46,7 @@ function AdminSantriEdit(props) {
 export default AdminSantriEdit;
 
 export async function getStaticProps(context) {
-    const id = context.params.id;
+    const id = context.params.santri_id;
     const response = await axiosMain.get(`/santri?id=${id}`);
     const data = response.data
     const staticSantri = data;
@@ -64,7 +64,7 @@ export async function getStaticPaths() {
     const staticAllSantri = data.result;
 
     const paths = staticAllSantri.map((santri) => ({
-        params: { id: santri.id.toString() },
+        params: { santri_id: santri.id.toString() },
     }));
 
     return {

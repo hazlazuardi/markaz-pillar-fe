@@ -9,14 +9,16 @@ import { markazCategory } from "../../../../context/AppReducer";
 import { Button, Stack } from "@mui/material";
 import AppContext from '../../../../context/AppContext'
 import Link from 'next/link'
-
+import TestimoniKegiatanFooter from "../../../../component/modules/TestimoniKegiatanFooter";
+import Add from "@mui/icons-material/Add";
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function DetailKegiatan(props) {
     const { detailMarkaz } = props
     const router = useRouter();
     const { kegiatan_id } = router.query
-    const { data: responseDetailKegiatan, error } = useSWR(router.isReady ? `/volunteer?id=${kegiatan_id}` : null,
+    const { data: responseDetailKegiatan, error, mutate } = useSWR(router.isReady ? `/volunteer?id=${kegiatan_id}` : null,
         fetcher,
         { fallbackData: detailMarkaz, refreshInterval: 10000 }
     )
@@ -77,13 +79,31 @@ export default function DetailKegiatan(props) {
         )
     }
 
+    const deleteTestimoni = async (id) => {
+        return axiosMain.delete(`/admin/volunteer/testimony?id=${id}`)
+    }
+
+    const AdminDetailKegiatanActions = [
+        {
+            name: "Kelola Relawan",
+            icon: <PeopleAltIcon />,
+            onClick: `/admin/kegiatan/${kegiatan_id}/relawan`
+        },
+        {
+            name: "Create Testimoni",
+            icon: <Add />,
+            onClick: `/admin/kegiatan/${kegiatan_id}/testimoni/create`
+        },
+    ]
+
     console.log(convertedData)
     if (error) return "An error has occurred.";
     if (!responseDetailKegiatan) return "Loading...";
     return (
         <>
-            <ArrowBack href='/volunteer' />
-            <DetailView disableDonasi CTA={<DaftarKegiatanCTA />} variant='markaz' data={convertedData} hrefDonasi={`/markaz/donasi/${kegiatan_id}`} />
+            <ArrowBack href='/admin/kegiatan' />
+            <DetailView isAdmin disableDonasi CTA={<DaftarKegiatanCTA />} variant='markaz' data={convertedData} hrefDonasi={`/markaz/donasi/${kegiatan_id}`} speedDialActions={AdminDetailKegiatanActions} />
+            <TestimoniKegiatanFooter isAdmin data={convertedData} mutate={mutate} apiCall={deleteTestimoni} />
         </>
     );
 }
