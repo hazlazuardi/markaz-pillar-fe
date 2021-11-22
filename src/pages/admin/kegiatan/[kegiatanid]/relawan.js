@@ -13,11 +13,6 @@ export default function AdminMarkaz(props) {
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [searchVolunteer, setSearchVolunteer] = useState("");
-  const [locationFilter, setLocationFilter] = useState();
-  const [nameFilter, setNameFilter] = useState();
-  const [categoryFilter, setCategoryFilter] = useState();
-  const [categoryFilter2, setCategoryFilter2] = useState();
-  const [categoryFilter3, setCategoryFilter3] = useState();
   const router = useRouter();
   const { id } = router.query;
   const {
@@ -41,14 +36,14 @@ export default function AdminMarkaz(props) {
   };
 
   const GridViewAdminVolunteerDetail = () => {
-    return <GridView data={responseVolunteer} detail="admin/markaz" />;
+    return <GridView data={responseVolunteer} detail="admin/kegiatan" />;
   };
 
   const TableViewAdminVolunteerDetail = () => {
     return (
       <TableView
         data={responseVolunteer}
-        detail="admin/markaz"
+        detail="admin/kegiatan"
         santriormarkaz="volunteer"
         titleTwo="Nomor KTP"
         titleThree="Email"
@@ -78,16 +73,6 @@ export default function AdminMarkaz(props) {
         data={responseVolunteer}
         error={error}
         hrefCreate="/admin/volunteer/create"
-        locationFilter={locationFilter}
-        setLocationFilter={setLocationFilter}
-        nameFilter={nameFilter}
-        setNameFilter={setNameFilter}
-        categoryFilter={categoryFilter}
-        setCategoryFilter={setCategoryFilter}
-        categoryFilter2={categoryFilter2}
-        setCategoryFilter2={setCategoryFilter2}
-        categoryFilter3={categoryFilter3}
-        setCategoryFilter3={setCategoryFilter3}
         mutate={mutate}
       />
     </>

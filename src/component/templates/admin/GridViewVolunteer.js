@@ -2,16 +2,20 @@ import React from "react";
 import Card from "../../modules/Card";
 import Grid from "@mui/material/Grid";
 import GridViewCard from "../../modules/GridViewCard";
+import ActivityCard from "../../modules/ActivityCard";
 import Masonry from "@mui/lab/Masonry";
 import { Box } from "@mui/system";
 import { Container, useMediaQuery } from "@mui/material";
 
+<<<<<<< HEAD
+export default function GridViewVolunteer(props) {
+  const { data, markazOrSantri, intr1Butt, detail, handleDelete, pageType } = props;
+=======
 export default function GridView(props) {
   const { data, markazOrSantri, intr1Butt, detail, handleDelete } = props;
+>>>>>>> 1a8877e (feat: add gridview daftar kegiatan)
   // array of objects
   const fullResponseResult = data.result;
-
-  console.log(fullResponseResult)
 
   //   return (
   //     <Grid
@@ -41,19 +45,32 @@ export default function GridView(props) {
             width: { xs: 300, sm: 552, md: 836, lg: 1200, xl: 1200 },
           }}
         >
-          <Masonry
-            columns={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 4 }}
-            spacing={2}
-            sx={{ justifyItems: "center", alignContent: "center" }}
-          >
             {fullResponseResult.map((result) => (
-              <Box key={result.id} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                {markazOrSantri === "kegiatan"? (
-                  <GridViewCard fullResponseResult={result} image={result.thumbnailURL} title={result.name} description={result.description} />
-                ):(<GridViewCard fullResponseResult={result} image={result.thumbnailURL} title={result.name} description={result.background} />)}
+              <Box
+                key={result.id}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {/* <GridViewCard fullResponseResult={result} image={result.thumbnailURL} title={result.name} description={result.background} /> */}
+                <ActivityCard
+                  type={"Donasi"}
+                  name= "name"
+                  ktp= "317400000"
+                  email= "yahoo@gmail.com"
+                  telp = "083553420"
+                  alamat = "Jl. Tebet timur"
+                  thumbnail = "url"
+<<<<<<< HEAD
+                  pageType={pageType}
+=======
+                  pageType={"daftar kegiatan"}
+>>>>>>> 1a8877e (feat: add gridview daftar kegiatan)
+                />
               </Box>
             ))}
-          </Masonry>
         </Box>
       )}
     </Container>
@@ -66,7 +83,7 @@ key={result.id}
 name={result.name}
 image={result.thumbnailURL}
 desc={result.background}
-intr_1="[progresid]"
+intr_1="edit"
 intr_2="delete"
 markazOrSantri={markazOrSantri}
 id={result.id}
