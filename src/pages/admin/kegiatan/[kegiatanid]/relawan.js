@@ -36,14 +36,14 @@ export default function AdminMarkaz(props) {
   };
 
   const GridViewAdminVolunteerDetail = () => {
-    return <GridView data={responseVolunteer} detail="admin/volunteer" />;
+    return <GridView data={responseVolunteer} detail="admin/kegiatan" />;
   };
 
   const TableViewAdminVolunteerDetail = () => {
     return (
       <TableView
         data={responseVolunteer}
-        detail="admin/volunteer"
+        detail="admin/kegiatan"
         santriormarkaz="volunteer"
         titleTwo="Nomor KTP"
         titleThree="Email"
