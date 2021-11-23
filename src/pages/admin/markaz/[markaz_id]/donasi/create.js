@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useAppContext } from "../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../context/AppReducer";
+import { dispatchTypes, enumRoutes } from "../../../../../context/AppReducer";
 import { useRouter } from "next/router";
 import { axiosMain } from "../../../../../axiosInstances";
 import AdminCreateOrEditDonasi from "../../../../../component/templates/admin/AdminCreateOrEditDonasi";
@@ -79,11 +79,6 @@ function AdminMarkazDonasiCreate(props) {
     const [loading, setLoading] = useState(false)
 
     const [isActive, setIsActive] = useState();
-
-    //      const handleIsActive = (event) => {
-    //        setIsActive(event.target.isActive);
-    //      };
-
     const handleIsActive = (event) => {
         const {
             target: { value },
@@ -120,7 +115,7 @@ function AdminMarkazDonasiCreate(props) {
 
     return (
         <>
-            <ArrowBack href={`/admin/markaz/${markaz_id}`} />
+            <ArrowBack href={enumRoutes.ADMIN_MARKAZ_DETAIL} />
             <AdminCreateOrEditDonasi
                 form={form}
                 handleSubmit={handleSubmit}

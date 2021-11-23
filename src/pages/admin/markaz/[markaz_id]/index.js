@@ -5,7 +5,7 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../../component/modules/ArrowBack";
 import ProgresDonasiFooter from "../../../../component/modules/ProgresDonasiFooter"
-import { markazCategory } from "../../../../context/AppReducer";
+import { enumRoutes, markazCategory } from "../../../../context/AppReducer";
 import Add from "@mui/icons-material/Add";
 import { DonutLarge } from "@mui/icons-material";
 import { Typography } from '@mui/material'
@@ -58,7 +58,7 @@ export default function AdminMarkazDetail(props) {
           progress: dataResult.progress
         }
       })
-      setHrefUpdateProgresDonasi(`/admin/markaz/${markaz_id}/donasi/${dataResult.donationId}/progres/create`)
+      setHrefUpdateProgresDonasi(`${enumRoutes.ADMIN_MARKAZ_DONASI}/${dataResult.donationId}/progres/create`)
     } else {
       mutate();
     }
@@ -77,7 +77,7 @@ export default function AdminMarkazDetail(props) {
         {
           name: "Create Donasi",
           icon: <Add />,
-          onClick: `/admin/markaz/${markaz_id}/donasi/create`
+          onClick: enumRoutes.ADMIN_MARKAZ_DONASI_CREATE
         },
 
       ])
@@ -86,7 +86,7 @@ export default function AdminMarkazDetail(props) {
         {
           name: "Create Donasi",
           icon: <Add />,
-          onClick: `/admin/markaz/${markaz_id}/donasi/create`
+          onClick: enumRoutes.ADMIN_MARKAZ_DONASI_CREATE
         },
       ])
     }
@@ -95,15 +95,15 @@ export default function AdminMarkazDetail(props) {
 
   if (error) return (
     <>
-      <ArrowBack href='/admin/markaz' />
-      <Typography variant="body1" color="initial">An error has occured</Typography>
+      <ArrowBack href={enumRoutes.ADMIN_MARKAZ} />
+      <Typography variant="p" color="initial">An error has occured</Typography>
     </>
   );
   if (!responseDetailAdminMarkaz) return "Loading...";
   return (
     <>
-      <ArrowBack href='/admin/markaz' />
-      <DetailView isAdmin variant='markaz' data={convertedData} speedDialActions={adminMarkazDetailActions} hrefDonasi={`/admin/markaz/${markaz_id}/donasi`} disableDonasi={!!convertedData && !convertedData.result.nominal} />
+      <ArrowBack href={enumRoutes.ADMIN_MARKAZ} />
+      <DetailView isAdmin variant='markaz' data={convertedData} speedDialActions={adminMarkazDetailActions} hrefDonasi={enumRoutes.ADMIN_MARKAZ_DONASI} disableDonasi={!!convertedData && !convertedData.result.nominal} />
       <ProgresDonasiFooter isAdmin variant='markaz' data={convertedData} apiCall={deleteProgress} mutate={mutate} />
     </>
   );

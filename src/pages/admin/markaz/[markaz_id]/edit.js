@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useAppContext } from "../../../../context/AppContext";
-import { dispatchTypes } from "../../../../context/AppReducer";
+import { dispatchTypes, enumRoutes } from "../../../../context/AppReducer";
 import AdminCreateOrEditMarkaz from "../../../../component/templates/admin/AdminCreateOrEditMarkaz";
 import { axiosFormData } from "../../../../axiosInstances";
 import ArrowBack from "../../../../component/modules/ArrowBack";
@@ -96,7 +96,7 @@ export default function AdminMarkazEdit(props) {
     const [loading, setLoading] = useState(false)
     return (
         <>
-            <ArrowBack href={'/admin/markaz/' + markaz_id} />
+            <ArrowBack href={enumRoutes.ADMIN_MARKAZ_DETAIL} />
             <AdminCreateOrEditMarkaz
                 form={form}
                 loading={loading}
@@ -109,32 +109,3 @@ export default function AdminMarkazEdit(props) {
         </>
     )
 }
-
-// export async function getStaticProps(context) {
-//     const markaz_id = context.params.markaz_id;
-//     const response = await fetch(`${BASE_URL}/markaz?id=` + markaz_id);
-//     const data = await response.json();
-//     const markaz = data.result;
-
-//     return {
-//         props: {
-//             responseMarkaz: markaz,
-//         },
-//     };
-// }
-
-// export async function getStaticPaths() {
-//     const response = await fetch(`${BASE_URL}/markaz/search?n=1000`);
-//     const data = await response.json();
-//     const allMarkaz = data.result;
-
-//     const paths = allMarkaz.map((markaz) => ({
-//         params: { id: markaz.id.toString() },
-//     }));
-
-//     return {
-//         paths: paths,
-//         fallback: false,
-//     };
-// }
-

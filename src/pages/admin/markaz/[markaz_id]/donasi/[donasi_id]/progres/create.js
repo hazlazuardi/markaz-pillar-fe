@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useAppContext } from "../../../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../../../context/AppReducer";
+import { dispatchTypes, enumRoutes } from "../../../../../../../context/AppReducer";
 import { axiosFormData } from "../../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
 import AdminCreateOrEditProgres from "../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
@@ -10,7 +10,7 @@ import ArrowBack from "../../../../../../../component/modules/ArrowBack";
 function AdminCreateMarkazProgresDonasi() {
     const router = useRouter();
     const { dispatch } = useAppContext();
-    const { markaz_id, donasi_id } = router.query
+    const { donasi_id } = router.query
 
     const [thumbnail, setThumbnail] = useState({});
     const [progres, setProgres] = useState({
@@ -90,7 +90,7 @@ function AdminCreateMarkazProgresDonasi() {
     const [loading, setLoading] = useState(false)
     return (
         <>
-            <ArrowBack href={`/admin/markaz/${markaz_id}`} />
+            <ArrowBack href={enumRoutes.ADMIN_MARKAZ_DETAIL} />
             <AdminCreateOrEditProgres
                 form={form}
                 handleSubmit={handleSubmit}

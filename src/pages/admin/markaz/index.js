@@ -4,11 +4,11 @@ import useSWR from "swr";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
 import GridView from "../../../component/templates/admin/GridView";
 import TableView from "../../../component/templates/admin/TableView";
+import { enumRoutes } from "../../../context/AppReducer";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
-export default function AdminMarkaz(props) {
-  // const { allMarkaz } = props;
+export default function AdminMarkaz() {
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [searchMarkaz, setSearchMarkaz] = useState("");
@@ -57,7 +57,7 @@ export default function AdminMarkaz(props) {
     return (
       <GridView
         data={responseMarkaz}
-        detail="admin/markaz"
+        detail={enumRoutes.ADMIN_MARKAZ}
         handleDelete={handleDeleteMarkaz}
       />
     );
@@ -66,7 +66,7 @@ export default function AdminMarkaz(props) {
     return (
       <TableView
         data={responseMarkaz}
-        detail="admin/markaz"
+        detail={enumRoutes.ADMIN_MARKAZ}
         handleDelete={handleDeleteMarkaz}
         santriormarkaz="markaz"
         titleTwo="Kategori"
@@ -136,7 +136,7 @@ export default function AdminMarkaz(props) {
         setPage={setPage}
         data={responseMarkaz}
         error={error}
-        hrefCreate="/admin/markaz/create"
+        hrefCreate={enumRoutes.ADMIN_MARKAZ_CREATE}
         locationFilter={locationFilter}
         setLocationFilter={setLocationFilter}
         nameFilter={nameFilter}

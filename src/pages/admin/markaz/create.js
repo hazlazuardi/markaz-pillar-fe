@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useAppContext } from "../../../context/AppContext";
-import { dispatchTypes } from "../../../context/AppReducer";
+import { dispatchTypes, enumRoutes } from "../../../context/AppReducer";
 import AdminCreateOrEditMarkaz from "../../../component/templates/admin/AdminCreateOrEditMarkaz";
 import { axiosFormData } from "../../../axiosInstances";
 import ArrowBack from "../../../component/modules/ArrowBack";
@@ -49,7 +49,7 @@ function AdminMarkazCreate() {
                         message: "Markaz Created"
                     }
                 })
-                router.push('/admin/markaz')
+                router.push(enumRoutes.ADMIN_MARKAZ)
             })
             .catch(error => {
                 setLoading(false)
@@ -93,7 +93,7 @@ function AdminMarkazCreate() {
     const [loading, setLoading] = useState(false)
     return (
         <>
-            <ArrowBack href='/admin/markaz' />
+            <ArrowBack href={enumRoutes.ADMIN_MARKAZ} />
             <AdminCreateOrEditMarkaz
                 form={form}
                 loading={loading}

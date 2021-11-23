@@ -91,7 +91,7 @@ export default function DetailView(props) {
             <Box display="flex" flexDirection="column" height="100%">
               <Typography
                 variant={isSM ? "h4" : "h2"}
-                component="body1"
+                component="p"
                 gutterBottom
                 mb={4}
                 sx={{ fontWeight: "200" }}
@@ -110,7 +110,7 @@ export default function DetailView(props) {
                         >
                           {detail.subtitle}
                         </Typography>
-                        <Typography variant="h5" component="body1">
+                        <Typography variant="h5" component="p">
                           {detail.detail}
                         </Typography>
                       </Grid>
@@ -135,7 +135,7 @@ export default function DetailView(props) {
             onOpen={handleOpen}
             open={open}
           >
-            {actions.map((action, index) => (
+            {actions.map((action) => (
               <SpeedDialAction
                 key={action.name}
                 icon={action.icon}
@@ -143,7 +143,7 @@ export default function DetailView(props) {
                 tooltipOpen
                 classes={classes}
                 TooltipClasses={classes}
-                onClick={() => router.push(`${action.onClick}`)}
+                onClick={() => router.push({ pathname: `${action.onClick}`, query: { ...router.query } })}
               />
             ))}
           </SpeedDial>

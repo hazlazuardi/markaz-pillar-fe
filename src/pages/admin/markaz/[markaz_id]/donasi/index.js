@@ -5,6 +5,7 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import AdminOrUserTemplate from "../../../../../component/templates/admin/AdminOrUserTemplate";
 import ArrowBack from "../../../../../component/modules/ArrowBack";
+import { enumRoutes } from "../../../../../context/AppReducer";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
@@ -26,7 +27,7 @@ export default function DonasiMarkaz(props) {
     <TableView
       data={responseDonasiMarkaz}
       santriormarkaz="donasi"
-      detail="admin/markaz"
+      detail={enumRoutes.ADMIN_MARKAZ}
       titleTwo="ID Donasi"
       titleThree="Nominal Donasi"
       titleFour="Jumlah Donasi Terkumpul"
@@ -34,12 +35,12 @@ export default function DonasiMarkaz(props) {
     />
   );
 
-  
+
 
   if (error) return "An error has occurred.";
   return (
     <>
-      <ArrowBack href={"/admin/markaz/" + markaz_id} />
+      <ArrowBack href={enumRoutes.ADMIN_MARKAZ_DETAIL} />
       <AdminOrUserTemplate
         variant="donasi"
         TableView={TableViewMarkazDonasi}
@@ -50,7 +51,7 @@ export default function DonasiMarkaz(props) {
         setPage={setPage}
         entries={entries}
         setEntries={setEntries}
-        hrefCreate={`/admin/markaz/${markaz_id}/donasi/create`}
+        hrefCreate={`${enumRoutes.ADMIN_MARKAZ}/${markaz_id}/donasi/create`}
       />
     </>
   );

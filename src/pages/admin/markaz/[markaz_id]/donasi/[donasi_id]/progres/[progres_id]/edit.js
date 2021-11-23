@@ -3,7 +3,6 @@ import { useAppContext } from "../../../../../../../../context/AppContext";
 import { dispatchTypes } from "../../../../../../../../context/AppReducer";
 import { axiosFormData, axiosMain } from "../../../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-// import AdminCreateOrEditProgres from "../../../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
 import AdminCreateOrEditProgres from '../../../../../../../../component/templates/admin/AdminCreateOrEditProgres'
 import useSWR from "swr";
 
@@ -14,8 +13,6 @@ function AdminEditMarkazProgresDonasi(props) {
     const { donasi_id, progres_id } = router.query
     const {
         data: responseProgres,
-        error,
-        mutate,
     } = useSWR(
         router.isReady ?
             `/admin/donation?id=${donasi_id}` : null,

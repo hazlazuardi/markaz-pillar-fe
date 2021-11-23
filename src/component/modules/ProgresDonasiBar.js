@@ -1,9 +1,8 @@
 import React from 'react'
 import { Button, Container, LinearProgress, Typography } from '@mui/material'
 import { Box } from '@mui/system';
-import Link from 'next/link'
 import { useAppContext } from '../../context/AppContext';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import { dispatchTypes, enumRoutes } from '../../context/AppReducer';
 
 
@@ -37,10 +36,10 @@ export default function ProgresDonasiBar(props) {
     const { state, dispatch } = useAppContext()
     const { currentUser, stateLoaded } = state;
 
-
+    const router = useRouter()
     const handleDonasi = (href) => {
         if (stateLoaded && currentUser) {
-            router.push(href)
+            router.push({ pathname: href, query: { ...router.query } })
         } else {
             dispatch({ type: dispatchTypes.LOGIN_NEEDED })
             router.push(enumRoutes.LOGIN)

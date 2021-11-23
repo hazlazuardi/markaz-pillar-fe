@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useAppContext } from "../../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../../context/AppReducer";
+import { dispatchTypes, enumRoutes } from "../../../../../../context/AppReducer";
 import { useRouter } from "next/router";
 import { axiosMain } from "../../../../../../axiosInstances";
 import AdminCreateOrEditDonasi from "../../../../../../component/templates/admin/AdminCreateOrEditDonasi";
@@ -14,8 +14,6 @@ function AdminMarkazDonasiEdit() {
     const { markaz_id, donasi_id } = router.query
     const {
         data: responseDonasi,
-        error,
-        mutate,
     } = useSWR(
         router.isReady ?
             `/admin/donation?id=${donasi_id}` : null,
@@ -90,10 +88,6 @@ function AdminMarkazDonasiEdit() {
 
     const [isActive, setIsActive] = useState();
 
-    //      const handleIsActive = (event) => {
-    //        setIsActive(event.target.isActive);
-    //      };
-
     const handleIsActive = (event) => {
         const {
             target: { value },
@@ -130,7 +124,7 @@ function AdminMarkazDonasiEdit() {
 
     return (
         <>
-            <ArrowBack href={`/admin/markaz/${markaz_id}/donasi`} />
+            <ArrowBack href={enumRoutes.ADMIN_MARKAZ_DONASI} />
             <AdminCreateOrEditDonasi
                 form={form}
                 handleSubmit={handleSubmit}
