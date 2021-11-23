@@ -72,7 +72,7 @@ describe("Test it is in the correct page", () => {
     cy.get('#menuIconButton').should('exist').click()
     cy.get('button').contains('Keluar').should('exist').click()
     cy.visit(`${frontendURL}/admin/markaz/${MARKAZ_ID}/donasi/${DONASI_ID}/transaksi`)
-    cy.url().should('include', '${frontendURL}')
+    cy.url().should('include', `${frontendURL}`)
   })
 });
 

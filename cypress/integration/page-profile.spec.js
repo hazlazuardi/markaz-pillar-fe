@@ -85,7 +85,7 @@
 //         cy.get('#menuIconButton').should('exist').click()
 //         cy.get('button').contains('Keluar').should('exist').click()
 //         cy.visit(`${frontendURL}/profile`)
-//         cy.url().should('include', '${frontendURL}')
+//         cy.url().should('include', `${frontendURL}`)
 //     })
 
 // })
