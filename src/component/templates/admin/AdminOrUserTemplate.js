@@ -3,7 +3,6 @@ import debounce from "lodash.debounce";
 import PropTypes from "prop-types";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
-import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import {
@@ -23,8 +22,6 @@ import { SwipeableEnableScroll } from "../../../component/SwipeableEnableScroll"
 import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import FilterComponent from "../../../component/modules/FilterComponent";
-// import FilterListIcon from '@mui/icons-material/FilterList';
-// import Chip from "@mui/material/Chip";
 
 function AdminOrUserTemplate(props) {
   const {
@@ -159,6 +156,7 @@ function AdminOrUserTemplate(props) {
         FilterRadioObject={FilterRadioObject}
       />
     );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [variant, size]);
 
   // *******************************************************
@@ -316,18 +314,16 @@ function AdminOrUserTemplate(props) {
     <>
       <Header />
       {!!data ? <Body /> : null}
-      {/* {openFilter && <Filter /> } */}
       {!!hrefCreate && (
-        <Link href={hrefCreate} underline="none">
-          <Fab
-            data-testid="fab-at-admin-or-user-template"
-            sx={{ position: "fixed", right: "2em", bottom: "3em" }}
-            color="primary"
-            aria-label="add"
-          >
-            <AddIcon />
-          </Fab>
-        </Link>
+        <Fab
+          data-testid="fab-at-admin-or-user-template"
+          sx={{ position: "fixed", right: "2em", bottom: "3em" }}
+          color="primary"
+          aria-label="add"
+          href={hrefCreate}
+        >
+          <AddIcon />
+        </Fab>
       )}
     </>
   );
@@ -336,10 +332,10 @@ function AdminOrUserTemplate(props) {
 AdminOrUserTemplate.propTypes = {
   data: PropTypes.any,
   variant: PropTypes.string,
-   // A React element (ie. <MyComponent />).
+  // A React element (ie. <MyComponent />).
   GridView: PropTypes.element.isRequired,
   TableView: PropTypes.element,
-  
+
   searchTerm: PropTypes.string.isRequired,
   setSearchTerm: PropTypes.func.isRequired,
   entries: PropTypes.number.isRequired,

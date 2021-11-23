@@ -1,32 +1,32 @@
 import React from "react";
-import Card from "../../modules/Card";
 import Grid from "@mui/material/Grid";
 import GridViewCard from "../../modules/GridViewCard";
 import Masonry from "@mui/lab/Masonry";
 import { Box } from "@mui/system";
-import { Container, useMediaQuery } from "@mui/material";
+import { Container } from "@mui/material";
 
 export default function GridView(props) {
-  const { data, markazOrSantri, intr1Butt, detail, handleDelete } = props;
+  const { data, disableMasonry } = props;
   // array of objects
   const fullResponseResult = data.result;
 
 
+  if (disableMasonry) {
+    return (
+      <Grid
+        container
+        spacing={3}
+        sx={{ display: "flex", justifyContent: "center" }}
+      >
+        {fullResponseResult.map((result) => (
+          <Grid item key={result.id}>
+            <GridViewCard image={result.thumbnailURL} title={result.name} description={result.background} />
+          </Grid>
+        ))}
+      </Grid>
+    );
+  }
 
-  //   return (
-  //     <Grid
-  //       container
-  //       spacing={3}
-  //       sx={{ display: "flex", justifyContent: "center" }}
-  //     >
-  //       {fullResponseResult.map((result) => (
-  //         <Grid item key={result.id}>
-  //           <GridViewCard image={result.thumbnailURL} title={result.name} description={result.background} />
-  //         </Grid>
-  //       ))}
-  //     </Grid>
-  //   );
-  // }
 
   return (
     <Container

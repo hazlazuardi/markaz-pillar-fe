@@ -8,10 +8,10 @@ import ProgresDonasiFooter from "../../../../component/modules/ProgresDonasiFoot
 import { markazCategory } from "../../../../context/AppReducer";
 import Add from "@mui/icons-material/Add";
 import { DonutLarge } from "@mui/icons-material";
+import { Typography } from '@mui/material'
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 export default function AdminMarkazDetail(props) {
-  // const { detailAdminMarkaz } = props
   const router = useRouter();
   const { markaz_id } = router.query
   const { data: responseDetailAdminMarkaz, error, mutate } = useSWR(router.isReady ? `/markaz?id=${markaz_id}` : null,
@@ -62,23 +62,43 @@ export default function AdminMarkazDetail(props) {
     } else {
       mutate();
     }
-    
-  }, [markaz_id, mutate, responseDetailAdminMarkaz])
 
-  const adminMarkazDetailActions = [
-    {
-      name: "Create Donasi",
-      icon: <Add />,
-      onClick: `/admin/markaz/${markaz_id}/donasi/create`
-    },
-    {
-      name: "Update Progress Donasi",
-      icon: <DonutLarge />,
-      onClick: hrefUpdateProgresDonasi
-    },
-  ];
+  }, [hrefUpdateProgresDonasi, markaz_id, mutate, responseDetailAdminMarkaz])
 
-  if (error) return "An error has occurred.";
+  const [adminMarkazDetailActions, setAdminMarkazDetailActions] = useState()
+  useEffect(() => {
+    if (!!convertedData && convertedData.result.nominal) {
+      setAdminMarkazDetailActions([
+        {
+          name: "Update Progress Donasi",
+          icon: <DonutLarge />,
+          onClick: hrefUpdateProgresDonasi
+        },
+        {
+          name: "Create Donasi",
+          icon: <Add />,
+          onClick: `/admin/markaz/${markaz_id}/donasi/create`
+        },
+
+      ])
+    } else {
+      setAdminMarkazDetailActions([
+        {
+          name: "Create Donasi",
+          icon: <Add />,
+          onClick: `/admin/markaz/${markaz_id}/donasi/create`
+        },
+      ])
+    }
+
+  }, [convertedData, hrefUpdateProgresDonasi, markaz_id])
+
+  if (error) return (
+    <>
+      <ArrowBack href='/admin/markaz' />
+      <Typography variant="body1" color="initial">An error has occured</Typography>
+    </>
+  );
   if (!responseDetailAdminMarkaz) return "Loading...";
   return (
     <>

@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import { axiosFormData } from "../../../axiosInstances";
 import { useAppContext } from "../../../context/AppContext";
 import { dispatchTypes } from "../../../context/AppReducer";
-import { axiosMain } from '../../../axiosInstances';
 import useSWR from "swr";
 import Typography from "@mui/material/Typography";
 import ArrowBack from '../../../component/modules/ArrowBack';
@@ -22,7 +21,7 @@ export default function DonasiMarkaz() {
     });
     const [open, setOpen] = useState(false);
 
-    const { data: responseMarkaz, error } = useSWR(router.isReady ? `/markaz?id=${markaz_id}` : null, fetcher)
+    const { data: responseMarkaz } = useSWR(router.isReady ? `/markaz?id=${markaz_id}` : null, fetcher)
 
     const handleError = () => {
         setOpen(true);

@@ -31,7 +31,7 @@ export default function DetailView(props) {
   const router = useRouter();
   const path = router.pathname;
 
-  const disableDonasi = result.nominal === null
+  const disableDonasi = !!result && result.nominal === null
 
   const actions = speedDialActions
     ? speedDialActions

@@ -7,8 +7,6 @@ import {
   CardActions,
   CardContent,
   CardMedia,
-  IconButton,
-  Stack,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -30,6 +28,7 @@ export default function ProgresDonasiFooter(props) {
 
   const isXXS = useMediaQuery("(max-width:400px)");
   const IMAGE_SIZE = 200
+  if (!!data && data.result.nominal === null) return null
   return (
     <>
       <Typography variant='h4' component='h2' sx={{ mb: 3, mt: 12 }}>Progress Donasi</Typography>

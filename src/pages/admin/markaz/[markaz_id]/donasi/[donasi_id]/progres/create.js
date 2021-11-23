@@ -3,7 +3,6 @@ import { useAppContext } from "../../../../../../../context/AppContext";
 import { dispatchTypes } from "../../../../../../../context/AppReducer";
 import { axiosFormData } from "../../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-//import AdminCreateOrEditProgres from "../../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
 import AdminCreateOrEditProgres from "../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
 import ArrowBack from "../../../../../../../component/modules/ArrowBack";
 
