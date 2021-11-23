@@ -35,7 +35,7 @@ describe('Test type the fields and submit', () => {
         cy.get('#password').type('Admin123')
         cy.get('#submitAtLogin').contains('Masuk').click()
         cy.get('#submitAtLogin').contains('Masuk').should('be.disabled')
-        cy.get('#snackbarAtLayout').contains(`Welcome back, ${testEmail}`).should('exist')
+        cy.get('#snackbarAtLayout').contains(`Welcome back, ${testEmail.split('@')[0]}`).should('exist')
         cy.get('#submitAtLogin').contains('Masuk').should('not.be.disabled')
     })
 

@@ -7,33 +7,33 @@ let currentUserRole
 let currentAccessToken
 let currentRefreshToken
 
-const TRASAKSI_ID_SANTRI = 'cnav-ylsii-bqao'
+const DONASI_ID = 'cnav-ylsii-bqao'
 const SANTRI_ID = 1;
 
 const backendURL = Cypress.env('backendURL')
 const frontendURL = Cypress.env('frontendURL')
 
 
-before(function fetchUser () {
+before(function fetchUser() {
   cy.request('POST', `${backendURL}/authenticate`, {
     email: Cypress.env('email'),
     password: Cypress.env('password'),
   })
-  .its('body')
-  .then((res) => {
-    jwtResponse = jwt_decode(res.result.accessToken)
-    currentAccessToken= res.result.accessToken
-    currentRefreshToken= res.result.refreshToken
-    currentUser = jwtResponse.sub
-    currentUserRole = jwtResponse.role
-  })
+    .its('body')
+    .then((res) => {
+      jwtResponse = jwt_decode(res.result.accessToken)
+      currentAccessToken = res.result.accessToken
+      currentRefreshToken = res.result.refreshToken
+      currentUser = jwtResponse.sub
+      currentUserRole = jwtResponse.role
+    })
 })
 
 // but set the user before visiting the page
 // so the app thinks it is already authenticated
-beforeEach(function setUser () {
+beforeEach(function setUser() {
   cy.visit('/', {
-    onBeforeLoad (win) {
+    onBeforeLoad(win) {
       // and before the page finishes loading
       // set the user object in local storage
       win.localStorage.setItem('jwt', JSON.stringify(jwtResponse))
@@ -45,7 +45,7 @@ beforeEach(function setUser () {
     },
   })
   // the page should be opened and the user should be logged in
-  cy.visit(`${frontendURL}/admin/santri/donasi/${SANTRI_ID}/transaksi/${TRASAKSI_ID_SANTRI}`)
+  cy.visit(`${frontendURL}/admin/santri/${SANTRI_ID}/donasi/${DONASI_ID}/transaksi`)
 })
 
 
@@ -64,33 +64,33 @@ describe("Test it is in the correct page", () => {
   it('Test ArrowBack directs to Admin Markaz', () => {
     cy.get(`[data-testid="arrowback-at-modules"]`).should('exist')
     cy.get(`[data-testid="arrowback-at-modules"]`).click()
-    cy.url().should('eq', `${frontendURL}/admin/santri/donasi/${SANTRI_ID}`)
+    cy.url().should('include', `${frontendURL}/admin/santri/${SANTRI_ID}/donasi`)
   })
 
   it('Test if admin transaksi santri page redirect unauthorized users', () => {
     cy.get('#menuIconButton').should('exist').click()
     cy.get('button').contains('Keluar').should('exist').click()
-    cy.visit(`${frontendURL}/admin/santri/donasi/${SANTRI_ID}/transaksi/${TRASAKSI_ID_SANTRI}`)
+    cy.visit(`${frontendURL}/admin/santri/${SANTRI_ID}/donasi/${DONASI_ID}/transaksi`)
     cy.url().should('eq', 'http://localhost:3000/')
   })
 });
 
 describe(`Test if all components exist and visible`, () => {
   it('Test if all exists and visible', () => {
-      
-      // cy.get('[data-testid=filterChipButton-at-admin-or-user-template]').should('exist')
-      // cy.get('[data-testid=tableView-at-admin-or-user-template]').should('exist')
-      // cy.get('[data-testid=name-at-table-row]').should('exist');
-    
-      // cy.get('[data-testid=pagination-at-admin-or-user-template]').contains('1').should('exist')
-      // cy.get('[data-testid=pagination-at-admin-or-user-template]').contains('1').click()
 
-      // cy.get('[data-testid=showEntries-at-admin-or-user-template]').should('exist')
-      // cy.get('[data-testid=showEntries-at-admin-or-user-template]').click()
-      // cy.get('[data-testid=showEntries-at-admin-or-user-template]').get('li').contains('Show All').should('exist')
-      // cy.get('[data-testid=showEntries-at-admin-or-user-template]').get('li').contains('Show All').click()
-     
-     
-      // cy.get('[data-testid=fab-at-admin-or-user-template]').should('exist')
+    // cy.get('[data-testid=filterChipButton-at-admin-or-user-template]').should('exist')
+    // cy.get('[data-testid=tableView-at-admin-or-user-template]').should('exist')
+    // cy.get('[data-testid=name-at-table-row]').should('exist');
+
+    // cy.get('[data-testid=pagination-at-admin-or-user-template]').contains('1').should('exist')
+    // cy.get('[data-testid=pagination-at-admin-or-user-template]').contains('1').click()
+
+    // cy.get('[data-testid=showEntries-at-admin-or-user-template]').should('exist')
+    // cy.get('[data-testid=showEntries-at-admin-or-user-template]').click()
+    // cy.get('[data-testid=showEntries-at-admin-or-user-template]').get('li').contains('Show All').should('exist')
+    // cy.get('[data-testid=showEntries-at-admin-or-user-template]').get('li').contains('Show All').click()
+
+
+    // cy.get('[data-testid=fab-at-admin-or-user-template]').should('exist')
   });
 })
