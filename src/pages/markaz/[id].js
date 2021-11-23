@@ -19,9 +19,11 @@ export default function MarkazDetail(props) {
     { fallbackData: detailMarkaz, refreshInterval: 10000 }
   )
 
+
   const dataResult = {
     ...responseDetailMarkaz.result
   }
+  console.log(dataResult)
   const convertedDataMarkaz = {
     title: dataResult.name,
     description: dataResult.background,
@@ -36,8 +38,12 @@ export default function MarkazDetail(props) {
         detail: markazCategory[dataResult.category]
       },
       {
-        subtitle: "Contact Person",
-        detail: dataResult.contactPerson
+        subtitle: "Contact Info",
+        detail: dataResult.contactInfo
+      },
+      {
+        subtitle: "Alamat",
+        detail: dataResult.address
       },
     ],
     donation: [

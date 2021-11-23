@@ -16,10 +16,14 @@ import { Box, width } from "@mui/system";
 import Image from "next/image";
 import LinesEllipsis from "react-lines-ellipsis";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function ProgressDonasiFooter(props) {
-  const { isAdmin, variant, data, apiCall, mutate } = props
+  const { isAdmin, data, apiCall, mutate } = props
   const result = !!data ? data.result.progress : null
+  const router = useRouter()
+  const path = router.pathname
+  const { donasi_id, progres_id } = router.query
 
   const handleDelete = (id) => {
     apiCall(id).then((res) => {
@@ -62,7 +66,7 @@ export default function ProgressDonasiFooter(props) {
                 </CardContent>
                 {isAdmin && (
                   <CardActions>
-                    <Link href={`/admin/${variant}/${data.result.id}/donasi/${data.result.donationId}/progres/${progress.id}/edit`} passHref >
+                    <Link href={{ pathname: `${path}/donasi/${data.result.donationId}/progres/${progress.id}/edit`, query: { ...router.query } }} passHref >
                       <Button>Edit</Button>
                     </Link>
                     <Button onClick={() => handleDelete(progress.id)} >Delete</Button>
@@ -76,8 +80,9 @@ export default function ProgressDonasiFooter(props) {
             <Container>
               <Typography>No Progress yet</Typography>
             </Container>
-          )}
-      </Grid>
+          )
+        }
+      </Grid >
     </>
   );
 }

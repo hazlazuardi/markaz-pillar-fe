@@ -185,7 +185,7 @@ export default function FilterComponent(props) {
   }, []);
 
   const accordionFilter = FilterRadioObject.map((element) => (
-    <Accordion>
+    <Accordion key={element.id}>
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"
@@ -207,10 +207,10 @@ export default function FilterComponent(props) {
               label={element.labels[1].label}
             />
             {variant === "kegiatan" | variant === "volunteer" ? (<FormControlLabel
-                control={<Radio />}
-                value={element.labels[2].value}
-                label={element.labels[2].label}
-              />) : (null)}
+              control={<Radio />}
+              value={element.labels[2].value}
+              label={element.labels[2].label}
+            />) : (null)}
           </RadioGroup>
         </FormControl>
       </AccordionDetails>
@@ -219,22 +219,17 @@ export default function FilterComponent(props) {
 
   return (
     <>
-      <Button
-        variant="text"
+      <Chip
+        data-testid="filterChipButton-at-admin-or-user-template"
+        label="Filter"
+        icon={<FilterList />}
+        onClick={toggleDrawer(true)}
         ref={anchorRef}
         id="composition-button"
         aria-controls={open ? "composition-menu" : undefined}
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
-        onClick={toggleDrawer(true)}
-      >
-        <Chip
-          data-testid="filterChipButton-at-admin-or-user-template"
-          label="Filter"
-          icon={<FilterList />}
-        />
-      </Button>
-
+      />
       {
         // desktop view
         size == "medium" ? (
