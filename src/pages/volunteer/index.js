@@ -5,9 +5,10 @@ import EmailIcon from "@mui/icons-material/Email";
 import { Grid, Button, Stack, Typography, useMediaQuery } from "@mui/material";
 import Link from "next/link";
 import GridView from "../../component/templates/admin/GridView";
+import LandingGridView from "../../component/templates/LandingGridView";
 import { axiosMain } from "../../axiosInstances";
 import useSWR from "swr";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -49,6 +50,7 @@ const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 export default function Home() {
   const classes = useStyles();
   const theme = useTheme();
+  const [page, setPage] = useState(1);
 
   const { data: randomProgram, error: error1 } = useSWR(
     `/volunteer/random
@@ -57,7 +59,7 @@ export default function Home() {
   );
 
   const { data: responseProgram, error: error2 } = useSWR(
-    `/volunteer?n=4
+    `/volunteer?n=4&page=${page - 1}
 `,
     fetcher
   );
@@ -76,6 +78,9 @@ export default function Home() {
       </>
     );
   };
+
+  const matches = useMediaQuery("(max-width:600px)");
+  const size = matches ? "small" : "medium";
 
   if (error2 && error1) {
     return "an error has occured.";
@@ -106,7 +111,7 @@ export default function Home() {
                 <Grid item xs={12} sm={6} md={6} className={classes.content}>
                   <Typography>
                     <b className={classes.sub}>
-                      Volunteer <br />
+                      Relawan <br />
                       <br />
                     </b>
                   </Typography>
@@ -154,7 +159,12 @@ export default function Home() {
             </div>
           </div>
           <Grid container mt={9}>
-            <GridView data={responseProgram} />
+            <LandingGridView
+              data={responseProgram}
+              size={size}
+              page={page}
+              setPage={setPage}
+            />
           </Grid>
         </>
       )}
