@@ -4,7 +4,7 @@ import { axiosMain } from '../../../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../../component/modules/ArrowBack";
-import ProgressDonasiFooter from "../../../../component/modules/ProgressDonasiFooter"
+import ProgresDonasiFooter from "../../../../component/modules/ProgresDonasiFooter"
 import { markazCategory } from "../../../../context/AppReducer";
 import { Button, Link, Stack } from "@mui/material";
 import Add from "@mui/icons-material/Add";
@@ -25,7 +25,7 @@ export default function AdminDetailSantri(props) {
   }
 
   const [convertedData, setConvertedData] = useState()
-  const [hrefUpdateProgressDonasi, setHrefUpdateProgressDonasi] = useState()
+  const [hrefUpdateProgresDonasi, setHrefUpdateProgresDonasi] = useState()
   useEffect(() => {
     if (!!responseDetailAdminSantri) {
       const dataResult = responseDetailAdminSantri.result
@@ -61,7 +61,7 @@ export default function AdminDetailSantri(props) {
           progress: dataResult.progress
         }
       })
-      setHrefUpdateProgressDonasi(`/admin/santri/${santri_id}/donasi/${dataResult.donationId}/progres/create`)
+      setHrefUpdateProgresDonasi(`/admin/santri/${santri_id}/donasi/${dataResult.donationId}/progres/create`)
     } else {
       mutate()
     }
@@ -75,7 +75,7 @@ export default function AdminDetailSantri(props) {
     }, {
       name: "Edit Progress Donasi",
       icon: <DonutLarge />,
-      onClick: hrefUpdateProgressDonasi
+      onClick: hrefUpdateProgresDonasi
     },
   ]
 
@@ -85,7 +85,7 @@ export default function AdminDetailSantri(props) {
     <Stack spacing={4}>
       <ArrowBack href='/admin/santri' />
       <DetailView isAdmin variant='santri' data={convertedData} speedDialActions={adminSantriDetailActions} hrefDonasi={`/admin/santri/${santri_id}/donasi`} />
-      <ProgressDonasiFooter isAdmin variant='santri' data={convertedData} apiCall={deleteProgress} mutate={mutate} />
+      <ProgresDonasiFooter isAdmin variant='santri' data={convertedData} apiCall={deleteProgress} mutate={mutate} />
     </Stack>
   );
 }

@@ -8,7 +8,7 @@ import AdminCreateOrEditProgres from "../../../../../../../component/templates/a
 import ArrowBack from "../../../../../../../component/modules/ArrowBack";
 
 
-function AdminCreateMarkazProgressDonasi() {
+function AdminCreateMarkazProgresDonasi() {
     const router = useRouter();
     const { dispatch } = useAppContext();
     const { markaz_id, donasi_id } = router.query
@@ -106,4 +106,4 @@ function AdminCreateMarkazProgressDonasi() {
     );
 }
 
-export default AdminCreateMarkazProgressDonasi;
+export default AdminCreateMarkazProgresDonasi;

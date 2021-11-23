@@ -19,12 +19,8 @@ export default function TestimoniKegiatanFooter(props) {
     const handleDelete = id => {
         apiCall(id)
             .then(res => {
-                console.log("Deleted")
                 mutate()
             })
-            .catch(e =>
-                console.log("Error Delete")
-            )
     }
 
     const isXXS = useMediaQuery("(max-width:400px)");

@@ -4,7 +4,7 @@ import { axiosMain } from '../../../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../../component/modules/ArrowBack";
-import ProgressDonasiFooter from "../../../../component/modules/ProgressDonasiFooter"
+import ProgresDonasiFooter from "../../../../component/modules/ProgresDonasiFooter"
 import { markazCategory } from "../../../../context/AppReducer";
 import { Stack } from "@mui/material";
 import Add from "@mui/icons-material/Add";
@@ -25,7 +25,7 @@ export default function AdminMarkazDetail(props) {
   };
 
   const [convertedData, setConvertedData] = useState()
-  const [hrefUpdateProgressDonasi, setHrefUpdateProgressDonasi] = useState("")
+  const [hrefUpdateProgresDonasi, setHrefUpdateProgresDonasi] = useState("")
   useEffect(() => {
     if (!!responseDetailAdminMarkaz) {
       const dataResult = responseDetailAdminMarkaz.result;
@@ -59,11 +59,11 @@ export default function AdminMarkazDetail(props) {
           progress: dataResult.progress
         }
       })
-      setHrefUpdateProgressDonasi(`/admin/markaz/${markaz_id}/donasi/${dataResult.donationId}/progres/create`)
+      setHrefUpdateProgresDonasi(`/admin/markaz/${markaz_id}/donasi/${dataResult.donationId}/progres/create`)
     } else {
       mutate();
     }
-    console.log("gada")
+    
   }, [markaz_id, mutate, responseDetailAdminMarkaz])
 
   const adminMarkazDetailActions = [
@@ -75,7 +75,7 @@ export default function AdminMarkazDetail(props) {
     {
       name: "Update Progress Donasi",
       icon: <Add />,
-      onClick: hrefUpdateProgressDonasi
+      onClick: hrefUpdateProgresDonasi
     },
   ];
 
@@ -84,8 +84,8 @@ export default function AdminMarkazDetail(props) {
   return (
     <>
       <ArrowBack href='/admin/markaz' />
-      <DetailView isAdmin variant='markaz' data={convertedData} speedDialActions={adminMarkazDetailActions} hrefDonasi={`/admin/markaz/${markaz_id}/donasi`} />
-      <ProgressDonasiFooter isAdmin data={convertedData} apiCall={deleteProgress} mutate={mutate} />
+      <DetailView isAdmin variant='markaz' data={convertedData} speedDialActions={adminMarkazDetailActions} hrefDonasi={`/admin/markaz/${markaz_id}/donasi`} disableDonasi={!!convertedData && !convertedData.result.nominal} />
+      <ProgresDonasiFooter isAdmin variant='markaz' data={convertedData} apiCall={deleteProgress} mutate={mutate} />
     </>
   );
 }

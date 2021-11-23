@@ -9,7 +9,7 @@ import useSWR from "swr";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 
-function AdminEditMarkazProgressDonasi(props) {
+function AdminEditMarkazProgresDonasi(props) {
     const router = useRouter();
     const { donasi_id, progres_id } = router.query
     const {
@@ -112,4 +112,4 @@ function AdminEditMarkazProgressDonasi(props) {
     );
 }
 
-export default AdminEditMarkazProgressDonasi;
+export default AdminEditMarkazProgresDonasi;

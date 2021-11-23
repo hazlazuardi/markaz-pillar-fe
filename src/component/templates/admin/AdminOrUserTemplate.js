@@ -109,7 +109,7 @@ function AdminOrUserTemplate(props) {
     debounce((query) => {
       if (!query) return setSearchTerm("");
       setPage(1);
-      setSearchTerm(query);
+      setSearchTerm(query.toString());
     }, 500),
     []
   );
@@ -336,8 +336,10 @@ function AdminOrUserTemplate(props) {
 AdminOrUserTemplate.propTypes = {
   data: PropTypes.any,
   variant: PropTypes.string,
-  GridView: PropTypes.elementType.isRequired,
-  TableView: PropTypes.elementType,
+   // A React element (ie. <MyComponent />).
+  GridView: PropTypes.element.isRequired,
+  TableView: PropTypes.element,
+  
   searchTerm: PropTypes.string.isRequired,
   setSearchTerm: PropTypes.func.isRequired,
   entries: PropTypes.number.isRequired,

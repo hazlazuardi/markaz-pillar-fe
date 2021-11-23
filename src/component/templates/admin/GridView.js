@@ -11,7 +11,7 @@ export default function GridView(props) {
   // array of objects
   const fullResponseResult = data.result;
 
-  console.log(fullResponseResult)
+
 
   //   return (
   //     <Grid
@@ -31,7 +31,7 @@ export default function GridView(props) {
   return (
     <Container
       disableGutters
-      maxWidth={1200}
+      maxWidth='lg'
       sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
     >
       {!!data && (

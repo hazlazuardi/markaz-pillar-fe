@@ -4,7 +4,7 @@ import { axiosMain } from '../../../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../../component/modules/ArrowBack";
-import ProgressDonasiFooter from "../../../../component/modules/ProgressDonasiFooter"
+import ProgresDonasiFooter from "../../../../component/modules/ProgresDonasiFooter"
 import { markazCategory } from "../../../../context/AppReducer";
 import { Button, Stack } from "@mui/material";
 import AppContext from '../../../../context/AppContext'
@@ -96,13 +96,13 @@ export default function DetailKegiatan(props) {
         },
     ]
 
-    console.log(convertedData)
+    
     if (error) return "An error has occurred.";
     if (!responseDetailKegiatan) return "Loading...";
     return (
         <>
             <ArrowBack href='/admin/kegiatan' />
-            <DetailView isAdmin disableDonasi CTA={<DaftarKegiatanCTA />} variant='markaz' data={convertedData} hrefDonasi={`/markaz/donasi/${kegiatan_id}`} speedDialActions={AdminDetailKegiatanActions} />
+            <DetailView isAdmin disableDonasi CTA={<DaftarKegiatanCTA />} variant='markaz' data={convertedData} hrefDonasi={`/markaz/${kegiatan_id}/donasi`} speedDialActions={AdminDetailKegiatanActions} />
             <TestimoniKegiatanFooter isAdmin data={convertedData} mutate={mutate} apiCall={deleteTestimoni} />
         </>
     );

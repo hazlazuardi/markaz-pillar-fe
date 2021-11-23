@@ -9,7 +9,7 @@ import ArrowBack from "../../../../../../../../component/modules/ArrowBack";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 
-function AdminEditSantriProgressDonasi(props) {
+function AdminEditSantriProgresDonasi(props) {
     const router = useRouter();
     const { santri_id, donasi_id, progres_id } = router.query
     const {
@@ -117,4 +117,4 @@ function AdminEditSantriProgressDonasi(props) {
     );
 }
 
-export default AdminEditSantriProgressDonasi;
+export default AdminEditSantriProgresDonasi;

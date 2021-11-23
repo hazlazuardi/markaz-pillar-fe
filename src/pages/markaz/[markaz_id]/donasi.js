@@ -14,7 +14,7 @@ const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function DonasiMarkaz() {
     const { dispatch } = useAppContext();
     const router = useRouter()
-    const { id } = router.query
+    const { markaz_id } = router.query
     const [image, setImage] = useState({});
     const [details, setDetails] = useState({
         amount: 0,
@@ -22,7 +22,7 @@ export default function DonasiMarkaz() {
     });
     const [open, setOpen] = useState(false);
 
-    const { data: responseMarkaz, error } = useSWR(router.isReady ? `/markaz?id=${id}` : null, fetcher)
+    const { data: responseMarkaz, error } = useSWR(router.isReady ? `/markaz?id=${markaz_id}` : null, fetcher)
 
     const handleError = () => {
         setOpen(true);
@@ -59,7 +59,7 @@ export default function DonasiMarkaz() {
             .post("/transaction", data)
             .then(response => {
                 setLoading(false)
-
+                console.log(detailBlob)
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
@@ -111,15 +111,15 @@ export default function DonasiMarkaz() {
     useEffect(() => {
         setDetails((prev) => ({
             ...prev,
-            markaz: router.query.id
+            markaz: markaz_id
         }))
-    }, [router])
+    }, [markaz_id])
 
     if (responseMarkaz != null) {
         const { name } = responseMarkaz.result
         return (
             <>
-                <ArrowBack href={`/markaz/donasi`} />
+                <ArrowBack href={`/markaz/${markaz_id}`} />
                 <DonationForm
                     markazOrSantri={"markaz"}
                     recipient={name}
@@ -134,6 +134,7 @@ export default function DonasiMarkaz() {
                     handleSubmit={handleSubmit}
                     setDetails={setDetails}
                     router={router}
+                    loading={loading}
                 />
             </>
         )

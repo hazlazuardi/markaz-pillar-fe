@@ -65,7 +65,7 @@ export default function GoogleRegister() {
             .post(`oauth/create?state=${cookies.get("state")}`, data)
             .then(response => {
                 setLoading(false)
-                console.log(response)
+                
                 const decodedJWT = jwtDecode(response.data.result.accessToken)
                 dispatch({
                     type: dispatchTypes.REGISTRATION_SUCCEED,

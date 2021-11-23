@@ -17,7 +17,7 @@ import Image from "next/image";
 import LinesEllipsis from "react-lines-ellipsis";
 import Link from "next/link";
 
-export default function ProgressDonasiFooter(props) {
+export default function ProgresDonasiFooter(props) {
   const { isAdmin, variant, data, apiCall, mutate } = props
   const result = !!data ? data.result.progress : null
 

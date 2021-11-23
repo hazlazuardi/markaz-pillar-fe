@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
-import DetailView from '../../component/templates/DetailView'
-import { axiosMain } from '../../axiosInstances';
+import DetailView from '../../../component/templates/DetailView'
+import { axiosMain } from '../../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
-import ArrowBack from "../../component/modules/ArrowBack";
-import ProgressDonasiFooter from "../../component/modules/ProgressDonasiFooter"
-import { markazCategory } from "../../context/AppReducer";
+import ArrowBack from "../../../component/modules/ArrowBack";
+import ProgresDonasiFooter from "../../../component/modules/ProgresDonasiFooter"
+import { markazCategory } from "../../../context/AppReducer";
 import { Stack } from "@mui/material";
-import AppContext from '../../context/AppContext'
+import AppContext from '../../../context/AppContext'
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function MarkazDetail(props) {
   const { detailMarkaz } = props
   const router = useRouter();
-  const { id } = router.query
-  const { data: responseDetailMarkaz, error } = useSWR(router.isReady ? `/markaz?id=${id}` : null,
+  const { markaz_id } = router.query
+  const { data: responseDetailMarkaz, error } = useSWR(router.isReady ? `/markaz?id=${markaz_id}` : null,
     fetcher,
     { fallbackData: detailMarkaz, refreshInterval: 10000 }
   )
@@ -69,14 +69,16 @@ export default function MarkazDetail(props) {
   return (
     <>
       <ArrowBack href='/markaz' />
-      <DetailView variant='markaz' data={convertedData} hrefDonasi={`/markaz/donasi/${id}`} />
-      <ProgressDonasiFooter data={convertedData} />
+      <DetailView variant='markaz' data={convertedData} hrefDonasi={`/markaz/${markaz_id}/donasi`} />
+      {convertedData.result.nominal && (
+        <ProgresDonasiFooter data={convertedData} />
+      )}
     </>
   );
 }
 
 export async function getStaticProps(context) {
-  const id = context.params.id;
+  const id = context.params.markaz_id;
   const staticDetailMarkazResponse = await axiosMain.get(`/markaz?id=${id}`)
   const staticDetailMarkaz = staticDetailMarkazResponse.data
   return {
@@ -92,7 +94,7 @@ export async function getStaticPaths() {
   const staticAllMarkaz = await staticAllMarkazResponse.data
 
   const paths = await staticAllMarkaz.result.map((markaz) => ({
-    params: { id: markaz.id.toString() },
+    params: { markaz_id: markaz.id.toString() },
   }));
 
   return {

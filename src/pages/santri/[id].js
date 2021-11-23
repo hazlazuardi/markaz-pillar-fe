@@ -4,7 +4,7 @@ import { axiosMain } from '../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../component/modules/ArrowBack";
-import ProgressDonasiFooter from "../../component/modules/ProgressDonasiFooter"
+import ProgresDonasiFooter from "../../component/modules/ProgresDonasiFooter"
 import { markazCategory } from "../../context/AppReducer";
 import { Stack } from "@mui/material";
 
@@ -77,7 +77,7 @@ export default function DetailSantri(props) {
     <>
       <ArrowBack href='/santri' />
       <DetailView variant='santri' data={convertedData} />
-      <ProgressDonasiFooter data={convertedData} />
+      <ProgresDonasiFooter data={convertedData} />
     </>
   );
 }

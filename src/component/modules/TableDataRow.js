@@ -48,7 +48,7 @@ function TableDataRow(props) {
   } = props;
   const router = useRouter();
 
-  console.log(uniqueid)
+  
 
   function TableButtons() {
     if (

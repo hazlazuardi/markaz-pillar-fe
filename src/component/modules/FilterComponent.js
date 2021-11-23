@@ -184,8 +184,8 @@ export default function FilterComponent(props) {
     );
   }, []);
 
-  const accordionFilter = FilterRadioObject.map((element) => (
-    <Accordion>
+  const accordionFilter = FilterRadioObject.map((element, index) => (
+    <Accordion key={index} >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"
@@ -207,10 +207,10 @@ export default function FilterComponent(props) {
               label={element.labels[1].label}
             />
             {variant === "kegiatan" | variant === "volunteer" ? (<FormControlLabel
-                control={<Radio />}
-                value={element.labels[2].value}
-                label={element.labels[2].label}
-              />) : (null)}
+              control={<Radio />}
+              value={element.labels[2].value}
+              label={element.labels[2].label}
+            />) : (null)}
           </RadioGroup>
         </FormControl>
       </AccordionDetails>

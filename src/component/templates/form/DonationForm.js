@@ -23,18 +23,19 @@ const steps = [
     'Informasi Donasi',
     'Metode Pembayaran',
     'Konfirmasi Pembayaran',
-    ];
+];
 
 export default function DonationForm(props) {
 
-    const {recipient,  
-        setImage, 
+    const { recipient,
+        setImage,
         image,
-        handleChangeDetails, 
+        handleChangeDetails,
         details,
         handleClose,
         handleError,
-        handleSubmit
+        handleSubmit,
+        loading
     } = props
 
     const [step, setStep] = useState(0)
@@ -43,164 +44,164 @@ export default function DonationForm(props) {
     const smallScreen = useMediaQuery(theme.breakpoints.up("sm"));
 
     return (
-    <Grid container>
-        <Grid item xs={12}>
-            <Container maxWidth="lg" className={styles.container}>
-                <Stepper activeStep={step} alternativeLabel>
-                    {steps.map((label) => (
-                        <Step key={label}>
-                        <StepLabel>{label}</StepLabel>
-                        </Step>
-                    ))}
-                </Stepper>
-            </Container>
-        </Grid>
-        <Grid item xs={12} sx={{ backgroundColor: "lightgray" }}>
-            <Container maxWidth="lg" className={styles.container}>
-                <Box sx={{textAlign:"center", display: step == 0 ? "block" : "none"}}>
-                    <Typography variant="h3" sx={{m : smallScreen ? 4 : 0, fontWeight:"bold"}}>
-                        Berapa Jumlah Uang Yang Ingin Anda Donasikan Kepada {recipient.length > 18 ? recipient.substring(0,18) + "..." : recipient} ?
-                    </Typography>
-                    <FormControl sx={{ m: 1}} variant="standard">
-                        <Input
-                            name="amount"
-                            required
-                            id="standard-adornment-amount"
-                            value={details.amount}
-                            onChange={(e) => { 
-                                if(isNaN(details.amount)) {
-                                    handleError()
-                                } else {
-                                    handleClose()
-                                }
-                                handleChangeDetails(e)
-                            }}
-                            startAdornment={<InputAdornment position="start">Rp.</InputAdornment>}
-                            error={(isNaN(details.amount))}
-                        />
-                    </FormControl>
-                    <Button variant="contained" onClick={() => {
-                            if(!isNaN(details.amount) && details.amount != 0) {
+        <Grid container>
+            <Grid item xs={12}>
+                <Container maxWidth="lg" className={styles.container}>
+                    <Stepper activeStep={step} alternativeLabel>
+                        {steps.map((label) => (
+                            <Step key={label}>
+                                <StepLabel>{label}</StepLabel>
+                            </Step>
+                        ))}
+                    </Stepper>
+                </Container>
+            </Grid>
+            <Grid item xs={12} sx={{ backgroundColor: "lightgray" }}>
+                <Container maxWidth="lg" className={styles.container}>
+                    <Box sx={{ textAlign: "center", display: step == 0 ? "block" : "none" }}>
+                        <Typography variant="h3" sx={{ m: smallScreen ? 4 : 0, fontWeight: "bold" }}>
+                            Berapa Jumlah Uang Yang Ingin Anda Donasikan Kepada {recipient.length > 18 ? recipient.substring(0, 18) + "..." : recipient} ?
+                        </Typography>
+                        <FormControl sx={{ m: 1 }} variant="standard">
+                            <Input
+                                name="amount"
+                                required
+                                id="standard-adornment-amount"
+                                value={details.amount}
+                                onChange={(e) => {
+                                    if (isNaN(details.amount)) {
+                                        handleError()
+                                    } else {
+                                        handleClose()
+                                    }
+                                    handleChangeDetails(e)
+                                }}
+                                startAdornment={<InputAdornment position="start">Rp.</InputAdornment>}
+                                error={(isNaN(details.amount))}
+                            />
+                        </FormControl>
+                        <Button variant="contained" onClick={() => {
+                            if (!isNaN(details.amount) && details.amount != 0) {
                                 setStep(1)
                             }
                         }}>Selanjutnya</Button>
-                </Box>
-                <Box sx={{textAlign:"center", display: step == 1 ? "flex" : "none", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>
-                    <Typography variant={smallScreen ? "h3" : "h4"} sx={{m : smallScreen ? 4 : 2, fontWeight:"bold"}}>
-                        Pilih Metode Pembayaran
-                    </Typography>
-                    <Box sx={{width : smallScreen ? "50%" : "100%"}}>
-                    <Accordion>
-                        <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
-                        >
-                        <Typography>BNI</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                        <Typography>
-                            Pembayaran dilakukan ke rekening a.n. MARKAZ PILAR
-                        </Typography>
-                        <Box sx={{backgroundColor : "lightgrey", display: "flex", justifyContent:"space-between", p:2, m:1}}>
-                            <Typography sx={{fontWeight:"bold"}}>
-                                123456889
-                            </Typography>
-                            <Typography>
-                                Salin
-                            </Typography>
-                        </Box>
-                        <Typography>
-                            Lakukan pembayaran sebelum ...
-                        </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                    <Accordion>
-                        <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel2a-content"
-                        id="panel2a-header"
-                        >
-                        <Typography>BCA</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                        <Typography>
-                            Pembayaran dilakukan ke rekening a.n. MARKAZ PILAR
-                        </Typography>
-                        <Box sx={{backgroundColor : "lightgrey", display: "flex", justifyContent:"space-between", p:2, m:1}}>
-                            <Typography sx={{fontWeight:"bold"}}>
-                                123456889
-                            </Typography>
-                            <Typography>
-                                Salin
-                            </Typography>
-                        </Box>
-                        <Typography>
-                            Lakukan pembayaran sebelum ...
-                        </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                    <Accordion>
-                        <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel2a-content"
-                        id="panel2a-header"
-                        >
-                        <Typography>Mandiri</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                        <Typography>
-                            Pembayaran dilakukan ke rekening a.n. MARKAZ PILAR
-                        </Typography>
-                        <Box sx={{backgroundColor : "lightgrey", display: "flex", justifyContent:"space-between", p:2, m:1}}>
-                            <Typography sx={{fontWeight:"bold"}}>
-                                123456889
-                            </Typography>
-                            <Typography>
-                                Salin
-                            </Typography>
-                        </Box>
-                        <Typography>
-                            Lakukan pembayaran sebelum ...
-                        </Typography>
-                        </AccordionDetails>
-                    </Accordion>
                     </Box>
-                    <Box>
-                        <Button sx={{m : 1}} variant="outlined" onClick={() => {
-                            setStep(0)
+                    <Box sx={{ textAlign: "center", display: step == 1 ? "flex" : "none", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+                        <Typography variant={smallScreen ? "h3" : "h4"} sx={{ m: smallScreen ? 4 : 2, fontWeight: "bold" }}>
+                            Pilih Metode Pembayaran
+                        </Typography>
+                        <Box sx={{ width: smallScreen ? "50%" : "100%" }}>
+                            <Accordion>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                >
+                                    <Typography>BNI</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <Typography>
+                                        Pembayaran dilakukan ke rekening a.n. MARKAZ PILAR
+                                    </Typography>
+                                    <Box sx={{ backgroundColor: "lightgrey", display: "flex", justifyContent: "space-between", p: 2, m: 1 }}>
+                                        <Typography sx={{ fontWeight: "bold" }}>
+                                            123456889
+                                        </Typography>
+                                        <Typography>
+                                            Salin
+                                        </Typography>
+                                    </Box>
+                                    <Typography>
+                                        Lakukan pembayaran sebelum ...
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
+                            <Accordion>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel2a-content"
+                                    id="panel2a-header"
+                                >
+                                    <Typography>BCA</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <Typography>
+                                        Pembayaran dilakukan ke rekening a.n. MARKAZ PILAR
+                                    </Typography>
+                                    <Box sx={{ backgroundColor: "lightgrey", display: "flex", justifyContent: "space-between", p: 2, m: 1 }}>
+                                        <Typography sx={{ fontWeight: "bold" }}>
+                                            123456889
+                                        </Typography>
+                                        <Typography>
+                                            Salin
+                                        </Typography>
+                                    </Box>
+                                    <Typography>
+                                        Lakukan pembayaran sebelum ...
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
+                            <Accordion>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel2a-content"
+                                    id="panel2a-header"
+                                >
+                                    <Typography>Mandiri</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <Typography>
+                                        Pembayaran dilakukan ke rekening a.n. MARKAZ PILAR
+                                    </Typography>
+                                    <Box sx={{ backgroundColor: "lightgrey", display: "flex", justifyContent: "space-between", p: 2, m: 1 }}>
+                                        <Typography sx={{ fontWeight: "bold" }}>
+                                            123456889
+                                        </Typography>
+                                        <Typography>
+                                            Salin
+                                        </Typography>
+                                    </Box>
+                                    <Typography>
+                                        Lakukan pembayaran sebelum ...
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
+                        </Box>
+                        <Box>
+                            <Button sx={{ m: 1 }} variant="outlined" onClick={() => {
+                                setStep(0)
                             }}>Kembali</Button>
-                        <Button sx={{m : 1}} variant="contained" onClick={() => {
-                            setStep(2)
+                            <Button sx={{ m: 1 }} variant="contained" onClick={() => {
+                                setStep(2)
                             }}>Selanjutnya</Button>
-                    </Box>
-                </Box>
-                <Box sx={{textAlign:"center", display: step == 2 ? "block" : "none"}}>
-                    <Box sx={{display: "flex", alignItems:"center", justifyContent:"center", flexDirection:"column", m:1}}>
-                        <Typography variant={smallScreen ? "h3" : "h4"} sx={{m : smallScreen ? 4 : 2, fontWeight:"bold"}}>
-                            Upload Bukti Pembayaran
-                        </Typography>
-                        <Box sx={{width: smallScreen ? 600 : "inherit"}}>
-                            <Dropzone
-                            name="paymentproof"
-                            setFile={setImage}
-                            />
-                            {image.name &&
-                                <Grid item xs={12}>
-                                    <Typography id='dropzone-uploaded' variant="body1" color="initial">Uploaded: {image.name}</Typography>
-                                </Grid>
-                            }
                         </Box>
                     </Box>
-                    <Box>
-                        <Button sx={{m : 1}} variant="outlined" onClick={() => {
-                            setStep(1)
+                    <Box sx={{ textAlign: "center", display: step == 2 ? "block" : "none" }}>
+                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", m: 1 }}>
+                            <Typography variant={smallScreen ? "h3" : "h4"} sx={{ m: smallScreen ? 4 : 2, fontWeight: "bold" }}>
+                                Upload Bukti Pembayaran
+                            </Typography>
+                            <Box sx={{ width: smallScreen ? 600 : "inherit" }}>
+                                <Dropzone
+                                    name="paymentproof"
+                                    setFile={setImage}
+                                />
+                                {image.name &&
+                                    <Grid item xs={12}>
+                                        <Typography id='dropzone-uploaded' variant="body1" color="initial">Uploaded: {image.name}</Typography>
+                                    </Grid>
+                                }
+                            </Box>
+                        </Box>
+                        <Box>
+                            <Button sx={{ m: 1 }} variant="outlined" onClick={() => {
+                                setStep(1)
                             }}>Kembali</Button>
-                        <Button sx={{m : 1}} variant="contained" onClick={handleSubmit}>selesai</Button>
+                            <Button disabled={loading} sx={{ m: 1 }} variant="contained" onClick={handleSubmit}>selesai</Button>
+                        </Box>
                     </Box>
-                </Box>
-            </Container>
+                </Container>
+            </Grid>
         </Grid>
-    </Grid>
     )
 }

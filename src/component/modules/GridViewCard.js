@@ -16,25 +16,36 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useAppContext } from "../../context/AppContext";
+import { dispatchTypes, roleType } from "../../context/AppReducer";
 
 export default function GridViewCard(props) {
   const { fullResponseResult, image, title, description, handleDelete, CTAs } = props;
-  const { state } = useAppContext();
-  const { currentUser } = state;
+  const { state, dispatch } = useAppContext();
+  const { currentUser, currentUserRole } = state;
+
   const router = useRouter();
   const path = router.pathname;
-  const isAdmin = path.includes("admin");
+  const isAdmin = currentUserRole === roleType.ROLE_SUPERUSER
+
   const isXXS = useMediaQuery("(max-width:400px)");
   const IMAGE_SIZE = 252;
 
+  const handleDonasiCTA = () => {
+    if (!!currentUser) {
+      router.push(`${path}/${fullResponseResult.id}/donasi`)
+    } else {
+      dispatch({ type: dispatchTypes.LOGIN_NEEDED })
+      router.push('/login')
+    }
+  }
 
-  const CTAGroup = (withAdmin) => {
+  const CTAGroup = () => {
     if (CTAs) {
       return (
         <CTAs />
       )
     }
-    if (withAdmin) {
+    if (isAdmin) {
       return (
         <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
           <Link href={`${path}/${fullResponseResult.id}/edit`} passHref>
@@ -53,50 +64,32 @@ export default function GridViewCard(props) {
         </Stack>
       )
     } else {
-      if (!!currentUser) {
-        return (
-          <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
-            <Link href={`${path}/${fullResponseResult.id}/donasi`} passHref>
-              <Button
-                data-testid="donasi-button-at-gridview-card"
-                variant="contained"
-                color="primary"
-                fullWidth
-                size="small"
-              >
-                Donasi
-              </Button>
-            </Link>
-          </Stack>
-        )
-      } else {
-        return (
-          <>
-            <Link href={`login`} passHref>
-              <Button
-                data-testid="donasi-button-at-gridview-card"
-                variant="contained"
-                color="primary"
-                fullWidth
-                size="small"
-              >
-                Donasi
-              </Button>
-            </Link>
-            <Link href={`${path}/${fullResponseResult.id}`} passHref>
-              <Button
-                data-testid="lihat-detail-button-at-gridview-card"
-                variant="outlined"
-                color="primary"
-                fullWidth
-                size="small"
-              >
-                Lihat Detail
-              </Button>
-            </Link>
-          </>
-        )
-      }
+      return (
+        <Stack direction="row" width="100%" spacing={2} >
+          {!!fullResponseResult.hasDonation && (
+            <Button
+              data-testid="donasi-button-at-gridview-card"
+              variant="contained"
+              color="primary"
+              fullWidth
+              size="small"
+              onClick={handleDonasiCTA}
+            >
+              Donasi
+            </Button>)}
+          <Link href={`${path}/${fullResponseResult.id}`} passHref>
+            <Button
+              data-testid="lihat-detail-button-at-gridview-card"
+              variant="outlined"
+              color="primary"
+              fullWidth
+              size="small"
+            >
+              Lihat Detail
+            </Button>
+          </Link>
+        </Stack>
+      )
     }
   }
 
@@ -129,6 +122,7 @@ export default function GridViewCard(props) {
                 alt="Backdrop"
                 width={isXXS ? 16 : undefined}
                 height={isXXS ? 16 : undefined}
+                position='relative'
               />
             </Box>
           </CardMedia>
@@ -148,7 +142,7 @@ export default function GridViewCard(props) {
         </CardActionArea>
         <CardActions>
           <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
-            {CTAGroup(isAdmin)}
+            <CTAGroup />
           </Stack>
         </CardActions>
       </Card>

@@ -34,7 +34,7 @@ export default function DonasiMarkaz(props) {
     />
   );
 
-  console.log(!!responseDonasiMarkaz ? responseDonasiMarkaz.result : null)
+  
 
   if (error) return "An error has occurred.";
   return (

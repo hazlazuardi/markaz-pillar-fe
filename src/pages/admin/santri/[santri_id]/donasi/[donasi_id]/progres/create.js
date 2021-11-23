@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import AdminCreateOrEditProgres from "../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
 import ArrowBack from '../../../../../../../component/modules/ArrowBack'
 
-function AdminCreateSantriProgressDonasi() {
+function AdminCreateSantriProgresDonasi() {
     const router = useRouter();
     const { dispatch } = useAppContext();
     const { santri_id, donasi_id } = router.query
@@ -104,4 +104,4 @@ function AdminCreateSantriProgressDonasi() {
     );
 }
 
-export default AdminCreateSantriProgressDonasi;
+export default AdminCreateSantriProgresDonasi;

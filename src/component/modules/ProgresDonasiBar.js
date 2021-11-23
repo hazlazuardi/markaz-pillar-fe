@@ -32,7 +32,7 @@ function LinearProgressWithLabel(props) {
     );
 }
 
-export default function DonationProgressBar(props) {
+export default function ProgresDonasiBar(props) {
     const { isAdmin, donated, nominal, hrefDonasi } = props
     const { state, dispatch } = useAppContext()
     const { currentUser, stateLoaded } = state;

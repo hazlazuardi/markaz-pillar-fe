@@ -15,7 +15,8 @@ import Image from "next/image";
 import Add from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
 import { createStyles, makeStyles } from "@mui/styles";
-import DonationProgressBar from "../modules/DonationProgressBar";
+import ProgresDonasiBar from "../modules/ProgresDonasiBar";
+import { useAppContext } from "../../context/AppContext";
 
 const useStyles = makeStyles((theme) => ({
   staticTooltipLabel: {
@@ -26,11 +27,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DetailView(props) {
-  const { isAdmin, data, variant, speedDialActions, hrefDonasi, disableDonasi } = props
+  const { isAdmin, data, variant, speedDialActions, hrefDonasi } = props
+  const { state } = useAppContext()
+  const { currentUserRole } = state;
 
   const result = !!data ? data.result : null;
   const router = useRouter();
   const path = router.pathname;
+
+  const disableDonasi = result.nominal === null
 
   const actions = speedDialActions
     ? speedDialActions
@@ -58,6 +63,7 @@ export default function DetailView(props) {
     );
   }
 
+
   return (
     <>
       <Grid
@@ -70,8 +76,8 @@ export default function DetailView(props) {
           <Container disableGutters >
             <Image src={result.image} layout='responsive'
               width={16} height={16} quality={65} sizes={20} alt='Backdrop' />
-            {!!disableDonasi ? null : (
-              <DonationProgressBar {...props} donated={result.donated} nominal={result.nominal} hrefDonasi={hrefDonasi} />
+            {disableDonasi ? null : (
+              <ProgresDonasiBar {...props} donated={result.donated} nominal={result.nominal} hrefDonasi={hrefDonasi} />
             )}
           </Container>
         </Grid>
@@ -81,7 +87,7 @@ export default function DetailView(props) {
             color="primary"
             component="h1"
             gutterBottom
-            sx={{ textTransform: "capitalize", fontWeight: "600" }}
+            sx={{ textTransform: "capitalize", fontWeight: "600", overflowX: 'scroll', overflowY: 'hidden' }}
           >
             {!!data ? result.title : variant + "..."}
           </Typography>
@@ -89,7 +95,7 @@ export default function DetailView(props) {
             <Box display="flex" flexDirection="column" height="100%">
               <Typography
                 variant={isSM ? "h4" : "h2"}
-                component="body"
+                component="body1"
                 gutterBottom
                 mb={4}
                 sx={{ fontWeight: "200" }}
@@ -100,7 +106,7 @@ export default function DetailView(props) {
                 {result.details.map((detail, index) => (
                   <>
                     {!!detail.detail && (
-                      <Grid key={index} item xs={12} sm={6}>
+                      <Grid key={index + detail.subtitle} item xs={12} sm={6}>
                         <Typography
                           color="secondary"
                           variant="h6"
@@ -108,7 +114,7 @@ export default function DetailView(props) {
                         >
                           {detail.subtitle}
                         </Typography>
-                        <Typography variant="h5" component="body">
+                        <Typography variant="h5" component="body1">
                           {detail.detail}
                         </Typography>
                       </Grid>
@@ -133,7 +139,7 @@ export default function DetailView(props) {
             onOpen={handleOpen}
             open={open}
           >
-            {actions.map((action) => (
+            {actions.map((action, index) => (
               <SpeedDialAction
                 key={action.name}
                 icon={action.icon}

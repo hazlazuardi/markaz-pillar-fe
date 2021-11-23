@@ -162,7 +162,7 @@ export const AppReducer = (state, action) => {
                 currentRefreshToken: action.payload.currentRefreshToken,
                 snackbarStatus: true,
                 snackbarSeverity: 'success',
-                snackbarMessage: `Welcome back, ${action.payload.currentUser}`
+                snackbarMessage: `Welcome back, ${action.payload.currentUser.split('@')[0]}`
             }
         }
         case dispatchTypes.LOGIN_FAIL: {

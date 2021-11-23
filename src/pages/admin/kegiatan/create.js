@@ -40,7 +40,7 @@ function AdminCreateVolunteerKegiatan() {
         data.append("thumbnail", thumbnail);
         data.append("detail", kegiatanBlob);
 
-        console.log(kegiatan);
+        
 
         await axiosFormData
             .post("/admin/volunteer", data)
