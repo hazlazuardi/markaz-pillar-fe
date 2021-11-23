@@ -60,7 +60,7 @@ function TableDataRow(props) {
         <>
           <Button
             variant="outlined"
-            onClick={() => router.push(`/admin/${santriormarkaz}/edit/${id}`)}
+            onClick={() => router.push(`/admin/${santriormarkaz}/${id}/edit`)}
           >
             edit
           </Button>
@@ -100,7 +100,7 @@ function TableDataRow(props) {
       return (
         <>
           <Dialog mutate={mutate} isStatus {...props} />
-          <Link href={paymenturl} target="_blank" underline="none">
+          <Link passHref href={paymenturl} target="_blank" underline="none">
             <Button variant="outlined">download</Button>
           </Link>
         </>
