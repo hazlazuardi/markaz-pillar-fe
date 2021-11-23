@@ -59,14 +59,14 @@ describe('Test it is in the correct page', () => {
   it('Test ArrowBack directs to Admin Markaz', () => {
     cy.get(`[data-testid="arrowback-at-modules"]`).should('exist')
     cy.get(`[data-testid="arrowback-at-modules"]`).click()
-    cy.url().should('eq', `http://localhost:3000/admin/markaz/${MARKAZ_ID}`)
+    cy.url().should('include', `${frontendURL}admin/markaz/${MARKAZ_ID}`)
   })
 
   it('Test if admin [progresid] markaz page redirect unauthorized users', () => {
     cy.get('#menuIconButton').should('exist').click()
     cy.get('button').contains('Keluar').should('exist').click()
     cy.visit(`${frontendURL}/admin/markaz/${MARKAZ_ID}/edit`)
-    // cy.url().should('eq', 'http://localhost:3000/')
+    // cy.url().should('include', '${frontendURL}')
   })
 
 

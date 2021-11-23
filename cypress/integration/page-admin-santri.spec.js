@@ -58,7 +58,7 @@ describe('Test it is in the correct page', () => {
       cy.get('#menuIconButton').should('exist').click()
       cy.get('button').contains('Keluar').should('exist').click()
       cy.visit(`${frontendURL}/admin/santri`)
-      cy.url().should('eq', 'http://localhost:3000/')
+      cy.url().should('include', '${frontendURL}')
   })
 
 })
