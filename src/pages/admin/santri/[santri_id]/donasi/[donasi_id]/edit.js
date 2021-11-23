@@ -1,29 +1,29 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../../../context/AppReducer";
+import { useAppContext } from "../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../context/AppReducer";
 import { useRouter } from "next/router";
-import { axiosMain } from "../../../../../../../axiosInstances";
-import AdminCreateOrEditDonasi from "../../../../../../../component/templates/admin/AdminCreateOrEditDonasi";
-import ArrowBack from "../../../../../../../component/modules/ArrowBack";
+import { axiosMain } from "../../../../../../axiosInstances";
+import AdminCreateOrEditDonasi from "../../../../../../component/templates/admin/AdminCreateOrEditDonasi";
+import ArrowBack from "../../../../../../component/modules/ArrowBack";
 import useSWR from "swr";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 
 function AdminSantriDonasiEdit() {
     const router = useRouter();
-    const { id, transid } = router.query
+    const { santri_id, donasi_id } = router.query
     const {
         data: responseDonasi,
         error,
         mutate,
     } = useSWR(
         router.isReady ?
-            `/admin/donation?id=${transid}`: null,
+            `/admin/donation?id=${donasi_id}` : null,
         fetcher,
     );
     const { dispatch } = useAppContext();
     const [data, setData] = useState({
-        name: responseDonasi ? responseDonasi.name : "" ,
+        name: responseDonasi ? responseDonasi.name : "",
         categories: responseDonasi ? responseDonasi.categories : [],
         description: responseDonasi ? responseDonasi.description : "",
         nominal: responseDonasi ? responseDonasi.nominal : "",
@@ -44,7 +44,7 @@ function AdminSantriDonasiEdit() {
         event.preventDefault();
 
         await axiosMain
-            .post(`/admin/donation/santri?edit=${id}`, data)
+            .post(`/admin/donation/santri/edit?id=${donasi_id}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -125,7 +125,7 @@ function AdminSantriDonasiEdit() {
 
     return (
         <>
-            <ArrowBack href={"/admin/santri/donasi/" + id} />
+            <ArrowBack href={`/admin/santri/${santri_id}/donasi`} />
             <AdminCreateOrEditDonasi
                 form={form}
                 handleSubmit={handleSubmit}

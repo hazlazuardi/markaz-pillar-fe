@@ -26,22 +26,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DetailView(props) {
-  const { isAdmin, data, variant, speedDialActions, hrefDonasi } = props;
+  const { isAdmin, data, variant, speedDialActions, hrefDonasi, disableDonasi } = props
 
   const result = !!data ? data.result : null;
   const router = useRouter();
-  const { id } = router.query;
   const path = router.pathname;
 
   const actions = speedDialActions
     ? speedDialActions
     : [
-        {
-          name: "Create Donasi",
-          icon: <Add />,
-          onClick: `${path}/donasi/create`,
-        },
-      ];
+      {
+        name: "Create Donasi",
+        icon: <Add />,
+        onClick: `${path}/donasi/create`,
+      },
+    ];
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -67,23 +66,13 @@ export default function DetailView(props) {
         sx={{ display: "flex", justifyContent: "center", mb: "2em" }}
         direction="row-reverse"
       >
-        <Grid item xs={12} md={6}>
-          <Container disableGutters>
-            <Image
-              src={result.image}
-              layout="responsive"
-              width={16}
-              height={16}
-              quality={65}
-              sizes={20}
-              alt="Backdrop"
-            />
-            <DonationProgressBar
-              {...props}
-              donated={result.donated}
-              nominal={result.nominal}
-              hrefDonasi={hrefDonasi}
-            />
+        <Grid item xs={12} md={6} >
+          <Container disableGutters >
+            <Image src={result.image} layout='responsive'
+              width={16} height={16} quality={65} sizes={20} alt='Backdrop' />
+            {!!disableDonasi ? null : (
+              <DonationProgressBar {...props} donated={result.donated} nominal={result.nominal} hrefDonasi={hrefDonasi} />
+            )}
           </Container>
         </Grid>
         <Grid item xs={12} md={6} width="100%">

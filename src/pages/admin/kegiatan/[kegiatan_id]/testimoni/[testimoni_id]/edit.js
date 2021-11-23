@@ -5,6 +5,7 @@ import { axiosFormData, axiosMain } from "../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
 import AdminCreateOrEditTestimoni from "../../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
 import useSWR from "swr";
+import ArrowBack from "../../../../../../component/modules/ArrowBack";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 
@@ -100,16 +101,19 @@ function AdminEditVolunteerTestimoni() {
     const pathname = router.pathname;
     const [loading, setLoading] = useState(false)
     return (
-        <AdminCreateOrEditTestimoni
-            form={form}
-            handleSubmit={handleSubmit}
-            thumbnail={thumbnail}
-            setThumbnail={setThumbnail}
-            loading={loading}
-            createOrEdit="Edit"
-            handleChangeTestimoni={handleChangeTestimoni}
-            testi={testi}
-        />
+        <>
+            <ArrowBack href={`/admin/kegiatan/${kegiatan_id}`} />
+            <AdminCreateOrEditTestimoni
+                form={form}
+                handleSubmit={handleSubmit}
+                thumbnail={thumbnail}
+                setThumbnail={setThumbnail}
+                loading={loading}
+                createOrEdit="Edit"
+                handleChangeTestimoni={handleChangeTestimoni}
+                testi={testi}
+            />
+        </>
     );
 }
 
