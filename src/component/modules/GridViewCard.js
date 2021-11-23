@@ -4,7 +4,6 @@ import {
   CardActions,
   CardContent,
   CardMedia,
-  Container,
   Stack,
   Typography,
   useMediaQuery,

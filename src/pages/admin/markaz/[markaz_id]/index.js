@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import ArrowBack from "../../../../component/modules/ArrowBack";
 import ProgresDonasiFooter from "../../../../component/modules/ProgresDonasiFooter"
 import { markazCategory } from "../../../../context/AppReducer";
-import { Stack } from "@mui/material";
 import Add from "@mui/icons-material/Add";
 import { DonutLarge } from "@mui/icons-material";
 
@@ -74,7 +73,7 @@ export default function AdminMarkazDetail(props) {
     },
     {
       name: "Update Progress Donasi",
-      icon: <Add />,
+      icon: <DonutLarge />,
       onClick: hrefUpdateProgresDonasi
     },
   ];
@@ -89,29 +88,3 @@ export default function AdminMarkazDetail(props) {
     </>
   );
 }
-
-// export async function getStaticProps(context) {
-//   const id = context.params.markaz_id;
-//   const staticDetailMarkazResponse = await axiosMain.get(`/markaz?id=${markaz_id}`)
-//   const staticDetailMarkaz = staticDetailMarkazResponse.data
-//   return {
-//     props: {
-//       detailAdminMarkaz: staticDetailMarkaz,
-//     },
-//     revalidate: 10
-//   };
-// }
-
-// export async function getStaticPaths() {
-//   const staticAllMarkazResponse = await axiosMain.get(`/markaz/search?n=1000`)
-//   const staticAllMarkaz = await staticAllMarkazResponse.data
-
-//   const paths = await staticAllMarkaz.result.map((markaz) => ({
-//     params: { id: markaz.id.toString() },
-//   }));
-
-//   return {
-//     paths: paths,
-//     fallback: false,
-//   };
-// }

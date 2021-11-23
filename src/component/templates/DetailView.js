@@ -6,7 +6,6 @@ import {
   SpeedDial,
   SpeedDialAction,
   SpeedDialIcon,
-  Stack,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -14,9 +13,8 @@ import { Box } from "@mui/system";
 import Image from "next/image";
 import Add from "@mui/icons-material/Add";
 import { useRouter } from "next/router";
-import { createStyles, makeStyles } from "@mui/styles";
+import { makeStyles } from "@mui/styles";
 import ProgresDonasiBar from "../modules/ProgresDonasiBar";
-import { useAppContext } from "../../context/AppContext";
 
 const useStyles = makeStyles((theme) => ({
   staticTooltipLabel: {
@@ -28,8 +26,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DetailView(props) {
   const { isAdmin, data, variant, speedDialActions, hrefDonasi } = props
-  const { state } = useAppContext()
-  const { currentUserRole } = state;
 
   const result = !!data ? data.result : null;
   const router = useRouter();

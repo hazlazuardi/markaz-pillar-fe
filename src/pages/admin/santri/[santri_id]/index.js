@@ -5,14 +5,12 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../../component/modules/ArrowBack";
 import ProgresDonasiFooter from "../../../../component/modules/ProgresDonasiFooter"
-import { markazCategory } from "../../../../context/AppReducer";
-import { Button, Link, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import Add from "@mui/icons-material/Add";
 import { DonutLarge } from "@mui/icons-material";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function AdminDetailSantri(props) {
-  // const { detailAdminSantri } = props
   const router = useRouter();
   const { santri_id } = router.query
   const { data: responseDetailAdminSantri, error, mutate } = useSWR(router.isReady ? `/santri?id=${santri_id}` : null,
@@ -65,7 +63,7 @@ export default function AdminDetailSantri(props) {
     } else {
       mutate()
     }
-  }, [mutate, responseDetailAdminSantri])
+  }, [mutate, responseDetailAdminSantri, santri_id])
 
   const adminSantriDetailActions = [
     {
@@ -89,30 +87,3 @@ export default function AdminDetailSantri(props) {
     </Stack>
   );
 }
-
-// export async function getStaticProps(context) {
-//   const id = context.params.id;
-//   const staticDetailSantriResponse = await axiosMain.get(`/santri?id=${id}`)
-//   const staticDetailSantri = staticDetailSantriResponse.data
-//   return {
-//     props: {
-//       detailAdminSantri: staticDetailSantri,
-//     },
-//     revalidate: 10
-//   };
-// }
-
-// export async function getStaticPaths() {
-//   const staticAllSantriResponse = await axiosMain.get(`/santri/search?n=1000`)
-//   const staticAllSantri = await staticAllSantriResponse.data
-
-//   const paths = await staticAllSantri.result.map((santri) => ({
-//     params: { id: santri.id.toString() },
-//   }));
-
-//   return {
-//     paths: paths,
-//     fallback: false,
-//   };
-// }
-

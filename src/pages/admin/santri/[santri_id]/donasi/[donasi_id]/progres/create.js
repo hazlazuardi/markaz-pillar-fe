@@ -10,6 +10,8 @@ function AdminCreateSantriProgresDonasi() {
     const router = useRouter();
     const { dispatch } = useAppContext();
     const { santri_id, donasi_id } = router.query
+
+
     const [thumbnail, setThumbnail] = useState({});
     const [progres, setProgres] = useState({
         progressDate: "",

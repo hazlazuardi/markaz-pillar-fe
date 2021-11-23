@@ -22,7 +22,8 @@ export default function AdminRelawan(props) {
     mutate,
   } = useSWR(
     router.isReady
-      ? `/admin/volunteer/registration?page=${page - 1}&n=${entries}&id=${kegiatan_id}${!!statusFilter ? "&status=" + statusFilter : ""}`
+      ? `/admin/volunteer/registration?page=${page - 1}&n=${entries}&id=${kegiatan_id}&name=${searchVolunteer}${!!statusFilter ? "&status=" + statusFilter : ""}
+`
       : null,
     fetcher
   );

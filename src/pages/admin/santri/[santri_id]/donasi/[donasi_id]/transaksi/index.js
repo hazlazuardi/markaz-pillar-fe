@@ -45,7 +45,6 @@ export default function TransaksiMarkaz() {
   );
 
   const { santri_id } = router.query;
-  // 
   if (error)
     return "An error has occurred. Please re-login or try again later.";
   if (!markazs) return "Loading...";

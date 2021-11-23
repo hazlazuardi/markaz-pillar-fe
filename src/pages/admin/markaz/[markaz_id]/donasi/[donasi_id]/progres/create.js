@@ -12,6 +12,7 @@ function AdminCreateMarkazProgresDonasi() {
     const router = useRouter();
     const { dispatch } = useAppContext();
     const { markaz_id, donasi_id } = router.query
+
     const [thumbnail, setThumbnail] = useState({});
     const [progres, setProgres] = useState({
         progressDate: "",
