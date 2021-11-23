@@ -40,7 +40,7 @@ export default function TableView(props) {
       return field.username;
     } else if (santriormarkaz === "kegiatan") {
       return field.volunteerNeeded;
-    } else if (santriormarkaz === "volunteer") {
+    } else if (santriormarkaz === "kegiatan") {
       return field.ktp;
     }
   }
@@ -58,7 +58,7 @@ export default function TableView(props) {
       return field.email;
     } else if (santriormarkaz === "kegiatan") {
       return field.volunteerApplied;
-    } else if (santriormarkaz === "volunteer") {
+    } else if (santriormarkaz === "kegiatan") {
       return field.email;
     }
   }
@@ -76,7 +76,7 @@ export default function TableView(props) {
       return field.phoneNum;
     } else if (santriormarkaz === "kegiatan") {
       return field.location;
-    } else if (santriormarkaz === "volunteer") {
+    } else if (santriormarkaz === "kegiatan") {
       return field.phoneNum;
     }
   }
@@ -116,7 +116,7 @@ export default function TableView(props) {
       return field.address;
     } else if (santriormarkaz === "kegiatan") {
       return null;
-    } else if (santriormarkaz === "volunteer") {
+    } else if (santriormarkaz === "kegiatan") {
       return statusConverter(field.status);
     }
   }

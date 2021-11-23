@@ -10,7 +10,7 @@ const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function TransaksiMarkaz() {
   const router = useRouter();
-  const { donasi_id } = router.query;
+  const { transid } = router.query;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const {
@@ -19,7 +19,7 @@ export default function TransaksiMarkaz() {
     mutate,
   } = useSWR(
     router.isReady
-      ? `/admin/transaction?page=${page - 1}&n=${entries}&id=${donasi_id}`
+      ? `/admin/transaction?page=${page - 1}&n=${entries}&id=${transid}`
       : null,
     fetcher
   );
@@ -44,14 +44,14 @@ export default function TransaksiMarkaz() {
     />
   );
 
-  const { santri_id } = router.query;
-  // console.log(!!markazs ? markazs.result : "");
+  const { id } = router.query;
+  //
   if (error)
     return "An error has occurred. Please re-login or try again later.";
   if (!markazs) return "Loading...";
   return (
     <>
-      <ArrowBack href={`/admin/santri/${santri_id}/donasi`} />
+      <ArrowBack href={"/admin/santri/donasi/" + id} />
       <AdminOrUserTemplate
         isAdmin
         disableSearch

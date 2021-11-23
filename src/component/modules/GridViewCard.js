@@ -18,7 +18,7 @@ import Link from "next/link";
 import { useAppContext } from "../../context/AppContext";
 
 export default function GridViewCard(props) {
-  const { fullResponseResult, image, title, description, handleDelete, CTAs } = props;
+  const { fullResponseResult, image, title, description } = props;
   const { state } = useAppContext();
   const { currentUser } = state;
   const router = useRouter();
@@ -26,80 +26,6 @@ export default function GridViewCard(props) {
   const isAdmin = path.includes("admin");
   const isXXS = useMediaQuery("(max-width:400px)");
   const IMAGE_SIZE = 252;
-
-
-  const CTAGroup = (withAdmin) => {
-    if (CTAs) {
-      return (
-        <CTAs />
-      )
-    }
-    if (withAdmin) {
-      return (
-        <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
-          <Link href={`${path}/${fullResponseResult.id}/edit`} passHref>
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              size="small"
-            >
-              Edit
-            </Button>
-          </Link>
-          <Button onClick={() => handleDelete(fullResponseResult.id)} variant="outlined" color="primary" fullWidth size="small">
-            Delete
-          </Button>
-        </Stack>
-      )
-    } else {
-      if (!!currentUser) {
-        return (
-          <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
-            <Link href={`${path}/${fullResponseResult.id}/donasi`} passHref>
-              <Button
-                data-testid="donasi-button-at-gridview-card"
-                variant="contained"
-                color="primary"
-                fullWidth
-                size="small"
-              >
-                Donasi
-              </Button>
-            </Link>
-          </Stack>
-        )
-      } else {
-        return (
-          <>
-            <Link href={`login`} passHref>
-              <Button
-                data-testid="donasi-button-at-gridview-card"
-                variant="contained"
-                color="primary"
-                fullWidth
-                size="small"
-              >
-                Donasi
-              </Button>
-            </Link>
-            <Link href={`${path}/${fullResponseResult.id}`} passHref>
-              <Button
-                data-testid="lihat-detail-button-at-gridview-card"
-                variant="outlined"
-                color="primary"
-                fullWidth
-                size="small"
-              >
-                Lihat Detail
-              </Button>
-            </Link>
-          </>
-        )
-      }
-    }
-  }
-
   return (
     <>
       <Card sx={{ width: IMAGE_SIZE }}>
@@ -147,9 +73,63 @@ export default function GridViewCard(props) {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
-            {CTAGroup(isAdmin)}
-          </Stack>
+          {isAdmin ? (
+            <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
+              <Link href={`${path}/edit/${fullResponseResult.id}`} passHref>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  size="small"
+                >
+                  Edit
+                </Button>
+              </Link>
+              <Button variant="outlined" color="primary" fullWidth size="small">
+                Delete
+              </Button>
+            </Stack>
+          ) : (
+            <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
+              {!!currentUser ? (
+                <Link href={`${path}/donasi/${fullResponseResult.id}`} passHref>
+                  <Button
+                    data-testid="donasi-button-at-gridview-card"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    size="small"
+                  >
+                    Donasi
+                  </Button>
+                </Link>
+              ) : (
+                <Link href={`login`} passHref>
+                  <Button
+                    data-testid="donasi-button-at-gridview-card"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    size="small"
+                  >
+                    Donasi
+                  </Button>
+                </Link>
+              )}
+
+              <Link href={`${path}/${fullResponseResult.id}`} passHref>
+                <Button
+                  data-testid="lihat-detail-button-at-gridview-card"
+                  variant="outlined"
+                  color="primary"
+                  fullWidth
+                  size="small"
+                >
+                  Lihat Detail
+                </Button>
+              </Link>
+            </Stack>
+          )}
         </CardActions>
       </Card>
     </>

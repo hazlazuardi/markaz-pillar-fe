@@ -104,5 +104,12 @@ describe(`Test functionality of inputs when edit new markaz`, () => {
     cy.get(`[data-cy="dropzone"]`).attachFile('high.png', { subjectType: 'drag-n-drop' });
     cy.get('#snackbarAtLayout').contains('File is larger than 1 MB').should('exist')
     cy.get(`#dropzone-uploaded`).should('not.exist');
+    cy.get('#markazNameAtComponentAdminCreateOrEditMarkaz').clear().type("test-markaz")
+    cy.get('#markazBackgroundAtComponentAdminCreateOrEditMarkaz').clear().type('test-markaz-background')
+    cy.get('#category-select').click().get('li').contains('Markaz Umum').click()
+    cy.get('#markazAddressAtComponentAdminCreateOrEditMarkaz').clear().type('0811114433')
+    cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
+    cy.get('#snackbarAtLayout').contains('Markaz Edited').should('exist')
+    cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
   });
 });

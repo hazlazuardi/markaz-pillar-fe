@@ -4,7 +4,6 @@ import { dispatchTypes } from "../../../context/AppReducer";
 import { axiosFormData } from "../../../axiosInstances";
 import { useRouter } from 'next/router';
 import AdminCreateOrEditKegiatan from "../../../component/templates/admin/AdminCreateOrEditKegiatan";
-import ArrowBack from "../../../component/modules/ArrowBack";
 
 function AdminCreateVolunteerKegiatan() {
     const { dispatch } = useAppContext();
@@ -95,19 +94,16 @@ function AdminCreateVolunteerKegiatan() {
 
     const [loading, setLoading] = useState(false)
     return (
-        <>
-            <ArrowBack href='/admin/kegiatan' />
-            <AdminCreateOrEditKegiatan
-                form={form}
-                handleSubmit={handleSubmit}
-                thumbnail={thumbnail}
-                setThumbnail={setThumbnail}
-                loading={loading}
-                createOrEdit="Create"
-                handleChangeKegiatan={handleChangeKegiatan}
-                kegiatan={kegiatan}
-            />
-        </>
+        <AdminCreateOrEditKegiatan
+            form={form}
+            handleSubmit={handleSubmit}
+            thumbnail={thumbnail}
+            setThumbnail={setThumbnail}
+            loading={loading}
+            createOrEdit="Create"
+            handleChangeKegiatan={handleChangeKegiatan}
+            kegiatan={kegiatan}
+        />
     );
 }
 

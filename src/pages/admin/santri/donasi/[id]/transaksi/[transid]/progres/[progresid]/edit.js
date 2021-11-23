@@ -1,32 +1,31 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../../../../context/AppReducer";
-import { axiosFormData, axiosMain } from "../../../../../../../../axiosInstances";
+import { useAppContext } from "../../../../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../../../../context/AppReducer";
+import {axiosFormData, axiosMain} from "../../../../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-import AdminCreateOrEditProgres from "../../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
+import AdminCreateOrEditProgres from "../../../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
 import useSWR from "swr";
-import ArrowBack from "../../../../../../../../component/modules/ArrowBack";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 
 function AdminEditSantriProgressDonasi(props) {
     const router = useRouter();
-    const { santri_id, donasi_id, progres_id } = router.query
+    const { transid, progresid } = router.query
     const {
         data: responseProgres,
         error,
         mutate,
     } = useSWR(
         router.isReady ?
-            `/admin/donation?id=${donasi_id}` : null,
+            `/admin/donation?id=${transid}`: null,
         fetcher,
     );
 
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
     const [editedProgres, setEditedProgres] = useState({
-        progressDate: responseProgres ? responseProgres.progressDate : "",
-        description: responseProgres ? responseProgres.description : "",
+        progressDate: responseProgres ? responseProgres.progressDate: "",
+        description: responseProgres ? responseProgres.description: "",
     });
     const form = useRef(null);
 
@@ -49,7 +48,7 @@ function AdminEditSantriProgressDonasi(props) {
         data.append("detail", progresBlob);
 
         await axiosFormData
-            .post(`/admin/donation/progress/edit?id=${progres_id}`, data)
+            .post(`/admin/donation/progress/edit?id=${progresid}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -100,20 +99,17 @@ function AdminEditSantriProgressDonasi(props) {
 
     const [loading, setLoading] = useState(false)
     return (
-        <>
-            <ArrowBack href={`/admin/santri/${santri_id}`} />
-            <AdminCreateOrEditProgres
-                form={form}
-                handleSubmit={handleSubmit}
-                thumbnail={thumbnail}
-                setThumbnail={setThumbnail}
-                loading={loading}
-                createOrEdit="Edit"
-                markazOrSantri="Santri"
-                handleChangeProgres={handleChangeProgres}
-                progres={editedProgres}
+        <AdminCreateOrEditProgres
+            form={form}
+            handleSubmit={handleSubmit}
+            thumbnail={thumbnail}
+            setThumbnail={setThumbnail}
+            loading={loading}
+            createOrEdit="Edit"
+            markazOrSantri="Santri"
+            handleChangeProgres={handleChangeProgres}
+            progres={editedProgres}
             />
-        </>
     );
 }
 

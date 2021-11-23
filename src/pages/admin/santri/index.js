@@ -4,7 +4,6 @@ import useSWR from "swr";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
 import GridView from "../../../component/templates/admin/GridView";
 import TableView from "../../../component/templates/admin/TableView";
-import { Button, Link, Stack } from "@mui/material";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
@@ -20,7 +19,8 @@ export default function AdminSantri(props) {
     error,
     mutate,
   } = useSWR(
-    `/santri/search?page=${page - 1}&n=${entries}&${!!ageFilter ? "sortedAge=" + ageFilter : ""
+    `/santri/search?page=${page - 1}&n=${entries}&${
+      !!ageFilter ? "sortedAge=" + ageFilter : ""
     }${!!nameFilter ? "sortedName=" + nameFilter : ""}
     &${!!searchSantri && "name=" + searchSantri}
     `,
@@ -45,6 +45,31 @@ export default function AdminSantri(props) {
           localStorage.clear();
         }
       });
+  };
+
+  const GridViewAdminSantri = () => {
+    return (
+      <GridView
+        data={responseSantri}
+        detail="admin/santri"
+        handleDelete={handleDeleteSantri}
+      />
+    );
+  };
+
+  const TableViewAdminSantri = () => {
+    return (
+      <TableView
+        data={responseSantri}
+        detail="admin/santri"
+        handleDelete={handleDeleteSantri}
+        santriormarkaz="santri"
+        titleTwo="Tempat Markaz"
+        titleThree="Domisili"
+        titleFour="Jenis Kelamin"
+        titleFive="Tanggal Lahir"
+      />
+    );
   };
 
   const handleChangeAge = (event) => {
@@ -85,31 +110,6 @@ export default function AdminSantri(props) {
       ],
     },
   ];
-
-  const GridViewAdminSantri = () => {
-    return (
-      <GridView
-        data={responseSantri}
-        detail="admin/santri"
-        handleDelete={handleDeleteSantri}
-      />
-    );
-  };
-
-  const TableViewAdminSantri = () => {
-    return (
-      <TableView
-        data={responseSantri}
-        detail="admin/santri"
-        handleDelete={handleDeleteSantri}
-        santriormarkaz="santri"
-        titleTwo="Tempat Markaz"
-        titleThree="Domisili"
-        titleFour="Jenis Kelamin"
-        titleFive="Tanggal Lahir"
-      />
-    );
-  };
 
   return (
     <>

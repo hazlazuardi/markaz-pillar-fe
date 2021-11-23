@@ -1,11 +1,10 @@
 import { useState, useRef } from "react";
 import { useAppContext } from "../../../../context/AppContext";
 import { dispatchTypes } from "../../../../context/AppReducer";
-import { axiosFormData, axiosMain } from "../../../../axiosInstances";
+import {axiosFormData, axiosMain} from "../../../../axiosInstances";
 import { useRouter } from 'next/router';
 import AdminCreateOrEditKegiatan from "../../../../component/templates/admin/AdminCreateOrEditKegiatan";
 import useSWR from "swr";
-import ArrowBack from "../../../../component/modules/ArrowBack";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 
@@ -20,19 +19,19 @@ function AdminEditVolunteerKegiatan() {
         mutate,
     } = useSWR(
         router.isReady ?
-            `/volunteer/edit?id=${kegiatan_id}` : null,
+            `/volunteer/edit?id=${kegiatan_id}`: null,
         fetcher,
     );
 
     const [kegiatan, setKegiatan] = useState({
-        name: responseKegiatan ? responseKegiatan.name : "",
-        description: responseKegiatan ? responseKegiatan.description : "",
-        term: responseKegiatan ? responseKegiatan.term : "",
-        benefit: responseKegiatan ? responseKegiatan.benefit : "",
-        volunteerNeeded: responseKegiatan ? responseKegiatan.volunteerNeeded : 0,
-        location: responseKegiatan ? responseKegiatan.location : "",
-        schedule: responseKegiatan ? responseKegiatan.schedule : "",
-        isActive: responseKegiatan ? responseKegiatan.isActive : null
+        name: responseKegiatan ? responseKegiatan.name: "",
+        description: responseKegiatan ? responseKegiatan.description: "",
+        term: responseKegiatan ? responseKegiatan.term: "",
+        benefit: responseKegiatan ? responseKegiatan.benefit: "",
+        volunteerNeeded: responseKegiatan ? responseKegiatan.volunteerNeeded: 0,
+        location: responseKegiatan ? responseKegiatan.location: "",
+        schedule: responseKegiatan ? responseKegiatan.schedule: "",
+        isActive: responseKegiatan ? responseKegiatan.isActive: null
     });
     const form = useRef(null);
 
@@ -108,19 +107,16 @@ function AdminEditVolunteerKegiatan() {
 
     const [loading, setLoading] = useState(false)
     return (
-        <>
-            <ArrowBack href={`/admin/kegiatan/${kegiatan_id}`} />
-            <AdminCreateOrEditKegiatan
-                form={form}
-                handleSubmit={handleSubmit}
-                thumbnail={thumbnail}
-                setThumbnail={setThumbnail}
-                loading={loading}
-                createOrEdit="Edit"
-                handleChangeKegiatan={handleChangeKegiatan}
-                kegiatan={kegiatan}
-            />
-        </>
+        <AdminCreateOrEditKegiatan
+            form={form}
+            handleSubmit={handleSubmit}
+            thumbnail={thumbnail}
+            setThumbnail={setThumbnail}
+            loading={loading}
+            createOrEdit="Edit"
+            handleChangeKegiatan={handleChangeKegiatan}
+            kegiatan={kegiatan}
+        />
     );
 }
 

@@ -30,8 +30,6 @@ export default function AdminMarkazEdit(props) {
         }));
     };
 
-    const router = useRouter()
-    const { markaz_id } = router.query
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
@@ -43,7 +41,7 @@ export default function AdminMarkazEdit(props) {
         data.append("markaz", editedMarkazBlob);
 
         await axiosFormData
-            .post(`/admin/markaz/edit?id=${markaz_id}`, data)
+            .post(`/admin/markaz/edit?id=${responseMarkaz.id}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -93,6 +91,8 @@ export default function AdminMarkazEdit(props) {
             })
     };
 
+    const router = useRouter()
+    const { markaz_id } = router.query
     const [loading, setLoading] = useState(false)
     return (
         <>

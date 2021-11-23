@@ -1,15 +1,14 @@
 import { useState, useRef } from "react";
-import { useAppContext } from "../../../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../../../context/AppReducer";
-import { axiosFormData } from "../../../../../../../axiosInstances";
+import { useAppContext } from "../../../../../../../../context/AppContext";
+import { dispatchTypes } from "../../../../../../../../context/AppReducer";
+import { axiosFormData } from "../../../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
-import AdminCreateOrEditProgres from "../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
-import ArrowBack from '../../../../../../../component/modules/ArrowBack'
+import AdminCreateOrEditProgres from "../../../../../../../../component/templates/admin/AdminCreateOrEditProgres";
 
 function AdminCreateSantriProgressDonasi() {
     const router = useRouter();
     const { dispatch } = useAppContext();
-    const { santri_id, donasi_id } = router.query
+    const { transid } = router.query
     const [thumbnail, setThumbnail] = useState({});
     const [progres, setProgres] = useState({
         progressDate: "",
@@ -36,7 +35,7 @@ function AdminCreateSantriProgressDonasi() {
         data.append("detail", progresBlob);
 
         await axiosFormData
-            .post(`/admin/donation/progress?donation_id=${donasi_id}`, data)
+            .post(`/admin/donation/progress?donation_id=${transid}`, data)
             .then(response => {
                 setLoading(false)
 
@@ -87,20 +86,17 @@ function AdminCreateSantriProgressDonasi() {
 
     const [loading, setLoading] = useState(false)
     return (
-        <>
-            <ArrowBack href={`/admin/santri/${santri_id}`} />
-            <AdminCreateOrEditProgres
-                form={form}
-                handleSubmit={handleSubmit}
-                thumbnail={thumbnail}
-                setThumbnail={setThumbnail}
-                loading={loading}
-                createOrEdit="Create"
-                markazOrSantri="Santri"
-                handleChangeProgres={handleChangeProgres}
-                progres={progres}
-            />
-        </>
+        <AdminCreateOrEditProgres
+            form={form}
+            handleSubmit={handleSubmit}
+            thumbnail={thumbnail}
+            setThumbnail={setThumbnail}
+            loading={loading}
+            createOrEdit="Create"
+            markazOrSantri="Santri"
+            handleChangeProgres={handleChangeProgres}
+            progres={progres}
+        />
     );
 }
 

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import DetailView from '../../../../component/templates/DetailView'
-import { axiosMain } from '../../../../axiosInstances';
+import DetailView from '../../../component/templates/DetailView'
+import { axiosMain } from '../../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
-import ArrowBack from "../../../../component/modules/ArrowBack";
-import ProgressDonasiFooter from "../../../../component/modules/ProgressDonasiFooter"
-import { markazCategory } from "../../../../context/AppReducer";
-import { Button, Link, Stack } from "@mui/material";
+import ArrowBack from "../../../component/modules/ArrowBack";
+import ProgressDonasiFooter from "../../../component/modules/ProgressDonasiFooter"
+import { markazCategory } from "../../../context/AppReducer";
+import { Stack } from "@mui/material";
 import Add from "@mui/icons-material/Add";
 import { DonutLarge } from "@mui/icons-material";
 
@@ -14,8 +14,8 @@ const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function AdminDetailSantri(props) {
   // const { detailAdminSantri } = props
   const router = useRouter();
-  const { santri_id } = router.query
-  const { data: responseDetailAdminSantri, error, mutate } = useSWR(router.isReady ? `/santri?id=${santri_id}` : null,
+  const { id } = router.query
+  const { data: responseDetailAdminSantri, error, mutate } = useSWR(router.isReady ? `/santri?id=${id}` : null,
     fetcher,
     // { fallbackData: detailAdminSantri, refreshInterval: 10000 }
   )
@@ -25,14 +25,12 @@ export default function AdminDetailSantri(props) {
   }
 
   const [convertedData, setConvertedData] = useState()
-  const [hrefUpdateProgressDonasi, setHrefUpdateProgressDonasi] = useState()
   useEffect(() => {
     if (!!responseDetailAdminSantri) {
       const dataResult = responseDetailAdminSantri.result
       setConvertedData({
         ...responseDetailAdminSantri,
         result: {
-          ...dataResult,
           title: dataResult.name,
           description: dataResult.background,
           image: dataResult.thumbnailURL,
@@ -61,21 +59,20 @@ export default function AdminDetailSantri(props) {
           progress: dataResult.progress
         }
       })
-      setHrefUpdateProgressDonasi(`/admin/santri/${santri_id}/donasi/${dataResult.donationId}/progres/create`)
     } else {
       mutate()
     }
   }, [mutate, responseDetailAdminSantri])
 
-  const adminSantriDetailActions = [
+  const adminMarkazDetailActions = [
     {
       name: "Create Donasi",
       icon: <Add />,
-      onClick: `/admin/santri/${santri_id}/donasi/create`
+      onClick: '/admin/santri/donasi/create'
     }, {
       name: "Edit Progress Donasi",
       icon: <DonutLarge />,
-      onClick: hrefUpdateProgressDonasi
+      onClick: `/admin/santri/donasi/progress/create`
     },
   ]
 
@@ -83,9 +80,9 @@ export default function AdminDetailSantri(props) {
   if (!responseDetailAdminSantri) return "Loading...";
   return (
     <Stack spacing={4}>
-      <ArrowBack href='/admin/santri' />
-      <DetailView isAdmin variant='santri' data={convertedData} speedDialActions={adminSantriDetailActions} hrefDonasi={`/admin/santri/${santri_id}/donasi`} />
-      <ProgressDonasiFooter isAdmin variant='santri' data={convertedData} apiCall={deleteProgress} mutate={mutate} />
+      <ArrowBack href='/santri' />
+      <DetailView isAdmin variant='santri' data={convertedData} speedDialActions={adminMarkazDetailActions} />
+      <ProgressDonasiFooter isAdmin data={convertedData} apiCall={deleteProgress} mutate={mutate} />
     </Stack>
   );
 }

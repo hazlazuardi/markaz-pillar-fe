@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { useAppContext } from "../../../../../context/AppContext";
 import { dispatchTypes } from "../../../../../context/AppReducer";
 import { useRouter } from "next/router";
-import { axiosMain } from '../../../../../axiosInstances'
+import { axiosMain } from "../../../../../axiosInstances";
 import AdminCreateOrEditDonasi from "../../../../../component/templates/admin/AdminCreateOrEditDonasi";
 import ArrowBack from "../../../../../component/modules/ArrowBack";
 
@@ -28,16 +28,16 @@ function AdminSantriDonasiCreate(props) {
     };
 
     const router = useRouter()
-    const { santri_id } = router.query
+    const {id} = router.query
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
-
+        
         await axiosMain
-            .post(`/admin/donation/santri?id=${santri_id}`, data)
+            .post(`/admin/donation/santri?id=${id}`, data)
             .then(response => {
                 setLoading(false)
-
+                
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
@@ -48,11 +48,11 @@ function AdminSantriDonasiCreate(props) {
             })
             .catch(error => {
                 setLoading(false)
-
+                
                 // Check & Handle if error.response is defined
                 if (!!error.response) {
                     if (error.response.status === 400) {
-
+                    
                         // Check & Handle if bad request (empty fields, etc)
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
@@ -80,13 +80,13 @@ function AdminSantriDonasiCreate(props) {
 
     const [isActive, setIsActive] = useState();
 
-    //      const handleIsActive = (event) => {
-    //        setIsActive(event.target.isActive);
-    //      };
+//      const handleIsActive = (event) => {
+//        setIsActive(event.target.isActive);
+//      };
 
     const handleIsActive = (event) => {
         const {
-            target: { value },
+          target: { value },
         } = event;
         setIsActive(event.target.isActive);
         setData((prev) => ({
@@ -96,19 +96,19 @@ function AdminSantriDonasiCreate(props) {
     };
 
     const names = [
-        'RENOVASI',
-        'PEMBANGUNAN_MARKAZ'
+      'RENOVASI',
+      'PEMBANGUNAN_MARKAZ'
     ];
 
     const [category, setCategory] = useState([]);
 
     const handleChange = (event) => {
         const {
-            target: { value },
+          target: { value },
         } = event;
         setCategory(
-            // On autofill we get a the stringified value.
-            typeof value === 'string' ? value.split(',') : value,
+          // On autofill we get a the stringified value.
+          typeof value === 'string' ? value.split(',') : value,
         );
         setData((prev) => ({
             ...prev,
@@ -116,24 +116,24 @@ function AdminSantriDonasiCreate(props) {
         }));
     };
 
-
+    
 
     return (
         <>
-            <ArrowBack href={`/admin/santri/${santri_id}`} />
-            <AdminCreateOrEditDonasi
-                form={form}
-                handleSubmit={handleSubmit}
-                donasi={data}
-                createOrEdit="Create"
-                markazOrSantri="Santri"
-                handleChange={handleChange}
-                handleChangeDonasi={handleChangeDonasi}
-                handleIsActive={handleIsActive}
-                names={names}
-                label="Scholarship Requirements"
-                showCategory="none"
-            />
+        <ArrowBack href={"/admin/santri/donasi/"+id} />
+        <AdminCreateOrEditDonasi
+            form={form}
+            handleSubmit={handleSubmit}
+            donasi={data}
+            createOrEdit="Create"
+            markazOrSantri="Santri"
+            handleChange={handleChange}
+            handleChangeDonasi={handleChangeDonasi}
+            handleIsActive={handleIsActive}
+            names={names}
+            label="Scholarship Requirements"
+            showCategory="none"
+        />
         </>
     );
 }

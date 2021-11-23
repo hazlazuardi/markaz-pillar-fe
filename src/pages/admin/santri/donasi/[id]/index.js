@@ -10,14 +10,15 @@ const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function DonasiSantri() {
   const router = useRouter();
-  const { santri_id } = router.query;
+  const { id } = router.query;
   const [searchDonasiSantri, setSearchDonasiSantri] = useState("");
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const { data: allSantri, error } = useSWR(
     router.isReady
-      ? `/admin/donation/santri?id=${santri_id}&page=${page - 1}&n=${entries}&${!!searchDonasiSantri && "s=" + searchDonasiSantri
-      }`
+      ? `/admin/donation/santri?id=${id}&page=${page - 1}&n=${entries}&${
+          !!searchDonasiSantri && "s=" + searchDonasiSantri
+        }`
       : null,
     fetcher
   );
@@ -31,13 +32,13 @@ export default function DonasiSantri() {
       titleThree="Nominal Donasi"
       titleFour="Jumlah Donasi Terkumpul"
       titleFive="Status"
-      iddonasi={santri_id}
+      iddonasi={id}
     />
   );
   if (error) return "An error has occurred.";
   return (
     <>
-      <ArrowBack href={`/admin/santri/${santri_id}`} />
+      <ArrowBack href={"/admin/santri/" + id} />
       <AdminOrUserTemplate
         variant="donasi"
         TableView={TableViewSantriDonasi}
@@ -48,7 +49,7 @@ export default function DonasiSantri() {
         setPage={setPage}
         entries={entries}
         setEntries={setEntries}
-        hrefCreate={`/admin/santri/${santri_id}/donasi/create`}
+        hrefCreate={`/admin/santri/donasi/create/${id}`}
       />
     </>
   );

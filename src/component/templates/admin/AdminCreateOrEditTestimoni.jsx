@@ -41,7 +41,7 @@ function AdminCreateOrEditKegiatan(props) {
                                     <Dropzone
                                         name="thumbnail"
                                         setFile={setThumbnail}
-                                        accept={"image/*"}
+                                        accept={"application/pdf"}
                                     />
                                 </Grid>
                                 {thumbnail.name &&
