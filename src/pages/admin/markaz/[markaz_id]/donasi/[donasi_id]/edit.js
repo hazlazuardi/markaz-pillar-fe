@@ -44,7 +44,7 @@ function AdminMarkazDonasiEdit() {
         event.preventDefault();
 
         await axiosMain
-            .post(`/admin/donation/markaz/edit?id=${donasi_id}`, data)
+            .post(`/admin/donation/markaz?edit=${markaz_id}`, data)
             .then(response => {
                 setLoading(false)
 

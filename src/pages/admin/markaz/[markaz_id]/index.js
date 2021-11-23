@@ -46,8 +46,8 @@ export default function AdminMarkazDetail(props) {
               detail: markazCategory[dataResult.category],
             },
             {
-              subtitle: "Contact Info",
-              detail: dataResult.contactInfo,
+              subtitle: "Contact Person",
+              detail: dataResult.contactPerson,
             },
           ],
           donation: [
@@ -85,7 +85,7 @@ export default function AdminMarkazDetail(props) {
     <>
       <ArrowBack href='/admin/markaz' />
       <DetailView isAdmin variant='markaz' data={convertedData} speedDialActions={adminMarkazDetailActions} hrefDonasi={`/admin/markaz/${markaz_id}/donasi`} />
-      <ProgressDonasiFooter isAdmin variant='markaz' data={convertedData} apiCall={deleteProgress} mutate={mutate} />
+      <ProgressDonasiFooter isAdmin data={convertedData} apiCall={deleteProgress} mutate={mutate} />
     </>
   );
 }

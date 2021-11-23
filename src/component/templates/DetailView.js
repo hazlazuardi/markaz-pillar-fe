@@ -75,13 +75,13 @@ export default function DetailView(props) {
             )}
           </Container>
         </Grid>
-        <Grid item xs={12} md={6} width="100%" height='auto'>
+        <Grid item xs={12} md={6} width="100%">
           <Typography
             variant="h4"
             color="primary"
             component="h1"
             gutterBottom
-            sx={{ textTransform: "capitalize", fontWeight: "600", overflowX: 'scroll', overflowY: 'hidden' }}
+            sx={{ textTransform: "capitalize", fontWeight: "600" }}
           >
             {!!data ? result.title : variant + "..."}
           </Typography>
@@ -92,7 +92,7 @@ export default function DetailView(props) {
                 component="body"
                 gutterBottom
                 mb={4}
-                sx={{ fontWeight: "200", overflowX: 'scroll', overflowY: 'hidden' }}
+                sx={{ fontWeight: "200" }}
               >
                 {result.description}
               </Typography>
@@ -100,14 +100,15 @@ export default function DetailView(props) {
                 {result.details.map((detail, index) => (
                   <>
                     {!!detail.detail && (
-                      <Grid key={index} item xs={6} sm={4} md>
+                      <Grid key={index} item xs={12} sm={6}>
                         <Typography
-                          variant="body1"
-                          component="body"
+                          color="secondary"
+                          variant="h6"
+                          component="h6"
                         >
                           {detail.subtitle}
                         </Typography>
-                        <Typography color="primary" variant="h6" component="h3">
+                        <Typography variant="h5" component="body">
                           {detail.detail}
                         </Typography>
                       </Grid>

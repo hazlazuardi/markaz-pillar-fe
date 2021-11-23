@@ -4,9 +4,9 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Typography from '@mui/material/Typography'
 import { FormControl } from "@mui/material";
-import Select from "@mui/material/Select";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
+import  Select  from "@mui/material/Select";
+import  InputLabel  from "@mui/material/InputLabel";
+import  MenuItem  from "@mui/material/MenuItem";
 import { useRouter } from 'next/router';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import FormLabel from '@mui/material/FormLabel';
@@ -56,26 +56,26 @@ function AdminCreateOrEditDonasi(props) {
                                     />
                                 </Grid>
                                 <Grid item xs={12} display={showCategory}>
-                                    <FormControl sx={{ width: '100%' }}>
-                                        <InputLabel id="demo-multiple-name-label">Category</InputLabel>
-                                        <Select
-                                            labelId="demo-multiple-name-label"
-                                            id="demo-multiple-name"
-                                            multiple
-                                            value={donasi.categories}
-                                            onChange={handleChange}
-                                            input={<OutlinedInput label="Categories" />}
+                                  <FormControl sx= {{width: '100%'}}>
+                                    <InputLabel id="demo-multiple-name-label">Category</InputLabel>
+                                    <Select
+                                      labelId="demo-multiple-name-label"
+                                      id="demo-multiple-name"
+                                      multiple
+                                      value={donasi.categories}
+                                      onChange={handleChange}
+                                      input={<OutlinedInput label="Categories" />}
+                                    >
+                                      {names.map((category) => (
+                                        <MenuItem
+                                          key={category}
+                                          value={category}
                                         >
-                                            {names.map((category) => (
-                                                <MenuItem
-                                                    key={category}
-                                                    value={category}
-                                                >
-                                                    {category}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
+                                          {category}
+                                        </MenuItem>
+                                      ))}
+                                    </Select>
+                                  </FormControl>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
@@ -103,19 +103,19 @@ function AdminCreateOrEditDonasi(props) {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <FormControl component="fieldset">
-                                        <FormLabel><Typography>Display on {markazOrSantri} detail page?</Typography></FormLabel>
-                                        <RadioGroup
+                                        <FormControl component="fieldset">
+                                        <FormLabel><Typography><p>Display on {markazOrSantri} detail page?</p></Typography></FormLabel>
+                                          <RadioGroup
                                             aria-label="displayOnMarkazDetail"
                                             defaultValue={false}
                                             name="radio-buttons-group"
                                             value={donasi.isActive}
                                             onChange={handleIsActive}
-                                        >
+                                          >
                                             <FormControlLabel value={true} control={<Radio />} label="Yes" />
                                             <FormControlLabel value={false} control={<Radio />} label="No" />
-                                        </RadioGroup>
-                                    </FormControl>
+                                          </RadioGroup>
+                                        </FormControl>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Button type="submit" variant="contained" color="primary" fullWidth>
