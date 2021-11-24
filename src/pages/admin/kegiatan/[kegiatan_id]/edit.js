@@ -52,10 +52,10 @@ function AdminEditVolunteerKegiatan() {
         data.append("thumbnail", thumbnail);
         data.append("detail", kegiatanBlob);
 
-        
+
 
         await axiosFormData
-            .post("/admin/volunteer", data)
+            .post(`/admin/volunteer/edit?id=${kegiatan_id}`, data)
             .then(response => {
                 setLoading(false)
 

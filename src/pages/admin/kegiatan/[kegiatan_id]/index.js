@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DetailView from "../../../../component/templates/DetailView";
 import { axiosMain } from '../../../../axiosInstances';
 import useSWR from "swr";
@@ -20,44 +20,45 @@ export default function DetailKegiatan(props) {
         { fallbackData: detailMarkaz, refreshInterval: 10000 }
     )
 
-    const dataResult = {
-        ...responseDetailKegiatan.result
-    }
-    const convertedDataMarkaz = {
-        title: dataResult.name,
-        description: dataResult.description,
-        image: dataResult.thumbnailURL,
-        details: [
-            {
-                subtitle: "Syarat",
-                detail: dataResult.term
-            },
-            {
-                subtitle: "Manfaat",
-                detail: dataResult.benefit
-            },
-            {
-                subtitle: "Jumlah Volunteer",
-                detail: `${dataResult.volunteerApplied} / ${dataResult.volunteerNeeded}`
-            },
-            {
-                subtitle: "Jadwal",
-                detail: dataResult.schedule
-            },
-            {
-                subtitle: "Lokasi",
-                detail: dataResult.location
-            },
-        ],
-    }
+    const [convertedData, setConvertedData] = useState()
+    useEffect(() => {
+        if (!!responseDetailKegiatan) {
+            const dataResult = responseDetailKegiatan.result
+            setConvertedData({
+                ...responseDetailKegiatan,
+                result: {
+                    ...dataResult,
+                    title: dataResult.name,
+                    description: dataResult.description,
+                    image: dataResult.thumbnailURL,
+                    details: [
+                        {
+                            subtitle: "Syarat",
+                            detail: dataResult.term
+                        },
+                        {
+                            subtitle: "Manfaat",
+                            detail: dataResult.benefit
+                        },
+                        {
+                            subtitle: "Jumlah Volunteer",
+                            detail: `${dataResult.volunteerApplied} / ${dataResult.volunteerNeeded}`
+                        },
+                        {
+                            subtitle: "Jadwal",
+                            detail: dataResult.schedule
+                        },
+                        {
+                            subtitle: "Lokasi",
+                            detail: dataResult.location
+                        },
+                    ],
+                }
+            })
 
-    const convertedData = {
-        ...responseDetailKegiatan,
-        result: {
-            ...dataResult,
-            ...convertedDataMarkaz
         }
-    }
+
+    }, [responseDetailKegiatan])
 
     // useEffect(() => {
     //   if (!!responseDetailKegiatan) {
@@ -103,31 +104,5 @@ export default function DetailKegiatan(props) {
             <TestimoniKegiatanFooter isAdmin data={convertedData} mutate={mutate} apiCall={deleteTestimoni} />
         </>
     );
-}
-
-export async function getStaticProps(context) {
-    const id = context.params.kegiatan_id;
-    const staticDetailMarkazResponse = await axiosMain.get(`/volunteer?id=${id}`)
-    const staticDetailMarkaz = staticDetailMarkazResponse.data
-    return {
-        props: {
-            detailMarkaz: staticDetailMarkaz,
-        },
-        revalidate: 10
-    };
-}
-
-export async function getStaticPaths() {
-    const staticAllMarkazResponse = await axiosMain.get(`/volunteer`)
-    const staticAllMarkaz = await staticAllMarkazResponse.data
-
-    const paths = await staticAllMarkaz.result.map((markaz) => ({
-        params: { kegiatan_id: markaz.id.toString() },
-    }));
-
-    return {
-        paths: paths,
-        fallback: false,
-    };
 }
 

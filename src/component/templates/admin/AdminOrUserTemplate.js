@@ -156,7 +156,7 @@ function AdminOrUserTemplate(props) {
         FilterRadioObject={FilterRadioObject}
       />
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [variant, size]);
 
   // *******************************************************
@@ -257,7 +257,7 @@ function AdminOrUserTemplate(props) {
               GridView || TableView
             ) : (
               <Box mb="2em">
-                <Typography>No data found</Typography>
+                <Typography data-testid='not-found-at-AdminOrUserTemplate' variant='body1' component='p'>No data found</Typography>
               </Box>
             )}
           </Box>

@@ -58,18 +58,3 @@ export default function GridView(props) {
   );
 }
 
-{
-  /* <GridViewCard
-key={result.id}
-name={result.name}
-image={result.thumbnailURL}
-desc={result.background}
-intr_1="[progresid]"
-intr_2="delete"
-markazOrSantri={markazOrSantri}
-id={result.id}
-intr1Butt={intr1Butt}
-detail={detail}
-handleDelete={handleDelete}
-/> */
-}

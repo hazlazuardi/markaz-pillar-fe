@@ -49,6 +49,7 @@ export default function GridViewCard(props) {
         <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
           <Link href={`${path}/${fullResponseResult.id}/edit`} passHref>
             <Button
+              data-testid='edit-button-at-gridview-card'
               variant="contained"
               color="primary"
               fullWidth
@@ -57,7 +58,9 @@ export default function GridViewCard(props) {
               Edit
             </Button>
           </Link>
-          <Button onClick={() => handleDelete(fullResponseResult.id)} variant="outlined" color="primary" fullWidth size="small">
+          <Button
+            data-testid='delete-button-at-gridview-card'
+            onClick={() => handleDelete(fullResponseResult.id)} variant="outlined" color="primary" fullWidth size="small">
             Delete
           </Button>
         </Stack>
@@ -96,6 +99,7 @@ export default function GridViewCard(props) {
     <>
       <Card sx={{ width: IMAGE_SIZE }}>
         <CardActionArea
+          data-testid='card-action-area-at-gridview-card'
           onClick={() => router.push(`${path}/${fullResponseResult.id}`)}
         >
           <CardMedia

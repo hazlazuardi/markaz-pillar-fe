@@ -41,13 +41,13 @@ function AdminCreateOrEditKegiatan(props) {
                                     <Dropzone
                                         name="thumbnail"
                                         setFile={setThumbnail}
-                                        accept={"application/pdf"}
+                                        accept={"image/*"}
                                     />
                                 </Grid>
                                 {thumbnail.name &&
-                                <Grid item xs={12}>
-                                    <Typography id='dropzone-uploaded' variant="body1" color="initial">Uploaded: {thumbnail.name}</Typography>
-                                </Grid>
+                                    <Grid item xs={12}>
+                                        <Typography data-testid='dropzone-uploaded' id='dropzone-uploaded' variant="body1" color="initial">Uploaded: {thumbnail.name}</Typography>
+                                    </Grid>
                                 }
                             </Grid>
                         </Grid>
@@ -59,6 +59,7 @@ function AdminCreateOrEditKegiatan(props) {
                                 <Grid item xs={12}>
                                     <TextField
                                         id='kegiatanNameAtComponentAdminCreateOrEditKegiatan'
+                                        data-testid='kegiatan-name-at-AdminCreateOrEditKegiatan-module'
                                         name="name"
                                         label="Name"
                                         fullWidth
@@ -69,6 +70,7 @@ function AdminCreateOrEditKegiatan(props) {
                                 <Grid item xs={12}>
                                     <TextField
                                         id='kegiatanDescriptionAtComponentAdminCreateOrEditKegiatan'
+                                        data-testid='kegiatan-description-at-AdminCreateOrEditKegiatan-module'
                                         name="description"
                                         label="Descripton"
                                         fullWidth
@@ -79,6 +81,7 @@ function AdminCreateOrEditKegiatan(props) {
                                 <Grid item xs={12}>
                                     <TextField
                                         id='kegiatanNameAtComponentAdminCreateOrEditKegiatan'
+                                        data-testid='kegiatan-term-at-AdminCreateOrEditKegiatan-module'
                                         name="term"
                                         label="Term"
                                         fullWidth
@@ -89,6 +92,7 @@ function AdminCreateOrEditKegiatan(props) {
                                 <Grid item xs={12}>
                                     <TextField
                                         id='kegiatanBenefitAtComponentAdminCreateOrEditKegiatan'
+                                        data-testid='kegiatan-benefit-at-AdminCreateOrEditKegiatan-module'
                                         name="benefit"
                                         label="Benefit"
                                         fullWidth
@@ -99,6 +103,7 @@ function AdminCreateOrEditKegiatan(props) {
                                 <Grid item xs={12}>
                                     <TextField
                                         id='kegiatanVolunteerNeededAtComponentAdminCreateOrEditKegiatan'
+                                        data-testid='kegiatan-volunteerNeeded-at-AdminCreateOrEditKegiatan-module'
                                         name="volunteerNeeded"
                                         label="Volunteer Needed"
                                         fullWidth
@@ -109,6 +114,7 @@ function AdminCreateOrEditKegiatan(props) {
                                 <Grid item xs={12}>
                                     <TextField
                                         id='kegiatanDescriptionAtComponentAdminCreateOrEditKegiatan'
+                                        data-testid='kegiatan-location-at-AdminCreateOrEditKegiatan-module'
                                         name="location"
                                         label="Location"
                                         fullWidth
@@ -119,6 +125,7 @@ function AdminCreateOrEditKegiatan(props) {
                                 <Grid item xs={12}>
                                     <TextField
                                         id='kegiatanNameAtComponentAdminCreateOrEditKegiatan'
+                                        data-testid='kegiatan-schedule-at-AdminCreateOrEditKegiatan-module'
                                         name="schedule"
                                         label="Schedule"
                                         fullWidth
@@ -127,7 +134,9 @@ function AdminCreateOrEditKegiatan(props) {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <LoadingButton id='kegiatanSubmitAtComponentAdminCreateOrEditKegiatan' fullWidth type='submit' loading={loading} loadingIndicator="Menyimpan..." variant="contained">
+                                    <LoadingButton
+                                        data-testid='kegiatan-submit-button-at-AdminCreateOrEditKegiatan-module'
+                                        id='kegiatanSubmitAtComponentAdminCreateOrEditKegiatan' fullWidth type='submit' loading={loading} loadingIndicator="Menyimpan..." variant="contained">
                                         Simpan
                                     </LoadingButton>
                                 </Grid>
