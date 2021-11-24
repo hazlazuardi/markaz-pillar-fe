@@ -57,7 +57,7 @@ describe('Test it is in the correct page', () => {
   it('Test ArrowBack directs to Admin Markaz', () => {
     cy.get(`[data-testid="arrowback-at-modules"]`).should('exist')
     cy.get(`[data-testid="arrowback-at-modules"]`).click()
-    cy.url().should('include', '${frontendURL}admin/santri')
+    cy.url().should('include', `${frontendURL}/admin/santri`)
   })
 
   it('Test if admin santri page redirect unauthorized users', () => {
