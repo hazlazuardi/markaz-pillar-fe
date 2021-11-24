@@ -7,6 +7,7 @@ import ArrowBack from "../../../../component/modules/ArrowBack";
 import { Button, Typography } from "@mui/material";
 import Link from 'next/link'
 import { enumRoutes } from "../../../../context/AppReducer";
+import TestimoniKegiatanFooter from "../../../../component/modules/TestimoniKegiatanFooter";
 
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
@@ -82,6 +83,7 @@ export default function DetailKegiatan(props) {
         <>
             <ArrowBack href={enumRoutes.MEMBER_KEGIATAN} />
             <DetailView disableDonasi CTA={<DaftarKegiatanCTA />} variant='kegiatan' data={convertedData} />
+            <TestimoniKegiatanFooter data={convertedData} />
         </>
     );
 }
