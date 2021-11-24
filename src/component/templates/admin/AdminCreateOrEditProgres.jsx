@@ -42,7 +42,9 @@ function AdminCreateOrEditProgres(props) {
                                     <Dropzone
                                         name="thumbnail"
                                         setFile={setThumbnail}
-                                        accept={"image/*"} />
+                                        accept={"image/*"}
+                                        fileSize={1048576}
+                                    />
                                 </Grid>
                                 {thumbnail.name &&
                                     <Grid item xs={12}>

@@ -39,6 +39,8 @@ function AdminSantriDonasiEdit() {
         }));
     };
 
+    const [success, setSuccess] = useState(false)
+
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
@@ -55,6 +57,7 @@ function AdminSantriDonasiEdit() {
                         message: "Donasi Santri Edited"
                     }
                 })
+                setSuccess(true)
             })
             .catch(error => {
                 setLoading(false)
@@ -101,27 +104,9 @@ function AdminSantriDonasiEdit() {
         }));
     };
 
-    const names = [
-        'RENOVASI',
-        'PEMBANGUNAN_MARKAZ'
-    ];
-
-    const [category, setCategory] = useState([]);
-
-    const handleChange = (event) => {
-        const {
-            target: { value },
-        } = event;
-        setCategory(
-            // On autofill we get a the stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-        );
-        setData((prev) => ({
-            ...prev,
-            categories: category,
-        }));
-    };
-
+    if (success) {
+        router.push("/admin/santri/donasi/"+id)
+    }
 
     return (
         <>
@@ -136,7 +121,8 @@ function AdminSantriDonasiEdit() {
                 handleChangeDonasi={handleChangeDonasi}
                 handleIsActive={handleIsActive}
                 names={names}
-                label="Scholarship Requirements"
+                label="Kebutuhan beasiswa"
+                showCategory="none"
             />
         </>
     );

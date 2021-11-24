@@ -37,6 +37,8 @@ function AdminMarkazDonasiEdit() {
         }));
     };
 
+    const [success, setSuccess] = useState(false)
+
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
@@ -53,6 +55,7 @@ function AdminMarkazDonasiEdit() {
                         message: "Donasi Markaz Edited"
                     }
                 })
+                setSuccess(true)
             })
             .catch(error => {
                 setLoading(false)
@@ -87,6 +90,14 @@ function AdminMarkazDonasiEdit() {
     const [loading, setLoading] = useState(false)
 
     const [isActive, setIsActive] = useState();
+
+    //      const handleIsActive = (event) => {
+    //        setIsActive(event.target.isActive);
+    //      };
+
+    if (success) {
+        router.push("/admin/markaz/donasi/"+id)
+    }
 
     const handleIsActive = (event) => {
         const {
@@ -135,7 +146,7 @@ function AdminMarkazDonasiEdit() {
                 handleChangeDonasi={handleChangeDonasi}
                 handleIsActive={handleIsActive}
                 names={names}
-                label="Facility Requirements"
+                label="Kebutuhan fasilitas"
             />
         </>
     );

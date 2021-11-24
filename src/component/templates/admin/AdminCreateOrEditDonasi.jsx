@@ -27,6 +27,7 @@ function AdminCreateOrEditDonasi(props) {
         names,
         label,
         showCategory,
+        displayTotal
     } = props;
 
     return (
@@ -48,7 +49,8 @@ function AdminCreateOrEditDonasi(props) {
                                 <Grid item xs={12}>
                                     <TextField
                                         name="name"
-                                        label="Donation Name"
+                                        label="Nama donasi"
+                                        placeholder="Donasi 1"
                                         fullWidth
                                         onChange={handleChangeDonasi}
                                     />
@@ -81,28 +83,31 @@ function AdminCreateOrEditDonasi(props) {
                                         label={label}
                                         fullWidth
                                         onChange={handleChangeDonasi}
+                                        placeholder="Membutuhkan donasi untuk memenuhi kebutuhan"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
                                         name="nominal"
-                                        label="Goal"
+                                        label="Nominal yang dibutuhkan"
+                                        placeholder="1000000"
                                         fullWidth
                                         onChange={handleChangeDonasi}
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
+                                <Grid item xs={12} display={displayTotal}>
                                     <TextField
                                         disabled
                                         name="donated"
-                                        label="Current Progress"
+                                        label="Jumlah donasi saat ini"
+                                        placeholder="500000"
                                         fullWidth
                                         onChange={handleChangeDonasi}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
                                         <FormControl component="fieldset">
-                                        <FormLabel><Typography><p>Display on {markazOrSantri} detail page?</p></Typography></FormLabel>
+                                        <FormLabel><Typography><p>Tampilkan di halaman detail {markazOrSantri}?</p></Typography></FormLabel>
                                           <RadioGroup
                                             aria-label="displayOnMarkazDetail"
                                             defaultValue={false}
@@ -110,8 +115,8 @@ function AdminCreateOrEditDonasi(props) {
                                             value={donasi.isActive}
                                             onChange={handleIsActive}
                                           >
-                                            <FormControlLabel value={true} control={<Radio />} label="Yes" />
-                                            <FormControlLabel value={false} control={<Radio />} label="No" />
+                                            <FormControlLabel value={true} control={<Radio />} label="Ya" />
+                                            <FormControlLabel value={false} control={<Radio />} label="Tidak" />
                                           </RadioGroup>
                                         </FormControl>
                                 </Grid>

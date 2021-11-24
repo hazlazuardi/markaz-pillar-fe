@@ -27,6 +27,8 @@ function AdminMarkazDonasiCreate(props) {
         }));
     };
 
+    const [success, setSuccess] = useState(false)
+
     const router = useRouter()
     const { markaz_id } = router.query
     const handleSubmit = async (event) => {
@@ -45,6 +47,7 @@ function AdminMarkazDonasiCreate(props) {
                         message: "Donasi Markaz Created"
                     }
                 })
+                setSuccess(true)
             })
             .catch(error => {
                 setLoading(false)
@@ -79,6 +82,14 @@ function AdminMarkazDonasiCreate(props) {
     const [loading, setLoading] = useState(false)
 
     const [isActive, setIsActive] = useState();
+
+//      const handleIsActive = (event) => {
+//        setIsActive(event.target.isActive);
+//      };
+    if (success) {
+        router.push("/admin/markaz/donasi/"+id)
+    }
+
     const handleIsActive = (event) => {
         const {
             target: { value },
@@ -115,19 +126,20 @@ function AdminMarkazDonasiCreate(props) {
 
     return (
         <>
-      <ArrowBack href={`${enumRoutes.ADMIN_MARKAZ}/${markaz_id}/donasi`} />
-            <AdminCreateOrEditDonasi
-                form={form}
-                handleSubmit={handleSubmit}
-                donasi={data}
-                createOrEdit="Create"
-                markazOrSantri="Markaz"
-                handleChange={handleChange}
-                handleChangeDonasi={handleChangeDonasi}
-                handleIsActive={handleIsActive}
-                names={names}
-                label="Facility Requirements"
-            />
+        <ArrowBack href={enumRoutes.ADMIN_MARKAZ_DETAIL} />
+        <AdminCreateOrEditDonasi
+            form={form}
+            handleSubmit={handleSubmit}
+            donasi={data}
+            createOrEdit="Create"
+            markazOrSantri="Markaz"
+            handleChange={handleChange}
+            handleChangeDonasi={handleChangeDonasi}
+            handleIsActive={handleIsActive}
+            names={names}
+            label="Kebutuhan fasilitas"
+            displayTotal="none"
+        />
         </>
     );
 }

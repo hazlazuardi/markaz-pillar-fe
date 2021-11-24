@@ -6,8 +6,6 @@ import { axiosMain } from '../../../../../axiosInstances'
 import AdminCreateOrEditDonasi from "../../../../../component/templates/admin/AdminCreateOrEditDonasi";
 import ArrowBack from "../../../../../component/modules/ArrowBack";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
-
 function AdminSantriDonasiCreate(props) {
     const { dispatch } = useAppContext();
     const [data, setData] = useState({
@@ -27,6 +25,8 @@ function AdminSantriDonasiCreate(props) {
         }));
     };
 
+    const [success, setSuccess] = useState(false)
+
     const router = useRouter()
     const { santri_id } = router.query
     const handleSubmit = async (event) => {
@@ -45,6 +45,7 @@ function AdminSantriDonasiCreate(props) {
                         message: "Donasi Santri Created"
                     }
                 })
+                setSuccess(true)
             })
             .catch(error => {
                 setLoading(false)
@@ -80,9 +81,13 @@ function AdminSantriDonasiCreate(props) {
 
     const [isActive, setIsActive] = useState();
 
-    //      const handleIsActive = (event) => {
-    //        setIsActive(event.target.isActive);
-    //      };
+    if (success) {
+        router.push("/admin/santri/donasi/"+id)
+    }
+
+//      const handleIsActive = (event) => {
+//        setIsActive(event.target.isActive);
+//      };
 
     const handleIsActive = (event) => {
         const {
@@ -95,45 +100,23 @@ function AdminSantriDonasiCreate(props) {
         }));
     };
 
-    const names = [
-        'RENOVASI',
-        'PEMBANGUNAN_MARKAZ'
-    ];
-
-    const [category, setCategory] = useState([]);
-
-    const handleChange = (event) => {
-        const {
-            target: { value },
-        } = event;
-        setCategory(
-            // On autofill we get a the stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-        );
-        setData((prev) => ({
-            ...prev,
-            categories: category,
-        }));
-    };
-
-
-
     return (
         <>
-            <ArrowBack href={`/admin/santri/${santri_id}`} />
-            <AdminCreateOrEditDonasi
-                form={form}
-                handleSubmit={handleSubmit}
-                donasi={data}
-                createOrEdit="Create"
-                markazOrSantri="Santri"
-                handleChange={handleChange}
-                handleChangeDonasi={handleChangeDonasi}
-                handleIsActive={handleIsActive}
-                names={names}
-                label="Scholarship Requirements"
-                showCategory="none"
-            />
+        <ArrowBack href={`/admin/santri/${santri_id}`} />
+        <AdminCreateOrEditDonasi
+            form={form}
+            handleSubmit={handleSubmit}
+            donasi={data}
+            createOrEdit="Create"
+            markazOrSantri="Santri"
+            handleChange={handleChange}
+            handleChangeDonasi={handleChangeDonasi}
+            handleIsActive={handleIsActive}
+            names={names}
+            label="Kebutuhan beasiswa"
+            showCategory="none"
+            displayTotal="none"
+        />
         </>
     );
 }

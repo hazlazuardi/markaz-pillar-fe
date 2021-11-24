@@ -42,6 +42,7 @@ function AdminCreateOrEditTestimoni(props) {
                                         name="thumbnail"
                                         setFile={setThumbnail}
                                         accept={"image/*"}
+                                        fileSize={1048576}
                                     />
                                 </Grid>
                                 {thumbnail.name &&
