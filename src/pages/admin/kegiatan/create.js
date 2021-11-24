@@ -2,7 +2,6 @@ import { useState, useRef } from "react";
 import { useAppContext } from "../../../context/AppContext";
 import { dispatchTypes } from "../../../context/AppReducer";
 import { axiosFormData } from "../../../axiosInstances";
-import { useRouter } from 'next/router';
 import AdminCreateOrEditKegiatan from "../../../component/templates/admin/AdminCreateOrEditKegiatan";
 import ArrowBack from "../../../component/modules/ArrowBack";
 
@@ -28,7 +27,6 @@ function AdminCreateVolunteerKegiatan() {
         }));
     };
 
-    const [submitted, setSubmitted] = useState(false);
 
     const handleSubmit = async (event) => {
         setLoading(true)
@@ -54,7 +52,7 @@ function AdminCreateVolunteerKegiatan() {
                         message: "Kegiatan Created"
                     }
                 })
-                setSubmitted(true);
+                
             })
             .catch(error => {
                 setLoading(false)

@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import DetailView from "../../../../component/templates/DetailView";
 import { axiosMain } from '../../../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../../component/modules/ArrowBack";
-import ProgresDonasiFooter from "../../../../component/modules/ProgresDonasiFooter"
-import { markazCategory } from "../../../../context/AppReducer";
-import { Button, Stack } from "@mui/material";
-import AppContext from '../../../../context/AppContext'
+import { Button } from "@mui/material";
 import Link from 'next/link'
 
 
@@ -77,7 +74,7 @@ export default function DetailKegiatan(props) {
         )
     }
 
-    
+
     if (error) return "An error has occurred.";
     if (!responseDetailKegiatan) return "Loading...";
     return (

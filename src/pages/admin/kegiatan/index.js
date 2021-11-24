@@ -7,16 +7,10 @@ import TableView from "../../../component/templates/admin/TableView";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
-export default function AdminKegiatan(props) {
-  // const { allProgram } = props;
+export default function AdminKegiatan() {
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [searchProgram, setSearchProgram] = useState("");
-  const [locationFilter, setLocationFilter] = useState();
-  const [nameFilter, setNameFilter] = useState();
-  const [categoryFilter, setCategoryFilter] = useState();
-  const [categoryFilter2, setCategoryFilter2] = useState();
-  const [categoryFilter3, setCategoryFilter3] = useState();
   const {
     data: responseProgram,
     error,

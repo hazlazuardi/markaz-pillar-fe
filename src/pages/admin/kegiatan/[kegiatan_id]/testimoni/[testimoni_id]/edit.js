@@ -14,8 +14,6 @@ function AdminEditVolunteerTestimoni() {
     const { testimoni_id, kegiatan_id } = router.query
     const {
         data: responseTestimoni,
-        error,
-        mutate,
     } = useSWR(
         router.isReady ?
             `/admin/volunteer/testimony?id=${testimoni_id}` : null,
@@ -98,7 +96,6 @@ function AdminEditVolunteerTestimoni() {
             })
     };
 
-    const pathname = router.pathname;
     const [loading, setLoading] = useState(false)
     return (
         <>

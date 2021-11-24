@@ -19,7 +19,7 @@ export default function DonasiSantri() {
     });
     const [open, setOpen] = useState(false);
 
-    const { data: responseSantri, error } = useSWR(router.isReady ? `/santri?id=${router.query.id}` : null, fetcher)
+    const { data: responseSantri } = useSWR(router.isReady ? `/santri?id=${router.query.id}` : null, fetcher)
 
     const handleError = () => {
         setOpen(true);
@@ -41,9 +41,8 @@ export default function DonasiSantri() {
         }));
     };
 
-    const [loading, setLoading] = useState(false);
     const handleSubmit = async (event) => {
-        setLoading(true)
+        
         event.preventDefault();
         const data = new FormData();
         const detailBlob = new Blob([JSON.stringify(details)], {
@@ -55,7 +54,7 @@ export default function DonasiSantri() {
         await axiosFormData
             .post("/transaction", data)
             .then(response => {
-                setLoading(false)
+                
 
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
@@ -68,7 +67,7 @@ export default function DonasiSantri() {
                 router.replace(`/santri/${details.santri}`)
             })
             .catch(error => {
-                setLoading(false)
+                
 
                 // Check & Handle if error.response is defined
                 if (!!error.response) {

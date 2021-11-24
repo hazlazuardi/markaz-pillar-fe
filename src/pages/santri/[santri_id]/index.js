@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import DetailView from '../../../component/templates/DetailView'
 import { axiosMain } from '../../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../component/modules/ArrowBack";
 import ProgresDonasiFooter from "../../../component/modules/ProgresDonasiFooter"
-import { markazCategory } from "../../../context/AppReducer";
-import { Stack } from "@mui/material";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function DetailSantri(props) {

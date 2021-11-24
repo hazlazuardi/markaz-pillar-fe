@@ -16,8 +16,6 @@ function AdminEditVolunteerKegiatan() {
     const { kegiatan_id } = router.query
     const {
         data: responseKegiatan,
-        error,
-        mutate,
     } = useSWR(
         router.isReady ?
             `/volunteer/edit?id=${kegiatan_id}` : null,

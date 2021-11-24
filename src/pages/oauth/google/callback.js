@@ -1,4 +1,4 @@
-import { useEffect} from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router'
 import { axiosMain } from "../../../axiosInstances";
 import Cookies from 'universal-cookie';
@@ -8,15 +8,15 @@ import jwtDecode from 'jwt-decode';
 
 const Callback = () => {
     const router = useRouter()
-    const cookies = new Cookies();
+    const cookies = useMemo(() => new Cookies(), []);
     const { dispatch } = useAppContext();
 
     useEffect(() => {
-        if(router.isReady) {
+        if (router.isReady) {
             axiosMain.post(`/oauth/token?state=${cookies.get("state")}`, {
                 code: router.query.code
             }).then(response => {
-                if(response.data.result.token == null) {
+                if (response.data.result.token == null) {
                     cookies.remove('fullName')
                     cookies.remove('email')
                     cookies.remove('state')
@@ -38,7 +38,7 @@ const Callback = () => {
                 }
             })
         }
-    }, [router])
+    }, [cookies, dispatch, router])
 
     return (
         <div>
