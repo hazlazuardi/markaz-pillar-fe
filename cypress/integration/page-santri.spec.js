@@ -1,5 +1,7 @@
-beforeEach(() => {
-    cy.visit('http://localhost:3000/santri')
+const frontendURL = Cypress.env('frontendURL')
+
+beforeEach(function setUser() {
+    cy.visit(`${frontendURL}/santri`)
     cy.get('[data-testid=titlePage-at-admin-or-user-template]').contains('Daftar santri', { matchCase: false }).should('exist')
 })
 

@@ -26,38 +26,60 @@ export const markazCategory = {
 }
 
 export const enumRoutes = {
+    LANDING: "/",
+
     LOGIN: "/login",
-    PROFILE: "/profile",
     REGISTRATION: "/registration",
+    
+    PROFILE: "/profile",
 
     MEMBER_MARKAZ: "/markaz",
+    MEMBER_MARKAZ_DETAIL: "/markaz/[markaz_id]",
+    MEMBER_MARKAZ_DONASI: "/markaz/[markaz_id]/donasi/bayar",
+
     MEMBER_SANTRI: "/santri",
+    MEMBER_SANTRI_DETAIL: "/santri/[santri_id]",
+    MEMBER_SANTRI_DONASI: "/santri/[santri_id]/donasi/bayar",
+
+    MEMBER_KEGIATAN: "/relawan/kegiatan",
+    MEMBER_KEGIATAN_DETAIL: "/relawan/kegiatan/[kegiatan_id]",
+    MEMBER_KEGIATAN_REGISTRASI: "/relawan/kegiatan/[kegiatan_id]/registrasi",
 
     ADMIN_MARKAZ: "/admin/markaz",
-    ADMIN_MARKAZ_DETAIL: "/admin/markaz/[id]",
+    ADMIN_MARKAZ_DETAIL: "/admin/markaz/[markaz_id]",
     ADMIN_MARKAZ_CREATE: "/admin/markaz/create",
-    ADMIN_MARKAZ_EDIT: "/admin/markaz/[progresid]/[id]",
-    ADMIN_MARKAZ_DONASI: "/admin/markaz/donasi/[id]",
-    ADMIN_MARKAZ_DONASI_CREATE: "/admin/markaz/donasi/create/[id]",
-    ADMIN_MARKAZ_DONASI_EDIT: "/admin/markaz/donasi/[progresid]/[id]",
-    ADMIN_MARKAZ_TRANSAKSI: "/admin/markaz/donasi/[id]/transaksi/[transid]",
+    ADMIN_MARKAZ_EDIT: "/admin/markaz/[markaz_id]/edit",
+    ADMIN_MARKAZ_DONASI: "/admin/markaz/[markaz_id]/donasi",
+    ADMIN_MARKAZ_DONASI_CREATE: "/admin/markaz/[markaz_id]/donasi/create",
+    ADMIN_MARKAZ_DONASI_EDIT: "/admin/markaz/[markaz_id]/donasi/[donasi_id]/edit",
+    ADMIN_MARKAZ_TRANSAKSI: "/admin/markaz/[markaz_id]/donasi/[donasi_id]/transaksi",
+    ADMIN_MARKAZ_PROGRES_DONASI_CREATE: "/admin/markaz/[markaz_id]/donasi/[donasi_id]/progres/create",
+    ADMIN_MARKAZ_PROGRES_DONASI_EDIT: "/admin/markaz/[markaz_id]/donasi/[donasi_id]/progres/[progres_id]/edit",
 
 
     ADMIN_SANTRI: "/admin/santri",
-    ADMIN_SANTRI_DETAIL: "/admin/santri/[id]",
+    ADMIN_SANTRI_DETAIL: "/admin/santri/[santri_id]",
     ADMIN_SANTRI_CREATE: "/admin/santri/create",
-    ADMIN_SANTRI_EDIT: "/admin/santri/[progresid]/[id]",
-    ADMIN_SANTRI_DONASI: "/admin/santri/donasi/[id]",
-    ADMIN_SANTRI_DONASI_CREATE: "/admin/santri/donasi/create/[id]",
-    ADMIN_SANTRI_DONASI_EDIT: "/admin/santri/donasi/[progresid]/[id]",
-    ADMIN_SANTRI_TRANSAKSI: "/admin/santri/donasi/[id]/transaksi/[transid]",
+    ADMIN_SANTRI_EDIT: "/admin/santri/[santri_id]/edit",
+    ADMIN_SANTRI_DONASI: "/admin/santri/[santri_id]/donasi",
+    ADMIN_SANTRI_DONASI_CREATE: "/admin/santri/[santri_id]/donasi/create",
+    ADMIN_SANTRI_DONASI_EDIT: "/admin/santri/[santri_id]/donasi/[donasi_id]/edit",
+    ADMIN_SANTRI_TRANSAKSI: "/admin/santri/[santri_id]/donasi/[donasi_id]/transaksi",
+    ADMIN_SANTRI_PROGRES_DONASI_CREATE: "/admin/santri/[santri_id]/donasi/[donasi_id]/progres/create",
+    ADMIN_SANTRI_PROGRES_DONASI_EDIT: "/admin/santri/[santri_id]/donasi/[donasi_id]/progres/[progres_id]/edit",
 
-    ADMIN_PROGRAM_VOLUNTEER: "/admin/kegiatan",
-    ADMIN_PESERTA_VOLUNTEER: "/admin/kegiatan/[id]",
+
+    ADMIN_KEGIATAN: "/admin/kegiatan",
+    ADMIN_KEGIATAN_CREATE: "/admin/kegiatan/create",
+    ADMIN_KEGIATAN_EDIT: "/admin/kegiatan/[kegiatan_id]/edit",
+    ADMIN_KEGIATAN_DETAIL: "/admin/kegiatan/[kegiatan_id]",
+    ADMIN_KEGIATAN_DAFTAR: "/admin/kegiatan/[kegiatan_id]/relawan",
+    ADMIN_KEGIATAN_TESTIMONI_CREATE: "/admin/kegiatan/[kegiatan_id]/testimoni/create",
+    ADMIN_KEGIATAN_TESTIMONI_EDIT: "/admin/kegiatan/[kegiatan_id]/testimoni/[testimoni_id]/edit",
+
 
     ADMIN_DATA_PENGGUNA: "/admin/data-pengguna",
 
-    LANDING: "/",
 
 };
 
@@ -150,7 +172,7 @@ export const AppReducer = (state, action) => {
                 currentRefreshToken: action.payload.currentRefreshToken,
                 snackbarStatus: true,
                 snackbarSeverity: 'success',
-                snackbarMessage: `Welcome back, ${action.payload.currentUser}`
+                snackbarMessage: `Welcome back, ${action.payload.currentUser.split('@')[0]}`
             }
         }
         case dispatchTypes.LOGIN_FAIL: {

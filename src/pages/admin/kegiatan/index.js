@@ -7,16 +7,10 @@ import TableView from "../../../component/templates/admin/TableView";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
-export default function AdminMarkaz(props) {
-  // const { allProgram } = props;
+export default function AdminKegiatan() {
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [searchProgram, setSearchProgram] = useState("");
-  const [locationFilter, setLocationFilter] = useState();
-  const [nameFilter, setNameFilter] = useState();
-  const [categoryFilter, setCategoryFilter] = useState();
-  const [categoryFilter2, setCategoryFilter2] = useState();
-  const [categoryFilter3, setCategoryFilter3] = useState();
   const {
     data: responseProgram,
     error,
@@ -32,13 +26,13 @@ export default function AdminMarkaz(props) {
     //   refreshInterval: 30000,
     // }
   );
-
+  
   // *******************************************************
   // Delete
   // *******************************************************
   const handleDeleteMarkaz = async (id) => {
     await axiosMain
-      .delete(`/admin/markaz?id=${id}`)
+      .delete(`/admin/volunteer?id=${id}`)
       .then((response) => {
         mutate();
       })
@@ -53,8 +47,9 @@ export default function AdminMarkaz(props) {
     return (
       <GridView
         data={responseProgram}
-        detail="admin/markaz"
+        detail="admin/kegiatan"
         handleDelete={handleDeleteMarkaz}
+        markazOrSantri="kegiatan"
       />
     );
   };
@@ -63,7 +58,7 @@ export default function AdminMarkaz(props) {
     return (
       <TableView
         data={responseProgram}
-        detail="admin/markaz"
+        detail="admin/kegiatan"
         handleDelete={handleDeleteMarkaz}
         santriormarkaz="kegiatan"
         titleTwo="Volunteer Dibutuhkan"
@@ -88,17 +83,7 @@ export default function AdminMarkaz(props) {
         setPage={setPage}
         data={responseProgram}
         error={error}
-        hrefCreate="/admin/markaz/create"
-        locationFilter={locationFilter}
-        setLocationFilter={setLocationFilter}
-        nameFilter={nameFilter}
-        setNameFilter={setNameFilter}
-        categoryFilter={categoryFilter}
-        setCategoryFilter={setCategoryFilter}
-        categoryFilter2={categoryFilter2}
-        setCategoryFilter2={setCategoryFilter2}
-        categoryFilter3={categoryFilter3}
-        setCategoryFilter3={setCategoryFilter3}
+        hrefCreate="/admin/kegiatan/create"
         mutate={mutate}
       />
     </>

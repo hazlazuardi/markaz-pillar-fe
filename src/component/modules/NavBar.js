@@ -1,7 +1,7 @@
 import { AppBar, Avatar, Button, IconButton, List, ListItem, ListItemText, SwipeableDrawer, Toolbar, Typography, Container, Stack } from '@mui/material'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
-import { Box, minWidth } from '@mui/system'
+import { Box } from '@mui/system'
 import MenuIcon from '@mui/icons-material/Menu'
 import Link from 'next/link'
 import { useAppContext } from '../../context/AppContext'
@@ -22,7 +22,7 @@ export default function NavBar() {
         },
         {
             name: 'Relawan',
-            path: isAdmin ? '/admin/kegiatan' : '/kegiatan',
+            path: isAdmin ? '/admin/kegiatan' : '/relawan/kegiatan',
         },
         {
             name: isAdmin ? 'Pengajar' : 'Kelas',
@@ -51,10 +51,6 @@ export default function NavBar() {
             type: dispatchTypes.LOGOUT
         })
     }
-
-    // useEffect(() => {
-    //     return;
-    // }, [handleLogout])
 
     const [open, setOpen] = useState({
         right: false

@@ -2,8 +2,8 @@ import { useState, useRef } from "react";
 import { useAppContext } from "../../../context/AppContext";
 import { dispatchTypes } from "../../../context/AppReducer";
 import { axiosFormData } from "../../../axiosInstances";
-import { useRouter } from 'next/router';
 import AdminCreateOrEditKegiatan from "../../../component/templates/admin/AdminCreateOrEditKegiatan";
+import ArrowBack from "../../../component/modules/ArrowBack";
 
 function AdminCreateVolunteerKegiatan() {
     const { dispatch } = useAppContext();
@@ -27,7 +27,6 @@ function AdminCreateVolunteerKegiatan() {
         }));
     };
 
-    const [submitted, setSubmitted] = useState(false);
 
     const handleSubmit = async (event) => {
         setLoading(true)
@@ -39,7 +38,7 @@ function AdminCreateVolunteerKegiatan() {
         data.append("thumbnail", thumbnail);
         data.append("detail", kegiatanBlob);
 
-        console.log(kegiatan);
+        
 
         await axiosFormData
             .post("/admin/volunteer", data)
@@ -53,7 +52,7 @@ function AdminCreateVolunteerKegiatan() {
                         message: "Kegiatan Created"
                     }
                 })
-                setSubmitted(true);
+                
             })
             .catch(error => {
                 setLoading(false)
@@ -94,16 +93,19 @@ function AdminCreateVolunteerKegiatan() {
 
     const [loading, setLoading] = useState(false)
     return (
-        <AdminCreateOrEditKegiatan
-            form={form}
-            handleSubmit={handleSubmit}
-            thumbnail={thumbnail}
-            setThumbnail={setThumbnail}
-            loading={loading}
-            createOrEdit="Create"
-            handleChangeKegiatan={handleChangeKegiatan}
-            kegiatan={kegiatan}
-        />
+        <>
+            <ArrowBack href='/admin/kegiatan' />
+            <AdminCreateOrEditKegiatan
+                form={form}
+                handleSubmit={handleSubmit}
+                thumbnail={thumbnail}
+                setThumbnail={setThumbnail}
+                loading={loading}
+                createOrEdit="Create"
+                handleChangeKegiatan={handleChangeKegiatan}
+                kegiatan={kegiatan}
+            />
+        </>
     );
 }
 
