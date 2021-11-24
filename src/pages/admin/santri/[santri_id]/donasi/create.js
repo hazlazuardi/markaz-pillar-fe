@@ -82,7 +82,7 @@ function AdminSantriDonasiCreate(props) {
     const [isActive, setIsActive] = useState();
 
     if (success) {
-        router.push("/admin/santri/donasi/"+id)
+        router.push("/admin/markaz/"+santri_id+"donasi/")
     }
 
 //      const handleIsActive = (event) => {

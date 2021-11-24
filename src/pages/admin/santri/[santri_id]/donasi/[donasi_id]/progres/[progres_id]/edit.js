@@ -9,13 +9,11 @@ import ArrowBack from "../../../../../../../../component/modules/ArrowBack";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 
-function AdminEditSantriProgresDonasi(props) {
+function AdminEditSantriProgresDonasi() {
     const router = useRouter();
     const { santri_id, donasi_id, progres_id } = router.query
     const {
         data: responseProgres,
-        error,
-        mutate,
     } = useSWR(
         router.isReady ?
             `/admin/donation?id=${donasi_id}` : null,
@@ -37,6 +35,8 @@ function AdminEditSantriProgresDonasi(props) {
             [name]: value,
         }));
     };
+
+    const [success, setSuccess] = useState(false)
 
     const handleSubmit = async (event) => {
         setLoading(true)
@@ -60,6 +60,7 @@ function AdminEditSantriProgresDonasi(props) {
                         message: "Progres Edited"
                     }
                 })
+                setSuccess(true)
             })
             .catch(error => {
                 setLoading(false)
@@ -97,6 +98,10 @@ function AdminEditSantriProgresDonasi(props) {
                 }
             })
     };
+
+    if (success) {
+        router.push("/admin/santri/"+santri_id+"/")
+    }
 
     const [loading, setLoading] = useState(false)
     return (

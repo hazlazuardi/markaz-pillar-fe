@@ -27,6 +27,8 @@ function AdminCreateSantriProgresDonasi() {
         }));
     };
 
+    const [success, setSuccess] = useState(false)
+
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
@@ -49,6 +51,7 @@ function AdminCreateSantriProgresDonasi() {
                         message: "Progres Created"
                     }
                 })
+                setSuccess(true)
             })
             .catch(error => {
                 setLoading(false)
@@ -86,6 +89,10 @@ function AdminCreateSantriProgresDonasi() {
                 }
             })
     };
+
+    if (success) {
+        router.push("/admin/santri/"+santri_id+"/")
+    }
 
     const [loading, setLoading] = useState(false)
     return (

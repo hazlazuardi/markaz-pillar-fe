@@ -14,8 +14,6 @@ function AdminSantriDonasiEdit() {
     const { santri_id, donasi_id } = router.query
     const {
         data: responseDonasi,
-        error,
-        mutate,
     } = useSWR(
         router.isReady ?
             `/admin/donation?id=${donasi_id}` : null,
@@ -105,7 +103,7 @@ function AdminSantriDonasiEdit() {
     };
 
     if (success) {
-        router.push("/admin/santri/donasi/"+id)
+        router.push("/admin/santri/"+santri_id+"donasi/")
     }
 
     return (

@@ -84,8 +84,9 @@ function AdminMarkazDonasiCreate(props) {
 //      const handleIsActive = (event) => {
 //        setIsActive(event.target.isActive);
 //      };
+
     if (success) {
-        router.push("/admin/markaz/donasi/"+id)
+        router.push("/admin/markaz/"+markaz_id+"donasi/")
     }
 
     const handleIsActive = (event) => {
