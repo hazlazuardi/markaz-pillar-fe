@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useAppContext } from "../../../../../context/AppContext";
-import { dispatchTypes, enumRoutes } from "../../../../../context/AppReducer";
+import { dispatchTypes } from "../../../../../context/AppReducer";
 import { axiosFormData } from "../../../../../axiosInstances";
 import { useRouter } from 'next/router';
 import AdminCreateOrEditTestimoni from "../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
@@ -25,6 +25,8 @@ function AdminCreateVolunteerTestimoni() {
         }));
     };
 
+    const [success, setSuccess] = useState(false)
+
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
@@ -48,7 +50,7 @@ function AdminCreateVolunteerTestimoni() {
                         message: "Testimoni Created"
                     }
                 })
-                router.push(`${enumRoutes.ADMIN_KEGIATAN}/${kegiatan_id}`)
+                setSuccess(true)
             })
             .catch(error => {
                 setLoading(false)
@@ -86,6 +88,10 @@ function AdminCreateVolunteerTestimoni() {
                 }
             })
     };
+
+    if (success) {
+        router.push("/admin/kegiatan/"+kegiatan_id)
+    }
 
     const [loading, setLoading] = useState(false)
     return (

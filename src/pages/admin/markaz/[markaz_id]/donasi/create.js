@@ -6,8 +6,6 @@ import { axiosMain } from "../../../../../axiosInstances";
 import AdminCreateOrEditDonasi from "../../../../../component/templates/admin/AdminCreateOrEditDonasi";
 import ArrowBack from "../../../../../component/modules/ArrowBack";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
-
 function AdminMarkazDonasiCreate(props) {
     const { dispatch } = useAppContext();
     const [data, setData] = useState({

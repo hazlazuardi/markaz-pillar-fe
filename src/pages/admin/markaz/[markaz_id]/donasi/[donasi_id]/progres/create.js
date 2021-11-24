@@ -27,6 +27,8 @@ function AdminCreateMarkazProgresDonasi() {
         }));
     };
 
+    const [success, setSuccess] = useState(false)
+
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
@@ -49,6 +51,7 @@ function AdminCreateMarkazProgresDonasi() {
                         message: "Progres Created"
                     }
                 })
+                setSuccess(true)
             })
             .catch(error => {
                 setLoading(false)
@@ -86,6 +89,10 @@ function AdminCreateMarkazProgresDonasi() {
                 }
             })
     };
+
+    if (success) {
+        router.push("/admin/markaz/"+markaz_id+"donasi/")
+    }
 
     const [loading, setLoading] = useState(false)
     return (

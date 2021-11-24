@@ -36,6 +36,8 @@ function AdminEditVolunteerTestimoni() {
         }));
     };
 
+    const [success, setSuccess] = useState(false)
+
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
@@ -58,6 +60,7 @@ function AdminEditVolunteerTestimoni() {
                         message: "Testimoni Edited"
                     }
                 })
+                setSuccess(true)
             })
             .catch(error => {
                 setLoading(false)
@@ -95,6 +98,10 @@ function AdminEditVolunteerTestimoni() {
                 }
             })
     };
+
+    if (success) {
+        router.push("/admin/kegiatan/"+kegiatan_id)
+    }
 
     const [loading, setLoading] = useState(false)
     return (

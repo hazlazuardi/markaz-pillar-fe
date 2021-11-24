@@ -10,7 +10,7 @@ const fetcher = url => axiosMain.get(url).then(res => res.data)
 
 function AdminEditMarkazProgresDonasi(props) {
     const router = useRouter();
-    const { donasi_id, progres_id } = router.query
+    const { markaz_id, donasi_id, progres_id } = router.query
     const {
         data: responseProgres,
     } = useSWR(
@@ -34,6 +34,8 @@ function AdminEditMarkazProgresDonasi(props) {
         }));
     };
 
+    const [success, setSuccess] = useState(false)
+
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
@@ -56,6 +58,7 @@ function AdminEditMarkazProgresDonasi(props) {
                         message: "Progres Edited"
                     }
                 })
+                setSuccess(true)
             })
             .catch(error => {
                 setLoading(false)
@@ -93,6 +96,11 @@ function AdminEditMarkazProgresDonasi(props) {
                 }
             })
     };
+
+    if (success) {
+        router.push("/admin/markaz/"+markaz_id+"donasi/")
+    }
+
     const [loading, setLoading] = useState(false)
     return (
         <AdminCreateOrEditProgres
