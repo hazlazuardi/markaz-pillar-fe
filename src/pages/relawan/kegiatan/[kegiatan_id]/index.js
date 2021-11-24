@@ -5,7 +5,8 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../../component/modules/ArrowBack";
 import { Button } from "@mui/material";
-import Link from 'next/link'
+import Link from 'next/link';
+import TestimoniKegiatanFooter from "../../../../component/modules/TestimoniKegiatanFooter";
 
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
@@ -81,6 +82,7 @@ export default function DetailKegiatan(props) {
         <>
             <ArrowBack href='/relawan/kegiatan' />
             <DetailView disableDonasi CTA={<DaftarKegiatanCTA />} variant='markaz' data={convertedData} hrefDonasi={`/markaz/${kegiatan_id}/donasi`} />
+            <TestimoniKegiatanFooter data={convertedData} />
         </>
     );
 }
