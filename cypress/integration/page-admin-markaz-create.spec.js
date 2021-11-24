@@ -57,14 +57,14 @@ describe('Test it is in the correct page', () => {
   it('Test ArrowBack directs to Admin Markaz', () => {
     cy.get(`[data-testid="arrowback-at-modules"]`).should('exist')
     cy.get(`[data-testid="arrowback-at-modules"]`).click()
-    cy.url().should('eq', 'http://localhost:3000/admin/markaz')
+    cy.url().should('include', `${frontendURL}/admin/markaz`)
   })
 
   it('Test if admin markaz page redirect unauthorized users', () => {
     cy.get('#menuIconButton').should('exist').click()
     cy.get('button').contains('Keluar').should('exist').click()
     cy.visit(`${frontendURL}/admin/markaz/create`)
-    cy.url().should('eq', 'http://localhost:3000/')
+    cy.url().should('include', `${frontendURL}`)
 })
 
 })
@@ -83,7 +83,6 @@ describe(`Test functionality of inputs when create new markaz`, () => {
     cy.get('#markazContactNameAtComponentAdminCreateOrEditMarkaz').type('Rija')
     cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
     // cy.get('#snackbarAtLayout').contains('Markaz Created').should('exist')
-    cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
   });
 
   it('Test if fails if empty field(s)', () => {
@@ -95,7 +94,6 @@ describe(`Test functionality of inputs when create new markaz`, () => {
     cy.get('#category-select').click().get('li').contains('Markaz Umum').click()
     cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
     cy.get('#snackbarAtLayout').should('exist')
-    cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
   });
 
   it('Test if fails if image is too big', () => {
@@ -107,6 +105,5 @@ describe(`Test functionality of inputs when create new markaz`, () => {
     cy.get('#markazAddressAtComponentAdminCreateOrEditMarkaz').type('0811114433')
     cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
     cy.get('#snackbarAtLayout').should('exist')
-    cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
   });
 });

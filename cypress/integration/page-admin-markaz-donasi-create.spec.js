@@ -42,7 +42,7 @@ beforeEach(function setUser() {
     },
   })
   // the page should be opened and the user should be logged in
-  cy.visit(`${frontendURL}/admin/markaz/donasi/create/2`)
+  cy.visit(`${frontendURL}/admin/markaz/2/donasi/create`)
 })
 
 describe('Test it is in the correct page', () => {
@@ -57,14 +57,14 @@ describe('Test it is in the correct page', () => {
   it('Test ArrowBack directs to Admin Markaz', () => {
     cy.get(`[data-testid="arrowback-at-modules"]`).should('exist')
     cy.get(`[data-testid="arrowback-at-modules"]`).click()
-    cy.url().should('eq', 'http://localhost:3000/admin/markaz/donasi/2')
+    cy.url().should('include', `${frontendURL}/admin/markaz/2`)
   })
 
   it('Test if admin create donasi markaz page redirect unauthorized users', () => {
     cy.get('#menuIconButton').should('exist').click()
     cy.get('button').contains('Keluar').should('exist').click()
-    cy.visit(`${frontendURL}/admin/markaz/donasi/create/2`)
-    cy.url().should('eq', 'http://localhost:3000/')
+    cy.visit(`${frontendURL}/admin/markaz/2/donasi/create`)
+    cy.url().should('include', `${frontendURL}`)
   })
 
 })

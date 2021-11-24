@@ -1,37 +1,37 @@
 import React from "react";
-import Card from "../../modules/Card";
 import Grid from "@mui/material/Grid";
 import GridViewCard from "../../modules/GridViewCard";
 import Masonry from "@mui/lab/Masonry";
 import { Box } from "@mui/system";
-import { Container, useMediaQuery } from "@mui/material";
+import { Container } from "@mui/material";
 
 export default function GridView(props) {
-  const { data, markazOrSantri, intr1Butt, detail, handleDelete } = props;
+  const { data, disableMasonry } = props;
   // array of objects
   const fullResponseResult = data.result;
 
-  console.log(fullResponseResult)
 
-  //   return (
-  //     <Grid
-  //       container
-  //       spacing={3}
-  //       sx={{ display: "flex", justifyContent: "center" }}
-  //     >
-  //       {fullResponseResult.map((result) => (
-  //         <Grid item key={result.id}>
-  //           <GridViewCard image={result.thumbnailURL} title={result.name} description={result.background} />
-  //         </Grid>
-  //       ))}
-  //     </Grid>
-  //   );
-  // }
+  if (disableMasonry) {
+    return (
+      <Grid
+        container
+        spacing={3}
+        sx={{ display: "flex", justifyContent: "center" }}
+      >
+        {fullResponseResult.map((result) => (
+          <Grid item key={result.id}>
+            <GridViewCard image={result.thumbnailURL} title={result.name} description={result.background} />
+          </Grid>
+        ))}
+      </Grid>
+    );
+  }
+
 
   return (
     <Container
       disableGutters
-      maxWidth={1200}
+      maxWidth='lg'
       sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
     >
       {!!data && (
@@ -48,9 +48,7 @@ export default function GridView(props) {
           >
             {fullResponseResult.map((result) => (
               <Box key={result.id} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                {markazOrSantri === "kegiatan"? (
-                  <GridViewCard fullResponseResult={result} image={result.thumbnailURL} title={result.name} description={result.description} />
-                ):(<GridViewCard fullResponseResult={result} image={result.thumbnailURL} title={result.name} description={result.background} />)}
+                <GridViewCard fullResponseResult={result} image={result.thumbnailURL} title={result.name} description={result.background} {...props} />
               </Box>
             ))}
           </Masonry>
@@ -60,18 +58,3 @@ export default function GridView(props) {
   );
 }
 
-{
-  /* <GridViewCard
-key={result.id}
-name={result.name}
-image={result.thumbnailURL}
-desc={result.background}
-intr_1="[progresid]"
-intr_2="delete"
-markazOrSantri={markazOrSantri}
-id={result.id}
-intr1Butt={intr1Butt}
-detail={detail}
-handleDelete={handleDelete}
-/> */
-}

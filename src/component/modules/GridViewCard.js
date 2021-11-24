@@ -4,7 +4,6 @@ import {
   CardActions,
   CardContent,
   CardMedia,
-  Container,
   Stack,
   Typography,
   useMediaQuery,
@@ -16,20 +15,91 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useAppContext } from "../../context/AppContext";
+import { dispatchTypes, roleType } from "../../context/AppReducer";
 
 export default function GridViewCard(props) {
-  const { fullResponseResult, image, title, description } = props;
-  const { state } = useAppContext();
-  const { currentUser } = state;
+  const { fullResponseResult, image, title, description, handleDelete, CTAs } = props;
+  const { state, dispatch } = useAppContext();
+  const { currentUser, currentUserRole } = state;
+
   const router = useRouter();
   const path = router.pathname;
-  const isAdmin = path.includes("admin");
+  const isAdmin = currentUserRole === roleType.ROLE_SUPERUSER
+
   const isXXS = useMediaQuery("(max-width:400px)");
   const IMAGE_SIZE = 252;
+
+  const handleDonasiCTA = () => {
+    if (!!currentUser) {
+      router.push(`${path}/${fullResponseResult.id}/donasi`)
+    } else {
+      dispatch({ type: dispatchTypes.LOGIN_NEEDED })
+      router.push('/login')
+    }
+  }
+
+  const CTAGroup = () => {
+    if (CTAs) {
+      return (
+        <CTAs />
+      )
+    }
+    if (isAdmin) {
+      return (
+        <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
+          <Link href={`${path}/${fullResponseResult.id}/edit`} passHref>
+            <Button
+              data-testid='edit-button-at-gridview-card'
+              variant="contained"
+              color="primary"
+              fullWidth
+              size="small"
+            >
+              Edit
+            </Button>
+          </Link>
+          <Button
+            data-testid='delete-button-at-gridview-card'
+            onClick={() => handleDelete(fullResponseResult.id)} variant="outlined" color="primary" fullWidth size="small">
+            Delete
+          </Button>
+        </Stack>
+      )
+    } else {
+      return (
+        <Stack direction="row" width="100%" spacing={2} >
+          {!!fullResponseResult.hasDonation && (
+            <Button
+              data-testid="donasi-button-at-gridview-card"
+              variant="contained"
+              color="primary"
+              fullWidth
+              size="small"
+              onClick={handleDonasiCTA}
+            >
+              Donasi
+            </Button>)}
+          <Link href={`${path}/${fullResponseResult.id}`} passHref>
+            <Button
+              data-testid="lihat-detail-button-at-gridview-card"
+              variant="outlined"
+              color="primary"
+              fullWidth
+              size="small"
+            >
+              Lihat Detail
+            </Button>
+          </Link>
+        </Stack>
+      )
+    }
+  }
+
   return (
     <>
       <Card sx={{ width: IMAGE_SIZE }}>
         <CardActionArea
+          data-testid='card-action-area-at-gridview-card'
           onClick={() => router.push(`${path}/${fullResponseResult.id}`)}
         >
           <CardMedia
@@ -55,6 +125,7 @@ export default function GridViewCard(props) {
                 alt="Backdrop"
                 width={isXXS ? 16 : undefined}
                 height={isXXS ? 16 : undefined}
+                position='relative'
               />
             </Box>
           </CardMedia>
@@ -73,63 +144,9 @@ export default function GridViewCard(props) {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          {isAdmin ? (
-            <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
-              <Link href={`${path}/edit/${fullResponseResult.id}`} passHref>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  size="small"
-                >
-                  Edit
-                </Button>
-              </Link>
-              <Button variant="outlined" color="primary" fullWidth size="small">
-                Delete
-              </Button>
-            </Stack>
-          ) : (
-            <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
-              {!!currentUser ? (
-                <Link href={`${path}/donasi/${fullResponseResult.id}`} passHref>
-                  <Button
-                    data-testid="donasi-button-at-gridview-card"
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    size="small"
-                  >
-                    Donasi
-                  </Button>
-                </Link>
-              ) : (
-                <Link href={`login`} passHref>
-                  <Button
-                    data-testid="donasi-button-at-gridview-card"
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    size="small"
-                  >
-                    Donasi
-                  </Button>
-                </Link>
-              )}
-
-              <Link href={`${path}/${fullResponseResult.id}`} passHref>
-                <Button
-                  data-testid="lihat-detail-button-at-gridview-card"
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  size="small"
-                >
-                  Lihat Detail
-                </Button>
-              </Link>
-            </Stack>
-          )}
+          <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
+            <CTAGroup />
+          </Stack>
         </CardActions>
       </Card>
     </>

@@ -11,7 +11,6 @@ export default function TableView(props) {
     titleThree,
     titleFour,
     titleFive,
-    iddonasi,
     handleDelete,
     mutate,
   } = props;
@@ -41,7 +40,7 @@ export default function TableView(props) {
       return field.username;
     } else if (santriormarkaz === "kegiatan") {
       return field.volunteerNeeded;
-    } else if (santriormarkaz === "kegiatan") {
+    } else if (santriormarkaz === "volunteer") {
       return field.ktp;
     }
   }
@@ -59,7 +58,7 @@ export default function TableView(props) {
       return field.email;
     } else if (santriormarkaz === "kegiatan") {
       return field.volunteerApplied;
-    } else if (santriormarkaz === "kegiatan") {
+    } else if (santriormarkaz === "volunteer") {
       return field.email;
     }
   }
@@ -77,7 +76,7 @@ export default function TableView(props) {
       return field.phoneNum;
     } else if (santriormarkaz === "kegiatan") {
       return field.location;
-    } else if (santriormarkaz === "kegiatan") {
+    } else if (santriormarkaz === "volunteer") {
       return field.phoneNum;
     }
   }
@@ -117,7 +116,7 @@ export default function TableView(props) {
       return field.address;
     } else if (santriormarkaz === "kegiatan") {
       return null;
-    } else if (santriormarkaz === "kegiatan") {
+    } else if (santriormarkaz === "volunteer") {
       return statusConverter(field.status);
     }
   }
@@ -141,7 +140,7 @@ export default function TableView(props) {
           tanggal={fieldFive(user)}
           santriormarkaz={santriormarkaz}
           detail={detail}
-          iddonasi={iddonasi}
+          iddonasi={user.uniqueId}
           uniqueid={user.uniqueId}
           trxId={user.trxId}
           paymenturl={user.paymentURL}

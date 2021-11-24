@@ -7,7 +7,7 @@ let currentUserRole
 let currentAccessToken
 let currentRefreshToken
 
-const TRASAKSI_ID_MARKAZ = 'cnav-usycb-qejy'
+const DONASI_ID = 'cnav-usycb-qejy'
 const MARKAZ_ID = 1;
 
 const backendURL = Cypress.env('backendURL')
@@ -45,7 +45,7 @@ beforeEach(function setUser() {
     },
   })
   // the page should be opened and the user should be logged in
-  cy.visit(`${frontendURL}/admin/markaz/donasi/${MARKAZ_ID}/transaksi/${TRASAKSI_ID_MARKAZ}`)
+  cy.visit(`${frontendURL}/admin/markaz/${MARKAZ_ID}/donasi/${DONASI_ID}/transaksi`)
 })
 
 
@@ -64,15 +64,15 @@ describe("Test it is in the correct page", () => {
   it('Test ArrowBack directs to Admin Markaz', () => {
     cy.get(`[data-testid="arrowback-at-modules"]`).should('exist')
     cy.get(`[data-testid="arrowback-at-modules"]`).click()
-    cy.url().should('eq', `http://localhost:3000/admin/markaz/donasi/${MARKAZ_ID}`)
+    cy.url().should('include', `${frontendURL}/admin/markaz/${MARKAZ_ID}/donasi`)
   })
 
 
   it('Test if admin transaksi markaz page redirect unauthorized users', () => {
     cy.get('#menuIconButton').should('exist').click()
     cy.get('button').contains('Keluar').should('exist').click()
-    cy.visit(`${frontendURL}/admin/markaz/donasi/${MARKAZ_ID}/transaksi/${TRASAKSI_ID_MARKAZ}`)
-    cy.url().should('eq', 'http://localhost:3000/')
+    cy.visit(`${frontendURL}/admin/markaz/${MARKAZ_ID}/donasi/${DONASI_ID}/transaksi`)
+    cy.url().should('include', `${frontendURL}`)
   })
 });
 

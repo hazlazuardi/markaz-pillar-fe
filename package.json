@@ -60,7 +60,8 @@
     "sourceMap": false,
     "instrument": false,
     "exclude": [
-      "pages/api/__coverage__.js"
+      "pages/api/__coverage__.js",
+      "component/SwipeableEnableScroll.js"
     ]
   }
 }
