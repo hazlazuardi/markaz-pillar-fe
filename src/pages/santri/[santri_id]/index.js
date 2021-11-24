@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
-import DetailView from '../../component/templates/DetailView'
-import { axiosMain } from '../../axiosInstances';
+import DetailView from '../../../component/templates/DetailView'
+import { axiosMain } from '../../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
-import ArrowBack from "../../component/modules/ArrowBack";
-import ProgresDonasiFooter from "../../component/modules/ProgresDonasiFooter"
-import { markazCategory } from "../../context/AppReducer";
+import ArrowBack from "../../../component/modules/ArrowBack";
+import ProgresDonasiFooter from "../../../component/modules/ProgresDonasiFooter"
+import { markazCategory } from "../../../context/AppReducer";
 import { Stack } from "@mui/material";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function DetailSantri(props) {
   const { detailSantri } = props
   const router = useRouter();
-  const { id } = router.query
-  const { data: responseDetailSantri, error } = useSWR(router.isReady ? `/santri?id=${id}` : null,
+  const { santri_id } = router.query
+  const { data: responseDetailSantri, error } = useSWR(router.isReady ? `/santri?id=${santri_id}` : null,
     fetcher,
     { fallbackData: detailSantri, refreshInterval: 10000 }
   )
@@ -70,7 +70,7 @@ export default function DetailSantri(props) {
 
   //   }
   // }, [responseDetailSantri])
-  
+
   if (error) return "An error has occurred.";
   if (!responseDetailSantri) return "Loading...";
   return (
@@ -83,7 +83,7 @@ export default function DetailSantri(props) {
 }
 
 export async function getStaticProps(context) {
-  const id = context.params.id;
+  const id = context.params.santri_id;
   const staticDetailSantriResponse = await axiosMain.get(`/santri?id=${id}`)
   const staticDetailSantri = staticDetailSantriResponse.data
   return {
@@ -99,7 +99,7 @@ export async function getStaticPaths() {
   const staticAllSantri = await staticAllSantriResponse.data
 
   const paths = await staticAllSantri.result.map((santri) => ({
-    params: { id: santri.id.toString() },
+    params: { santri_id: santri.id.toString() },
   }));
 
   return {

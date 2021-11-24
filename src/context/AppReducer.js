@@ -35,11 +35,11 @@ export const enumRoutes = {
 
     MEMBER_MARKAZ: "/markaz",
     MEMBER_MARKAZ_DETAIL: "/markaz/[markaz_id]",
-    MEMBER_MARKAZ_DONASI: "/markaz/[markaz_id]/donasi",
+    MEMBER_MARKAZ_DONASI: "/markaz/[markaz_id]/donasi/bayar",
 
     MEMBER_SANTRI: "/santri",
     MEMBER_SANTRI_DETAIL: "/santri/[santri_id]",
-    MEMBER_SANTRI_DONASI: "/santri/[santri_id]/donasi",
+    MEMBER_SANTRI_DONASI: "/santri/[santri_id]/donasi/bayar",
 
     MEMBER_KEGIATAN: "/relawan/kegiatan",
     MEMBER_KEGIATAN_DETAIL: "/relawan/kegiatan/[kegiatan_id]",

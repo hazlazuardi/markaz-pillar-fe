@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import DonationForm from '../../../component/templates/form/DonationForm'
+import DonationForm from '../../../../component/templates/form/DonationForm'
 import { useRouter } from 'next/router'
-import { axiosFormData } from "../../../axiosInstances";
-import { useAppContext } from "../../../context/AppContext";
-import { dispatchTypes } from "../../../context/AppReducer";
+import { axiosFormData } from "../../../../axiosInstances";
+import { useAppContext } from "../../../../context/AppContext";
+import { dispatchTypes } from "../../../../context/AppReducer";
 import useSWR from "swr";
 import Typography from "@mui/material/Typography";
-import ArrowBack from '../../../component/modules/ArrowBack';
+import ArrowBack from '../../../../component/modules/ArrowBack';
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 
