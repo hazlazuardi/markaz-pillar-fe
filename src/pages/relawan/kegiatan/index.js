@@ -4,9 +4,8 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import EmailIcon from "@mui/icons-material/Email";
 import { Grid, Button, Stack, Typography, useMediaQuery } from "@mui/material";
 import Link from "next/link";
-import GridView from "../../component/templates/admin/GridView";
-import LandingGridView from "../../component/templates/LandingGridView";
-import { axiosMain } from "../../axiosInstances";
+import LandingGridView from "../../../component/templates/LandingGridView";
+import { axiosMain } from "../../../axiosInstances";
 import useSWR from "swr";
 import { useState, useEffect } from "react";
 
@@ -128,7 +127,7 @@ export default function Home() {
                     mt={4}
                   >
                     <Link
-                      href={`volunteer/kegiatan/${randomProgram.result.id}`}
+                      href={`kegiatan/${randomProgram.result.id}/registrasi`}
                       passHref
                     >
                       <Button
@@ -141,7 +140,7 @@ export default function Home() {
                       </Button>
                     </Link>
                     <Link
-                      href={`volunteer/${randomProgram.result.id}`}
+                      href={`kegiatan/${randomProgram.result.id}`}
                       passHref
                     >
                       <Button

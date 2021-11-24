@@ -29,6 +29,8 @@ export default function LandingGridView(props) {
   // Pagination
   // *******************************************************
   const matchXs = useMediaQuery("(max-width:600px)");
+  const [doAnimateHeight, setDoAnimateHeight] = useState(false);
+
   const handlePagination = useCallback(
     (event, value) => {
       setPage(value);
@@ -54,7 +56,7 @@ export default function LandingGridView(props) {
         <Stack sx={{ bottom: "0em" }} spacing={2} alignItems="center">
           <Pagination
             data-testid="pagination-at-admin-or-user-template"
-            size={matchXs ? "small" : "medium"}
+            size={size}
             boundaryCount={1}
             count={data.totalPage}
             page={page}
