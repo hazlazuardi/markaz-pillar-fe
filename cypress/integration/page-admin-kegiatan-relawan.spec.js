@@ -7,7 +7,7 @@ let currentUserRole;
 let currentAccessToken;
 let currentRefreshToken;
 
-const MARKAZ_ID = 1;
+const KEGIATAN_ID = "1";
 
 const backendURL = Cypress.env("backendURL");
 const frontendURL = Cypress.env("frontendURL");
@@ -51,31 +51,31 @@ beforeEach(function setUser() {
     },
   });
   // the page should be opened and the user should be logged in
-  cy.visit(`${frontendURL}/admin/markaz/${MARKAZ_ID}/donasi`);
+  cy.visit(`${frontendURL}/admin/kegiatan/${KEGIATAN_ID}/relawan`);
 });
 
 describe("Test it is in the correct page", () => {
-  it('Test if admin markaz donasi page contains "Daftar Donasi" or not', () => {
+  it('Test if admin kegiatan page contains "Daftar Relawan" or not', () => {
     cy.get("[data-testid=titlePage-at-admin-or-user-template]")
-      .contains("Daftar Donasi", { matchCase: false })
+      .contains("Daftar Relawan", { matchCase: false })
       .should("exist");
   });
 
-  it('Test if admin donasi page contains "This is admin page" or not', () => {
+  it('Test if admin kegiatan page contains "This is admin page" or not', () => {
     cy.get("p").contains("This is admin page").should("not.exist");
   });
 
-  it("Test ArrowBack directs to Admin Markaz", () => {
+  it("Test ArrowBack directs to Admin Kegiatan", () => {
     cy.get(`[data-testid="arrowback-at-modules"]`).should("exist");
     cy.get(`[data-testid="arrowback-at-modules"]`).click();
-    cy.url().should("include", `${frontendURL}/admin/markaz/${MARKAZ_ID}`);
+    cy.url().should("include", `${frontendURL}/admin/kegiatan`);
   });
 
-  it("Test if admin donasi markaz page redirect unauthorized users", () => {
+  it("Test if admin kegiatan page redirect unauthorized users", () => {
     cy.get("#menuIconButton").should("exist").click();
     cy.get("button").contains("Keluar").should("exist").click();
-    cy.visit(`${frontendURL}/admin/markaz/${MARKAZ_ID}/donasi`);
-    cy.url().should("include", `${frontendURL}/`);
+    cy.visit(`${frontendURL}/admin/kegiatan/${KEGIATAN_ID}/relawan`);
+    cy.url().should("include", `${frontendURL}`);
   });
 });
 
@@ -87,7 +87,18 @@ describe(`Test if all components exist and visible`, () => {
     cy.get("[data-testid=searchbar-at-admin-or-user-template]").clear();
 
     // cy.get('[data-testid=filterChipButton-at-admin-or-user-template]').should('exist')
+    cy.get("[data-testid=tab-grid-at-admin-or-user-template]")
+      .contains("Grid")
+      .should("exist");
+    cy.get("[data-testid=gridView-at-admin-or-user-template]").should("exist");
+    cy.get("[data-testid=name-at-gridview-card]").should("exist");
 
+    cy.get("[data-testid=tab-table-at-admin-or-user-template]")
+      .contains("Table")
+      .should("exist");
+    cy.get("[data-testid=tab-table-at-admin-or-user-template]")
+      .contains("Table")
+      .click();
     cy.get("[data-testid=tableView-at-admin-or-user-template]").should("exist");
 
     cy.get("[data-testid=pagination-at-admin-or-user-template]")
@@ -111,5 +122,23 @@ describe(`Test if all components exist and visible`, () => {
       .click();
 
     cy.get("[data-testid=fab-at-admin-or-user-template]").should("exist");
+  });
+});
+
+describe("Test CRUD Change Status", () => {
+  it("Test if Change Status works", () => {
+    cy.get("[data-testid=tab-table-at-admin-or-user-template]").click();
+    cy.get("[data-testid=searchbar-at-admin-or-user-template]").type(
+      "rija uwu"
+    );
+    cy.wait(1000);
+    cy.get("[data-testid=tab-table-at-admin-or-user-template]").click();
+    cy.get("#dialogButton").contains("Status").click();
+    cy.get("#statusChange").contains("Menunggu Konfirmasi").click();
+    cy.get("[data-testid=searchbar-at-admin-or-user-template]").type(
+      "rija uwu"
+    );
+    cy.wait(1000);
+    cy.get("#tableCellFive").should("exist");
   });
 });

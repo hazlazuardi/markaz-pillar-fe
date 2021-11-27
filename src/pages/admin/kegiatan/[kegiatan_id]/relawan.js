@@ -22,7 +22,11 @@ export default function AdminRelawan(props) {
     mutate,
   } = useSWR(
     router.isReady
-      ? `/admin/volunteer/registration?page=${page - 1}&n=${entries}&id=${kegiatan_id}&name=${searchVolunteer}${!!statusFilter ? "&status=" + statusFilter : ""}
+      ? `/admin/volunteer/registration?page=${
+          page - 1
+        }&n=${entries}&id=${kegiatan_id}&name=${searchVolunteer}${
+          !!statusFilter ? "&status=" + statusFilter : ""
+        }
 `
       : null,
     fetcher
@@ -32,8 +36,7 @@ export default function AdminRelawan(props) {
     mutate();
   }, [statusFilter, mutate]);
 
-
-  // 
+  //
 
   const changeStatus = async (ids, status) => {
     return axiosMain.post(`/admin/volunteer/registration/status?id=${ids}`, {
@@ -82,6 +85,10 @@ export default function AdminRelawan(props) {
       ],
     },
   ];
+
+  if (error)
+    return "An error has occurred. Please re-login or try again later.";
+  if (!responseVolunteer) return "Loading...";
 
   return (
     <>
