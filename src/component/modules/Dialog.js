@@ -87,23 +87,17 @@ function SimpleDialog(props) {
     }
   }
 
-  function downloadStatusConverter(field) {
-    if (field === "cvURL") {
-      return "CV";
-    } else if (field === "essayURL") {
-      return "Essay";
-    } else if (field === "pictureURL") {
-      return "Picture";
-    }
-  }
-
   const DialogList = () => {
     if (dialogType === "statusVolunteer" && isStatus) {
       {
         return (
           <List sx={{ pt: 0 }}>
             {volunteer_status_list.map((statusL) => (
-              <ListItem button onClick={() => handleChangeStatus(id, statusL)}>
+              <ListItem
+                button
+                id="statusChange"
+                onClick={() => handleChangeStatus(id, statusL)}
+              >
                 <ListItemText primary={volunteerStatusConverter(statusL)} />
               </ListItem>
             ))}
@@ -174,7 +168,7 @@ export default function DialogTrans(props) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button id="dialogButton" variant="outlined" onClick={handleClickOpen}>
         {isStatus && "Status"}
         {isDownloadVolunteer && "Download"}
       </Button>
