@@ -6,6 +6,8 @@
     },
     "email": "achmadafriza123@gmail.com",
     "password": "Admin123",
+    "emailUser": "user1234@gmail.com",
+    "passwordUser": "User1234",
     "backendURL": "https://api.staging.markazpillar.afriza.co",
     "frontendURL": "http://localhost:3000"
   },
