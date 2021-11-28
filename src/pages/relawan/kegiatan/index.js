@@ -108,9 +108,9 @@ export default function Home() {
                   }}
                 />
                 <Grid item xs={12} sm={6} md={6} className={classes.content}>
-                  <Typography>
+                  <Typography component="h1">
                     <b className={classes.sub}>
-                      Relawan <br />
+                      Kegiatan Relawan <br />
                       <br />
                     </b>
                   </Typography>
@@ -131,6 +131,7 @@ export default function Home() {
                       passHref
                     >
                       <Button
+                        data-testid="daftar-sekarang-button-relawan-kegiatan"
                         variant="contained"
                         color="primary"
                         fullWidth
@@ -144,6 +145,7 @@ export default function Home() {
                       passHref
                     >
                       <Button
+                        data-testid="lihat-detail-button-relawan-kegiatan"
                         variant="outlined"
                         color="primary"
                         fullWidth
@@ -159,6 +161,7 @@ export default function Home() {
           </div>
           <Grid container mt={9}>
             <LandingGridView
+              data-testid="landing-grid-view"
               type={"open"}
               data={responseProgram}
               size={size}
@@ -166,6 +169,7 @@ export default function Home() {
               setPage={setPage}
             />
             <LandingGridView
+              data-testid="landing-grid-view"
               type={"close"}
               data={responseProgram}
               size={size}
