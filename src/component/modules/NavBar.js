@@ -5,7 +5,7 @@ import { Box } from '@mui/system'
 import MenuIcon from '@mui/icons-material/Menu'
 import Link from 'next/link'
 import { useAppContext } from '../../context/AppContext'
-import { dispatchTypes, roleType } from '../../context/AppReducer'
+import { dispatchTypes, enumRoutes, roleType } from '../../context/AppReducer'
 
 export default function NavBar() {
     const { state, dispatch } = useAppContext();
@@ -14,33 +14,29 @@ export default function NavBar() {
     const userPages = [
         {
             name: 'Markaz',
-            path: isAdmin ? '/admin/markaz' : '/markaz',
+            path: isAdmin ? enumRoutes.ADMIN_MARKAZ : enumRoutes.MEMBER_MARKAZ,
         },
         {
             name: 'Santri',
-            path: isAdmin ? '/admin/santri' : '/santri',
+            path: isAdmin ? enumRoutes.ADMIN_SANTRI : enumRoutes.MEMBER_SANTRI,
         },
         {
             name: 'Relawan',
-            path: isAdmin ? '/admin/kegiatan' : '/relawan/kegiatan',
-        },
-        {
-            name: isAdmin ? 'Pengajar' : 'Kelas',
-            path: isAdmin ? '/admin/mentor' : '/classes',
+            path: isAdmin ? enumRoutes.ADMIN_KEGIATAN : enumRoutes.MEMBER_KEGIATAN,
         },
     ]
 
     const drawerAdminPages = [
         {
             name: 'Pengguna',
-            path: "/admin/data-pengguna"
+            path: enumRoutes.ADMIN_DATA_PENGGUNA
         },
     ]
 
     const authenticatedPages = [
         {
             name: 'Profil',
-            path: '/profile',
+            path: enumRoutes.PROFILE,
         }
     ]
 

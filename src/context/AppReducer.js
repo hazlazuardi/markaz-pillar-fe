@@ -11,7 +11,8 @@ export const dispatchTypes = {
     SNACKBAR_CUSTOM: "snackbar_custom",
     STATE_LOADED: "state_loaded",
     SERVER_ERROR: "server_error",
-    LOGIN_NEEDED: 'login_needed'
+    LOGIN_NEEDED: 'login_needed',
+    SESSION_EXPIRED: 'session_expired'
 }
 
 export const roleType = {
@@ -30,7 +31,7 @@ export const enumRoutes = {
 
     LOGIN: "/login",
     REGISTRATION: "/registration",
-    
+
     PROFILE: "/profile",
 
     MEMBER_MARKAZ: "/markaz",
@@ -118,6 +119,7 @@ export const initialFunction = initial => {
     let {
         currentUser,
         currentUserRole,
+        currentExpirationDate,
         currentAccessToken,
         currentRefreshToken,
         snackbarStatus,
@@ -128,6 +130,7 @@ export const initialFunction = initial => {
     return {
         currentUser,
         currentUserRole,
+        currentExpirationDate,
         currentAccessToken,
         currentRefreshToken,
         snackbarStatus,
@@ -141,6 +144,7 @@ export const initialFunction = initial => {
 export const initialState = {
     currentUser: "",
     currentUserRole: "",
+    currentExpirationDate: 3600, // 1 hour
     currentAccessToken: "",
     currentRefreshToken: "",
     snackbarStatus: false,
@@ -162,12 +166,26 @@ export const AppReducer = (state, action) => {
 
             }
         }
-
+        case dispatchTypes.SESSION_EXPIRED: {
+            localStorage.clear()
+            return {
+                ...state,
+                currentUser: "",
+                currentUserRole: "",
+                currentExpirationDate: 3600, // 1 hour
+                currentAccessToken: "",
+                currentRefreshToken: "",
+                snackbarStatus: true,
+                snackbarSeverity: 'secondary',
+                snackbarMessage: `Sesi anda berakhir, harap login kembali.`
+            }
+        }
         case dispatchTypes.LOGIN_SUCCEED: {
             return {
                 ...state,
                 currentUser: action.payload.currentUser,
                 currentUserRole: action.payload.currentUserRole,
+                currentExpirationDate: action.payload.currentExpirationDate,
                 currentAccessToken: action.payload.currentAccessToken,
                 currentRefreshToken: action.payload.currentRefreshToken,
                 snackbarStatus: true,
@@ -188,6 +206,7 @@ export const AppReducer = (state, action) => {
                 ...state,
                 currentUser: action.payload.currentUser,
                 currentUserRole: action.payload.currentUserRole,
+                currentExpirationDate: action.payload.currentExpirationDate,
                 currentAccessToken: action.payload.currentAccessToken,
                 currentRefreshToken: action.payload.currentRefreshToken,
                 snackbarStatus: true,
@@ -201,6 +220,7 @@ export const AppReducer = (state, action) => {
                 ...state,
                 currentUser: "",
                 currentUserRole: "",
+                currentExpirationDate: 3600,
                 currentAccessToken: "",
                 currentRefreshToken: "",
                 snackbarStatus: true,
@@ -213,6 +233,7 @@ export const AppReducer = (state, action) => {
                 ...state,
                 currentUser: action.payload.currentUser,
                 currentUserRole: action.payload.currentUserRole,
+                currentExpirationDate: action.payload.currentExpirationDate,
                 currentAccessToken: action.payload.currentAccessToken,
                 currentRefreshToken: action.payload.currentRefreshToken,
                 snackbarStatus: false,
