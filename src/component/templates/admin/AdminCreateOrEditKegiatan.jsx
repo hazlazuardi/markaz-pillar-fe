@@ -56,36 +56,15 @@ function AdminCreateOrEditKegiatan(props) {
             })
             .catch(error => {
                 setLoading(false)
-
                 // Check & Handle if error.response is undefined
-                if (!!error.response) {
-                    if (error.response.status === 400) {
+                if (!!error.response && error.response.status === 400) {
 
-                        dispatch({
-                            type: dispatchTypes.SNACKBAR_CUSTOM,
-                            payload: {
-                                severity: 'error',
-                                message: 'Incorrect information'
-                            }
-                        });
-                    } else if (error.response.status === 413) {
-
-                        dispatch({
-                            type: dispatchTypes.SNACKBAR_CUSTOM,
-                            payload: {
-                                severity: 'error',
-                                message: 'The image size is too large'
-                            }
-                        });
-                    } else {
-
-                        dispatch({
-                            type: dispatchTypes.SERVER_ERROR
-                        });
-                    }
-                } else {
                     dispatch({
-                        type: dispatchTypes.SERVER_ERROR
+                        type: dispatchTypes.SNACKBAR_CUSTOM,
+                        payload: {
+                            severity: 'error',
+                            message: 'Incorrect information'
+                        }
                     });
                 }
             })
