@@ -97,7 +97,7 @@ export default function GridViewCard(props) {
 
   return (
     <>
-      <Card sx={{ width: IMAGE_SIZE }}>
+      <Card sx={{ width: IMAGE_SIZE }} elevation={4} >
         <CardActionArea
           data-testid='card-action-area-at-gridview-card'
           onClick={() => router.push(`${path}/${fullResponseResult.id}`)}
