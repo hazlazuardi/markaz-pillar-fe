@@ -85,7 +85,6 @@ describe(`Test functionality of inputs when edit new markaz`, () => {
     cy.get('#markazContactNameAtComponentAdminCreateOrEditMarkaz').clear().type('Rija')
     cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
     cy.get('#snackbarAtLayout').contains('Markaz Edited').should('exist')
-    cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
   });
 
   it('Test if fails if empty field(s)', () => {
@@ -96,8 +95,7 @@ describe(`Test functionality of inputs when edit new markaz`, () => {
     cy.get('#markazBackgroundAtComponentAdminCreateOrEditMarkaz').clear().type('test-markaz-background')
     cy.get('#category-select').click().get('li').contains('Markaz Umum').click()
     cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').click()
-    cy.get('#snackbarAtLayout').contains('Incorrect edited information').should('exist')
-    cy.get('#markazSubmitAtComponentAdminCreateOrEditMarkaz').contains('Simpan').should('not.be.disabled')
+    cy.get('#snackbarAtLayout').contains('Incorrect information').should('exist')
   });
 
   it('Test if fails if image is too big', () => {
