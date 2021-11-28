@@ -1,38 +1,43 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useAppContext } from "../../../../context/AppContext";
 import { dispatchTypes, enumRoutes } from "../../../../context/AppReducer";
 import AdminCreateOrEditMarkaz from "../../../../component/templates/admin/AdminCreateOrEditMarkaz";
-import { axiosFormData } from "../../../../axiosInstances";
+import { axiosMain, axiosFormData } from "../../../../axiosInstances";
 import ArrowBack from "../../../../component/modules/ArrowBack";
 import { useRouter } from "next/router";
+import useSWR from "swr";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
+const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function AdminMarkazEdit(props) {
-    const { responseMarkaz } = props
+    const router = useRouter();
+    const { markaz_id } = router.query
+    const { data: responseDetailAdminMarkaz, error: errorResponse } = useSWR(router.isReady ? `/markaz?id=${markaz_id}` : null,
+        fetcher,
+    );
+
+    console.log('swr', responseDetailAdminMarkaz)
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
     const [editedMarkaz, setEditedMarkaz] = useState({
-        name: responseMarkaz ? responseMarkaz.name : null,
-        background: responseMarkaz ? responseMarkaz.background : null,
-        category: responseMarkaz ? responseMarkaz.category : null,
-        address: responseMarkaz ? responseMarkaz.address : null,
-        contactName: responseMarkaz ? responseMarkaz.contactName : null,
-        contactInfo: responseMarkaz ? responseMarkaz.contactInfo : null
+        name: responseDetailAdminMarkaz ? responseDetailAdminMarkaz.result.name : "",
+        background: responseDetailAdminMarkaz ? responseDetailAdminMarkaz.result.background : "",
+        category: responseDetailAdminMarkaz ? responseDetailAdminMarkaz.result.category : "",
+        address: responseDetailAdminMarkaz ? responseDetailAdminMarkaz.result.address : "",
+        contactName: responseDetailAdminMarkaz ? responseDetailAdminMarkaz.result.contactName : "",
+        contactInfo: responseDetailAdminMarkaz ? responseDetailAdminMarkaz.result.contactInfo : null
     });
     const form = useRef(null);
 
-    const handleChangeMarkaz = ({ target }) => {
+    const handleChangeMarkaz = useCallback(({ target }) => {
         const { name, value } = target;
         setEditedMarkaz((prev) => ({
             ...prev,
             [name]: value,
         }));
-    };
+    }, []);
 
-    const router = useRouter()
-    const { markaz_id } = router.query
-    const handleSubmit = async (event) => {
+    const handleSubmit = useCallback(async (event) => {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
@@ -91,9 +96,21 @@ export default function AdminMarkazEdit(props) {
                     });
                 }
             })
-    };
+    }, [dispatch, editedMarkaz, markaz_id, thumbnail])
+
+    // We use useEffect because we store the useSwr Data into
+    useEffect(() => {
+        if (responseDetailAdminMarkaz) {
+            setEditedMarkaz({ ...responseDetailAdminMarkaz.result })
+        }
+    }, [responseDetailAdminMarkaz])
 
     const [loading, setLoading] = useState(false)
+    if (errorResponse) {
+        console.log(errorResponse)
+        return "Error"
+    }
+    if (!responseDetailAdminMarkaz) return "wait.."
     return (
         <>
             <ArrowBack href={enumRoutes.ADMIN_MARKAZ_DETAIL} />
@@ -105,6 +122,7 @@ export default function AdminMarkazEdit(props) {
                 setThumbnail={setThumbnail}
                 thumbnail={thumbnail}
                 markaz={editedMarkaz}
+                data={responseDetailAdminMarkaz}
             />
         </>
     )

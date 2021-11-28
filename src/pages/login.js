@@ -59,13 +59,14 @@ export default function Login() {
       .post("/authenticate", data)
       .then(response => {
         setLoading(false)
-        
+
         const decodedJWT = jwtDecode(response.data.result.accessToken)
         dispatch({
           type: dispatchTypes.LOGIN_SUCCEED,
           payload: {
             currentUser: decodedJWT.sub,
             currentUserRole: decodedJWT.role,
+            currentExpirationDate: decodedJWT.exp,
             currentAccessToken: response.data.result.accessToken,
             currentRefreshToken: response.data.result.refreshToken
           }
@@ -73,7 +74,7 @@ export default function Login() {
       })
       .catch(e => {
         setLoading(false)
-        
+
         setError(true)
         dispatch({
           type: dispatchTypes.LOGIN_FAIL
@@ -84,12 +85,12 @@ export default function Login() {
   const handleOAuth = async (event) => {
     cookies.remove('state')
     await axiosMain
-        .post("/oauth/state")
-        .then(response => {
-            cookies.set('state', response.data.result.state);
-            router.replace(`https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?redirect_uri=${frontendURL}oauth/google/callback&prompt=consent&response_type=code&client_id=620820262877-85f9anugmu77f59ibtu3qfbf2nmat00j.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20openid&access_type=offline&flowName=GeneralOAuthFlow&state=${response.data.result.state}`)
-        })
-}
+      .post("/oauth/state")
+      .then(response => {
+        cookies.set('state', response.data.result.state);
+        router.replace(`https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?redirect_uri=${frontendURL}oauth/google/callback&prompt=consent&response_type=code&client_id=620820262877-85f9anugmu77f59ibtu3qfbf2nmat00j.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20openid&access_type=offline&flowName=GeneralOAuthFlow&state=${response.data.result.state}`)
+      })
+  }
 
   useEffect(() => {
     if (currentUser) {

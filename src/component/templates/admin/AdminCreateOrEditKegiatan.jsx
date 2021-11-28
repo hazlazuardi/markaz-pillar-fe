@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -6,18 +6,91 @@ import Typography from '@mui/material/Typography'
 import { useRouter } from 'next/router';
 import Dropzone from "../../modules/Dropzone";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { useAppContext } from "../../../context/AppContext";
+import { dispatchTypes } from "../../../context/AppReducer";
 
 function AdminCreateOrEditKegiatan(props) {
     const {
-        form,
-        handleSubmit,
-        thumbnail,
-        setThumbnail,
-        loading,
-        createOrEdit,
-        handleChangeKegiatan,
-        kegiatan
+        variant,
+        kegiatan,
+        setKegiatan,
+        apiCalls
     } = props;
+    const form = useRef(null);
+    const { dispatch } = useAppContext();
+    const [loading, setLoading] = useState(false)
+    const [thumbnail, setThumbnail] = useState({});
+
+    const handleChangeKegiatan = ({ target }) => {
+        const { name, value } = target;
+        setKegiatan((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmit = useCallback(async (event) => {
+        setLoading(true)
+        event.preventDefault();
+        const data = new FormData();
+        const kegiatanBlob = new Blob([JSON.stringify(kegiatan)], {
+            type: "application/json",
+        });
+        data.append("thumbnail", thumbnail);
+        data.append("detail", kegiatanBlob);
+
+
+
+        await apiCalls(data)
+            .then(response => {
+                setLoading(false)
+
+                dispatch({
+                    type: dispatchTypes.SNACKBAR_CUSTOM,
+                    payload: {
+                        severity: 'success',
+                        message: variant === 'create' ? "Kegiatan Created" : "Kegiatan Edited"
+                    }
+                })
+
+            })
+            .catch(error => {
+                setLoading(false)
+
+                // Check & Handle if error.response is undefined
+                if (!!error.response) {
+                    if (error.response.status === 400) {
+
+                        dispatch({
+                            type: dispatchTypes.SNACKBAR_CUSTOM,
+                            payload: {
+                                severity: 'error',
+                                message: 'Incorrect information'
+                            }
+                        });
+                    } else if (error.response.status === 413) {
+
+                        dispatch({
+                            type: dispatchTypes.SNACKBAR_CUSTOM,
+                            payload: {
+                                severity: 'error',
+                                message: 'The image size is too large'
+                            }
+                        });
+                    } else {
+
+                        dispatch({
+                            type: dispatchTypes.SERVER_ERROR
+                        });
+                    }
+                } else {
+                    dispatch({
+                        type: dispatchTypes.SERVER_ERROR
+                    });
+                }
+            })
+
+    }, [apiCalls, dispatch, kegiatan, thumbnail, variant])
 
     const router = useRouter()
     const pathname = router.pathname;
@@ -54,7 +127,7 @@ function AdminCreateOrEditKegiatan(props) {
                         <Grid item>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <Typography variant="h5" color="initial">{createOrEdit} Kegiatan</Typography>
+                                    <Typography variant="h5" color="initial">{variant} Kegiatan</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField

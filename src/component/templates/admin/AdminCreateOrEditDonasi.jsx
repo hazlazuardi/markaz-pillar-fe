@@ -7,7 +7,6 @@ import { FormControl } from "@mui/material";
 import  Select  from "@mui/material/Select";
 import  InputLabel  from "@mui/material/InputLabel";
 import  MenuItem  from "@mui/material/MenuItem";
-import { useRouter } from 'next/router';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
@@ -30,7 +29,6 @@ function AdminCreateOrEditDonasi(props) {
         showCategory,
     } = props;
 
-    const router = useRouter()
     return (
         <div>
             <Container>
