@@ -23,6 +23,7 @@ export default function LandingGridView(props) {
     intr1Butt,
     detail,
     handleDelete,
+    type,
   } = props;
 
   // *******************************************************
@@ -42,13 +43,23 @@ export default function LandingGridView(props) {
 
   return (
     <Container>
-      <Typography>
-        <b style={{ color: "#004F5D" }}>
-          Daftar Program Relawan <br />
-          <br />
-        </b>
-      </Typography>
-      <Grid sx={{ p: 1}}>
+      {type === "open" ? (
+        <Typography>
+          <b style={{ color: "#004F5D" }}>
+            Daftar Program Relawan<br />
+            <br />
+          </b>
+        </Typography>
+      ) : (
+        <Typography>
+          <b style={{ color: "#004F5D" }}>
+            Kegiatan Relawan Sebelumnya
+            <br />
+            <br />
+          </b>
+        </Typography>
+      )}
+      <Grid sx={{ p: 1 }}>
         <GridView data={data} />
       </Grid>
       {/* Pagination */}
