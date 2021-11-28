@@ -35,7 +35,6 @@ export default function FilterComponent(props) {
   } = props;
 
   const [checked, setChecked] = React.useState();
-  const [value, setValue] = React.useState();
 
   const handleChangeCategory = (event) => {
     setChecked(event.target.checked);
@@ -81,10 +80,6 @@ export default function FilterComponent(props) {
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
-
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -205,13 +200,11 @@ export default function FilterComponent(props) {
               value={element.labels[1].value}
               label={element.labels[1].label}
             />
-            {(variant === "kegiatan") | (variant === "volunteer") ? (
-              <FormControlLabel
-                control={<Radio />}
-                value={element.labels[2].value}
-                label={element.labels[2].label}
-              />
-            ) : null}
+            {variant === "kegiatan" || variant === "volunteer" ? (<FormControlLabel
+              control={<Radio />}
+              value={element.labels[2].value}
+              label={element.labels[2].label}
+            />) : (null)}
           </RadioGroup>
         </FormControl>
       </AccordionDetails>
@@ -220,21 +213,21 @@ export default function FilterComponent(props) {
 
   return (
     <>
-      {/* <Button
+      <Button
         variant="text"
         ref={anchorRef}
         id="composition-button"
         aria-controls={open ? "composition-menu" : undefined}
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
-      > */}
+      >
       <Chip
         data-testid="filterChipButton-at-admin-or-user-template"
         label="Filter"
         icon={<FilterList />}
         onClick={toggleDrawer(true)}
       />
-      {/* </Button> */}
+      </Button>
 
       {
         // desktop view
