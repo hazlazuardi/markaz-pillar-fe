@@ -1,11 +1,9 @@
 import React from "react";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import styles from "../../../styles/Home.module.css";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import DonationProgress from "../../modules/DonationProgress";
 import Profile from "../../modules/Profile";
 import DetailPic from "../../modules/DetailPic";
 
