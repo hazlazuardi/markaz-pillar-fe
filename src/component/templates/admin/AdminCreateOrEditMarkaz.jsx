@@ -5,9 +5,9 @@ import Grid from "@mui/material/Grid";
 import Dropzone from '../../modules/Dropzone';
 import Typography from '@mui/material/Typography'
 import { FormControl } from "@mui/material";
-import  Select  from "@mui/material/Select";
-import  InputLabel  from "@mui/material/InputLabel";
-import  MenuItem  from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useRouter } from 'next/router';
 
@@ -20,8 +20,10 @@ function AdminCreateOrEditMarkaz(props) {
         thumbnail,
         markaz,
         handleChangeMarkaz,
-
+        data
     } = props;
+
+    const result = !!data ? data.result : null
 
     const router = useRouter()
     const pathname = router.pathname;
@@ -68,13 +70,13 @@ function AdminCreateOrEditMarkaz(props) {
                                         label="Markaz Name"
                                         fullWidth
                                         onChange={handleChangeMarkaz}
-                                        value={markaz.name}
+                                        value={markaz ? markaz.name : result.name}
 
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                    id='markazBackgroundAtComponentAdminCreateOrEditMarkaz'
+                                        id='markazBackgroundAtComponentAdminCreateOrEditMarkaz'
                                         name="background"
                                         label="Background"
                                         fullWidth
@@ -89,6 +91,7 @@ function AdminCreateOrEditMarkaz(props) {
                                             labelId="category-label"
                                             id="category-select"
                                             name='category'
+                                            defaultValue={markaz.category}
                                             value={markaz.category}
                                             label="Kategori"
                                             onChange={handleChangeMarkaz}
@@ -101,7 +104,7 @@ function AdminCreateOrEditMarkaz(props) {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
-                                    id='markazAddressAtComponentAdminCreateOrEditMarkaz'
+                                        id='markazAddressAtComponentAdminCreateOrEditMarkaz'
                                         name="address"
                                         label="Markaz Address"
                                         fullWidth
@@ -112,7 +115,7 @@ function AdminCreateOrEditMarkaz(props) {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
-                                    id='markazContactNameAtComponentAdminCreateOrEditMarkaz'
+                                        id='markazContactNameAtComponentAdminCreateOrEditMarkaz'
                                         name="contactName"
                                         label="Contact Name"
                                         fullWidth
@@ -123,7 +126,7 @@ function AdminCreateOrEditMarkaz(props) {
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
-                                    id='markazContactInfoAtComponentAdminCreateOrEditMarkaz'
+                                        id='markazContactInfoAtComponentAdminCreateOrEditMarkaz'
                                         name="contactInfo"
                                         label="Contact Info"
                                         fullWidth
