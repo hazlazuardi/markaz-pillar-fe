@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -10,23 +10,77 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import LoadingButton from '@mui/lab/LoadingButton'
 import { useRouter } from 'next/router';
+import { useAppContext } from "../../../context/AppContext";
+import { dispatchTypes, enumRoutes } from "../../../context/AppReducer";
+
 
 function AdminCreateOrEditMarkaz(props) {
     const {
-        form,
-        loading,
-        handleSubmit,
-        setThumbnail,
-        thumbnail,
+        data,
         markaz,
-        handleChangeMarkaz,
-        data
+        setMarkaz,
+        apiCalls,
+        variant
     } = props;
 
     const result = !!data ? data.result : null
 
+    const { dispatch } = useAppContext();
+    const [thumbnail, setThumbnail] = useState({});
+    const form = useRef(null);
     const router = useRouter()
     const pathname = router.pathname;
+
+
+    const handleChangeMarkaz = ({ target }) => {
+        const { name, value } = target;
+        setMarkaz((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const [loading, setLoading] = useState(false)
+    const handleSubmit = async (event) => {
+        setLoading(true)
+        event.preventDefault();
+        const formData = new FormData();
+        const markazBlob = new Blob([JSON.stringify(markaz)], {
+            type: "application/json",
+        });
+        formData.append("thumbnail", thumbnail);
+        formData.append("markaz", markazBlob);
+
+
+        await apiCalls(formData)
+            .then(response => {
+                setLoading(false)
+
+                dispatch({
+                    type: dispatchTypes.SNACKBAR_CUSTOM,
+                    payload: {
+                        severity: 'success',
+                        message: variant === 'create' ? "Markaz Created" : "Markaz Edited"
+                    }
+                })
+                router.push(enumRoutes.ADMIN_MARKAZ)
+            })
+            .catch(error => {
+                setLoading(false)
+                if (!!error.response && error.response.status === 400) {
+
+                    // Check & Handle if bad request (empty fields, etc)
+                    dispatch({
+                        type: dispatchTypes.SNACKBAR_CUSTOM,
+                        payload: {
+                            severity: 'error',
+                            message: 'Incorrect information'
+                        }
+                    });
+                }
+            })
+    };
+
     return (
         <div>
             <Container>
