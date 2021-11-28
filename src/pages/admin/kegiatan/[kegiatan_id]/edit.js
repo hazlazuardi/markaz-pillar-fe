@@ -19,7 +19,10 @@ function AdminEditVolunteerKegiatan() {
     );
 
     const [kegiatan, setKegiatan] = useState({
+        status: responseKegiatan ? responseKegiatan.status : "",
         name: responseKegiatan ? responseKegiatan.name : "",
+        open: responseKegiatan ? responseKegiatan.open : "",
+        close: responseKegiatan ? responseKegiatan.close : "",
         description: responseKegiatan ? responseKegiatan.description : "",
         term: responseKegiatan ? responseKegiatan.term : "",
         benefit: responseKegiatan ? responseKegiatan.benefit : "",

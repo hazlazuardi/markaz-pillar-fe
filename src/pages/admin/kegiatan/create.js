@@ -5,7 +5,10 @@ import ArrowBack from "../../../component/modules/ArrowBack";
 
 function AdminCreateVolunteerKegiatan() {
     const [kegiatan, setKegiatan] = useState({
+        status: "",
         name: "",
+        open: "",
+        close: "",
         description: "",
         term: "",
         benefit: "",

@@ -110,13 +110,47 @@ function AdminCreateOrEditKegiatan(props) {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
+                                        id='kegiatanStatusAtComponentAdminCreateOrEditKegiatan'
+                                        name="status"
+                                        label="Status"
+                                        fullWidth
+                                        onChange={handleChangeKegiatan}
+                                        value={kegiatan.status}
+                                        placeholder="Dibuka"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
                                         id='kegiatanNameAtComponentAdminCreateOrEditKegiatan'
                                         data-testid='kegiatan-name-at-AdminCreateOrEditKegiatan-module'
                                         name="name"
-                                        label="Name"
+                                        label="Nama kegiatan"
                                         fullWidth
                                         onChange={handleChangeKegiatan}
                                         value={kegiatan.name}
+                                        placeholder="Bercocok tanam"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        id='kegiatanOpenAtComponentAdminCreateOrEditKegiatan'
+                                        name="open"
+                                        label="Tanggal buka pendaftaran"
+                                        fullWidth
+                                        onChange={handleChangeKegiatan}
+                                        value={kegiatan.open}
+                                        placeholder="2021-01-01"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        id='kegiatanCloseAtComponentAdminCreateOrEditKegiatan'
+                                        name="close"
+                                        label="Tanggal tutup pendaftaran"
+                                        fullWidth
+                                        onChange={handleChangeKegiatan}
+                                        value={kegiatan.close}
+                                        placeholder="2021-01-02"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -124,10 +158,11 @@ function AdminCreateOrEditKegiatan(props) {
                                         id='kegiatanDescriptionAtComponentAdminCreateOrEditKegiatan'
                                         data-testid='kegiatan-description-at-AdminCreateOrEditKegiatan-module'
                                         name="description"
-                                        label="Descripton"
+                                        label="Deskripsi kegiatan"
                                         fullWidth
                                         value={kegiatan.description}
                                         onChange={handleChangeKegiatan}
+                                        placeholder="Kegiatan bercocok tanam di taman kota"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -135,10 +170,11 @@ function AdminCreateOrEditKegiatan(props) {
                                         id='kegiatanNameAtComponentAdminCreateOrEditKegiatan'
                                         data-testid='kegiatan-term-at-AdminCreateOrEditKegiatan-module'
                                         name="term"
-                                        label="Term"
+                                        label="Syarat"
                                         fullWidth
                                         onChange={handleChangeKegiatan}
                                         value={kegiatan.term}
+                                        placeholder="Lulus SLTA/sederajat"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -146,10 +182,11 @@ function AdminCreateOrEditKegiatan(props) {
                                         id='kegiatanBenefitAtComponentAdminCreateOrEditKegiatan'
                                         data-testid='kegiatan-benefit-at-AdminCreateOrEditKegiatan-module'
                                         name="benefit"
-                                        label="Benefit"
+                                        label="Manfaat"
                                         fullWidth
                                         value={kegiatan.benefit}
                                         onChange={handleChangeKegiatan}
+                                        placeholder="Go green"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -157,10 +194,11 @@ function AdminCreateOrEditKegiatan(props) {
                                         id='kegiatanVolunteerNeededAtComponentAdminCreateOrEditKegiatan'
                                         data-testid='kegiatan-volunteerNeeded-at-AdminCreateOrEditKegiatan-module'
                                         name="volunteerNeeded"
-                                        label="Volunteer Needed"
+                                        label="Jumlah volunteer dibutuhkan"
                                         fullWidth
                                         onChange={handleChangeKegiatan}
                                         value={kegiatan.volunteerNeeded}
+                                        placeholder="5"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -168,10 +206,11 @@ function AdminCreateOrEditKegiatan(props) {
                                         id='kegiatanDescriptionAtComponentAdminCreateOrEditKegiatan'
                                         data-testid='kegiatan-location-at-AdminCreateOrEditKegiatan-module'
                                         name="location"
-                                        label="Location"
+                                        label="Lokasi"
                                         fullWidth
                                         value={kegiatan.location}
                                         onChange={handleChangeKegiatan}
+                                        placeholder="Taman Kota"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -179,10 +218,11 @@ function AdminCreateOrEditKegiatan(props) {
                                         id='kegiatanNameAtComponentAdminCreateOrEditKegiatan'
                                         data-testid='kegiatan-schedule-at-AdminCreateOrEditKegiatan-module'
                                         name="schedule"
-                                        label="Schedule"
+                                        label="Jadwal"
                                         fullWidth
                                         onChange={handleChangeKegiatan}
                                         value={kegiatan.schedule}
+                                        placeholder="2021-02-01"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
