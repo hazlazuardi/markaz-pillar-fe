@@ -81,7 +81,7 @@ export default function DetailKegiatan(props) {
     return (
         <>
             <ArrowBack href='/relawan/kegiatan' />
-            <DetailView disableDonasi CTA={<DaftarKegiatanCTA />} variant='markaz' data={convertedData} hrefDonasi={`/markaz/${kegiatan_id}/donasi`} />
+            <DetailView disableDonasi CTA={<DaftarKegiatanCTA />} variant='markaz' data={convertedData} hrefDonasi={`${kegiatan_id}/registrasi`} />
             <TestimoniKegiatanFooter data={convertedData} />
         </>
     );

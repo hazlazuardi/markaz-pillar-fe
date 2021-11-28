@@ -159,6 +159,14 @@ export default function Home() {
           </div>
           <Grid container mt={9}>
             <LandingGridView
+              type={"open"}
+              data={responseProgram}
+              size={size}
+              page={page}
+              setPage={setPage}
+            />
+            <LandingGridView
+              type={"close"}
               data={responseProgram}
               size={size}
               page={page}
