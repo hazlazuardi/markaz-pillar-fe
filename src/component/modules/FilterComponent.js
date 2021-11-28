@@ -79,7 +79,7 @@ export default function FilterComponent(props) {
   // MenuList Composition
   // *******************************************************
 
-  const [open, setOpen] = React.useState(false);
+  let open = false;
   const anchorRef = React.useRef(null);
 
   const handleClose = (event) => {
@@ -222,12 +222,12 @@ export default function FilterComponent(props) {
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
       >
-      <Chip
-        data-testid="filterChipButton-at-admin-or-user-template"
-        label="Filter"
-        icon={<FilterList />}
-        onClick={toggleDrawer(true)}
-      />
+        <Chip
+          data-testid="filterChipButton-at-admin-or-user-template"
+          label="Filter"
+          icon={<FilterList />}
+          onClick={toggleDrawer(true)}
+        />
       </Button>
 
       {
