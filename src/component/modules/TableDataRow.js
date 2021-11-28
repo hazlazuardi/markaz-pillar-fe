@@ -40,7 +40,6 @@ function TableDataRow(props) {
     tanggal,
     santriormarkaz,
     detail,
-    uniqueid,
     iddonasi,
     paymenturl,
     handleDelete,

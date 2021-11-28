@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
@@ -40,7 +40,6 @@ function SimpleDialog(props) {
     mutate,
     dialogType,
     trxId,
-    data,
     isStatus,
     isDownloadVolunteer,
     userdata,

@@ -4,12 +4,10 @@ import useSWR from "swr";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
 import GridView from "../../../component/templates/admin/GridView";
 import TableView from "../../../component/templates/admin/TableView";
-import { Button, Link, Stack } from "@mui/material";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function AdminSantri(props) {
-  // const { allSantri } = props;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [searchSantri, setSearchSantri] = useState("");
@@ -20,7 +18,8 @@ export default function AdminSantri(props) {
     error,
     mutate,
   } = useSWR(
-    `/santri/search?page=${page - 1}&n=${entries}&${!!ageFilter ? "sortedAge=" + ageFilter : ""
+    `/santri/search?page=${page - 1}&n=${entries}&${
+      !!ageFilter ? "sortedAge=" + ageFilter : ""
     }${!!nameFilter ? "sortedName=" + nameFilter : ""}
     &${!!searchSantri && "name=" + searchSantri}
     `,

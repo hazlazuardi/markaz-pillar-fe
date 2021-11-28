@@ -25,9 +25,15 @@ export default function AdminUsers() {
         titleFour="Nomor Telpon"
         titleFive="Alamat"
         santriormarkaz="pengguna"
+        mutate={mutate}
       />
     );
   };
+
+  if (error)
+    return "An error has occurred. Please re-login or try again later.";
+  if (!responsePengguna) return "Loading...";
+
   return (
     <>
       <AdminOrUserTemplate

@@ -1,8 +1,6 @@
-import {
-  SwipeableDrawer,
-} from "@mui/material";
-import React, { useState, useEffect } from "react";
-import { Box, minWidth } from "@mui/system";
+import { SwipeableDrawer } from "@mui/material";
+import React from "react";
+import { Box } from "@mui/system";
 
 export default function NavBar(props) {
   const { children, open, toggleDrawer } = props;
