@@ -40,7 +40,6 @@ function TableDataRow(props) {
     tanggal,
     santriormarkaz,
     detail,
-    uniqueid,
     iddonasi,
     paymenturl,
     handleDelete,
@@ -134,7 +133,7 @@ function TableDataRow(props) {
   return (
     <StyledTableRow>
       <StyledTableCell component="th" scope="row">
-        <Link data-testid="name-at-table-row" href={`/${detail}/` + id}>
+        <Link data-testid="name-at-table-row" href={`${detail}/` + id}>
           {nama}
         </Link>
       </StyledTableCell>
