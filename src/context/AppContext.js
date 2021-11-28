@@ -81,11 +81,11 @@ export function AppWrapper({ children }) {
                   }
                 })
             }
+            dispatch({
+              type: dispatchTypes.SESSION_EXPIRED
+            })
           }
           console.log('didnt change')
-          dispatch({
-            type: dispatchTypes.SESSION_EXPIRED
-          })
           return Promise.reject(error);
         })
 

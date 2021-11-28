@@ -6,7 +6,7 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Image from 'next/image'
 import Link from "next/link";
-
+import { DeleteOutlined } from '@mui/icons-material';
 
 export default function ActivityCard(props) {
 
@@ -14,14 +14,7 @@ export default function ActivityCard(props) {
     const theme = useTheme();
     const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const {type, name, status, date, secInfo, targetId, recipientType} = props
-
-    // const temp_list = status.split("_")
-    // const processedStatus = `${temp_list[0]} ${temp_list[1]}`.toLowerCase()
-
-    // function capitalizeFirstLetter(string) {
-    //     return string.charAt(0).toUpperCase() + string.slice(1);
-    // }
+    const {type, name, date, secInfo, targetId, recipientType} = props
 
     // Difference in detail info
     const header1 = type == "Volunteer" ? "Volunteer" : "Donasi"
@@ -36,7 +29,7 @@ export default function ActivityCard(props) {
             <Paper>
                 <Grid container p={1} sx={{display:"flex", flexDirection: smallScreen ? "column" : "row"}}>
                     <Grid item sm={2} xs={12} sx={{display:"flex", justifyContent:"center", alignItems:"center"}}>
-                        <Image src='https://source.unsplash.com/random' width={500} height={500}/>
+                        <Image alt='thumbnail' src='https://source.unsplash.com/random' width={500} height={500}/>
                     </Grid>
                     <Grid item sm={10} xs={12}>
                         <Grid container>
@@ -73,7 +66,7 @@ export default function ActivityCard(props) {
                                     <Grid item sm={4} xs={12} p={1} sx={{alignSelf:"flex-end"}}>
                                         <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", textAlign:"right"}}>
                                             <Link href={`/${recipientType}/` + targetId} passHref>{`Lihat ${(recipientType)}`}</Link>
-                                            <DeleteOutlineIcon/>
+                                            <DeleteOutlined />
                                         </Typography>
                                     </Grid>
                                 </Grid>
@@ -89,7 +82,7 @@ export default function ActivityCard(props) {
                     <Grid container p={1} sx={{display:"flex", flexDirection: smallScreen ? "column" : "row"}}>
                         {/* thumbnail */}
                     <Grid item sm={2} xs={12} sx={{display:"flex", justifyContent:"center", alignItems:"center"}}>
-                        <Image src='https://source.unsplash.com/random' width={500} height={500}/>
+                        <Image alt='thumbnail' src='https://source.unsplash.com/random' width={500} height={500}/>
                     </Grid>
                     <Grid item sm={10} xs={12}>
                         <Grid container>
@@ -126,7 +119,7 @@ export default function ActivityCard(props) {
                                     <Grid item sm={4} xs={12} p={1} sx={{alignSelf:"flex-end"}}>
                                         <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", textAlign:"right"}}>
                                             <Link href={`/${recipientType}/` + targetId} passHref>{`Lihat Daftar Kegiatan`}</Link>
-                                            <DeleteOutlineIcon/>
+                                            <DeleteOutlined/>
                                         </Typography>
                                     </Grid>
                                 </Grid>

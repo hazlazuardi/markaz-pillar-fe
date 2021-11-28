@@ -12,7 +12,7 @@ const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 export default function AdminMarkazEdit(props) {
     const router = useRouter();
     const { markaz_id } = router.query
-    const { data: responseDetailAdminMarkaz, error } = useSWR(router.isReady ? `/markaz?id=${markaz_id}` : null,
+    const { data: responseDetailAdminMarkaz, error: errorResponse } = useSWR(router.isReady ? `/markaz?id=${markaz_id}` : null,
         fetcher,
     );
 
@@ -106,8 +106,8 @@ export default function AdminMarkazEdit(props) {
     }, [responseDetailAdminMarkaz])
 
     const [loading, setLoading] = useState(false)
-    if (error) {
-        console.log(error)
+    if (errorResponse) {
+        console.log(errorResponse)
         return "Error"
     }
     if (!responseDetailAdminMarkaz) return "wait.."

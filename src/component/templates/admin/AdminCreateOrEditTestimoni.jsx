@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import Dropzone from "../../modules/Dropzone";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-function AdminCreateOrEditKegiatan(props) {
+function AdminCreateOrEditTestimoni(props) {
     const {
         form,
         handleSubmit,
@@ -91,4 +91,4 @@ function AdminCreateOrEditKegiatan(props) {
     );
 }
 
-export default AdminCreateOrEditKegiatan
+export default AdminCreateOrEditTestimoni
