@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { axiosFormData, axiosMain } from "../../../../axiosInstances";
 import { useRouter } from 'next/router';
 import AdminCreateOrEditKegiatan from "../../../../component/templates/admin/AdminCreateOrEditKegiatan";
@@ -11,10 +11,10 @@ function AdminEditVolunteerKegiatan() {
     const router = useRouter();
     const { kegiatan_id } = router.query
     const {
-        data: responseKegiatan,
+        data: responseKegiatan, error: errorKegiatan
     } = useSWR(
         router.isReady ?
-            `/volunteer/edit?id=${kegiatan_id}` : null,
+            `/volunteer?id=${kegiatan_id}` : null,
         fetcher,
     );
 
@@ -33,6 +33,17 @@ function AdminEditVolunteerKegiatan() {
         return axiosFormData.post(`/admin/volunteer/edit?id=${kegiatan_id}`, data)
     }, [kegiatan_id])
 
+
+    useEffect(() => {
+        if (responseKegiatan) {
+            setKegiatan({
+                ...responseKegiatan.result,
+            })
+        }
+    }, [responseKegiatan])
+
+    if (errorKegiatan) return "Error"
+    if (!responseKegiatan) return "wait.."
     return (
         <>
             <ArrowBack href={`/admin/kegiatan/${kegiatan_id}`} />

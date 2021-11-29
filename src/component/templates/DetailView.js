@@ -25,13 +25,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DetailView(props) {
-  const { isAdmin, data, variant, speedDialActions, hrefDonasi } = props
+  const { isAdmin, data, variant, speedDialActions, hrefDonasi, disableDonasi } = props
 
   const result = !!data ? data.result : null;
   const router = useRouter();
   const path = router.pathname;
 
-  const disableDonasi = !!result && result.nominal === null
+  const isDisabled = disableDonasi || !!result && result.nominal === null
 
   const actions = speedDialActions
     ? speedDialActions
@@ -71,8 +71,8 @@ export default function DetailView(props) {
         <Grid item xs={12} md={6} >
           <Container disableGutters >
             <Image src={result.image} layout='responsive'
-              width={16} height={16} quality={65} sizes={20} alt='Backdrop' />
-            {disableDonasi ? null : (
+              width={16} height={16} quality={65} sizes={20} alt='' />
+            {isDisabled ? null : (
               <ProgresDonasiBar {...props} donated={result.donated} nominal={result.nominal} hrefDonasi={hrefDonasi} />
             )}
           </Container>
@@ -126,7 +126,7 @@ export default function DetailView(props) {
       </Grid>
       {isAdmin && (
         <>
-          <Backdrop open={open} />
+          <Backdrop open={open} sx={{ zIndex: 100}} />
           <SpeedDial
             ariaLabel="SpeedDial Detail View"
             sx={{ position: "fixed", bottom: "3em", right: "2em" }}

@@ -100,7 +100,7 @@ export default function DetailKegiatan(props) {
     return (
         <>
             <ArrowBack href='/admin/kegiatan' />
-            <DetailView isAdmin disableDonasi CTA={<DaftarKegiatanCTA />} variant='markaz' data={convertedData} hrefDonasi={`/markaz/${kegiatan_id}/donasi`} speedDialActions={AdminDetailKegiatanActions} />
+            <DetailView isAdmin disableDonasi CTA={<DaftarKegiatanCTA />} variant='kegiatan' data={convertedData} hrefDonasi={`/markaz/${kegiatan_id}/donasi`} speedDialActions={AdminDetailKegiatanActions} />
             <TestimoniKegiatanFooter isAdmin data={convertedData} mutate={mutate} apiCall={deleteTestimoni} />
         </>
     );

@@ -58,7 +58,6 @@ function AdminCreateOrEditKegiatan(props) {
                 setLoading(false)
                 // Check & Handle if error.response is undefined
                 if (!!error.response && error.response.status === 400) {
-
                     dispatch({
                         type: dispatchTypes.SNACKBAR_CUSTOM,
                         payload: {
