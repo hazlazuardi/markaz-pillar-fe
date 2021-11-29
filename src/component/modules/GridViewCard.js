@@ -31,7 +31,7 @@ export default function GridViewCard(props) {
 
   const handleDonasiCTA = () => {
     if (!!currentUser) {
-      router.push(`${path}/${fullResponseResult.id}/donasi`)
+      router.push(`${path}/${fullResponseResult.id}/donasi/bayar`)
     } else {
       dispatch({ type: dispatchTypes.LOGIN_NEEDED })
       router.push('/login')

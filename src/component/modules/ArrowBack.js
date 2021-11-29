@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 
 export default function ArrowBack(props) {
   const { href } = props;
-  const router = useRouter()
+  // const router = useRouter()
   const fullPath = href.split('/').slice().join(' / ')
 
 
@@ -15,7 +15,8 @@ export default function ArrowBack(props) {
 
   return (
     <Box mb='2em'>
-      <Link href={{ pathname: href, query: { ...router.query } }} passHref>
+      {/* <Link href={{ pathname: href, query: { ...router.query } }} passHref> */}
+      <Link href={href} passHref>
         <Button data-testid='arrowback-at-modules' variant="text" startIcon={<ArrowBackIcon />}>
           {fullPath}
         </Button>

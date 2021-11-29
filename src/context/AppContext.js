@@ -59,7 +59,7 @@ export function AppWrapper({ children }) {
         return response
       },
         function (error) {
-          console.log('refresh')
+          
           const originalRequest = error.config;
           if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
@@ -69,23 +69,32 @@ export function AppWrapper({ children }) {
                 accessToken: JSON.parse(localStorage.getItem('currentAccessToken'))
               })
                 .then(res => {
+                  
                   if (res.status === 200) {
                     // 1) put token to LocalStorage
                     localStorage.setItem("currentAccessToken", res.data.accessToken);
                     localStorage.setItem("currentRefreshToken", res.data.refreshToken);
                     // 2) Change Authorization header
-                    console.log('changed')
+                    
                     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('currentAccessToken');
                     // 3) return originalRequest object with Axios.
                     return axios(originalRequest);
                   }
                 })
+                .catch(err => {
+                  
+                  if (err.response.status === 400) {
+                    // Then it's expired
+                    dispatch({
+                      type: dispatchTypes.SESSION_EXPIRED
+                    })
+                  }
+
+                })
             }
-            dispatch({
-              type: dispatchTypes.SESSION_EXPIRED
-            })
+            
           }
-          console.log('didnt change')
+          
           return Promise.reject(error);
         })
 
@@ -93,9 +102,9 @@ export function AppWrapper({ children }) {
   }, [state]);
 
   // useState(() => {
-  //   console.log(path)
+  //   
   //   if (state.stateLoaded) {
-  //     console.log('check JWT', checkJWTExpiration(state.currentExpirationDate))
+  //     
   //   }
   // }, [path])
 

@@ -41,7 +41,7 @@ function AdminEditVolunteerKegiatan() {
                 kegiatan={kegiatan}
                 setKegiatan={setKegiatan}
                 kegiatan_id={kegiatan_id}
-                apiCalls={editKegiatan}
+                apiCall={editKegiatan}
             />
         </>
     );

@@ -16,11 +16,11 @@ import { dispatchTypes, enumRoutes } from "../../../context/AppReducer";
 
 function AdminCreateOrEditMarkaz(props) {
     const {
+        variant,
         data,
         markaz,
         setMarkaz,
-        apiCalls,
-        variant
+        apiCall,
     } = props;
 
     const result = !!data ? data.result : null
@@ -52,7 +52,7 @@ function AdminCreateOrEditMarkaz(props) {
         formData.append("markaz", markazBlob);
 
 
-        await apiCalls(formData)
+        await apiCall(formData)
             .then(response => {
                 setLoading(false)
 

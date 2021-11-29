@@ -13,7 +13,7 @@ import jwtDecode from 'jwt-decode'
 export default function RegistrationForm(props) {
     const {
         variant,
-        apiCalls,
+        apiCall,
         data,
         setData,
         error,
@@ -37,7 +37,7 @@ export default function RegistrationForm(props) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true)
-        await apiCalls(data)
+        await apiCall(data)
             .then(response => {
                 setLoading(false)
 

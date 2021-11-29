@@ -61,7 +61,7 @@ export default function GoogleRegister() {
                         setData={setData}
                         error={error}
                         setError={setError}
-                        apiCalls={registerUsingOAuth}
+                        apiCall={registerUsingOAuth}
                     />
                 </Grid>
             </Grid>

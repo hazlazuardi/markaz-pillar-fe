@@ -58,7 +58,7 @@ export default function DonasiMarkaz() {
             .post("/transaction", data)
             .then(response => {
                 setLoading(false)
-                console.log(detailBlob)
+                
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {

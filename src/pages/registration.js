@@ -64,7 +64,7 @@ export default function Registration() {
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6}>
                     <RegistrationForm
                         variant='default'
-                        apiCalls={registerUsingDefault}
+                        apiCall={registerUsingDefault}
                         data={data}
                         setData={setData}
                         error={error}

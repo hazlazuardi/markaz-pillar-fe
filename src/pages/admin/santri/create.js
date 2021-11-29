@@ -1,42 +1,60 @@
-import { useState } from "react";
-import { axiosFormData, axiosMain } from "../../../axiosInstances";
+import { useState, useEffect, useCallback } from "react";
+import { enumRoutes } from "../../../context/AppReducer";
 import AdminCreateOrEditSantri from "../../../component/templates/admin/AdminCreateOrEditSantri";
-import useSWR from "swr";
+import { axiosMain, axiosFormData } from "../../../axiosInstances";
 import ArrowBack from "../../../component/modules/ArrowBack";
+import { useRouter } from "next/router";
+import useSWR from "swr";
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
-function AdminSantriCreate() {
-    const { data: responseMarkaz, error } = useSWR(`/markaz/search?n=1000`, fetcher)
-    const [santri, setSantri] = useState({
+const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+
+export default function AdminSantriCreate() {
+    const router = useRouter();
+    const { data: responseAllMarkaz, error: errorResponseAllMarkaz } = useSWR(router.isReady ? `/markaz/search?n=1000` : null,
+        fetcher,
+    );
+
+    const [editedSantri, setEditedSantri] = useState({
         name: "",
         background: "",
         gender: "",
         markaz_id: "",
+        birthPlace: "",
+        birthDate: "",
         address: "",
         category: "",
-        birthDate: "",
-        birtPlace: ""
+
     });
 
+    const createSantri = useCallback(async (data, id) => {
+        return axiosFormData.post(`/admin/santri?markaz_id=${id}`, data)
+    }, [])
 
-    const createSantri = async (markazId, data) => {
-        return axiosFormData.post(`/admin/santri?markaz_id=${markazId}`, data)
+    const [allMarkaz, setAllMarkaz] = useState()
+
+    // We use useEffect because we store the useSwr Data into
+    useEffect(() => {
+        if (responseAllMarkaz) {
+            setAllMarkaz([...responseAllMarkaz.result])
+        }
+    }, [responseAllMarkaz])
+
+    if (errorResponseAllMarkaz) {
+        
+        return "Error"
     }
-
-
+    if (!responseAllMarkaz) return "wait.."
     return (
         <>
-            <ArrowBack href='/admin/santri' />
+            <ArrowBack href={enumRoutes.ADMIN_SANTRI} />
             <AdminCreateOrEditSantri
-                isCreate
+                variant='create'
+                santri={editedSantri}
+                setSantri={setEditedSantri}
+                allMarkaz={allMarkaz}
+                dataMarkaz={responseAllMarkaz}
                 apiCall={createSantri}
-                santri={santri}
-                setSantri={setSantri}
-                allMarkaz={!!responseMarkaz && responseMarkaz.result}
-                error={error}
             />
         </>
-    );
+    )
 }
-
-export default AdminSantriCreate;
