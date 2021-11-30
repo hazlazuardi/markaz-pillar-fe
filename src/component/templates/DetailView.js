@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DetailView(props) {
-  const { isAdmin, data, variant, speedDialActions, hrefDonasi, disableDonasi } = props
+  const { isAdmin, data, variant, speedDialActions, hrefDonasi, CTA, disableDonasi } = props
 
   const result = !!data ? data.result : null;
   const router = useRouter();
@@ -70,6 +70,14 @@ export default function DetailView(props) {
         direction="row-reverse"
       >
         <Grid item xs={12} md={6} >
+          {variant === "kegiatan" ? 
+          (<Container disableGutters >
+            <Image src={result.image} layout='responsive'
+              width={16} height={16} quality={65} sizes={20} alt='Backdrop' />
+               <Container disableGutters sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', mt: 2, mb: 2, p: 2 }} >
+                  {CTA}
+            </Container>
+          </Container>): (
           <Container disableGutters >
             <Image src={result.image} layout='responsive'
               width={16} height={16} quality={65} sizes={20} alt='' />
@@ -77,6 +85,7 @@ export default function DetailView(props) {
               <ProgresDonasiBar {...props} donated={result.donated} nominal={result.nominal} hrefDonasi={hrefDonasi} />
             )}
           </Container>
+          )}
         </Grid>
         <Grid item xs={12} md={6} width="100%">
           <Typography

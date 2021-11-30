@@ -8,12 +8,26 @@ import { Button, Typography } from "@mui/material";
 import Link from 'next/link'
 import { enumRoutes } from "../../../../context/AppReducer";
 import TestimoniKegiatanFooter from "../../../../component/modules/TestimoniKegiatanFooter";
+import { useAppContext } from '../../../../context/AppContext';
+import { dispatchTypes, enumRoutes } from '../../../../context/AppReducer';
 
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function DetailKegiatan(props) {
     const { detailKegiatan } = props
     const router = useRouter();
+
+    const { state, dispatch } = useAppContext()
+    const { currentUser, stateLoaded } = state;
+
+    const handleKegiatan = (href) => {
+        if (stateLoaded && currentUser) {
+            router.push({ pathname: href, query: { ...router.query } })
+        } else {
+            dispatch({ type: dispatchTypes.LOGIN_NEEDED })
+            router.push(enumRoutes.LOGIN)
+        }
+    }
     const { kegiatan_id } = router.query
     const { data: responseDetailKegiatan, error, mutate } = useSWR(router.isReady ? `/volunteer?id=${kegiatan_id}` : null,
         fetcher,
@@ -64,8 +78,8 @@ export default function DetailKegiatan(props) {
     const DaftarKegiatanCTA = () => {
         return (
             <>
-                <Link href='/volunteer/register' passHref>
-                    <Button variant='contained' >Daftar Sekarang</Button>
+                <Link href={`${kegiatan_id}/registrasi`} passHref>
+                    <Button variant='contained' onClick={() => handleKegiatan(`${kegiatan_id}/registrasi`)}>Daftar Sekarang</Button>
                 </Link>
             </>
         )
