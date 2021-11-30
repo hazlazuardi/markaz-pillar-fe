@@ -9,11 +9,24 @@ import Link from 'next/link'
 import TestimoniKegiatanFooter from "../../../../component/modules/TestimoniKegiatanFooter";
 import Add from "@mui/icons-material/Add";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import { enumRoutes } from "../../../../context/AppReducer";
+import { useAppContext } from '../../../../context/AppContext';
+import { dispatchTypes, enumRoutes } from '../../../../context/AppReducer';
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function DetailKegiatan() {
     const router = useRouter();
+
+    const { state, dispatch } = useAppContext()
+    const { currentUser, stateLoaded } = state;
+
+    const handleRelawan = (href) => {
+        if (stateLoaded && currentUser) {
+            router.push({ pathname: href, query: { ...router.query } })
+        } else {
+            dispatch({ type: dispatchTypes.LOGIN_NEEDED })
+            router.push(enumRoutes.LOGIN)
+        }
+    }
     const { kegiatan_id } = router.query
     const { data: responseDetailKegiatan, error, mutate } = useSWR(router.isReady ? `/volunteer?id=${kegiatan_id}` : null, fetcher)
 
