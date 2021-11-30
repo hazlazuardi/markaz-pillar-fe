@@ -36,7 +36,6 @@ function AdminEditVolunteerKegiatan() {
         return axiosFormData.post(`/admin/volunteer/edit?id=${kegiatan_id}`, data)
     }, [kegiatan_id])
 
-
     useEffect(() => {
         if (responseKegiatan) {
             setKegiatan({
