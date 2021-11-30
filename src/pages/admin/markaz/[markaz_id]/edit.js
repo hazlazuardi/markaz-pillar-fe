@@ -36,19 +36,19 @@ export default function AdminMarkazEdit() {
     }, [responseDetailAdminMarkaz])
 
     if (errorResponse) {
-        console.log(errorResponse)
+        
         return "Error"
     }
     if (!responseDetailAdminMarkaz) return "wait.."
     return (
         <>
-            <ArrowBack href={enumRoutes.ADMIN_MARKAZ_DETAIL} />
+            <ArrowBack href={`${enumRoutes.ADMIN_MARKAZ}/${markaz_id}`} />
             <AdminCreateOrEditMarkaz
                 variant='edit'
                 markaz={editedMarkaz}
                 setMarkaz={setEditedMarkaz}
                 data={responseDetailAdminMarkaz}
-                apiCalls={editMarkaz}
+                apiCall={editMarkaz}
             />
         </>
     )

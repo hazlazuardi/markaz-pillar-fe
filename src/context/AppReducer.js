@@ -105,6 +105,8 @@ export const enumProtectedRoutes = [
 
     enumRoutes.ADMIN_PROGRAM_VOLUNTEER,
     enumRoutes.ADMIN_PESERTA_VOLUNTEER,
+    enumRoutes.ADMIN_KEGIATAN_CREATE,
+    enumRoutes.ADMIN_KEGIATAN_EDIT,
 
     enumRoutes.ADMIN_DATA_PENGGUNA,
 ]

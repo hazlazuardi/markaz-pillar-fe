@@ -23,7 +23,7 @@ function AdminMarkazCreate() {
                 variant='create'
                 markaz={markaz}
                 setMarkaz={setMarkaz}
-                apiCalls={createMarkaz}
+                apiCall={createMarkaz}
             />
         </>
     );

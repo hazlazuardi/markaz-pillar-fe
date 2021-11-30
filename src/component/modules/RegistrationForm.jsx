@@ -13,7 +13,7 @@ import jwtDecode from 'jwt-decode'
 export default function RegistrationForm(props) {
     const {
         variant,
-        apiCalls,
+        apiCall,
         data,
         setData,
         error,
@@ -37,7 +37,7 @@ export default function RegistrationForm(props) {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true)
-        await apiCalls(data)
+        await apiCall(data)
             .then(response => {
                 setLoading(false)
 
@@ -220,8 +220,8 @@ export default function RegistrationForm(props) {
                     </Button>
                     <Grid container>
                         <Grid item>
-                            <Link href="/login" variant="body2">
-                                {"Sudah memiliki akun? Masuk"}
+                            <Link href="/login" passHref>
+                                <Button sx={{ pl: 0 }} variant='text' >Sudah memiliki akun? Masuk</Button>
                             </Link>
                         </Grid>
                     </Grid>

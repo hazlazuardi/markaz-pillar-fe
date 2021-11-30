@@ -14,7 +14,7 @@ function AdminCreateOrEditKegiatan(props) {
         variant,
         kegiatan,
         setKegiatan,
-        apiCalls
+        apiCall
     } = props;
     const form = useRef(null);
     const { dispatch } = useAppContext();
@@ -41,7 +41,7 @@ function AdminCreateOrEditKegiatan(props) {
 
 
 
-        await apiCalls(data)
+        await apiCall(data)
             .then(response => {
                 setLoading(false)
 
@@ -58,7 +58,6 @@ function AdminCreateOrEditKegiatan(props) {
                 setLoading(false)
                 // Check & Handle if error.response is undefined
                 if (!!error.response && error.response.status === 400) {
-
                     dispatch({
                         type: dispatchTypes.SNACKBAR_CUSTOM,
                         payload: {
@@ -69,7 +68,7 @@ function AdminCreateOrEditKegiatan(props) {
                 }
             })
 
-    }, [apiCalls, dispatch, kegiatan, thumbnail, variant])
+    }, [apiCall, dispatch, kegiatan, thumbnail, variant])
 
     const router = useRouter()
     const pathname = router.pathname;

@@ -1,7 +1,10 @@
 import { Button } from '@mui/material'
 import React from 'react'
 
+
 export default function OAuthButton() {
+    const frontendURL = 'https://localhost:3000/';
+
     const handleOAuth = async (event) => {
         cookies.remove('state')
         await axiosMain

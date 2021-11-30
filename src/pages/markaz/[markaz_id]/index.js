@@ -56,13 +56,13 @@ export default function MarkazDetail(props) {
     }
   }
 
-  if (error) return (
+  if (error) return (<ArrowBack href={enumRoutes.MEMBER_MARKAZ} />);
+  if (!responseDetailMarkaz) return (
     <>
       <ArrowBack href={enumRoutes.MEMBER_MARKAZ} />
-      <Typography variant="body1" color="initial">An error has occured</Typography>
+      <Typography component='p'>Loading Markaz Information..</Typography>
     </>
   );
-  if (!responseDetailMarkaz) return "Loading...";
   return (
     <>
       <ArrowBack href={enumRoutes.MEMBER_MARKAZ} />

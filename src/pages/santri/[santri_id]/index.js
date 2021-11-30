@@ -1,79 +1,74 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DetailView from '../../../component/templates/DetailView'
 import { axiosMain } from '../../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../component/modules/ArrowBack";
 import ProgresDonasiFooter from "../../../component/modules/ProgresDonasiFooter"
+import { Typography } from "@mui/material";
+import { enumRoutes } from "../../../context/AppReducer";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function DetailSantri(props) {
   const { detailSantri } = props
   const router = useRouter();
   const { santri_id } = router.query
-  const { data: responseDetailSantri, error } = useSWR(router.isReady ? `/santri?id=${santri_id}` : null,
+  const { data: responseDetailSantri, error, mutate } = useSWR(router.isReady ? `/santri?id=${santri_id}` : null,
     fetcher,
     { fallbackData: detailSantri, refreshInterval: 10000 }
   )
 
-  const dataResult = {
-    ...responseDetailSantri.result
-  }
-  const convertedDataSantri = {
-    title: dataResult.name,
-    description: dataResult.background,
-    image: dataResult.thumbnailURL,
-    details: [
-      {
-        subtitle: "Tempat Markaz",
-        detail: dataResult.markaz.name
-      },
-      {
-        subtitle: "Jenis Kelamin",
-        detail: dataResult.gender
-      },
-      {
-        subtitle: "Domisili Asal",
-        detail: dataResult.birthPlace
-      },
-      {
-        subtitle: "Kebutuhan Beasiswa",
-        detail: dataResult.desc
-      },
-      {
-        subtitle: "Tempat & Tanggal Lahir",
-        detail: `${dataResult.birthPlace}, ${dataResult.birthDate}`
-      },
-
-    ],
-    donation: [
-      {
-        subtitle: "Nominal yang dibutuhkan",
-        detail: dataResult.nominal
-      },
-    ],
-    progress: dataResult.progress
-  }
-
-  const convertedData = {
-    ...responseDetailSantri,
-    result: {
-      ...convertedDataSantri
+  const [convertedData, setConvertedData] = useState()
+  useEffect(() => {
+    if (!!responseDetailSantri) {
+      const dataResult = responseDetailSantri.result
+      setConvertedData({
+        ...responseDetailSantri,
+        result: {
+          ...dataResult,
+          title: dataResult.name,
+          description: dataResult.background,
+          image: dataResult.thumbnailURL,
+          details: [
+            {
+              subtitle: "Tempat Markaz",
+              detail: dataResult.markaz.name
+            },
+            {
+              subtitle: "Jenis Kelamin",
+              detail: dataResult.gender
+            },
+            {
+              subtitle: "Domisili Asal",
+              detail: dataResult.birthPlace
+            },
+            {
+              subtitle: "Kebutuhan Beasiswa",
+              detail: dataResult.desc
+            },
+            {
+              subtitle: "Tempat & Tanggal Lahir",
+              detail: `${dataResult.birthPlace}, ${dataResult.birthDate}`
+            },
+          ],
+          progress: dataResult.progress
+        }
+      })
+    } else {
+      mutate()
     }
-  }
+  }, [mutate, responseDetailSantri])
 
-  // useEffect(() => {
-  //   if (!!responseDetailSantri) {
-  //     setMarkaz(responseDetailSantri.result);
-
-  //   }
-  // }, [responseDetailSantri])
-
-  if (error) return "An error has occurred.";
-  if (!responseDetailSantri) return "Loading...";
+  if (error) return (<ArrowBack href={enumRoutes.MEMBER_SANTRI} />);
+  if (!responseDetailSantri) return (
+    <>
+      <ArrowBack href={enumRoutes.MEMBER_SANTRI} />
+      <Typography component='p'>Loading Santri Information..</Typography>
+    </>
+  );
   return (
     <>
-      <ArrowBack href='/santri' />
+      <ArrowBack href={enumRoutes.MEMBER_SANTRI} />
       <DetailView variant='santri' data={convertedData} />
       <ProgresDonasiFooter data={convertedData} />
     </>

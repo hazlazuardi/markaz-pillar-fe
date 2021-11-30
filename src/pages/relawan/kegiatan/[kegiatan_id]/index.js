@@ -1,68 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DetailView from "../../../../component/templates/DetailView";
 import { axiosMain } from '../../../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../../component/modules/ArrowBack";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Link from 'next/link'
+import { enumRoutes } from "../../../../context/AppReducer";
 
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function DetailKegiatan(props) {
-    const { detailMarkaz } = props
+    const { detailKegiatan } = props
     const router = useRouter();
     const { kegiatan_id } = router.query
-    const { data: responseDetailKegiatan, error } = useSWR(router.isReady ? `/volunteer?id=${kegiatan_id}` : null,
+    const { data: responseDetailKegiatan, error, mutate } = useSWR(router.isReady ? `/volunteer?id=${kegiatan_id}` : null,
         fetcher,
-        { fallbackData: detailMarkaz, refreshInterval: 10000 }
+        { fallbackData: detailKegiatan, refreshInterval: 10000 }
     )
+    const [convertedData, setConvertedData] = useState()
 
-    const dataResult = {
-        ...responseDetailKegiatan.result
-    }
-    const convertedDataMarkaz = {
-        title: dataResult.name,
-        description: dataResult.description,
-        image: dataResult.thumbnailURL,
-        details: [
-            {
-                subtitle: "Syarat",
-                detail: dataResult.term
-            },
-            {
-                subtitle: "Manfaat",
-                detail: dataResult.benefit
-            },
-            {
-                subtitle: "Jumlah Volunteer",
-                detail: `${dataResult.volunteerApplied} / ${dataResult.volunteerNeeded}`
-            },
-            {
-                subtitle: "Jadwal",
-                detail: dataResult.schedule
-            },
-            {
-                subtitle: "Lokasi",
-                detail: dataResult.location
-            },
-        ],
-    }
-
-    const convertedData = {
-        ...responseDetailKegiatan,
-        result: {
-            ...dataResult,
-            ...convertedDataMarkaz
+    useEffect(() => {
+        if (!!responseDetailKegiatan) {
+            const dataResult = responseDetailKegiatan.result
+            setConvertedData({
+                ...responseDetailKegiatan,
+                result: {
+                    ...dataResult,
+                    title: dataResult.name,
+                    description: dataResult.description,
+                    image: dataResult.thumbnailURL,
+                    details: [
+                        {
+                            subtitle: "Syarat",
+                            detail: dataResult.term
+                        },
+                        {
+                            subtitle: "Manfaat",
+                            detail: dataResult.benefit
+                        },
+                        {
+                            subtitle: "Jumlah Volunteer",
+                            detail: `${dataResult.volunteerApplied} / ${dataResult.volunteerNeeded}`
+                        },
+                        {
+                            subtitle: "Jadwal",
+                            detail: dataResult.schedule
+                        },
+                        {
+                            subtitle: "Lokasi",
+                            detail: dataResult.location
+                        },
+                    ],
+                }
+            })
+        } else {
+            mutate()
         }
-    }
+    }, [mutate, responseDetailKegiatan])
 
-    // useEffect(() => {
-    //   if (!!responseDetailKegiatan) {
-    //     setMarkaz(responseDetailKegiatan.result);
-
-    //   }
-    // }, [responseDetailKegiatan])
 
     const DaftarKegiatanCTA = () => {
         return (
@@ -75,34 +71,39 @@ export default function DetailKegiatan(props) {
     }
 
 
-    if (error) return "An error has occurred.";
-    if (!responseDetailKegiatan) return "Loading...";
+    if (error) return (<ArrowBack href={enumRoutes.MEMBER_KEGIATAN} />);
+    if (!responseDetailKegiatan) return (
+        <>
+            <ArrowBack href={enumRoutes.MEMBER_KEGIATAN} />
+            <Typography component='p'>Loading Kegiatan Information..</Typography>
+        </>
+    );
     return (
         <>
-            <ArrowBack href='/relawan/kegiatan' />
-            <DetailView disableDonasi CTA={<DaftarKegiatanCTA />} variant='markaz' data={convertedData} hrefDonasi={`/markaz/${kegiatan_id}/donasi`} />
+            <ArrowBack href={enumRoutes.MEMBER_KEGIATAN} />
+            <DetailView disableDonasi CTA={<DaftarKegiatanCTA />} variant='kegiatan' data={convertedData} />
         </>
     );
 }
 
 export async function getStaticProps(context) {
     const id = context.params.kegiatan_id;
-    const staticDetailMarkazResponse = await axiosMain.get(`/volunteer?id=${id}`)
-    const staticDetailMarkaz = staticDetailMarkazResponse.data
+    const staticDetailKegiatanResponse = await axiosMain.get(`/volunteer?id=${id}`)
+    const staticDetailKegiatan = staticDetailKegiatanResponse.data
     return {
         props: {
-            detailMarkaz: staticDetailMarkaz,
+            detailKegiatan: staticDetailKegiatan,
         },
         revalidate: 10
     };
 }
 
 export async function getStaticPaths() {
-    const staticAllMarkazResponse = await axiosMain.get(`/volunteer`)
-    const staticAllMarkaz = await staticAllMarkazResponse.data
+    const staticAllKegiatanResponse = await axiosMain.get(`/volunteer`)
+    const staticAllKegiatan = await staticAllKegiatanResponse.data
 
-    const paths = await staticAllMarkaz.result.map((markaz) => ({
-        params: { kegiatan_id: markaz.id.toString() },
+    const paths = await staticAllKegiatan.result.map((kegiatan) => ({
+        params: { kegiatan_id: kegiatan.id.toString() },
     }));
 
     return {

@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Typography from '@mui/material/Typography'
@@ -11,17 +10,20 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import { useAppContext } from "../../../context/AppContext";
 import { dispatchTypes } from "../../../context/AppReducer";
+import { LoadingButton } from "@mui/lab";
 
 
 function AdminCreateOrEditSantri(props) {
     const {
-        isCreate,
+        variant,
         santri,
         setSantri,
+        dataSantri,
         allMarkaz,
-        error,
         apiCall,
     } = props;
+
+    const santriResult = !!dataSantri ? dataSantri.result : null
 
     const { dispatch } = useAppContext();
     const form = useRef(null);
@@ -34,20 +36,21 @@ function AdminCreateOrEditSantri(props) {
         }));
     };
 
+    const [loading, setLoading] = useState(false)
     const [thumbnail, setThumbnail] = useState({});
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
-        const data = buildSantriFormData(santri, thumbnail)
-
-        apiCall(isCreate ? santri.markaz_id : santri.id, data)
+        const formData = buildSantriFormData(santri, thumbnail)
+        
+        await apiCall(formData, variant === 'create' ? santri.markaz_id : null)
             .then(response => {
                 setLoading(false)
                 dispatch({
                     type: dispatchTypes.SNACKBAR_CUSTOM,
                     payload: {
                         severity: 'success',
-                        message: isCreate ? "Santri Created" : "Santri Edited"
+                        message: variant === 'create' ? "Santri Created" : "Santri Edited"
                     }
                 })
             })
@@ -78,9 +81,7 @@ function AdminCreateOrEditSantri(props) {
         return data;
     }
 
-    const [loading, setLoading] = useState(false)
-    if (error) return "Error has occured"
-    if (!allMarkaz || loading) return "Loading..."
+
     return (
         <div>
             <Container>
@@ -121,7 +122,7 @@ function AdminCreateOrEditSantri(props) {
                                     <TextField
                                         data-testid='santri-name-at-AdminCreateOrEditSantri-module'
                                         name="name"
-                                        value={santri.name}
+                                        value={santri ? santri.name : santriResult.name}
                                         label="Nama Santri"
                                         fullWidth
                                         onChange={handleChangeSantri}
@@ -131,7 +132,7 @@ function AdminCreateOrEditSantri(props) {
                                     <TextField
                                         data-testid='santri-background-at-AdminCreateOrEditSantri-module'
                                         name="background"
-                                        value={santri.background}
+                                        value={santri ? santri.background : santriResult.background}
                                         label="Background"
                                         fullWidth
                                         onChange={handleChangeSantri}
@@ -145,7 +146,7 @@ function AdminCreateOrEditSantri(props) {
                                             data-testid='santri-gender-at-AdminCreateOrEditSantri-module'
                                             id="gender-select"
                                             name='gender'
-                                            value={santri.gender}
+                                            value={santri ? santri.gender : santriResult.gender}
                                             label="Jenis Kelamin"
                                             onChange={handleChangeSantri}
                                         >
@@ -162,7 +163,7 @@ function AdminCreateOrEditSantri(props) {
                                             data-testid='santri-markaz-at-AdminCreateOrEditSantri-module'
                                             id="santri-select"
                                             name='markaz_id'
-                                            value={santri.markaz_id}
+                                            value={santri ? santri.markaz_id : santriResult.markaz.id}
                                             label="Tempat Markaz"
                                             onChange={handleChangeSantri}
                                         >
@@ -204,18 +205,15 @@ function AdminCreateOrEditSantri(props) {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Button
-                                        data-testid='santri-submit-button-at-AdminCreateOrEditSantri-module'
-                                        type="submit" variant="contained" color="primary" fullWidth>
+                                    <LoadingButton data-testid='santri-submit-button-at-AdminCreateOrEditSantri-module' fullWidth type='submit' loading={loading} loadingIndicator="Menyimpan..." variant="contained">
                                         Simpan
-                                    </Button>
+                                    </LoadingButton>
                                 </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
                 </form>
             </Container>
-
         </div>
     )
 }

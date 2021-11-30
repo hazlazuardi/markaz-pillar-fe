@@ -38,8 +38,8 @@ export default function ProgresDonasiFooter(props) {
             <Card sx={isXXS ? { display: 'block' } : { display: 'flex' }} variant='outlined' >
               <CardMedia sx={isXXS ? { width: '100%', height: '100%' } : { width: IMAGE_SIZE, height: IMAGE_SIZE }} alt="Live from space album cover">
                 <Box position='relative' sx={isXXS ? { width: '100%', height: '100%' } : { width: IMAGE_SIZE, height: IMAGE_SIZE }}>
-                  <Image src={progress.thumbnailURL ? progress.thumbnailURL : 'https://source.unsplash.com/random'} layout={isXXS ? 'responsive' : 'fill'}
-                    objectFit='cover' alt='Backdrop' width={isXXS ? 16 : undefined} height={isXXS ? 16 : undefined} />
+                  <Image position='relative' src={progress.thumbnailURL ? progress.thumbnailURL : 'https://source.unsplash.com/random'} layout={isXXS ? 'responsive' : 'fill'}
+                     objectFit='cover' alt='' width={isXXS ? 16 : undefined} height={isXXS ? 16 : undefined} />
                 </Box>
               </CardMedia>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>

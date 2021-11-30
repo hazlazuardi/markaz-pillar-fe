@@ -25,7 +25,7 @@ function AdminCreateVolunteerKegiatan() {
                 variant="create"
                 kegiatan={kegiatan}
                 setKegiatan={setKegiatan}
-                apiCalls={createKegiatan}
+                apiCall={createKegiatan}
             />
         </>
     );
