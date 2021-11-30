@@ -214,21 +214,18 @@ export default function FilterComponent(props) {
 
   return (
     <>
-      <Button
-        variant="text"
+      <Chip
+        data-testid="filterChipButton-at-admin-or-user-template"
+        label="Filter"
+        icon={<FilterList />}
+        onClick={toggleDrawer(true)}
         ref={anchorRef}
         id="composition-button"
         aria-controls={open ? "composition-menu" : undefined}
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
-      >
-        <Chip
-          data-testid="filterChipButton-at-admin-or-user-template"
-          label="Filter"
-          icon={<FilterList />}
-          onClick={toggleDrawer(true)}
-        />
-      </Button>
+        color='primary'
+      />
 
       {
         // desktop view

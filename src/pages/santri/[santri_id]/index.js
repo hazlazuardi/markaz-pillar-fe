@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DetailView from '../../../component/templates/DetailView'
 import { axiosMain } from '../../../axiosInstances';
 import useSWR from "swr";
@@ -11,63 +11,51 @@ export default function DetailSantri(props) {
   const { detailSantri } = props
   const router = useRouter();
   const { santri_id } = router.query
-  const { data: responseDetailSantri, error } = useSWR(router.isReady ? `/santri?id=${santri_id}` : null,
+  const { data: responseDetailSantri, error, mutate } = useSWR(router.isReady ? `/santri?id=${santri_id}` : null,
     fetcher,
     { fallbackData: detailSantri, refreshInterval: 10000 }
   )
 
-  const dataResult = {
-    ...responseDetailSantri.result
-  }
-  const convertedDataSantri = {
-    title: dataResult.name,
-    description: dataResult.background,
-    image: dataResult.thumbnailURL,
-    details: [
-      {
-        subtitle: "Tempat Markaz",
-        detail: dataResult.markaz.name
-      },
-      {
-        subtitle: "Jenis Kelamin",
-        detail: dataResult.gender
-      },
-      {
-        subtitle: "Domisili Asal",
-        detail: dataResult.birthPlace
-      },
-      {
-        subtitle: "Kebutuhan Beasiswa",
-        detail: dataResult.desc
-      },
-      {
-        subtitle: "Tempat & Tanggal Lahir",
-        detail: `${dataResult.birthPlace}, ${dataResult.birthDate}`
-      },
-
-    ],
-    donation: [
-      {
-        subtitle: "Nominal yang dibutuhkan",
-        detail: dataResult.nominal
-      },
-    ],
-    progress: dataResult.progress
-  }
-
-  const convertedData = {
-    ...responseDetailSantri,
-    result: {
-      ...convertedDataSantri
+  const [convertedData, setConvertedData] = useState()
+  useEffect(() => {
+    if (!!responseDetailSantri) {
+      const dataResult = responseDetailSantri.result
+      setConvertedData({
+        ...responseDetailSantri,
+        result: {
+          ...dataResult,
+          title: dataResult.name,
+          description: dataResult.background,
+          image: dataResult.thumbnailURL,
+          details: [
+            {
+              subtitle: "Tempat Markaz",
+              detail: dataResult.markaz.name
+            },
+            {
+              subtitle: "Jenis Kelamin",
+              detail: dataResult.gender
+            },
+            {
+              subtitle: "Domisili Asal",
+              detail: dataResult.birthPlace
+            },
+            {
+              subtitle: "Kebutuhan Beasiswa",
+              detail: dataResult.desc
+            },
+            {
+              subtitle: "Tempat & Tanggal Lahir",
+              detail: `${dataResult.birthPlace}, ${dataResult.birthDate}`
+            },
+          ],
+          progress: dataResult.progress
+        }
+      })
+    } else {
+      mutate()
     }
-  }
-
-  // useEffect(() => {
-  //   if (!!responseDetailSantri) {
-  //     setMarkaz(responseDetailSantri.result);
-
-  //   }
-  // }, [responseDetailSantri])
+  }, [mutate, responseDetailSantri])
 
   if (error) return "An error has occurred.";
   if (!responseDetailSantri) return "Loading...";

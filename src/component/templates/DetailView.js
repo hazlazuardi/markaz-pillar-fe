@@ -31,6 +31,7 @@ export default function DetailView(props) {
   const router = useRouter();
   const path = router.pathname;
 
+  
   const isDisabled = disableDonasi || !!result && result.nominal === null
 
   const actions = speedDialActions
@@ -126,7 +127,7 @@ export default function DetailView(props) {
       </Grid>
       {isAdmin && (
         <>
-          <Backdrop open={open} sx={{ zIndex: 100}} />
+          <Backdrop open={open} sx={{ zIndex: 100 }} />
           <SpeedDial
             ariaLabel="SpeedDial Detail View"
             sx={{ position: "fixed", bottom: "3em", right: "2em" }}

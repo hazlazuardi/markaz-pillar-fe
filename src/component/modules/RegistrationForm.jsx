@@ -220,8 +220,8 @@ export default function RegistrationForm(props) {
                     </Button>
                     <Grid container>
                         <Grid item>
-                            <Link href="/login" variant="body2">
-                                {"Sudah memiliki akun? Masuk"}
+                            <Link href="/login" passHref>
+                                <Button sx={{ pl: 0 }} variant='text' >Sudah memiliki akun? Masuk</Button>
                             </Link>
                         </Grid>
                     </Grid>

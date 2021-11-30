@@ -9,7 +9,7 @@ import { dispatchTypes } from '../context/AppReducer';
 import jwtDecode from 'jwt-decode';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
+import Link from 'next/link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -82,6 +82,7 @@ export default function Login() {
       })
   };
 
+  const frontendURL = 'https://localhost:3000/';
   const handleOAuth = async (event) => {
     cookies.remove('state')
     await axiosMain
@@ -206,9 +207,10 @@ export default function Login() {
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link href="/registration" variant="body2">
-                    {"Belum memiliki akun? Registrasi"}
+                  <Link href="/registration" passHref>
+                    <Button sx={{ pl: 0 }} variant='text' >Belum memiliki akun? Registrasi</Button>
                   </Link>
+
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />
