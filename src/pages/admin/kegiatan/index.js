@@ -26,7 +26,7 @@ export default function AdminKegiatan() {
     //   refreshInterval: 30000,
     // }
   );
-  
+
   // *******************************************************
   // Delete
   // *******************************************************
@@ -61,9 +61,11 @@ export default function AdminKegiatan() {
         detail="admin/kegiatan"
         handleDelete={handleDeleteMarkaz}
         santriormarkaz="kegiatan"
-        titleTwo="Volunteer Dibutuhkan"
-        titleThree="Volunteer Saat Ini"
-        titleFour="Lokasi"
+        titleTwo="Status"
+        titleThree="Volunteer Dibutuhkan"
+        titleFour="Volunteer Saat Ini"
+        titleFive="Lokasi"
+        dialogType="statusKegiatan"
       />
     );
   };

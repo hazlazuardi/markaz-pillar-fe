@@ -111,6 +111,7 @@ function TableDataRow(props) {
     } else if (santriormarkaz === "kegiatan") {
       return (
         <>
+          <Dialog mutate={mutate} isStatus {...props} />
           <Button
             variant="outlined"
             onClick={() => router.push(`/admin/kegiatan/${id}/edit`)}
