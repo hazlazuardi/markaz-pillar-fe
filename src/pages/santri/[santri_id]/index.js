@@ -5,6 +5,8 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../component/modules/ArrowBack";
 import ProgresDonasiFooter from "../../../component/modules/ProgresDonasiFooter"
+import { Typography } from "@mui/material";
+import { enumRoutes } from "../../../context/AppReducer";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function DetailSantri(props) {
@@ -57,11 +59,16 @@ export default function DetailSantri(props) {
     }
   }, [mutate, responseDetailSantri])
 
-  if (error) return "An error has occurred.";
-  if (!responseDetailSantri) return "Loading...";
+  if (error) return (<ArrowBack href={enumRoutes.MEMBER_SANTRI} />);
+  if (!responseDetailSantri) return (
+    <>
+      <ArrowBack href={enumRoutes.MEMBER_SANTRI} />
+      <Typography component='p'>Loading Santri Information..</Typography>
+    </>
+  );
   return (
     <>
-      <ArrowBack href='/santri' />
+      <ArrowBack href={enumRoutes.MEMBER_SANTRI} />
       <DetailView variant='santri' data={convertedData} />
       <ProgresDonasiFooter data={convertedData} />
     </>

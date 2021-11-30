@@ -93,13 +93,13 @@ export default function AdminMarkazDetail(props) {
 
   }, [convertedData, hrefUpdateProgresDonasi, markaz_id])
 
-  if (error) return (
+  if (error) return (<ArrowBack href={enumRoutes.ADMIN_MARKAZ} />);
+  if (!responseDetailAdminMarkaz) return (
     <>
       <ArrowBack href={enumRoutes.ADMIN_MARKAZ} />
-      <Typography variant="p" color="initial">An error has occured</Typography>
+      <Typography component='p'>Loading Markaz Information..</Typography>
     </>
   );
-  if (!responseDetailAdminMarkaz) return "Loading...";
   return (
     <>
       <ArrowBack href={enumRoutes.ADMIN_MARKAZ} />

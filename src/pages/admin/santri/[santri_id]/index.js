@@ -5,9 +5,10 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../../component/modules/ArrowBack";
 import ProgresDonasiFooter from "../../../../component/modules/ProgresDonasiFooter"
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import Add from "@mui/icons-material/Add";
 import { DonutLarge } from "@mui/icons-material";
+import { enumRoutes } from "../../../../context/AppReducer";
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 export default function AdminDetailSantri(props) {
@@ -77,8 +78,13 @@ export default function AdminDetailSantri(props) {
     },
   ]
 
-  if (error) return "An error has occurred.";
-  if (!responseDetailAdminSantri) return "Loading...";
+  if (error) return (<ArrowBack href={enumRoutes.ADMIN_SANTRI} />);
+  if (!responseDetailAdminSantri) return (
+    <>
+      <ArrowBack href={enumRoutes.ADMIN_SANTRI} />
+      <Typography component='p'>Loading Santri Information..</Typography>
+    </>
+  );
   return (
     <Stack spacing={4}>
       <ArrowBack href='/admin/santri' />
