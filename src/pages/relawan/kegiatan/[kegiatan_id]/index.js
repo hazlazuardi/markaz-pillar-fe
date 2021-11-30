@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import ArrowBack from "../../../../component/modules/ArrowBack";
 import { Button, Typography } from "@mui/material";
 import Link from 'next/link'
-import { enumRoutes } from "../../../../context/AppReducer";
 import TestimoniKegiatanFooter from "../../../../component/modules/TestimoniKegiatanFooter";
 import { useAppContext } from '../../../../context/AppContext';
 import { dispatchTypes, enumRoutes } from '../../../../context/AppReducer';
