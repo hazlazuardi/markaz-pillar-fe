@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import Link from "@mui/material/Link";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 
 const status_list = [
   "MENUNGGU_KONFIRMASI",
@@ -14,6 +15,9 @@ const status_list = [
   "DONASI_DITERIMA",
   "PENDAFTARAN_DITOLAK",
   "PENDAFTARAN_DITERIMA",
+  "KEGIATAN_DIBUKA",
+  "KEGIATAN_DITUTUP",
+  "KEGIATAN_SELESAI",
 ];
 
 const transaksi_status_list = [
@@ -178,7 +182,7 @@ SimpleDialog.propTypes = {
 };
 
 export default function DialogTrans(props) {
-  const { isStatus, isDownloadVolunteer } = props;
+  const { dialogButtons, tooltip } = props;
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(status_list[1]);
 
@@ -193,10 +197,15 @@ export default function DialogTrans(props) {
 
   return (
     <div>
-      <Button id="dialogButton" variant="outlined" onClick={handleClickOpen}>
-        {isStatus && "Status"}
-        {isDownloadVolunteer && "Download"}
-      </Button>
+      <Tooltip title={tooltip}>
+        <IconButton
+          id="dialogButton"
+          aria-label="dialog-button"
+          onClick={handleClickOpen}
+        >
+          {dialogButtons}
+        </IconButton>
+      </Tooltip>
       <SimpleDialog
         selectedValue={selectedValue}
         open={open}
