@@ -5,7 +5,13 @@ import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Dialog from "./Dialog";
-import ButtonGroup from "@mui/material/ButtonGroup";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DownloadIcon from "@mui/icons-material/Download";
+import ListIcon from "@mui/icons-material/List";
+import Tooltip from "@mui/material/Tooltip";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -55,15 +61,14 @@ function TableDataRow(props) {
     ) {
       return (
         <>
-          <Button
-            variant="outlined"
+          <IconButton
             onClick={() => router.push(`/admin/${santriormarkaz}/${id}/edit`)}
           >
-            edit
-          </Button>
-          <Button variant="outlined" onClick={() => handleDelete(id)}>
-            delete
-          </Button>
+            <EditIcon />
+          </IconButton>
+          <IconButton onClick={() => handleDelete(id)}>
+            <DeleteIcon />
+          </IconButton>
         </>
       );
     } else if (santriormarkaz === "donasi") {
@@ -76,12 +81,9 @@ function TableDataRow(props) {
             }}
             passHref
           >
-            <Button
-              variant="outlined"
-              // onClick={() => router.push(`${iddonasi}/transaksi/${uniqueid}`)}
-            >
-              manage
-            </Button>
+            <IconButton>
+              <ListIcon />
+            </IconButton>
           </Link>
           <Link
             href={{
@@ -90,48 +92,68 @@ function TableDataRow(props) {
             }}
             passHref
           >
-            <Button
-              variant="outlined"
-              // onClick={() => router.push(`donasi/${iddonasi}/edit`)} {`donasi/${donasi_id}/edit`}
-            >
-              Edit
-            </Button>
+            <IconButton>
+              <EditIcon />
+            </IconButton>
           </Link>
         </>
       );
     } else if (santriormarkaz === "transaksi") {
       return (
         <>
-          <Dialog mutate={mutate} isStatus {...props} />
-          <Link passHref href={paymenturl} target="_blank" underline="none">
-            <Button variant="outlined">download</Button>
-          </Link>
+          <Dialog
+            mutate={mutate}
+            isStatus
+            dialogButtons={<MoreVertIcon />}
+            {...props}
+          />
+          <IconButton
+            passHref
+            href={paymenturl}
+            target="_blank"
+            underline="none"
+          >
+            <DownloadIcon />
+          </IconButton>
         </>
       );
     } else if (santriormarkaz === "kegiatan") {
       return (
         <>
-          <Dialog mutate={mutate} isStatus {...props} />
-          <Button
-            variant="outlined"
-            onClick={() => router.push(`/admin/kegiatan/${id}/edit`)}
-          >
-            edit
-          </Button>
-          <Button
-            variant="outlined"
+          <Dialog
+            mutate={mutate}
+            isStatus
+            dialogButtons={<MoreVertIcon />}
+            {...props}
+          />
+          <IconButton onClick={() => router.push(`/admin/kegiatan/${id}/edit`)}>
+            <EditIcon />
+          </IconButton>
+          <IconButton
             onClick={() => router.push(`/admin/kegiatan/${id}/relawan`)}
           >
-            manage
-          </Button>
+            <ListIcon />
+          </IconButton>
         </>
       );
     } else if (santriormarkaz === "volunteer") {
       return (
-        <ButtonGroup variant="outlined" aria-label="outlined button group">
-          <Dialog mutate={mutate} isStatus {...props} />
-          <Dialog mutate={mutate} isDownloadVolunteer {...props} />
-        </ButtonGroup>
+        <>
+          <Tooltip title="Change Status">
+            <Dialog
+              mutate={mutate}
+              isStatus
+              dialogButtons={<MoreVertIcon />}
+              {...props}
+            />
+          </Tooltip>
+          <Dialog
+            mutate={mutate}
+            isDownloadVolunteer
+            dialogButtons={<DownloadIcon />}
+            {...props}
+          />
+        </>
       );
     } else {
       return "buttons";
@@ -163,7 +185,7 @@ function TableDataRow(props) {
           </Button>
         </StyledTableCell>
       ) : null}
-      <StyledTableCell align="center">
+      <StyledTableCell align="center" width="auto">
         <TableButtons />
       </StyledTableCell>
     </StyledTableRow>

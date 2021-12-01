@@ -7,6 +7,7 @@ import ListItemText from "@mui/material/ListItemText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import Link from "@mui/material/Link";
+import IconButton from "@mui/material/IconButton";
 
 const status_list = [
   "MENUNGGU_KONFIRMASI",
@@ -178,7 +179,7 @@ SimpleDialog.propTypes = {
 };
 
 export default function DialogTrans(props) {
-  const { isStatus, isDownloadVolunteer } = props;
+  const { isStatus, isDownloadVolunteer, dialogButtons } = props;
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(status_list[1]);
 
@@ -193,10 +194,13 @@ export default function DialogTrans(props) {
 
   return (
     <div>
-      <Button id="dialogButton" variant="outlined" onClick={handleClickOpen}>
+      {/* <Button id="dialogButton" variant="outlined" onClick={handleClickOpen}>
         {isStatus && "Status"}
         {isDownloadVolunteer && "Download"}
-      </Button>
+      </Button> */}
+      <IconButton aria-label="dialog-button" onClick={handleClickOpen}>
+        {dialogButtons}
+      </IconButton>
       <SimpleDialog
         selectedValue={selectedValue}
         open={open}
