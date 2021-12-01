@@ -12,6 +12,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DownloadIcon from "@mui/icons-material/Download";
 import ListIcon from "@mui/icons-material/List";
 import Tooltip from "@mui/material/Tooltip";
+import Stack from "@mui/material/Stack";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -61,14 +62,18 @@ function TableDataRow(props) {
     ) {
       return (
         <>
-          <IconButton
-            onClick={() => router.push(`/admin/${santriormarkaz}/${id}/edit`)}
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton onClick={() => handleDelete(id)}>
-            <DeleteIcon />
-          </IconButton>
+          <Tooltip title="Edit ">
+            <IconButton
+              onClick={() => router.push(`/admin/${santriormarkaz}/${id}/edit`)}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete">
+            <IconButton onClick={() => handleDelete(id)}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
         </>
       );
     } else if (santriormarkaz === "donasi") {
@@ -81,9 +86,11 @@ function TableDataRow(props) {
             }}
             passHref
           >
-            <IconButton>
-              <ListIcon />
-            </IconButton>
+            <Tooltip title="Manage">
+              <IconButton>
+                <ListIcon />
+              </IconButton>
+            </Tooltip>
           </Link>
           <Link
             href={{
@@ -92,9 +99,11 @@ function TableDataRow(props) {
             }}
             passHref
           >
-            <IconButton>
-              <EditIcon />
-            </IconButton>
+            <Tooltip title={"Edit"}>
+              <IconButton>
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
           </Link>
         </>
       );
@@ -106,51 +115,61 @@ function TableDataRow(props) {
             isStatus
             dialogButtons={<MoreVertIcon />}
             {...props}
+            tooltip={"Change Status"}
           />
-          <IconButton
-            passHref
-            href={paymenturl}
-            target="_blank"
-            underline="none"
-          >
-            <DownloadIcon />
-          </IconButton>
+          <Tooltip title="Download File">
+            <IconButton
+              passHref
+              href={paymenturl}
+              target="_blank"
+              underline="none"
+            >
+              <DownloadIcon />
+            </IconButton>
+          </Tooltip>
         </>
       );
     } else if (santriormarkaz === "kegiatan") {
       return (
         <>
+          <Tooltip title="Edit">
+            <IconButton
+              onClick={() => router.push(`/admin/kegiatan/${id}/edit`)}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Manage">
+            <IconButton
+              onClick={() => router.push(`/admin/kegiatan/${id}/relawan`)}
+            >
+              <ListIcon />
+            </IconButton>
+          </Tooltip>
           <Dialog
             mutate={mutate}
             isStatus
             dialogButtons={<MoreVertIcon />}
+            tooltip={"Change Status"}
             {...props}
           />
-          <IconButton onClick={() => router.push(`/admin/kegiatan/${id}/edit`)}>
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            onClick={() => router.push(`/admin/kegiatan/${id}/relawan`)}
-          >
-            <ListIcon />
-          </IconButton>
         </>
       );
     } else if (santriormarkaz === "volunteer") {
       return (
         <>
-          <Tooltip title="Change Status">
-            <Dialog
-              mutate={mutate}
-              isStatus
-              dialogButtons={<MoreVertIcon />}
-              {...props}
-            />
-          </Tooltip>
           <Dialog
             mutate={mutate}
             isDownloadVolunteer
             dialogButtons={<DownloadIcon />}
+            tooltip={"Download Files"}
+            {...props}
+          />
+          <Dialog
+            mutate={mutate}
+            isStatus
+            dialogButtons={<MoreVertIcon />}
+            tooltip={"Change Status"}
             {...props}
           />
         </>
@@ -186,7 +205,15 @@ function TableDataRow(props) {
         </StyledTableCell>
       ) : null}
       <StyledTableCell align="center" width="auto">
-        <TableButtons />
+        <Stack
+          direction="row"
+          justifyContent="center"
+          spacing={0}
+          margin={0}
+          padding={0}
+        >
+          <TableButtons />
+        </Stack>
       </StyledTableCell>
     </StyledTableRow>
   );
