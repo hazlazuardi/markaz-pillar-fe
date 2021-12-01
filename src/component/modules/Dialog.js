@@ -28,6 +28,12 @@ const volunteer_status_list = [
   "PENDAFTARAN_DITERIMA",
 ];
 
+const kegiatan_status_list = [
+  "KEGIATAN_DIBUKA",
+  "KEGIATAN_DITUTUP",
+  "KEGIATAN_SELESAI",
+];
+
 const download_list = ["cvURL", "essayURL", "pictureURL"];
 
 function SimpleDialog(props) {
@@ -86,6 +92,16 @@ function SimpleDialog(props) {
     }
   }
 
+  function kegiatanStatusConverter(field) {
+    if (field === "KEGIATAN_DIBUKA") {
+      return "Kegiatan Dibuka";
+    } else if (field === "KEGIATAN_DITUTUP") {
+      return "Kegiatan Ditutup";
+    } else if (field === "KEGIATAN_SELESAI") {
+      return "Kegiatan Selesai";
+    }
+  }
+
   const DialogList = () => {
     if (dialogType === "statusVolunteer" && isStatus) {
       {
@@ -109,6 +125,16 @@ function SimpleDialog(props) {
           {transaksi_status_list.map((statusL) => (
             <ListItem button onClick={() => handleChangeStatus(trxId, statusL)}>
               <ListItemText primary={transaksiStatusConverter(statusL)} />
+            </ListItem>
+          ))}
+        </List>
+      );
+    } else if (dialogType === "statusKegiatan" && isStatus) {
+      return (
+        <List sx={{ pt: 0 }}>
+          {kegiatan_status_list.map((statusL) => (
+            <ListItem button onClick={() => handleChangeStatus(id, statusL)}>
+              <ListItemText primary={kegiatanStatusConverter(statusL)} />
             </ListItem>
           ))}
         </List>

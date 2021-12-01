@@ -39,7 +39,7 @@ export default function TableView(props) {
     } else if (santriormarkaz === "pengguna") {
       return field.username;
     } else if (santriormarkaz === "kegiatan") {
-      return field.volunteerNeeded;
+      return "status";
     } else if (santriormarkaz === "volunteer") {
       return field.ktp;
     }
@@ -57,7 +57,7 @@ export default function TableView(props) {
     } else if (santriormarkaz === "pengguna") {
       return field.email;
     } else if (santriormarkaz === "kegiatan") {
-      return field.volunteerApplied;
+      return field.volunteerNeeded;
     } else if (santriormarkaz === "volunteer") {
       return field.email;
     }
@@ -75,7 +75,7 @@ export default function TableView(props) {
     } else if (santriormarkaz === "pengguna") {
       return field.phoneNum;
     } else if (santriormarkaz === "kegiatan") {
-      return field.location;
+      return field.volunteerApplied;
     } else if (santriormarkaz === "volunteer") {
       return field.phoneNum;
     }
@@ -115,7 +115,7 @@ export default function TableView(props) {
     } else if (santriormarkaz === "pengguna") {
       return field.address;
     } else if (santriormarkaz === "kegiatan") {
-      return null;
+      return field.location;
     } else if (santriormarkaz === "volunteer") {
       return statusConverter(field.status);
     }
