@@ -198,7 +198,11 @@ export default function DialogTrans(props) {
   return (
     <div>
       <Tooltip title={tooltip}>
-        <IconButton aria-label="dialog-button" onClick={handleClickOpen}>
+        <IconButton
+          id="dialogButton"
+          aria-label="dialog-button"
+          onClick={handleClickOpen}
+        >
           {dialogButtons}
         </IconButton>
       </Tooltip>
