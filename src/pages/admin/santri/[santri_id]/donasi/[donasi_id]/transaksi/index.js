@@ -35,7 +35,7 @@ export default function TransaksiSantri() {
     <TableView
       data={transactions}
       santriormarkaz="transaksi"
-      detail="admin/markaz"
+      
       titleTwo="ID Transaksi"
       titleThree="Nominal Donasi"
       titleFour="Status"

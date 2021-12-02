@@ -23,6 +23,10 @@ export default function AdminMarkazDetail(props) {
     return axiosMain.delete(`/admin/donation/progress?id=${id}`);
   };
 
+  const deleteMarkaz = async (id) => {
+    return axiosMain.delete(`/admin/markaz?id=${id}`)
+  }
+
   const [convertedData, setConvertedData] = useState()
   const [hrefUpdateProgresDonasi, setHrefUpdateProgresDonasi] = useState("")
   useEffect(() => {
@@ -106,7 +110,7 @@ export default function AdminMarkazDetail(props) {
   return (
     <>
       <ArrowBack href={enumRoutes.ADMIN_MARKAZ} />
-      <DetailView isAdmin variant='markaz' data={convertedData} speedDialActions={adminMarkazDetailActions} hrefDonasi={enumRoutes.ADMIN_MARKAZ_DONASI} disableDonasi={!!convertedData && !convertedData.result.nominal} />
+      <DetailView isAdmin variant='markaz' data={convertedData} deleteApiCall={deleteMarkaz} speedDialActions={adminMarkazDetailActions} hrefDonasi={enumRoutes.ADMIN_MARKAZ_DONASI} disableDonasi={!!convertedData && !convertedData.result.nominal} />
       <ProgresDonasiFooter isAdmin variant='markaz' data={convertedData} apiCall={deleteProgress} mutate={mutate} />
     </>
   );

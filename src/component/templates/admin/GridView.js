@@ -11,7 +11,7 @@ export default function GridView(props) {
   const fullResponseResult = data.result;
 
 
-  if (disableMasonry) {
+  if (!disableMasonry && !!fullResponseResult) {
     return (
       <Grid
         container
@@ -20,7 +20,7 @@ export default function GridView(props) {
       >
         {fullResponseResult.map((result) => (
           <Grid item key={result.id}>
-            <GridViewCard image={result.thumbnailURL} title={result.name} description={result.background} />
+            <GridViewCard fullResponseResult={result} image={result.thumbnailURL} title={result.name} description={result.background ? result.background : result.description} {...props} />
           </Grid>
         ))}
       </Grid>
@@ -39,11 +39,11 @@ export default function GridView(props) {
           sx={{
             pl: 2,
             width: { xs: 300, sm: 552, md: 836, lg: 1200, xl: 1200 },
+            minHeight: 300
           }}
         >
           <Masonry
             columns={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 4 }}
-            spacing={2}
             sx={{ justifyItems: "center", alignContent: "center" }}
           >
             {fullResponseResult.map((result) => (

@@ -46,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
-export default function Home() {
+export default function Home(props) {
+  const { allKegiatanRandom, allKegiatanDefault } = props
   const classes = useStyles();
   const theme = useTheme();
   const [page, setPage] = useState(1);
@@ -54,23 +55,23 @@ export default function Home() {
   const { data: randomProgram, error: error1 } = useSWR(
     `/volunteer/random
 `,
-    fetcher
+    fetcher, { fallbackData: allKegiatanRandom, refreshInterval: 10000 }
   );
 
   const { data: responseProgram, error: error2 } = useSWR(
     `/volunteer?n=4&page=${page - 1}
 `,
-    fetcher
+    fetcher, { fallbackData: allKegiatanDefault, refreshInterval: 10000 }
   );
 
   const buttonVolunteer = () => {
     return (
       <>
         <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
-          <Link href={responseProgram} target="_blank" underline="none">
+          <Link href={responseProgram} passHref >
             <Button variant="outlined">Daftar</Button>
           </Link>
-          <Link href={responseProgram} target="_blank" underline="none">
+          <Link href={responseProgram} passHref>
             <Button variant="outlined">Lihat Detail</Button>
           </Link>
         </Stack>
@@ -81,12 +82,29 @@ export default function Home() {
   const matches = useMediaQuery("(max-width:600px)");
   const size = matches ? "small" : "medium";
 
+  console.log('def', responseProgram)
+  console.log('random', randomProgram)
   if (error2 && error1) {
     return "an error has occured.";
   }
-  if (!responseProgram && !randomProgram) {
+  if (!responseProgram) {
+    return (
+      <LandingGridView
+        data-testid="landing-grid-view"
+        type={"open"}
+        data={responseProgram}
+        size={size}
+        page={page}
+        setPage={setPage}
+      />
+
+    );
+  }
+  if (!randomProgram) {
     return "loading...";
   }
+
+
   return (
     <>
       {!!responseProgram && !!randomProgram && (
@@ -181,4 +199,21 @@ export default function Home() {
       )}
     </>
   );
+}
+
+export async function getStaticProps() {
+  const staticKegiatanRandomResponse = await axiosMain.get(`/volunteer/random`);
+  const staticKegiatanRandom = await staticKegiatanRandomResponse.data
+
+  const staticKegiatanDefaultResponse = await axiosMain.get(`/volunteer?n=1000`);
+  const staticKegiatanDefault = await staticKegiatanDefaultResponse.data
+
+
+  return {
+    props: {
+      allKegiatanRandom: staticKegiatanRandom,
+      allKegiatanDefault: staticKegiatanDefault
+    },
+    revalidate: 10
+  }
 }

@@ -18,7 +18,7 @@ import { useAppContext } from "../../context/AppContext";
 import { dispatchTypes, roleType } from "../../context/AppReducer";
 
 export default function GridViewCard(props) {
-  const { fullResponseResult, image, title, description, handleDelete, CTAs } = props;
+  const { variant, fullResponseResult, image, title, description, handleDelete, CTAs } = props;
   const { state, dispatch } = useAppContext();
   const { currentUser, currentUserRole } = state;
 
@@ -28,6 +28,8 @@ export default function GridViewCard(props) {
 
   const isXXS = useMediaQuery("(max-width:400px)");
   const IMAGE_SIZE = 252;
+  const CARD_WIDTH = IMAGE_SIZE;
+  const CARD_HEIGHT = 1.92 * CARD_WIDTH
 
   const handleDonasiCTA = () => {
     if (!!currentUser) {
@@ -36,6 +38,13 @@ export default function GridViewCard(props) {
       dispatch({ type: dispatchTypes.UNAUTHORIZED_DONASI })
       router.push('/login')
     }
+  }
+
+  const handleCardActionArea = () => {
+    if (variant === 'relawan') {
+      return;
+    }
+    router.push(`${path}/${fullResponseResult.id}`)
   }
 
   const CTAGroup = () => {
@@ -100,7 +109,9 @@ export default function GridViewCard(props) {
       <Card sx={{ width: IMAGE_SIZE }} elevation={4} >
         <CardActionArea
           data-testid='card-action-area-at-gridview-card'
-          onClick={() => router.push(`${path}/${fullResponseResult.id}`)}
+          onClick={handleCardActionArea}
+          disableRipple={variant === 'relawan'}
+          disableTouchRipple={variant === 'relawan'}
         >
           <CardMedia
             sx={
@@ -129,21 +140,23 @@ export default function GridViewCard(props) {
               />
             </Box>
           </CardMedia>
-          <CardContent>
-            <Typography
-              data-testid="name-at-gridview-card"
-              gutterBottom
-              variant="h5"
-              component="div"
-            >
-              {title}
-            </Typography>
+          <CardContent sx={{ overflow: 'hidden', height: 0.35 * CARD_HEIGHT }}>
+            <Box pr={2} sx={{ overflow: 'hidden' }}>
+              <Typography
+                data-testid="name-at-gridview-card"
+                gutterBottom
+                variant="h5"
+                component="div"
+              >
+                {title.length > 25 ? title.slice(0, 25) + "..." : title}
+              </Typography>
+            </Box>
             <Typography variant="body1" color="text.secondary">
-              {description}
+              {description.length > 50 ? description.slice(0, 50) + "..." : description}
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
+        <CardActions sx={{ mt: 'auto' }} >
           <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
             <CTAGroup />
           </Stack>

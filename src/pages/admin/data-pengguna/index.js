@@ -18,7 +18,7 @@ export default function AdminUsers() {
     return (
       <TableView
         data={responsePengguna}
-        detail="admin/markaz"
+        
         //   handleDelete={handleDeleteMarkaz}
         titleTwo="Username"
         titleThree="Email"

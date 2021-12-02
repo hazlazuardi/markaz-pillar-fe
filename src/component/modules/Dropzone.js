@@ -1,4 +1,3 @@
-import { Typography } from '@mui/material';
 import React, { useMemo, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useAppContext } from '../../context/AppContext';
@@ -49,9 +48,9 @@ export default function Dropzone({ setFile, accept, fileSize }) {
   const onDropRejected = useCallback((fileRejections) => {
     var message = ""
 
-    if(accept == "image/*") {
+    if (accept == "image/*") {
 
-      if(fileRejections[0].errors[0].code == "file-too-large") {
+      if (fileRejections[0].errors[0].code == "file-too-large") {
         message = "File is larger than 1 MB"
       } else {
         message = "File must be an Image"
@@ -59,23 +58,23 @@ export default function Dropzone({ setFile, accept, fileSize }) {
 
     } else {
 
-      if(fileRejections[0].errors[0].code == "file-too-large") {
+      if (fileRejections[0].errors[0].code == "file-too-large") {
         message = "File is larger than 10 MB"
       } else {
         message = "File must be a PDF"
       }
-      
+
     }
 
 
     dispatch({
       type: dispatchTypes.SNACKBAR_CUSTOM,
       payload: {
-          severity: 'error',
-          message: message
+        severity: 'error',
+        message: message
       }
-  })
-  }, [dispatch]);
+    })
+  }, [accept, dispatch]);
 
 
   const {
@@ -84,7 +83,7 @@ export default function Dropzone({ setFile, accept, fileSize }) {
     isDragActive,
     isDragAccept,
     isDragReject,
-  } = useDropzone({ accept: accept, onDropAccepted, onDropRejected, maxSize: fileSize });
+  } = useDropzone({ accept: accept, onDropAccepted, onDropRejected, maxSize: fileSize, noClick: false });
 
   const style = useMemo(() => ({
     ...baseStyle,
@@ -106,7 +105,6 @@ export default function Dropzone({ setFile, accept, fileSize }) {
         <input {...getInputProps()} />
         <p>Drag n drop some files here, or click to select files</p>
       </div>
-      <Typography variant="body1" color="initial">{ }</Typography>
     </div>
   );
 }

@@ -41,6 +41,7 @@ export default function LandingGridView(props) {
     [setPage]
   );
 
+  console.log('landing', data)
   return (
     <Container>
       {type === "open" ? (

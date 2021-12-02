@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DetailView(props) {
-  const { isAdmin, data, variant, speedDialActions, hrefDonasi, disableDonasi, deleteApiCall } = props
+  const { isAdmin, data, variant, CTA, speedDialActions, hrefDonasi, disableDonasi, deleteApiCall } = props
 
   const { dispatch } = useAppContext()
   const result = !!data ? data.result : null;
@@ -98,22 +98,22 @@ export default function DetailView(props) {
         direction="row-reverse"
       >
         <Grid item xs={12} md={6} >
-          {variant === "kegiatan" ? 
-          (<Container disableGutters >
-            <Image src={result.image} layout='responsive'
-              width={16} height={16} quality={65} sizes={20} alt='Backdrop' />
-               <Container disableGutters sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', mt: 2, mb: 2, p: 2 }} >
-                  {CTA}
-            </Container>
-          </Container>): (
-          <Container disableGutters >
-            <Image src={result.image} layout='responsive'
-              width={16} height={16} quality={65} sizes={20} alt='' />
-            {isDisabled ? null : (
-              <ProgresDonasiBar {...props} donated={result.donated} nominal={result.nominal} hrefDonasi={hrefDonasi} />
+          {variant === "kegiatan" ?
+            (<Container disableGutters >
+              <Image src={result.image} layout='responsive'
+                width={16} height={16} quality={65} sizes={20} alt='Backdrop' />
+              <Container disableGutters sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', mt: 2, mb: 2, p: 2 }} >
+                {CTA}
+              </Container>
+            </Container>) : (
+              <Container disableGutters >
+                <Image src={result.image} layout='responsive'
+                  width={16} height={16} quality={65} sizes={20} alt='' />
+                {isDisabled ? null : (
+                  <ProgresDonasiBar {...props} donated={result.donated} nominal={result.nominal} hrefDonasi={hrefDonasi} />
+                )}
+              </Container>
             )}
-          </Container>
-          )}
         </Grid>
         <Grid item xs={12} md={6} width="100%">
           <Typography

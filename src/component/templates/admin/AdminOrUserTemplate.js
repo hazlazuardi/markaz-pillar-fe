@@ -205,6 +205,7 @@ function AdminOrUserTemplate(props) {
       ) : (
         <Box
           mt="2em"
+          mb="3em"
           data-testid={
             GridView
               ? "gridView-at-admin-or-user-template"

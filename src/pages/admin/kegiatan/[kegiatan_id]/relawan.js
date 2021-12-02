@@ -22,19 +22,17 @@ export default function AdminRelawan(props) {
     mutate,
   } = useSWR(
     router.isReady
-      ? `/admin/volunteer/registration?page=${
-          page - 1
-        }&n=${entries}&id=${kegiatan_id}&name=${searchVolunteer}${
-          !!statusFilter ? "&status=" + statusFilter : ""
-        }
+      ? `/admin/volunteer/registration?page=${page - 1
+      }&n=${entries}&id=${kegiatan_id}&name=${searchVolunteer}${!!statusFilter ? "&status=" + statusFilter : ""
+      }
 `
       : null,
     fetcher
   );
 
-  useEffect(() => {
-    mutate();
-  }, [statusFilter, mutate]);
+  // useEffect(() => {
+  //   mutate();
+  // }, [statusFilter, mutate]);
 
   //
 
@@ -45,7 +43,7 @@ export default function AdminRelawan(props) {
   };
 
   const GridViewAdminVolunteerDetail = () => {
-    return <GridView data={responseVolunteer} detail="admin/kegiatan" />;
+    return <GridView data={responseVolunteer} detail="admin/kegiatan" variant='relawan' />;
   };
 
   const TableViewAdminVolunteerDetail = () => {
@@ -86,10 +84,6 @@ export default function AdminRelawan(props) {
     },
   ];
 
-  if (error)
-    return "An error has occurred. Please re-login or try again later.";
-  if (!responseVolunteer) return "Loading...";
-
   return (
     <>
       <ArrowBack href={"/admin/kegiatan"} />
@@ -106,7 +100,6 @@ export default function AdminRelawan(props) {
         setPage={setPage}
         data={responseVolunteer}
         error={error}
-        hrefCreate="/admin/kegiatan/create"
         mutate={mutate}
         FilterRadioObject={radioRegister}
       />
