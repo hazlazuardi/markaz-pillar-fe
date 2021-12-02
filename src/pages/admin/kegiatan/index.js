@@ -43,6 +43,12 @@ export default function AdminKegiatan() {
       });
   };
 
+  const changeStatus = async (ids, status) => {
+    return axiosMain.post(`/admin/volunteer/registration/status?id=${ids}`, {
+      status: `${status}`,
+    });
+  };
+
   const GridViewAdminVolunteer = () => {
     return (
       <GridView
@@ -66,6 +72,8 @@ export default function AdminKegiatan() {
         titleFour="Volunteer Saat Ini"
         titleFive="Lokasi"
         dialogType="statusKegiatan"
+        mutate={mutate}
+        // apiCall={changeStatus}
       />
     );
   };
