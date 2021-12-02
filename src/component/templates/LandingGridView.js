@@ -15,6 +15,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 export default function LandingGridView(props) {
   const {
+    variant,
     data,
     size,
     page,
@@ -41,7 +42,7 @@ export default function LandingGridView(props) {
     [setPage]
   );
 
-  console.log('landing', data)
+  
   return (
     <Container>
       {type === "open" ? (
@@ -61,7 +62,7 @@ export default function LandingGridView(props) {
         </Typography>
       )}
       <Grid sx={{ p: 1 }}>
-        <GridView data={data} />
+        <GridView {...props} data={data} />
       </Grid>
       {/* Pagination */}
       {!!data && data.totalElement !== 0 && (

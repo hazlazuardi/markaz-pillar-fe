@@ -52,7 +52,7 @@ export default function Home(props) {
   const theme = useTheme();
   const [page, setPage] = useState(1);
 
-  const { data: randomProgram, error: error1 } = useSWR(
+  const { data: responseRandomProgram, error: error1 } = useSWR(
     `/volunteer/random
 `,
     fetcher, { fallbackData: allKegiatanRandom, refreshInterval: 10000 }
@@ -82,32 +82,22 @@ export default function Home(props) {
   const matches = useMediaQuery("(max-width:600px)");
   const size = matches ? "small" : "medium";
 
-  console.log('def', responseProgram)
-  console.log('random', randomProgram)
+
+
   if (error2 && error1) {
     return "an error has occured.";
   }
   if (!responseProgram) {
-    return (
-      <LandingGridView
-        data-testid="landing-grid-view"
-        type={"open"}
-        data={responseProgram}
-        size={size}
-        page={page}
-        setPage={setPage}
-      />
-
-    );
+    return "loading.."
   }
-  if (!randomProgram) {
+  if (!responseRandomProgram) {
     return "loading...";
   }
 
 
   return (
     <>
-      {!!responseProgram && !!randomProgram && (
+      {!!responseProgram && !!responseRandomProgram && (
         <>
           <div className={classes.bg}>
             <div className={classes.pad1}>
@@ -119,7 +109,7 @@ export default function Home(props) {
                   md={6}
                   className={classes.heading}
                   sx={{
-                    backgroundImage: `url(${randomProgram.result.thumbnailURL})`,
+                    backgroundImage: `url(${responseRandomProgram.result.thumbnailURL})`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
@@ -133,10 +123,10 @@ export default function Home(props) {
                     </b>
                   </Typography>
                   <Typography component="h2" variant="h5">
-                    {randomProgram.result.name}
+                    {responseRandomProgram.result.name}
                   </Typography>
                   <br />
-                  <Typography>{randomProgram.result.description}</Typography>
+                  <Typography>{responseRandomProgram.result.description}</Typography>
                   <Stack
                     direction="row"
                     width="100%"
@@ -145,7 +135,7 @@ export default function Home(props) {
                     mt={4}
                   >
                     <Link
-                      href={`kegiatan/${randomProgram.result.id}/registrasi`}
+                      href={`kegiatan/${responseRandomProgram.result.id}/registrasi`}
                       passHref
                     >
                       <Button
@@ -159,7 +149,7 @@ export default function Home(props) {
                       </Button>
                     </Link>
                     <Link
-                      href={`kegiatan/${randomProgram.result.id}`}
+                      href={`kegiatan/${responseRandomProgram.result.id}`}
                       passHref
                     >
                       <Button
@@ -185,6 +175,7 @@ export default function Home(props) {
               size={size}
               page={page}
               setPage={setPage}
+              variant='kegiatan'
             />
             <LandingGridView
               data-testid="landing-grid-view"
@@ -193,6 +184,7 @@ export default function Home(props) {
               size={size}
               page={page}
               setPage={setPage}
+              variant='kegiatan'
             />
           </Grid>
         </>

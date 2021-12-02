@@ -43,7 +43,7 @@ export default function AdminRelawan(props) {
   };
 
   const GridViewAdminVolunteerDetail = () => {
-    return <GridView data={responseVolunteer} detail="admin/kegiatan" variant='relawan' />;
+    return <GridView data={responseVolunteer} variant='relawan' />;
   };
 
   const TableViewAdminVolunteerDetail = () => {

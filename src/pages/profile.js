@@ -8,8 +8,8 @@ export default function Profile() {
 
     const { data: responseActivity, error, mutate } = useSWR(`/user/activity`, fetcher)
 
-    console.log(responseActivity)
-    console.log(error)
+    
+    
     return (
         <>
             Hello

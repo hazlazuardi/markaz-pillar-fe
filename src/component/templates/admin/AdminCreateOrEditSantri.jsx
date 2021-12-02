@@ -45,7 +45,7 @@ function AdminCreateOrEditSantri(props) {
         setLoading(true)
         event.preventDefault();
         const formData = buildSantriFormData(editedSantri, thumbnail)
-        console.log('santri', editedSantri)
+        
         await apiCall(formData)
             .then(response => {
                 setLoading(false)

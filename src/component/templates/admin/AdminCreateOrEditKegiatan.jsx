@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import Dropzone from "../../modules/Dropzone";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useAppContext } from "../../../context/AppContext";
-import { dispatchTypes } from "../../../context/AppReducer";
+import { dispatchTypes, enumRoutes } from "../../../context/AppReducer";
 
 function AdminCreateOrEditKegiatan(props) {
     const {
@@ -52,7 +52,7 @@ function AdminCreateOrEditKegiatan(props) {
                         message: variant === 'create' ? "Kegiatan Created" : "Kegiatan Edited"
                     }
                 })
-
+                router.push(`${enumRoutes.ADMIN_KEGIATAN}/${kegiatan.id}`)
             })
             .catch(error => {
                 setLoading(false)

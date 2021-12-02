@@ -130,7 +130,7 @@ export default function GridViewCard(props) {
               }
             >
               <Image
-                src={!!image ? image : "https://source.unsplash.com/random"}
+                src={image}
                 layout={isXXS ? "responsive" : "fill"}
                 objectFit="cover"
                 alt="Backdrop"
@@ -148,11 +148,11 @@ export default function GridViewCard(props) {
                 variant="h5"
                 component="div"
               >
-                {title.length > 25 ? title.slice(0, 25) + "..." : title}
+                {!!title && title.length > 25 ? title.slice(0, 25) + "..." : title}
               </Typography>
             </Box>
             <Typography variant="body1" color="text.secondary">
-              {description.length > 50 ? description.slice(0, 50) + "..." : description}
+              {!!description && description.length > 50 ? description.slice(0, 50) + "..." : description}
             </Typography>
           </CardContent>
         </CardActionArea>

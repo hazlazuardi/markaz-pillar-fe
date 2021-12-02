@@ -41,7 +41,7 @@ export default function AdminSantriEdit() {
         }
     }, [responseAllMarkaz, responseDetailAdminSantri])
 
-    console.log("response", responseDetailAdminSantri)
+    
     if (errorDetailAdminSantri || errorResponseAllMarkaz) {
         return "Error"
     }

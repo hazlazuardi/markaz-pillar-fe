@@ -18,10 +18,10 @@ import {
 } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import SwipeableViews from "react-swipeable-views";
-import { SwipeableEnableScroll } from "../../../component/SwipeableEnableScroll";
+import { SwipeableEnableScroll } from "../../SwipeableEnableScroll";
 import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/system";
-import FilterComponent from "../../../component/modules/FilterComponent";
+import FilterComponent from "../../modules/FilterComponent";
 
 function AdminOrUserTemplate(props) {
   const {

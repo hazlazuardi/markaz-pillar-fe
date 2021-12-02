@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useAppContext } from "../../../../../context/AppContext";
-import { dispatchTypes } from "../../../../../context/AppReducer";
+import { dispatchTypes, enumRoutes } from "../../../../../context/AppReducer";
 import { axiosFormData } from "../../../../../axiosInstances";
 import { useRouter } from 'next/router';
 import AdminCreateOrEditTestimoni from "../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
@@ -48,6 +48,7 @@ function AdminCreateVolunteerTestimoni() {
                         message: "Testimoni Created"
                     }
                 })
+                router.push(`${enumRoutes.ADMIN_KEGIATAN}/${kegiatan_id}`)
             })
             .catch(error => {
                 setLoading(false)

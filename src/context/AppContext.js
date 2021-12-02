@@ -64,6 +64,10 @@ export function AppWrapper({ children }) {
 
       }
     }
+    if (error.response.status === 500 && !originalRequest._retry) {
+      return (<Error statusCode={500} title='Harap Login kembali' />)
+
+    }
     return Promise.reject(error);
   }, [state.currentUserRole])
 
