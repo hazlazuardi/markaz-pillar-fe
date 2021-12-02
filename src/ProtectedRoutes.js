@@ -24,7 +24,7 @@ export default function ProtectedRoutes({ router, children }) {
             router.push({ pathname: enumRoutes.ERROR, query: { statusCode: 401, title: "Maaf, anda tidak memiliki akses ke halaman ini" } });
         }
         // This needs to get from state since it's checking the initial state (Everyone start without logged in)
-        if (isBrowser() && stateLoaded && localStorage.getItem('currentUserRole') && !!currentUserRole && pathNeedsAuthentication) {
+        if (isBrowser() && stateLoaded && !localStorage.getItem('currentUserRole') && !currentUserRole && pathNeedsAuthentication) {
             router.push({ pathname: enumRoutes.ERROR, query: { statusCode: 401, title: "Harap login sebelum akses halaman ini" } });
         }
     }, [currentUserRole, dispatch, isAdmin, pathIsProtected, pathNeedsAuthentication, router, stateLoaded])
