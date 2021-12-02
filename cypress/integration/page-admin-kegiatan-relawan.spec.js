@@ -133,7 +133,6 @@ describe("Test CRUD Change Status", () => {
     cy.wait(1000);
     cy.get("[data-testid=tab-table-at-admin-or-user-template]").click();
     cy.get("[data-testid=MoreVertIcon]").click();
-    // cy.get("#dialogButton").contains("MoreVertIcon").click();
     cy.get("#statusChange").contains("Menunggu Konfirmasi").click();
     cy.get("[data-testid=searchbar-at-admin-or-user-template]").type(
       "rija uwu"

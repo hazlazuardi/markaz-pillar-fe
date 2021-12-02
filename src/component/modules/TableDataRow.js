@@ -110,13 +110,6 @@ function TableDataRow(props) {
     } else if (santriormarkaz === "transaksi") {
       return (
         <>
-          <Dialog
-            mutate={mutate}
-            isStatus
-            dialogButtons={<MoreVertIcon />}
-            {...props}
-            tooltip={"Change Status"}
-          />
           <Tooltip title="Download File">
             <IconButton
               passHref
@@ -127,18 +120,18 @@ function TableDataRow(props) {
               <DownloadIcon />
             </IconButton>
           </Tooltip>
+          <Dialog
+            mutate={mutate}
+            isStatus
+            dialogButtons={<MoreVertIcon />}
+            {...props}
+            tooltip={"Change Status"}
+          />
         </>
       );
     } else if (santriormarkaz === "kegiatan") {
       return (
         <>
-          <Tooltip title="Edit">
-            <IconButton
-              onClick={() => router.push(`/admin/kegiatan/${id}/edit`)}
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
           <Tooltip title="Manage">
             <IconButton
               onClick={() => router.push(`/admin/kegiatan/${id}/relawan`)}
@@ -146,6 +139,14 @@ function TableDataRow(props) {
               <ListIcon />
             </IconButton>
           </Tooltip>
+          <Tooltip title="Edit">
+            <IconButton
+              onClick={() => router.push(`/admin/kegiatan/${id}/edit`)}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+
           <Dialog
             mutate={mutate}
             isStatus
