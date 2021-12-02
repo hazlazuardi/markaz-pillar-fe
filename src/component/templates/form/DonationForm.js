@@ -258,6 +258,8 @@ export default function DonationForm(props) {
                                 <Dropzone
                                     name="paymentproof"
                                     setFile={setImage}
+                                    accept={"image/*"}
+                                    fileSize={1048576}
                                 />
                                 {image.name &&
                                     <Grid item xs={12}>

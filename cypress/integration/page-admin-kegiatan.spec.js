@@ -92,7 +92,7 @@ describe(`Test if all components exist and visible`, () => {
 })
 
 describe('Test CRUD Kegiatan', () => {
-  const testKegiatan = `0 test Kegiatan ${Math.random()}`
+  const testKegiatan = `test ${Math.random()}`.slice(0, 19)
   it('Test Create Kegiatan', () => {
     cy.visit(`${frontendURL}/admin/kegiatan/create`)
     cy.get(`[data-cy="dropzone"]`).attachFile('low.png', { subjectType: 'drag-n-drop' });
@@ -107,7 +107,6 @@ describe('Test CRUD Kegiatan', () => {
     cy.get('[data-testid=kegiatan-schedule-at-AdminCreateOrEditKegiatan-module]').type('test-Kegiatan-schedule')
     cy.get('[data-testid=kegiatan-submit-button-at-AdminCreateOrEditKegiatan-module]').contains('Simpan').click()
     cy.get('[data-testid=snackbar-at-layout]').contains('Kegiatan Created').should('exist')
-    cy.get('[data-testid=kegiatan-submit-button-at-AdminCreateOrEditKegiatan-module]').contains('Simpan').should('not.be.disabled')
   })
 
   it('Test Read Kegiatan', () => {
@@ -147,7 +146,6 @@ describe('Test CRUD Kegiatan', () => {
     cy.get('[data-testid=kegiatan-schedule-at-AdminCreateOrEditKegiatan-module]').type('d').clear().type('test-Kegiatan-schedule')
     cy.get('[data-testid=kegiatan-submit-button-at-AdminCreateOrEditKegiatan-module]').contains('Simpan').click()
     cy.get('[data-testid=snackbar-at-layout]').contains('Kegiatan Edited').should('exist')
-    cy.get('[data-testid=kegiatan-submit-button-at-AdminCreateOrEditKegiatan-module]').contains('Simpan').should('not.be.disabled')
 
   })
 

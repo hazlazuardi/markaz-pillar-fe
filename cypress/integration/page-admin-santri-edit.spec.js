@@ -71,7 +71,7 @@ describe('Test it is in the correct page', () => {
 })
 
 describe(`Test functionality of inputs when edit new santri`, () => {
-  const testSantri = `test-santri-${Math.random()}`
+  const testSantri = `test-santri-${Math.random()}`.slice(0, 19)
   it('Test if succeed', () => {
     cy.get(`[data-cy="dropzone"]`).attachFile('low.png', { subjectType: 'drag-n-drop' });
     cy.get(`[data-testid=dropzone-uploaded]`).should('exist');
@@ -85,7 +85,7 @@ describe(`Test functionality of inputs when edit new santri`, () => {
     cy.get('[data-testid=santri-birthDate-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('2021-12-12')
     cy.get('[data-testid=santri-submit-button-at-AdminCreateOrEditSantri-module]').contains('Simpan').click()
     cy.get('[data-testid=snackbar-at-layout]').contains('Santri Edited').should('exist')
-    cy.get('[data-testid=santri-submit-button-at-AdminCreateOrEditSantri-module]').contains('Simpan').should('not.be.disabled')
+
   });
 
   it('Test if fails if wrong format', () => {
@@ -97,7 +97,7 @@ describe(`Test functionality of inputs when edit new santri`, () => {
     cy.get('[data-testid=santri-birthDate-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('tanggal')
     cy.get('[data-testid=santri-submit-button-at-AdminCreateOrEditSantri-module]').contains('Simpan').click()
     cy.get('[data-testid=snackbar-at-layout]').contains('Incorrect information').should('exist')
-    cy.get('[data-testid=santri-submit-button-at-AdminCreateOrEditSantri-module]').contains('Simpan').should('not.be.disabled')
+
   });
 
   it('Test if fails if image is too big', () => {
@@ -109,6 +109,6 @@ describe(`Test functionality of inputs when edit new santri`, () => {
     cy.get('[data-testid=santri-birthDate-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('2021-12-12')
     cy.get('[data-testid=santri-submit-button-at-AdminCreateOrEditSantri-module]').contains('Simpan').click()
     cy.get('[data-testid=snackbar-at-layout]').contains('Santri Edited').should('exist')
-    cy.get('[data-testid=santri-submit-button-at-AdminCreateOrEditSantri-module]').contains('Simpan').should('not.be.disabled')
+
   });
 });

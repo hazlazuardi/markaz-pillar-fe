@@ -52,9 +52,9 @@ export default function AdminSantriEdit() {
             <ArrowBack href={`${enumRoutes.ADMIN_SANTRI}/${santri_id}`} />
             <AdminCreateOrEditSantri
                 variant='edit'
-                editedSantri={editedSantri}
+                santri={editedSantri}
                 santri_id={santri_id}
-                setEditedSantri={setEditedSantri}
+                setSantri={setEditedSantri}
                 originalSantri={responseDetailAdminSantri}
                 allMarkaz={allMarkaz}
                 apiCall={editSantri}

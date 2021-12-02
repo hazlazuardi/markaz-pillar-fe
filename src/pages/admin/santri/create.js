@@ -52,7 +52,6 @@ export default function AdminSantriCreate() {
                 santri={editedSantri}
                 setSantri={setEditedSantri}
                 allMarkaz={allMarkaz}
-                dataMarkaz={responseAllMarkaz}
                 apiCall={createSantri}
             />
         </>
