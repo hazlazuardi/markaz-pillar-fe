@@ -40,7 +40,7 @@ export default function DonasiMarkaz(props) {
   if (error) return "An error has occurred.";
   return (
     <>
-      <ArrowBack href={enumRoutes.ADMIN_MARKAZ_DETAIL} />
+      <ArrowBack href={`${enumRoutes.ADMIN_MARKAZ}/${markaz_id}`} />
       <AdminOrUserTemplate
         variant="donasi"
         TableView={TableViewMarkazDonasi}

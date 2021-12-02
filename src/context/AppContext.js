@@ -1,8 +1,10 @@
-import { createContext, useContext, useMemo, useReducer, useEffect } from "react";
+import { createContext, useContext, useMemo, useReducer, useEffect, useCallback } from "react";
 
-import { AppReducer, initialState, initialFunction, dispatchTypes } from "./AppReducer";
+import { AppReducer, initialState, initialFunction, dispatchTypes, roleType } from "./AppReducer";
 import { axiosFormData, axiosMain } from "../axiosInstances";
 import axios from "axios";
+
+import Error from 'next/error'
 
 const AppContext = createContext();
 
@@ -13,6 +15,57 @@ export function AppWrapper({ children }) {
     return { state, dispatch };
   }, [state, dispatch]);
 
+  const handleRefresh = useCallback((error) => {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      if (JSON.parse(localStorage.getItem('currentRefreshToken')) != "") {
+        return axios.post('/authenticate/refresh', {
+          refreshToken: JSON.parse(localStorage.getItem('currentRefreshToken')),
+          accessToken: JSON.parse(localStorage.getItem('currentAccessToken'))
+        })
+          .then(res => {
+
+            if (res.status === 200) {
+              // 1) put token to LocalStorage
+              localStorage.setItem("currentAccessToken", res.data.accessToken);
+              localStorage.setItem("currentRefreshToken", res.data.refreshToken);
+              // 2) Change Authorization header
+
+              axiosFormData.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('currentAccessToken');
+              axiosMain.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('currentAccessToken');
+
+              // 3) return originalRequest object with Axios.
+              return axios(originalRequest);
+            }
+          })
+          .catch(err => {
+
+            if (err.response.status === 400) {
+              // Then it's expired
+              dispatch({
+                type: dispatchTypes.SESSION_EXPIRED
+              })
+            }
+
+          })
+      }
+      if (state.currentUserRole === roleType.ROLE_SUPERUSER) {
+        dispatch({
+          type: dispatchTypes.SESSION_EXPIRED
+        })
+        return (<Error statusCode={401} title='Sesi anda telah habis' />)
+      }
+      if (state.currentUserRole === roleType.ROLE_MEMBER) {
+        dispatch({
+          type: dispatchTypes.UNAUTHORIZED_ADMIN
+        })
+        return (<Error statusCode={401} title='Harap Login sebagai Admin' />)
+
+      }
+    }
+    return Promise.reject(error);
+  }, [state.currentUserRole])
 
 
   useEffect(() => {
@@ -62,48 +115,9 @@ export function AppWrapper({ children }) {
         return response
       }, (error) => handleRefresh(error))
     }
-  }, [state]);
+  }, [handleRefresh, state]);
 
 
-  const handleRefresh = (error) => {
-    const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      if (JSON.parse(localStorage.getItem('currentRefreshToken')) != "") {
-        return axios.post('/authenticate/refresh', {
-          refreshToken: JSON.parse(localStorage.getItem('currentRefreshToken')),
-          accessToken: JSON.parse(localStorage.getItem('currentAccessToken'))
-        })
-          .then(res => {
-
-            if (res.status === 200) {
-              // 1) put token to LocalStorage
-              localStorage.setItem("currentAccessToken", res.data.accessToken);
-              localStorage.setItem("currentRefreshToken", res.data.refreshToken);
-              // 2) Change Authorization header
-
-              axiosFormData.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('currentAccessToken');
-              axiosMain.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('currentAccessToken');
-
-              // 3) return originalRequest object with Axios.
-              return axios(originalRequest);
-            }
-          })
-          .catch(err => {
-
-            if (err.response.status === 400) {
-              // Then it's expired
-              dispatch({
-                type: dispatchTypes.SESSION_EXPIRED
-              })
-            }
-
-          })
-      }
-
-    }
-    return Promise.reject(error);
-  }
   // useState(() => {
   //   
   //   if (state.stateLoaded) {

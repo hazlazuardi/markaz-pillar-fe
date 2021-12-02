@@ -134,7 +134,7 @@ function AdminCreateOrEditMarkaz(props) {
                                         name="background"
                                         label="Background"
                                         fullWidth
-                                        value={markaz.background}
+                                        value={markaz ? markaz.background : result.background}
                                         onChange={handleChangeMarkaz}
                                     />
                                 </Grid>
@@ -146,7 +146,7 @@ function AdminCreateOrEditMarkaz(props) {
                                             id="category-select"
                                             name='category'
                                             defaultValue={markaz.category}
-                                            value={markaz.category}
+                                            value={markaz ? markaz.category : result.category}
                                             label="Kategori"
                                             onChange={handleChangeMarkaz}
                                         >
@@ -163,7 +163,7 @@ function AdminCreateOrEditMarkaz(props) {
                                         label="Markaz Address"
                                         fullWidth
                                         onChange={handleChangeMarkaz}
-                                        value={markaz.address}
+                                        value={markaz ? markaz.address : result.address}
 
                                     />
                                 </Grid>
@@ -174,7 +174,7 @@ function AdminCreateOrEditMarkaz(props) {
                                         label="Contact Name"
                                         fullWidth
                                         onChange={handleChangeMarkaz}
-                                        value={markaz.contactName}
+                                        value={markaz ? markaz.contactName : result.contactName}
 
                                     />
                                 </Grid>
@@ -185,7 +185,7 @@ function AdminCreateOrEditMarkaz(props) {
                                         label="Contact Info"
                                         fullWidth
                                         onChange={handleChangeMarkaz}
-                                        value={markaz.contactInfo}
+                                        value={markaz ? markaz.contactInfo : result.contactInfo}
 
                                     />
                                 </Grid>

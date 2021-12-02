@@ -11,11 +11,11 @@ const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function TransaksiMarkaz() {
   const router = useRouter();
-  const { donasi_id } = router.query;
+  const { markaz_id, donasi_id } = router.query;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const {
-    data: markazs,
+    data: transactions,
     error,
     mutate,
   } = useSWR(
@@ -33,7 +33,7 @@ export default function TransaksiMarkaz() {
 
   const TableViewMarkazTransaksi = (
     <TableView
-      data={markazs}
+      data={transactions}
       santriormarkaz="transaksi"
       detail={enumRoutes.ADMIN_MARKAZ}
       titleTwo="ID Transaksi"
@@ -47,16 +47,16 @@ export default function TransaksiMarkaz() {
 
   if (error)
     return "An error has occurred. Please re-login or try again later.";
-  if (!markazs) return "Loading...";
+  if (!transactions) return "Loading...";
   return (
     <>
-      <ArrowBack href={enumRoutes.ADMIN_MARKAZ_DONASI} />
+      <ArrowBack href={`${enumRoutes.ADMIN_MARKAZ}/${markaz_id}/donasi`} />
       <AdminOrUserTemplate
         isAdmin
         disableSearch
         variant="transaksi"
         TableView={TableViewMarkazTransaksi}
-        data={markazs}
+        data={transactions}
         page={page}
         setPage={setPage}
         entries={entries}

@@ -5,16 +5,17 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import AdminOrUserTemplate from "../../../../../../../component/templates/admin/AdminOrUserTemplate";
 import ArrowBack from "../../../../../../../component/modules/ArrowBack";
+import { enumRoutes } from "../../../../../../../context/AppReducer";
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
-export default function TransaksiMarkaz() {
+export default function TransaksiSantri() {
   const router = useRouter();
   const { donasi_id } = router.query;
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const {
-    data: markazs,
+    data: transactions,
     error,
     mutate,
   } = useSWR(
@@ -32,7 +33,7 @@ export default function TransaksiMarkaz() {
 
   const TableViewSantriTransaksi = (
     <TableView
-      data={markazs}
+      data={transactions}
       santriormarkaz="transaksi"
       detail="admin/markaz"
       titleTwo="ID Transaksi"
@@ -47,16 +48,16 @@ export default function TransaksiMarkaz() {
   const { santri_id } = router.query;
   if (error)
     return "An error has occurred. Please re-login or try again later.";
-  if (!markazs) return "Loading...";
+  if (!transactions) return "Loading...";
   return (
     <>
-      <ArrowBack href={`/admin/santri/${santri_id}/donasi`} />
+      <ArrowBack href={`${enumRoutes.ADMIN_SANTRI}/${santri_id}/donasi`} />
       <AdminOrUserTemplate
         isAdmin
         disableSearch
         variant="transaksi"
         TableView={TableViewSantriTransaksi}
-        data={markazs}
+        data={transactions}
         page={page}
         setPage={setPage}
         entries={entries}

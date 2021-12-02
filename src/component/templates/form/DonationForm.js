@@ -18,6 +18,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Dropzone from '../../modules/Dropzone';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
+import { dispatchTypes, enumRoutes } from '../../../context/AppReducer';
+import { useAppContext } from '../../../context/AppContext';
+import { useRouter } from 'next/router';
 
 const steps = [
     'Informasi Donasi',
@@ -27,21 +30,91 @@ const steps = [
 
 export default function DonationForm(props) {
 
-    const { recipient,
+    const {
+        recipient,
         setImage,
         image,
-        handleChangeDetails,
         details,
-        handleClose,
-        handleError,
-        handleSubmit,
-        loading
+        setDetails,
+        apiCall,
+        redirectURL
     } = props
 
     const [step, setStep] = useState(0)
+    const [open, setOpen] = useState(false);
 
+    const router = useRouter()
     const theme = useTheme();
     const smallScreen = useMediaQuery(theme.breakpoints.up("sm"));
+    const extraSmallScreen = useMediaQuery(theme.breakpoints.up("xs"));
+    const { dispatch } = useAppContext();
+
+
+
+    // ******************************************  
+    // From pages
+    // ******************************************
+    const handleError = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const handleChangeDetails = ({ target }) => {
+        const { name, value } = target;
+        setDetails((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const [loading, setLoading] = useState(false);
+    const handleSubmit = async (event) => {
+        setLoading(true)
+        event.preventDefault();
+        const formData = new FormData();
+        const detailBlob = new Blob([JSON.stringify(details)], {
+            type: "application/json",
+        });
+        formData.append("payment", image);
+        formData.append("detail", detailBlob);
+
+        await apiCall(formData)
+            .then(response => {
+                setLoading(false)
+                dispatch({
+                    type: dispatchTypes.SNACKBAR_CUSTOM,
+                    payload: {
+                        severity: 'success',
+                        message: "Data Uploaded"
+                    }
+                })
+                router.replace(redirectURL)
+            })
+            .catch(error => {
+                setLoading(false)
+                // Check & Handle if error.response is defined
+                if (!!error.response && error.response.status === 400) {
+                    // Check & Handle if bad request (empty fields, etc)
+                    dispatch({
+                        type: dispatchTypes.SNACKBAR_CUSTOM,
+                        payload: {
+                            severity: 'error',
+                            message: 'Upload Failed'
+                        }
+                    });
+                }
+            })
+    };
+
+
+
 
     return (
         <Grid container>
@@ -59,10 +132,10 @@ export default function DonationForm(props) {
             <Grid item xs={12} sx={{ backgroundColor: "lightgray" }}>
                 <Container maxWidth="lg" className={styles.container}>
                     <Box sx={{ textAlign: "center", display: step == 0 ? "block" : "none" }}>
-                        <Typography variant="h3" sx={{ m: smallScreen ? 4 : 0, fontWeight: "bold" }}>
+                        <Typography variant={extraSmallScreen ? "h5" : "h3"} sx={{ mb: extraSmallScreen ? 4 : 0, textAlign: 'left' }}>
                             Berapa Jumlah Uang Yang Ingin Anda Donasikan Kepada {recipient.length > 18 ? recipient.substring(0, 18) + "..." : recipient} ?
                         </Typography>
-                        <FormControl sx={{ m: 1 }} variant="standard">
+                        <FormControl sx={{ mb: 4 }} variant="standard">
                             <Input
                                 name="amount"
                                 required
@@ -87,10 +160,10 @@ export default function DonationForm(props) {
                         }}>Selanjutnya</Button>
                     </Box>
                     <Box sx={{ textAlign: "center", display: step == 1 ? "flex" : "none", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                        <Typography variant={smallScreen ? "h3" : "h4"} sx={{ m: smallScreen ? 4 : 2, fontWeight: "bold" }}>
+                        <Typography variant={extraSmallScreen ? "h5" : "h3"} sx={{ m: extraSmallScreen ? 4 : 2 }}>
                             Pilih Metode Pembayaran
                         </Typography>
-                        <Box sx={{ width: smallScreen ? "50%" : "100%" }}>
+                        <Box sx={{ width: smallScreen ? "50%" : "100%" }} mb={{ xs: 4, sm: 2 }}>
                             <Accordion>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
@@ -177,11 +250,11 @@ export default function DonationForm(props) {
                         </Box>
                     </Box>
                     <Box sx={{ textAlign: "center", display: step == 2 ? "block" : "none" }}>
-                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", m: 1 }}>
-                            <Typography variant={smallScreen ? "h3" : "h4"} sx={{ m: smallScreen ? 4 : 2, fontWeight: "bold" }}>
+                        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", m: 1 }} >
+                            <Typography variant={extraSmallScreen ? "h5" : "h3"} sx={{ m: smallScreen ? 4 : 2 }} mb={{ xs: 4, sm: 2 }}>
                                 Upload Bukti Pembayaran
                             </Typography>
-                            <Box sx={{ width: smallScreen ? 600 : "inherit" }}>
+                            <Box sx={{ width: smallScreen ? 600 : "inherit" }} mb={{ xs: 4, sm: 2 }}>
                                 <Dropzone
                                     name="paymentproof"
                                     setFile={setImage}

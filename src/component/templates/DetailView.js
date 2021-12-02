@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 import {
   Backdrop,
+  Button,
   Container,
   SpeedDial,
   SpeedDialAction,
   SpeedDialIcon,
+  Stack,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -16,6 +18,10 @@ import { useRouter } from "next/router";
 import { makeStyles } from "@mui/styles";
 import ProgresDonasiBar from "../modules/ProgresDonasiBar";
 
+import Link from 'next/link'
+import { dispatchTypes, enumRoutes } from "../../context/AppReducer";
+import { useAppContext } from "../../context/AppContext";
+
 const useStyles = makeStyles((theme) => ({
   staticTooltipLabel: {
     whiteSpace: "nowrap",
@@ -25,14 +31,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DetailView(props) {
-  const { isAdmin, data, variant, speedDialActions, hrefDonasi, CTA, disableDonasi } = props
+  const { isAdmin, data, variant, speedDialActions, hrefDonasi, disableDonasi, deleteApiCall } = props
 
+  const { dispatch } = useAppContext()
   const result = !!data ? data.result : null;
   const router = useRouter();
   const path = router.pathname;
 
-  
+
   const isDisabled = disableDonasi || !!result && result.nominal === null
+
+
+
+  // *******************************************************
+  // Delete
+  // *******************************************************
+  const handleDeleteSantri = async (id) => {
+    await deleteApiCall(id)
+      .then((response) => {
+        // Dispatch Successfully deleted
+        dispatch({
+          type: dispatchTypes.DELETE_SUCCEED
+        })
+        router.push(`/admin/${variant}`)
+      })
+      .catch((e) => {
+        if (e.response.data.status === 401) {
+          localStorage.clear();
+        }
+      });
+  };
 
   const actions = speedDialActions
     ? speedDialActions
@@ -117,16 +145,26 @@ export default function DetailView(props) {
                           color="secondary"
                           variant="h6"
                           component="h6"
+                          sx={{ textTransform: 'capitalize' }}
                         >
                           {detail.subtitle}
                         </Typography>
-                        <Typography variant="h5" component="p">
+                        <Typography variant="h5" component="p" sx={{ textTransform: 'capitalize' }}>
                           {detail.detail}
                         </Typography>
                       </Grid>
                     )}
                   </>
                 ))}
+                {isAdmin && (
+                  <Grid item xs={12} sm={6} md={12} mt={4}>
+                    <Stack direction='row' spacing={2}>
+                      <Link href={`/admin/${variant}/${result.id}/edit`} passHref>
+                        <Button fullWidth variant='outlined' color='primary'>Edit {variant}</Button>
+                      </Link>
+                      <Button fullWidth variant='outlined' onClick={() => handleDeleteSantri(result.id)}>Delete {variant}</Button>
+                    </ Stack>
+                  </Grid>)}
               </Grid>
             </Box>
           ) : (

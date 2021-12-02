@@ -69,7 +69,7 @@ export default function DetailSantri(props) {
   return (
     <>
       <ArrowBack href={enumRoutes.MEMBER_SANTRI} />
-      <DetailView variant='santri' data={convertedData} />
+      <DetailView variant='santri' data={convertedData} hrefDonasi={enumRoutes.MEMBER_SANTRI_DONASI} />
       <ProgresDonasiFooter data={convertedData} />
     </>
   );

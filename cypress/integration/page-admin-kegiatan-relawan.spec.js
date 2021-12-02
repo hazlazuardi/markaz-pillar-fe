@@ -75,7 +75,7 @@ describe("Test it is in the correct page", () => {
     cy.get("#menuIconButton").should("exist").click();
     cy.get("button").contains("Keluar").should("exist").click();
     cy.visit(`${frontendURL}/admin/kegiatan/${KEGIATAN_ID}/relawan`);
-    cy.url().should("include", `${frontendURL}`);
+    cy.url().should('include', `error`)
   });
 });
 

@@ -115,7 +115,7 @@ function AdminMarkazDonasiCreate(props) {
 
     return (
         <>
-            <ArrowBack href={enumRoutes.ADMIN_MARKAZ_DETAIL} />
+      <ArrowBack href={`${enumRoutes.ADMIN_MARKAZ}/${markaz_id}/donasi`} />
             <AdminCreateOrEditDonasi
                 form={form}
                 handleSubmit={handleSubmit}

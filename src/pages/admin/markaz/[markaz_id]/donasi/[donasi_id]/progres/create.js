@@ -10,7 +10,7 @@ import ArrowBack from "../../../../../../../component/modules/ArrowBack";
 function AdminCreateMarkazProgresDonasi() {
     const router = useRouter();
     const { dispatch } = useAppContext();
-    const { donasi_id } = router.query
+    const { markaz_id, donasi_id } = router.query
 
     const [thumbnail, setThumbnail] = useState({});
     const [progres, setProgres] = useState({
@@ -90,7 +90,7 @@ function AdminCreateMarkazProgresDonasi() {
     const [loading, setLoading] = useState(false)
     return (
         <>
-            <ArrowBack href={enumRoutes.ADMIN_MARKAZ_DETAIL} />
+            <ArrowBack href={`${enumRoutes.ADMIN_MARKAZ}/${markaz_id}/donasi`} />
             <AdminCreateOrEditProgres
                 form={form}
                 handleSubmit={handleSubmit}

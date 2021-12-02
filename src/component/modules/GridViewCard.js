@@ -33,7 +33,7 @@ export default function GridViewCard(props) {
     if (!!currentUser) {
       router.push(`${path}/${fullResponseResult.id}/donasi/bayar`)
     } else {
-      dispatch({ type: dispatchTypes.LOGIN_NEEDED })
+      dispatch({ type: dispatchTypes.UNAUTHORIZED_DONASI })
       router.push('/login')
     }
   }

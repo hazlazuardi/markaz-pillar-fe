@@ -36,7 +36,7 @@ export default function AdminMarkazEdit() {
     }, [responseDetailAdminMarkaz])
 
     if (errorResponse) {
-        
+
         return "Error"
     }
     if (!responseDetailAdminMarkaz) return "wait.."
