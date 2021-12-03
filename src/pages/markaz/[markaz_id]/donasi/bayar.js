@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import DonationForm from '../../../../component/templates/form/DonationForm'
 import { useRouter } from 'next/router'
-import { axiosFormData } from "../../../../axiosInstances";
+import { axiosFormData, axiosMain } from "../../../../axiosInstances";
 import { useAppContext } from "../../../../context/AppContext";
-import { dispatchTypes } from "../../../../context/AppReducer";
+import { dispatchTypes, enumRoutes } from "../../../../context/AppReducer";
 import useSWR from "swr";
-import Typography from "@mui/material/Typography";
 import ArrowBack from '../../../../component/modules/ArrowBack';
 
 const fetcher = url => axiosMain.get(url).then(res => res.data)
 
-export default function DonasiMarkaz() {
-    const { dispatch } = useAppContext();
+export default function DonasiMarkaz(props) {
+    const { detailMarkaz } = props
     const router = useRouter()
     const { markaz_id } = router.query
     const [image, setImage] = useState({});
@@ -19,127 +18,66 @@ export default function DonasiMarkaz() {
         amount: 0,
         markaz: null,
     });
-    const [open, setOpen] = useState(false);
 
-    const { data: responseMarkaz } = useSWR(router.isReady ? `/markaz?id=${markaz_id}` : null, fetcher)
+    const { data: responseMarkaz } = useSWR(router.isReady ? `/markaz?id=${markaz_id}` : null,
+        fetcher,
+        { fallbackData: detailMarkaz, refreshInterval: 10000 }
+    )
 
-    const handleError = () => {
-        setOpen(true);
-    };
+    const checkoutMarkazDonation = useCallback(async (data) => {
+        return axiosFormData.post("/transaction", data)
+    }, [])
 
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setOpen(false);
-    };
-
-    const handleChangeDetails = ({ target }) => {
-        const { name, value } = target;
-        setDetails((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
-
-    const [loading, setLoading] = useState(false);
-    const handleSubmit = async (event) => {
-        setLoading(true)
-        event.preventDefault();
-        const data = new FormData();
-        const detailBlob = new Blob([JSON.stringify(details)], {
-            type: "application/json",
-        });
-        data.append("payment", image);
-        data.append("detail", detailBlob);
-
-        await axiosFormData
-            .post("/transaction", data)
-            .then(response => {
-                setLoading(false)
-                
-                dispatch({
-                    type: dispatchTypes.SNACKBAR_CUSTOM,
-                    payload: {
-                        severity: 'success',
-                        message: "Data Uploaded"
-                    }
-                })
-
-                router.replace(`/markaz/${details.markaz}`)
-            })
-            .catch(error => {
-                setLoading(false)
-
-                // Check & Handle if error.response is defined
-                if (!!error.response) {
-                    if (error.response.status === 400) {
-                        // Check & Handle if bad request (empty fields, etc)
-                        dispatch({
-                            type: dispatchTypes.SNACKBAR_CUSTOM,
-                            payload: {
-                                severity: 'error',
-                                message: 'Upload Failed'
-                            }
-                        });
-                    } else if (error.response.status === 413) {
-                        // Check & Handle if image file is too large (> 1MB)
-                        dispatch({
-                            type: dispatchTypes.SNACKBAR_CUSTOM,
-                            payload: {
-                                severity: 'error',
-                                message: 'The image size is too large'
-                            }
-                        });
-                    } else {
-                        // Check & Handle if other error code
-                        dispatch({
-                            type: dispatchTypes.SERVER_ERROR
-                        });
-                    }
-                } else {
-                    // Check & Handle if error.response is undefined
-                    dispatch({
-                        type: dispatchTypes.SERVER_ERROR
-                    });
-                }
-            })
-    };
 
     useEffect(() => {
-        setDetails((prev) => ({
-            ...prev,
-            markaz: markaz_id
-        }))
+        if (!!markaz_id) {
+            setDetails((prev) => ({
+                ...prev,
+                markaz: markaz_id
+            }))
+        }
     }, [markaz_id])
 
-    if (responseMarkaz != null) {
-        const { name } = responseMarkaz.result
-        return (
-            <>
-                <ArrowBack href={`/markaz/${markaz_id}`} />
-                <DonationForm
-                    markazOrSantri={"markaz"}
-                    recipient={name}
-                    setImage={setImage}
-                    image={image}
-                    handleChangeDetails={handleChangeDetails}
-                    details={details}
-                    handleClose={handleClose}
-                    open={open}
-                    setOpen={setOpen}
-                    handleError={handleError}
-                    handleSubmit={handleSubmit}
-                    setDetails={setDetails}
-                    router={router}
-                    loading={loading}
-                />
-            </>
-        )
-    } else {
-        return (
-            <Typography>Loading...</Typography>
-        )
-    }
+    return (
+        <>
+            <ArrowBack href={`${enumRoutes.MEMBER_MARKAZ}/${markaz_id}`} />
+            <DonationForm
+                recipient={responseMarkaz.result.name}
+                setImage={setImage}
+                image={image}
+                details={details}
+                setDetails={setDetails}
+                router={router}
+                apiCall={checkoutMarkazDonation}
+                redirectURL={`${enumRoutes.MEMBER_MARKAZ}/${markaz_id}`}
+            />
+        </>
+    )
 }
+
+export async function getStaticProps(context) {
+    const id = context.params.markaz_id;
+    const staticDetailMarkazResponse = await axiosMain.get(`/markaz?id=${id}`)
+    const staticDetailMarkaz = staticDetailMarkazResponse.data
+    return {
+        props: {
+            detailMarkaz: staticDetailMarkaz,
+        },
+        revalidate: 10
+    };
+}
+
+export async function getStaticPaths() {
+    const staticAllMarkazResponse = await axiosMain.get(`/markaz/search?n=1000`)
+    const staticAllMarkaz = await staticAllMarkazResponse.data
+
+    const paths = await staticAllMarkaz.result.map((markaz) => ({
+        params: { markaz_id: markaz.id.toString() },
+    }));
+
+    return {
+        paths: paths,
+        fallback: false,
+    };
+}
+

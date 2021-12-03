@@ -41,7 +41,7 @@ export default function ProgresDonasiBar(props) {
         if (stateLoaded && currentUser) {
             router.push({ pathname: href, query: { ...router.query } })
         } else {
-            dispatch({ type: dispatchTypes.LOGIN_NEEDED })
+            dispatch({ type: dispatchTypes.UNAUTHORIZED_DONASI })
             router.push(enumRoutes.LOGIN)
         }
     }

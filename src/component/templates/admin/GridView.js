@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import GridViewCard from "../../modules/GridViewCard";
 import Masonry from "@mui/lab/Masonry";
@@ -6,12 +6,31 @@ import { Box } from "@mui/system";
 import { Container } from "@mui/material";
 
 export default function GridView(props) {
-  const { data, disableMasonry } = props;
+  const { variant, data, disableMasonry } = props;
   // array of objects
-  const fullResponseResult = data.result;
+  let fullResponseResult = data.result;
 
 
-  if (disableMasonry) {
+
+  const imageConverter = each => {
+    if (variant === 'relawan') {
+      return each.pictureURL;
+    }
+    return each.thumbnailURL
+  }
+
+  const descriptionConverter = each => {
+    if (variant === 'kegiatan') {
+      return each.description;
+    }
+    if (variant === 'relawan') {
+      return each.ktp;
+    }
+    return each.background
+  }
+
+
+  if (!disableMasonry && !!fullResponseResult) {
     return (
       <Grid
         container
@@ -20,7 +39,7 @@ export default function GridView(props) {
       >
         {fullResponseResult.map((result) => (
           <Grid item key={result.id}>
-            <GridViewCard image={result.thumbnailURL} title={result.name} description={result.background} />
+            <GridViewCard fullResponseResult={result} image={imageConverter(result)} title={result.name} description={descriptionConverter(result)} {...props} />
           </Grid>
         ))}
       </Grid>
@@ -39,11 +58,11 @@ export default function GridView(props) {
           sx={{
             pl: 2,
             width: { xs: 300, sm: 552, md: 836, lg: 1200, xl: 1200 },
+            minHeight: 300
           }}
         >
           <Masonry
             columns={{ xs: 1, sm: 2, md: 3, lg: 4, xl: 4 }}
-            spacing={2}
             sx={{ justifyItems: "center", alignContent: "center" }}
           >
             {fullResponseResult.map((result) => (

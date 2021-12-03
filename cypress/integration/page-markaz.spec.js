@@ -34,12 +34,12 @@ describe('Navigation', () => {
 describe('Test for detail page, it is in the correct page', () => {
     it('Test if detail.js contains "Kebutuhan Fasilitas" or not', () => {
         cy.get('[data-testid=lihat-detail-button-at-gridview-card]').contains("Lihat Detail", { matchCase: false }).should('exist').click({ force: true })
-        cy.get('[data-testid=detail-at-detailview]').contains('Category', { matchCase: false }).should('exist')
+        cy.get('[data-testid=detail-at-detailview]').contains('Kategori', { matchCase: false }).should('exist')
     })
 
     it('Test if detail.js contains "Kategori" or not', () => {
         cy.get('[data-testid=lihat-detail-button-at-gridview-card]').contains("Lihat Detail", { matchCase: false }).should('exist').click({ force: true })
-        cy.get('[data-testid=detail-at-detailview]').contains('Category', { matchCase: false }).should('exist')
+        cy.get('[data-testid=detail-at-detailview]').contains('Kategori', { matchCase: false }).should('exist')
     })
 })
 

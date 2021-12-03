@@ -19,15 +19,10 @@ export default function AdminSantriEdit() {
     );
 
     const [editedSantri, setEditedSantri] = useState({
-        name: responseDetailAdminSantri ? responseDetailAdminSantri.result.name : "",
-        background: responseDetailAdminSantri ? responseDetailAdminSantri.result.background : "",
-        gender: responseDetailAdminSantri ? responseDetailAdminSantri.result.gender : "",
-        markaz_id: responseDetailAdminSantri ? responseDetailAdminSantri.result.markaz.id : "null",
-        birthPlace: responseDetailAdminSantri ? responseDetailAdminSantri.result.birthPlace : "",
-        birthDate: responseDetailAdminSantri ? responseDetailAdminSantri.result.birthDate : "",
-        address: responseDetailAdminSantri ? responseDetailAdminSantri.result.address : "",
+        markazId: ""
     });
 
+    console.log(editedSantri)
     const editSantri = useCallback(async (data) => {
         return axiosFormData.post(`/admin/santri/edit?id=${santri_id}`, data)
     }, [santri_id])
@@ -39,7 +34,7 @@ export default function AdminSantriEdit() {
         if (responseDetailAdminSantri) {
             setEditedSantri({
                 ...responseDetailAdminSantri.result,
-                markaz_id: responseDetailAdminSantri.result.markaz.id
+                markazId: responseDetailAdminSantri.result.markaz.id
             })
         }
         if (responseAllMarkaz) {
@@ -47,19 +42,21 @@ export default function AdminSantriEdit() {
         }
     }, [responseAllMarkaz, responseDetailAdminSantri])
 
+
     if (errorDetailAdminSantri || errorResponseAllMarkaz) {
-        
         return "Error"
     }
-    if (!responseDetailAdminSantri && !responseAllMarkaz) return "wait.."
+    if (!responseDetailAdminSantri) return "wait.."
+    if (!responseAllMarkaz) return "wait.."
     return (
         <>
             <ArrowBack href={`${enumRoutes.ADMIN_SANTRI}/${santri_id}`} />
             <AdminCreateOrEditSantri
                 variant='edit'
                 santri={editedSantri}
+                santri_id={santri_id}
                 setSantri={setEditedSantri}
-                dataSantri={responseDetailAdminSantri}
+                originalSantri={responseDetailAdminSantri}
                 allMarkaz={allMarkaz}
                 apiCall={editSantri}
             />

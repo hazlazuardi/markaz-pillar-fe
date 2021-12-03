@@ -11,8 +11,11 @@ export const dispatchTypes = {
     SNACKBAR_CUSTOM: "snackbar_custom",
     STATE_LOADED: "state_loaded",
     SERVER_ERROR: "server_error",
-    LOGIN_NEEDED: 'login_needed',
-    SESSION_EXPIRED: 'session_expired'
+    SESSION_EXPIRED: 'session_expired',
+    DELETE_SUCCEED: 'delete_succeed',
+    UNAUTHORIZED_DONASI: 'unauthorized_donasi',
+    UNAUTHORIZED_ADMIN: 'unauthorized_admin',
+    UNAUTHORIZED_USER: 'unauthorized_user',
 }
 
 export const roleType = {
@@ -27,6 +30,7 @@ export const markazCategory = {
 }
 
 export const enumRoutes = {
+    ERROR: "/error",
     LANDING: "/",
 
     LOGIN: "/login",
@@ -93,6 +97,8 @@ export const enumProtectedRoutes = [
     enumRoutes.ADMIN_MARKAZ_DONASI_CREATE,
     enumRoutes.ADMIN_MARKAZ_DONASI_EDIT,
     enumRoutes.ADMIN_MARKAZ_TRANSAKSI,
+    enumRoutes.ADMIN_MARKAZ_PROGRES_DONASI_CREATE,
+    enumRoutes.ADMIN_MARKAZ_PROGRES_DONASI_EDIT,
 
     enumRoutes.ADMIN_SANTRI,
     enumRoutes.ADMIN_SANTRI_DETAIL,
@@ -102,11 +108,16 @@ export const enumProtectedRoutes = [
     enumRoutes.ADMIN_SANTRI_DONASI_CREATE,
     enumRoutes.ADMIN_SANTRI_DONASI_EDIT,
     enumRoutes.ADMIN_SANTRI_TRANSAKSI,
+    enumRoutes.ADMIN_SANTRI_PROGRES_DONASI_CREATE,
+    enumRoutes.ADMIN_SANTRI_PROGRES_DONASI_EDIT,
 
-    enumRoutes.ADMIN_PROGRAM_VOLUNTEER,
-    enumRoutes.ADMIN_PESERTA_VOLUNTEER,
+    enumRoutes.ADMIN_KEGIATAN,
     enumRoutes.ADMIN_KEGIATAN_CREATE,
     enumRoutes.ADMIN_KEGIATAN_EDIT,
+    enumRoutes.ADMIN_KEGIATAN_DAFTAR,
+    enumRoutes.ADMIN_KEGIATAN_DETAIL,
+    enumRoutes.ADMIN_KEGIATAN_TESTIMONI_CREATE,
+    enumRoutes.ADMIN_KEGIATAN_TESTIMONI_EDIT,
 
     enumRoutes.ADMIN_DATA_PENGGUNA,
 ]
@@ -159,13 +170,20 @@ export const initialState = {
 export const AppReducer = (state, action) => {
 
     switch (action.type) {
-        case dispatchTypes.LOGIN_NEEDED: {
+        case dispatchTypes.UNAUTHORIZED_DONASI: {
             return {
                 ...state,
                 snackbarStatus: true,
                 snackbarSeverity: 'secondary',
                 snackbarMessage: "Harap login sebelum berdonasi"
-
+            }
+        }
+        case dispatchTypes.UNAUTHORIZED_ADMIN: {
+            return {
+                ...state,
+                snackbarStatus: true,
+                snackbarSeverity: 'error',
+                snackbarMessage: "Maaf, anda tidak memiliki akses ke halaman ini"
             }
         }
         case dispatchTypes.SESSION_EXPIRED: {
@@ -178,7 +196,7 @@ export const AppReducer = (state, action) => {
                 currentAccessToken: "",
                 currentRefreshToken: "",
                 snackbarStatus: true,
-                snackbarSeverity: 'secondary',
+                snackbarSeverity: 'error',
                 snackbarMessage: `Sesi anda berakhir, harap login kembali.`
             }
         }
@@ -282,6 +300,15 @@ export const AppReducer = (state, action) => {
                 snackbarStatus: true,
                 snackbarSeverity: 'error',
                 snackbarMessage: "Sorry, Server Error"
+            }
+        }
+
+        case dispatchTypes.DELETE_SUCCEED: {
+            return {
+                ...state,
+                snackbarStatus: true,
+                snackbarSeverity: 'success',
+                snackbarMessage: `Berhasil Dihapus`
             }
         }
 

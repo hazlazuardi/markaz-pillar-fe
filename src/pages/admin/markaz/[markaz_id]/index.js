@@ -23,6 +23,10 @@ export default function AdminMarkazDetail(props) {
     return axiosMain.delete(`/admin/donation/progress?id=${id}`);
   };
 
+  const deleteMarkaz = async (id) => {
+    return axiosMain.delete(`/admin/markaz?id=${id}`)
+  }
+
   const [convertedData, setConvertedData] = useState()
   const [hrefUpdateProgresDonasi, setHrefUpdateProgresDonasi] = useState("")
   useEffect(() => {
@@ -37,16 +41,20 @@ export default function AdminMarkazDetail(props) {
           image: dataResult.thumbnailURL,
           details: [
             {
+              subtitle: "Kategori",
+              detail: dataResult.category.split("_").join(" ").toLowerCase(),
+            },
+            {
+              subtitle: "Contact Person",
+              detail: dataResult.contactInfo,
+            },
+            {
               subtitle: "Contact Name",
               detail: dataResult.contactName,
             },
             {
-              subtitle: "Category",
-              detail: markazCategory[dataResult.category],
-            },
-            {
-              subtitle: "Contact Person",
-              detail: dataResult.contactPerson,
+              subtitle: "Alamat",
+              detail: dataResult.contactInfo,
             },
           ],
           donation: [
@@ -70,16 +78,15 @@ export default function AdminMarkazDetail(props) {
     if (!!convertedData && convertedData.result.nominal) {
       setAdminMarkazDetailActions([
         {
-          name: "Update Progress Donasi",
-          icon: <DonutLarge />,
-          onClick: hrefUpdateProgresDonasi
-        },
-        {
           name: "Create Donasi",
           icon: <Add />,
           onClick: enumRoutes.ADMIN_MARKAZ_DONASI_CREATE
         },
-
+        {
+          name: "Update Progress Donasi",
+          icon: <DonutLarge />,
+          onClick: hrefUpdateProgresDonasi
+        },
       ])
     } else {
       setAdminMarkazDetailActions([
@@ -103,7 +110,7 @@ export default function AdminMarkazDetail(props) {
   return (
     <>
       <ArrowBack href={enumRoutes.ADMIN_MARKAZ} />
-      <DetailView isAdmin variant='markaz' data={convertedData} speedDialActions={adminMarkazDetailActions} hrefDonasi={enumRoutes.ADMIN_MARKAZ_DONASI} disableDonasi={!!convertedData && !convertedData.result.nominal} />
+      <DetailView isAdmin variant='markaz' data={convertedData} deleteApiCall={deleteMarkaz} speedDialActions={adminMarkazDetailActions} hrefDonasi={enumRoutes.ADMIN_MARKAZ_DONASI} disableDonasi={!!convertedData && !convertedData.result.nominal} />
       <ProgresDonasiFooter isAdmin variant='markaz' data={convertedData} apiCall={deleteProgress} mutate={mutate} />
     </>
   );

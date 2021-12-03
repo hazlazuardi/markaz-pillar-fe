@@ -55,7 +55,7 @@ function AdminCreateOrEditDonasi(props) {
                                 </Grid>
                                 <Grid item xs={12} display={showCategory}>
                                   <FormControl sx= {{width: '100%'}}>
-                                    <InputLabel id="demo-multiple-name-label">Category</InputLabel>
+                                    <InputLabel id="demo-multiple-name-label">Kategori</InputLabel>
                                     <Select
                                       labelId="demo-multiple-name-label"
                                       id="demo-multiple-name"

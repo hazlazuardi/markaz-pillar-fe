@@ -19,6 +19,11 @@ export default function DetailKegiatan() {
     const { state, dispatch } = useAppContext()
     const { currentUser, stateLoaded } = state;
 
+
+    const deleteKegiatan = async (id) => {
+        return axiosMain.delete(`/admin/volunteer?id=${id}`)
+    }
+
     const handleRelawan = (href) => {
         if (stateLoaded && currentUser) {
             router.push({ pathname: href, query: { ...router.query } })
@@ -29,6 +34,7 @@ export default function DetailKegiatan() {
     }
     const { kegiatan_id } = router.query
     const { data: responseDetailKegiatan, error, mutate } = useSWR(router.isReady ? `/volunteer?id=${kegiatan_id}` : null, fetcher)
+
 
     const [convertedData, setConvertedData] = useState()
     useEffect(() => {
@@ -108,7 +114,7 @@ export default function DetailKegiatan() {
     return (
         <>
             <ArrowBack href={enumRoutes.ADMIN_KEGIATAN} />
-            <DetailView isAdmin disableDonasi CTA={<KelolaKegiatanCTA />} variant='kegiatan' data={convertedData} speedDialActions={AdminDetailKegiatanActions} />
+            <DetailView isAdmin disableDonasi CTA={<KelolaKegiatanCTA />} variant='kegiatan' data={convertedData} deleteApiCall={deleteKegiatan} speedDialActions={AdminDetailKegiatanActions} />
             <TestimoniKegiatanFooter isAdmin data={convertedData} mutate={mutate} apiCall={deleteTestimoni} />
         </>
     );

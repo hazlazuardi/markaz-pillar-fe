@@ -27,16 +27,20 @@ export default function MarkazDetail(props) {
     image: dataResult.thumbnailURL,
     details: [
       {
-        subtitle: "Contact Name",
-        detail: dataResult.contactName
-      },
-      {
-        subtitle: "Category",
-        detail: markazCategory[dataResult.category]
+        subtitle: "Kategori",
+        detail: dataResult.category.split("_").join(" ").toLowerCase(),
       },
       {
         subtitle: "Contact Person",
-        detail: dataResult.contactPerson
+        detail: dataResult.contactInfo,
+      },
+      {
+        subtitle: "Contact Name",
+        detail: dataResult.contactName,
+      },
+      {
+        subtitle: "Alamat",
+        detail: dataResult.contactInfo,
       },
     ],
     donation: [

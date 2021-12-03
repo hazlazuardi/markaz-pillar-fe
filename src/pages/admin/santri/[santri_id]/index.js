@@ -5,7 +5,7 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../../component/modules/ArrowBack";
 import ProgresDonasiFooter from "../../../../component/modules/ProgresDonasiFooter"
-import { Stack, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import Add from "@mui/icons-material/Add";
 import { DonutLarge } from "@mui/icons-material";
 import { enumRoutes } from "../../../../context/AppReducer";
@@ -21,6 +21,10 @@ export default function AdminDetailSantri(props) {
 
   const deleteProgress = async (id) => {
     return axiosMain.delete(`/admin/donation/progress?id=${id}`)
+  }
+
+  const deleteSantri = async (id) => {
+    return axiosMain.delete(`/admin/santri?id=${id}`)
   }
 
   const [convertedData, setConvertedData] = useState()
@@ -42,7 +46,7 @@ export default function AdminDetailSantri(props) {
             },
             {
               subtitle: "Jenis Kelamin",
-              detail: dataResult.gender
+              detail: dataResult.gender.split("_").join(" ").toLowerCase()
             },
             {
               subtitle: "Domisili Asal",
@@ -66,17 +70,32 @@ export default function AdminDetailSantri(props) {
     }
   }, [mutate, responseDetailAdminSantri, santri_id])
 
-  const adminSantriDetailActions = [
-    {
-      name: "Create Donasi",
-      icon: <Add />,
-      onClick: `/admin/santri/${santri_id}/donasi/create`
-    }, {
-      name: "Edit Progress Donasi",
-      icon: <DonutLarge />,
-      onClick: hrefUpdateProgresDonasi
-    },
-  ]
+  const [adminSantriDetailActions, setAdminSantriDetailActions] = useState()
+  useEffect(() => {
+    if (!!convertedData && convertedData.result.nominal) {
+      setAdminSantriDetailActions([
+        {
+          name: "Create Donasi",
+          icon: <Add />,
+          onClick: enumRoutes.ADMIN_SANTRI_DONASI_CREATE
+        },
+        {
+          name: "Update Progress Donasi",
+          icon: <DonutLarge />,
+          onClick: hrefUpdateProgresDonasi
+        },
+      ])
+    } else {
+      setAdminSantriDetailActions([
+        {
+          name: "Create Donasi",
+          icon: <Add />,
+          onClick: enumRoutes.ADMIN_SANTRI_DONASI_CREATE
+        },
+      ])
+    }
+
+  }, [convertedData, hrefUpdateProgresDonasi, santri_id])
 
   if (error) return (<ArrowBack href={enumRoutes.ADMIN_SANTRI} />);
   if (!responseDetailAdminSantri) return (
@@ -86,10 +105,10 @@ export default function AdminDetailSantri(props) {
     </>
   );
   return (
-    <Stack spacing={4}>
+    <>
       <ArrowBack href='/admin/santri' />
-      <DetailView isAdmin variant='santri' data={convertedData} speedDialActions={adminSantriDetailActions} hrefDonasi={`/admin/santri/${santri_id}/donasi`} />
+      <DetailView isAdmin variant='santri' data={convertedData} speedDialActions={adminSantriDetailActions} hrefDonasi={`/admin/santri/${santri_id}/donasi`} deleteApiCall={deleteSantri} />
       <ProgresDonasiFooter isAdmin variant='santri' data={convertedData} apiCall={deleteProgress} mutate={mutate} />
-    </Stack>
+    </>
   );
 }

@@ -49,7 +49,7 @@ export default function AdminKegiatan() {
         data={responseProgram}
         detail="admin/kegiatan"
         handleDelete={handleDeleteMarkaz}
-        markazOrSantri="kegiatan"
+        variant="kegiatan"
       />
     );
   };

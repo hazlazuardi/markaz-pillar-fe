@@ -14,7 +14,7 @@ export default function DonasiSantri() {
   const [searchDonasiSantri, setSearchDonasiSantri] = useState("");
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const { data: allSantri, error } = useSWR(
+  const { data: responseDonasiSantri, error } = useSWR(
     router.isReady
       ? `/admin/donation/santri?id=${santri_id}&page=${page - 1}&n=${entries}&${!!searchDonasiSantri && "s=" + searchDonasiSantri
       }`
@@ -24,14 +24,13 @@ export default function DonasiSantri() {
 
   const TableViewSantriDonasi = (
     <TableView
-      data={allSantri}
+      data={responseDonasiSantri}
       santriormarkaz="donasi"
       detail="admin/santri"
       titleTwo="ID Donasi"
       titleThree="Nominal Donasi"
       titleFour="Jumlah Donasi Terkumpul"
       titleFive="Status"
-      iddonasi={santri_id}
     />
   );
   if (error) return "An error has occurred.";
@@ -41,7 +40,7 @@ export default function DonasiSantri() {
       <AdminOrUserTemplate
         variant="donasi"
         TableView={TableViewSantriDonasi}
-        data={allSantri}
+        data={responseDonasiSantri}
         searchTerm={searchDonasiSantri}
         setSearchTerm={setSearchDonasiSantri}
         page={page}

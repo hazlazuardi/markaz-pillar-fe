@@ -46,31 +46,32 @@ const useStyles = makeStyles((theme) => ({
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
-export default function Home() {
+export default function Home(props) {
+  const { allKegiatanRandom, allKegiatanDefault } = props
   const classes = useStyles();
   const theme = useTheme();
   const [page, setPage] = useState(1);
 
-  const { data: randomProgram, error: error1 } = useSWR(
+  const { data: responseRandomProgram, error: error1 } = useSWR(
     `/volunteer/random
 `,
-    fetcher
+    fetcher, { fallbackData: allKegiatanRandom, refreshInterval: 10000 }
   );
 
   const { data: responseProgram, error: error2 } = useSWR(
     `/volunteer?n=4&page=${page - 1}
 `,
-    fetcher
+    fetcher, { fallbackData: allKegiatanDefault, refreshInterval: 10000 }
   );
 
   const buttonVolunteer = () => {
     return (
       <>
         <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
-          <Link href={responseProgram} target="_blank" underline="none">
+          <Link href={responseProgram} passHref >
             <Button variant="outlined">Daftar</Button>
           </Link>
-          <Link href={responseProgram} target="_blank" underline="none">
+          <Link href={responseProgram} passHref>
             <Button variant="outlined">Lihat Detail</Button>
           </Link>
         </Stack>
@@ -81,15 +82,22 @@ export default function Home() {
   const matches = useMediaQuery("(max-width:600px)");
   const size = matches ? "small" : "medium";
 
+
+
   if (error2 && error1) {
     return "an error has occured.";
   }
-  if (!responseProgram && !randomProgram) {
+  if (!responseProgram) {
+    return "loading.."
+  }
+  if (!responseRandomProgram) {
     return "loading...";
   }
+
+
   return (
     <>
-      {!!responseProgram && !!randomProgram && (
+      {!!responseProgram && !!responseRandomProgram && (
         <>
           <div className={classes.bg}>
             <div className={classes.pad1}>
@@ -101,7 +109,7 @@ export default function Home() {
                   md={6}
                   className={classes.heading}
                   sx={{
-                    backgroundImage: `url(${randomProgram.result.thumbnailURL})`,
+                    backgroundImage: `url(${responseRandomProgram.result.thumbnailURL})`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
@@ -115,10 +123,10 @@ export default function Home() {
                     </b>
                   </Typography>
                   <Typography component="h2" variant="h5">
-                    {randomProgram.result.name}
+                    {responseRandomProgram.result.name}
                   </Typography>
                   <br />
-                  <Typography>{randomProgram.result.description}</Typography>
+                  <Typography>{responseRandomProgram.result.description}</Typography>
                   <Stack
                     direction="row"
                     width="100%"
@@ -127,7 +135,7 @@ export default function Home() {
                     mt={4}
                   >
                     <Link
-                      href={`kegiatan/${randomProgram.result.id}/registrasi`}
+                      href={`kegiatan/${responseRandomProgram.result.id}/registrasi`}
                       passHref
                     >
                       <Button
@@ -141,7 +149,7 @@ export default function Home() {
                       </Button>
                     </Link>
                     <Link
-                      href={`kegiatan/${randomProgram.result.id}`}
+                      href={`kegiatan/${responseRandomProgram.result.id}`}
                       passHref
                     >
                       <Button
@@ -167,6 +175,7 @@ export default function Home() {
               size={size}
               page={page}
               setPage={setPage}
+              variant='kegiatan'
             />
             <LandingGridView
               data-testid="landing-grid-view"
@@ -175,10 +184,28 @@ export default function Home() {
               size={size}
               page={page}
               setPage={setPage}
+              variant='kegiatan'
             />
           </Grid>
         </>
       )}
     </>
   );
+}
+
+export async function getStaticProps() {
+  const staticKegiatanRandomResponse = await axiosMain.get(`/volunteer/random`);
+  const staticKegiatanRandom = await staticKegiatanRandomResponse.data
+
+  const staticKegiatanDefaultResponse = await axiosMain.get(`/volunteer?n=1000`);
+  const staticKegiatanDefault = await staticKegiatanDefaultResponse.data
+
+
+  return {
+    props: {
+      allKegiatanRandom: staticKegiatanRandom,
+      allKegiatanDefault: staticKegiatanDefault
+    },
+    revalidate: 10
+  }
 }

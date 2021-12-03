@@ -70,7 +70,7 @@ describe('Test it is in the correct page', () => {
 })
 
 describe(`Test functionality of inputs when create new santri`, () => {
-  const testSantri = `Santri ${Math.random()}`
+  const testSantri = `Santri ${Math.random()}`.slice(0, 19)
   it('Test if succeed', () => {
     cy.get(`[data-cy="dropzone"]`).attachFile('low.png', { subjectType: 'drag-n-drop' });
     cy.get(`[data-testid=dropzone-uploaded]`).should('exist');
@@ -84,7 +84,7 @@ describe(`Test functionality of inputs when create new santri`, () => {
     cy.get('[data-testid=santri-birthDate-at-AdminCreateOrEditSantri-module]').type('2021-12-12')
     cy.get('[data-testid=santri-submit-button-at-AdminCreateOrEditSantri-module]').contains('Simpan').click()
     cy.get('[data-testid=snackbar-at-layout]').contains('Santri Created').should('exist')
-    cy.get('[data-testid=santri-submit-button-at-AdminCreateOrEditSantri-module]').contains('Simpan').should('not.be.disabled')
+
   });
 
   it('Test if fails if empty field(s)', () => {
@@ -96,7 +96,7 @@ describe(`Test functionality of inputs when create new santri`, () => {
     cy.get('[data-testid=santri-birthDate-at-AdminCreateOrEditSantri-module]').type('2021-12-12')
     cy.get('[data-testid=santri-submit-button-at-AdminCreateOrEditSantri-module]').contains('Simpan').click()
     cy.get('[data-testid=snackbar-at-layout]').contains('Incorrect information').should('exist')
-    cy.get('[data-testid=santri-submit-button-at-AdminCreateOrEditSantri-module]').contains('Simpan').should('not.be.disabled')
+
   });
 
   it('Test if fails if image is too big', () => {
@@ -108,6 +108,6 @@ describe(`Test functionality of inputs when create new santri`, () => {
     cy.get('[data-testid=santri-birthDate-at-AdminCreateOrEditSantri-module]').type('2021-12-12')
     cy.get('[data-testid=santri-submit-button-at-AdminCreateOrEditSantri-module]').contains('Simpan').click()
     cy.get('[data-testid=snackbar-at-layout]').contains('Incorrect information').should('exist')
-    cy.get('[data-testid=santri-submit-button-at-AdminCreateOrEditSantri-module]').contains('Simpan').should('not.be.disabled')
+
   });
 });

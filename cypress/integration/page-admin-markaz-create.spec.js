@@ -70,7 +70,7 @@ describe('Test it is in the correct page', () => {
 })
 
 describe(`Test functionality of inputs when create new markaz`, () => {
-  const testMarkaz = `Markaz ${Math.random()}`
+  const testMarkaz = `Markaz ${Math.random()}`.slice(0, 19)
   it('Test if succeed', () => {
     cy.get(`[data-cy="dropzone"]`).attachFile('low.png', { subjectType: 'drag-n-drop' });
     cy.get(`#dropzone-uploaded`).should('exist');

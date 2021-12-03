@@ -9,21 +9,24 @@ import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import { useAppContext } from "../../../context/AppContext";
-import { dispatchTypes } from "../../../context/AppReducer";
+import { dispatchTypes, enumRoutes } from "../../../context/AppReducer";
 import { LoadingButton } from "@mui/lab";
+import { useRouter } from "next/router";
 
 
 function AdminCreateOrEditSantri(props) {
     const {
         variant,
+        santri_id,
         santri,
         setSantri,
-        dataSantri,
+        originalSantri,
         allMarkaz,
         apiCall,
     } = props;
 
-    const santriResult = !!dataSantri ? dataSantri.result : null
+    const isCreate = variant === 'create'
+    const originalSantriResult = !!originalSantri ? originalSantri.result : null
 
     const { dispatch } = useAppContext();
     const form = useRef(null);
@@ -36,14 +39,15 @@ function AdminCreateOrEditSantri(props) {
         }));
     };
 
+    const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [thumbnail, setThumbnail] = useState({});
     const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
         const formData = buildSantriFormData(santri, thumbnail)
-        
-        await apiCall(formData, variant === 'create' ? santri.markaz_id : null)
+
+        await apiCall(formData)
             .then(response => {
                 setLoading(false)
                 dispatch({
@@ -53,6 +57,11 @@ function AdminCreateOrEditSantri(props) {
                         message: variant === 'create' ? "Santri Created" : "Santri Edited"
                     }
                 })
+                if (isCreate) {
+                    router.push(`${enumRoutes.ADMIN_SANTRI}`)
+                    return;
+                }
+                router.push(`${enumRoutes.ADMIN_SANTRI}/${santri_id}`)
             })
             .catch(e => {
                 setLoading(false)
@@ -122,7 +131,7 @@ function AdminCreateOrEditSantri(props) {
                                     <TextField
                                         data-testid='santri-name-at-AdminCreateOrEditSantri-module'
                                         name="name"
-                                        value={santri ? santri.name : santriResult.name}
+                                        value={santri || isCreate ? santri.name : originalSantriResult.name}
                                         label="Nama Santri"
                                         fullWidth
                                         onChange={handleChangeSantri}
@@ -132,7 +141,7 @@ function AdminCreateOrEditSantri(props) {
                                     <TextField
                                         data-testid='santri-background-at-AdminCreateOrEditSantri-module'
                                         name="background"
-                                        value={santri ? santri.background : santriResult.background}
+                                        value={santri || isCreate ? santri.background : originalSantriResult.background}
                                         label="Background"
                                         fullWidth
                                         onChange={handleChangeSantri}
@@ -146,7 +155,7 @@ function AdminCreateOrEditSantri(props) {
                                             data-testid='santri-gender-at-AdminCreateOrEditSantri-module'
                                             id="gender-select"
                                             name='gender'
-                                            value={santri ? santri.gender : santriResult.gender}
+                                            value={santri.gender || isCreate ? santri.gender : originalSantriResult.gender}
                                             label="Jenis Kelamin"
                                             onChange={handleChangeSantri}
                                         >
@@ -162,8 +171,8 @@ function AdminCreateOrEditSantri(props) {
                                             labelId="santri-label"
                                             data-testid='santri-markaz-at-AdminCreateOrEditSantri-module'
                                             id="santri-select"
-                                            name='markaz_id'
-                                            value={santri ? santri.markaz_id : santriResult.markaz.id}
+                                            name='markazId'
+                                            value={santri || isCreate ? santri.markazId : originalSantriResult.markaz.id}
                                             label="Tempat Markaz"
                                             onChange={handleChangeSantri}
                                         >
@@ -177,7 +186,7 @@ function AdminCreateOrEditSantri(props) {
                                     <TextField
                                         data-testid='santri-address-at-AdminCreateOrEditSantri-module'
                                         name="address"
-                                        value={santri.address}
+                                        value={santri || isCreate ? santri.address : originalSantriResult.address}
                                         label="Domisili Asal"
                                         fullWidth
                                         onChange={handleChangeSantri}
@@ -187,7 +196,7 @@ function AdminCreateOrEditSantri(props) {
                                     <TextField
                                         data-testid='santri-birthPlace-at-AdminCreateOrEditSantri-module'
                                         name="birthPlace"
-                                        value={santri.birthPlace}
+                                        value={santri || isCreate ? santri.birthPlace : originalSantriResult.birthPlace}
                                         label="Tempat Lahir"
                                         fullWidth
                                         onChange={handleChangeSantri}
@@ -197,7 +206,7 @@ function AdminCreateOrEditSantri(props) {
                                     <TextField
                                         data-testid='santri-birthDate-at-AdminCreateOrEditSantri-module'
                                         name="birthDate"
-                                        value={santri.birthDate}
+                                        value={santri || isCreate ? santri.birthDate : originalSantriResult.birthDate}
                                         label="Tanggal Lahir"
                                         fullWidth
                                         onChange={handleChangeSantri}

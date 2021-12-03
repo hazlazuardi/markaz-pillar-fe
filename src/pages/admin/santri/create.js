@@ -18,7 +18,7 @@ export default function AdminSantriCreate() {
         name: "",
         background: "",
         gender: "",
-        markaz_id: "",
+        markazId: "",
         birthPlace: "",
         birthDate: "",
         address: "",
@@ -26,8 +26,8 @@ export default function AdminSantriCreate() {
 
     });
 
-    const createSantri = useCallback(async (data, id) => {
-        return axiosFormData.post(`/admin/santri?markaz_id=${id}`, data)
+    const createSantri = useCallback(async (data) => {
+        return axiosFormData.post(`/admin/santri`, data)
     }, [])
 
     const [allMarkaz, setAllMarkaz] = useState()
@@ -40,7 +40,7 @@ export default function AdminSantriCreate() {
     }, [responseAllMarkaz])
 
     if (errorResponseAllMarkaz) {
-        
+
         return "Error"
     }
     if (!responseAllMarkaz) return "wait.."
@@ -52,7 +52,6 @@ export default function AdminSantriCreate() {
                 santri={editedSantri}
                 setSantri={setEditedSantri}
                 allMarkaz={allMarkaz}
-                dataMarkaz={responseAllMarkaz}
                 apiCall={createSantri}
             />
         </>

@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import { useAppContext } from "./context/AppContext";
-import { enumRoutes, enumProtectedRoutes, enumAuthenticatedRoutes, roleType } from "./context/AppReducer";
-
+import { enumRoutes, enumProtectedRoutes, enumAuthenticatedRoutes, roleType, dispatchTypes } from "./context/AppReducer";
 
 //check if you are on the client (browser) or server
 const isBrowser = () => typeof window !== "undefined";
 
 export default function ProtectedRoutes({ router, children }) {
     //Identify authenticated user
-    const { state } = useAppContext();
+    const { state, dispatch } = useAppContext();
     const { currentUserRole, stateLoaded } = state;
     const isAdmin = currentUserRole === roleType.ROLE_SUPERUSER
 
@@ -22,13 +21,13 @@ export default function ProtectedRoutes({ router, children }) {
     useEffect(() => {
         // This needs to get from localStorage in case after logout
         if (isBrowser() && stateLoaded && localStorage.getItem('currentUserRole') && !isAdmin && pathIsProtected) {
-            router.push(enumRoutes.LANDING);
+            router.push({ pathname: enumRoutes.ERROR, query: { statusCode: 401, title: "Maaf, anda tidak memiliki akses ke halaman ini" } });
         }
         // This needs to get from state since it's checking the initial state (Everyone start without logged in)
-        if (isBrowser() && stateLoaded && localStorage.getItem('currentUserRole') && !!currentUserRole && pathNeedsAuthentication) {
-            router.push(enumRoutes.LANDING);
+        if (isBrowser() && stateLoaded && !localStorage.getItem('currentUserRole') && !currentUserRole && pathNeedsAuthentication) {
+            router.push({ pathname: enumRoutes.ERROR, query: { statusCode: 401, title: "Harap login sebelum akses halaman ini" } });
         }
-    }, [currentUserRole, isAdmin, pathIsProtected, pathNeedsAuthentication, router, stateLoaded])
+    }, [currentUserRole, dispatch, isAdmin, pathIsProtected, pathNeedsAuthentication, router, stateLoaded])
 
     return children;
 
