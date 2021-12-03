@@ -8,6 +8,9 @@ import LandingGridView from "../../../component/templates/LandingGridView";
 import { axiosMain } from "../../../axiosInstances";
 import useSWR from "swr";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { useAppContext } from '../../../context/AppContext';
+import { dispatchTypes, enumRoutes } from '../../../context/AppReducer';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -62,6 +65,21 @@ export default function Home() {
 `,
     fetcher
   );
+  
+  const router = useRouter();
+
+  const { state, dispatch } = useAppContext()
+  const { currentUser, stateLoaded } = state;
+
+
+//   const handleKegiatan = (href) => {
+//     if (stateLoaded && currentUser) {
+//         router.push({ pathname: href, query: { ...router.query } })
+//     } else {
+//         dispatch({ type: dispatchTypes.LOGIN_NEEDED })
+//         router.push(enumRoutes.LOGIN)
+//     }
+// }
 
   const buttonVolunteer = () => {
     return (
@@ -136,6 +154,7 @@ export default function Home() {
                         color="primary"
                         fullWidth
                         size="small"
+                        // onClick={() => handleKegiatan(`${enumRoutes.MEMBER_KEGIATAN}/${kegiatan_id}/registrasi`)}
                       >
                         Daftar Sekarang
                       </Button>

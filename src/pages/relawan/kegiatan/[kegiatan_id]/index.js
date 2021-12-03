@@ -77,9 +77,7 @@ export default function DetailKegiatan(props) {
     const DaftarKegiatanCTA = () => {
         return (
             <>
-                <Link href={`${kegiatan_id}/registrasi`} passHref>
-                    <Button variant='contained' onClick={() => handleKegiatan(`${kegiatan_id}/registrasi`)}>Daftar Sekarang</Button>
-                </Link>
+                <Button variant='contained' onClick={() => handleKegiatan(`${enumRoutes.MEMBER_KEGIATAN}/${kegiatan_id}/registrasi`)}>Daftar Sekarang</Button>
             </>
         )
     }
