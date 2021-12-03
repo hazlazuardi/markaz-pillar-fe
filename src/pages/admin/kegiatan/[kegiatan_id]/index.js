@@ -79,9 +79,7 @@ export default function DetailKegiatan() {
     const KelolaKegiatanCTA = () => {
         return (
             <>
-                <Link href={`${enumRoutes.ADMIN_KEGIATAN}/${kegiatan_id}/relawan`} passHref>
-                    <Button variant='contained'>Kelola Relawan</Button>
-                </Link>
+                <Button variant='contained' onClick={() => handleRelawan(`${enumRoutes.ADMIN_KEGIATAN}/${kegiatan_id}/relawan`)}>Kelola Relawan</Button>
             </>
         )
     }
