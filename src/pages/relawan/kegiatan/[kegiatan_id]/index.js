@@ -37,6 +37,7 @@ export default function DetailKegiatan(props) {
   });
   const [convertedData, setConvertedData] = useState();
 
+<<<<<<< HEAD
   useEffect(() => {
     if (!!responseDetailKegiatan) {
       const dataResult = responseDetailKegiatan.result;
@@ -73,6 +74,14 @@ export default function DetailKegiatan(props) {
       });
     } else {
       mutate();
+=======
+    const DaftarKegiatanCTA = () => {
+        return (
+            <>
+                <Button variant='contained' onClick={() => handleKegiatan(`${enumRoutes.MEMBER_KEGIATAN}/${kegiatan_id}/registrasi`)}>Daftar Sekarang</Button>
+            </>
+        )
+>>>>>>> 0b93058 (feat: handle if login needed for daftar kegiatan)
     }
   }, [mutate, responseDetailKegiatan]);
 
