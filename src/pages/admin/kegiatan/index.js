@@ -44,7 +44,7 @@ export default function AdminKegiatan() {
   };
 
   const changeStatus = async (ids, status) => {
-    return axiosMain.post(`/admin/volunteer/registration/status?id=${ids}`, {
+    return axiosMain.post(`/admin/volunteer/edit/status?id=${ids}`, {
       status: `${status}`,
     });
   };
@@ -73,7 +73,7 @@ export default function AdminKegiatan() {
         titleFive="Lokasi"
         dialogType="statusKegiatan"
         mutate={mutate}
-        // apiCall={changeStatus}
+        apiCall={changeStatus}
       />
     );
   };
