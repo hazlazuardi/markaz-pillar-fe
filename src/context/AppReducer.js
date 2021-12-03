@@ -1,4 +1,3 @@
-
 // Enums for dispatch types
 export const dispatchTypes = {
     LOGOUT: "logout",
@@ -16,18 +15,19 @@ export const dispatchTypes = {
     UNAUTHORIZED_DONASI: 'unauthorized_donasi',
     UNAUTHORIZED_ADMIN: 'unauthorized_admin',
     UNAUTHORIZED_USER: 'unauthorized_user',
+    LOGIN_NEEDED_RELAWAN: "login_needed_relawan",
 }
 
 export const roleType = {
-    ROLE_SUPERUSER: "ROLE_SUPERUSER",
-    ROLE_MEMBER: "ROLE_MEMBER"
-}
+  ROLE_SUPERUSER: "ROLE_SUPERUSER",
+  ROLE_MEMBER: "ROLE_MEMBER",
+};
 
 export const markazCategory = {
-    MARKAZ_UMUM: "Markaz Umum",
-    MARKAZ_AKHWAT: "Markaz Akhwat",
-    MARKAZ_IKHWAN: "Markaz Ikhwan"
-}
+  MARKAZ_UMUM: "Markaz Umum",
+  MARKAZ_AKHWAT: "Markaz Akhwat",
+  MARKAZ_IKHWAN: "Markaz Ikhwan",
+};
 
 export const enumRoutes = {
     ERROR: "/error",
@@ -128,46 +128,112 @@ export const enumAuthenticatedRoutes = [
 ]
 
 // Initialize variables
-export const initialFunction = initial => {
-    let {
-        currentUser,
-        currentUserRole,
-        currentExpirationDate,
-        currentAccessToken,
-        currentRefreshToken,
-        snackbarStatus,
-        snackbarSeverity,
-        snackbarMessage,
-        stateLoaded
-    } = initial;
-    return {
-        currentUser,
-        currentUserRole,
-        currentExpirationDate,
-        currentAccessToken,
-        currentRefreshToken,
-        snackbarStatus,
-        snackbarSeverity,
-        snackbarMessage,
-        stateLoaded
-    }
-}
+export const initialFunction = (initial) => {
+  let {
+    currentUser,
+    currentUserRole,
+    currentExpirationDate,
+    currentAccessToken,
+    currentRefreshToken,
+    snackbarStatus,
+    snackbarSeverity,
+    snackbarMessage,
+    stateLoaded,
+  } = initial;
+  return {
+    currentUser,
+    currentUserRole,
+    currentExpirationDate,
+    currentAccessToken,
+    currentRefreshToken,
+    snackbarStatus,
+    snackbarSeverity,
+    snackbarMessage,
+    stateLoaded,
+  };
+};
 
 // Initialize the initial state
 export const initialState = {
-    currentUser: "",
-    currentUserRole: "",
-    currentExpirationDate: 3600, // 1 hour
-    currentAccessToken: "",
-    currentRefreshToken: "",
-    snackbarStatus: false,
-    snackbarSeverity: "secondary",
-    snackbarMessage: "",
-    stateLoaded: false
-}
-
+  currentUser: "",
+  currentUserRole: "",
+  currentExpirationDate: 3600, // 1 hour
+  currentAccessToken: "",
+  currentRefreshToken: "",
+  snackbarStatus: false,
+  snackbarSeverity: "secondary",
+  snackbarMessage: "",
+  stateLoaded: false,
+};
 
 export const AppReducer = (state, action) => {
+  switch (action.type) {
+    case dispatchTypes.LOGIN_NEEDED: {
+      return {
+        ...state,
+        snackbarStatus: true,
+        snackbarSeverity: "secondary",
+        snackbarMessage: "Harap login sebelum berdonasi",
+      };
+    }
+    case dispatchTypes.LOGIN_NEEDED_RELAWAN: {
+      return {
+        ...state,
+        snackbarStatus: true,
+        snackbarSeverity: "secondary",
+        snackbarMessage: "Harap login sebelum mendaftar",
+      };
+    }
+    case dispatchTypes.SESSION_EXPIRED: {
+      localStorage.clear();
+      return {
+        ...state,
+        currentUser: "",
+        currentUserRole: "",
+        currentExpirationDate: 3600, // 1 hour
+        currentAccessToken: "",
+        currentRefreshToken: "",
+        snackbarStatus: true,
+        snackbarSeverity: "secondary",
+        snackbarMessage: `Sesi anda berakhir, harap login kembali.`,
+      };
+    }
+    case dispatchTypes.LOGIN_SUCCEED: {
+      return {
+        ...state,
+        currentUser: action.payload.currentUser,
+        currentUserRole: action.payload.currentUserRole,
+        currentExpirationDate: action.payload.currentExpirationDate,
+        currentAccessToken: action.payload.currentAccessToken,
+        currentRefreshToken: action.payload.currentRefreshToken,
+        snackbarStatus: true,
+        snackbarSeverity: "success",
+        snackbarMessage: `Welcome back, ${
+          action.payload.currentUser.split("@")[0]
+        }`,
+      };
+    }
+    case dispatchTypes.LOGIN_FAIL: {
+      return {
+        ...state,
+        snackbarStatus: true,
+        snackbarSeverity: "error",
+        snackbarMessage: `Alamat email atau password salah`,
+      };
+    }
+    case dispatchTypes.REGISTRATION_SUCCEED: {
+      return {
+        ...state,
+        currentUser: action.payload.currentUser,
+        currentUserRole: action.payload.currentUserRole,
+        currentExpirationDate: action.payload.currentExpirationDate,
+        currentAccessToken: action.payload.currentAccessToken,
+        currentRefreshToken: action.payload.currentRefreshToken,
+        snackbarStatus: true,
+        snackbarSeverity: "success",
+        snackbarMessage: `Welcome, ${action.payload.currentUser}`,
+      };
+    }
 
     switch (action.type) {
         case dispatchTypes.UNAUTHORIZED_DONASI: {
@@ -317,4 +383,33 @@ export const AppReducer = (state, action) => {
                 ...state
             }
     }
-}
+    case dispatchTypes.SNACKBAR_CUSTOM: {
+      return {
+        ...state,
+        snackbarStatus: true,
+        snackbarSeverity: action.payload.severity || "secondary",
+        snackbarMessage: action.payload.message,
+      };
+    }
+    // To make sure state is loaded & updated from localStorage
+    case dispatchTypes.STATE_LOADED: {
+      return {
+        ...state,
+        stateLoaded: true,
+      };
+    }
+    case dispatchTypes.SERVER_ERROR: {
+      return {
+        ...state,
+        snackbarStatus: true,
+        snackbarSeverity: "error",
+        snackbarMessage: "Sorry, Server Error",
+      };
+    }
+
+    default:
+      return {
+        ...state,
+      };
+  }
+};
