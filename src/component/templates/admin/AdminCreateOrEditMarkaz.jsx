@@ -23,12 +23,14 @@ function AdminCreateOrEditMarkaz(props) {
         apiCall,
     } = props;
 
+    const isCreate = variant === 'create'
     const result = !!data ? data.result : null
 
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
     const form = useRef(null);
     const router = useRouter()
+    const { markaz_id } = router.query
     const pathname = router.pathname;
 
 
@@ -63,7 +65,11 @@ function AdminCreateOrEditMarkaz(props) {
                         message: variant === 'create' ? "Markaz Created" : "Markaz Edited"
                     }
                 })
-                router.push(enumRoutes.ADMIN_MARKAZ)
+                if (isCreate) {
+                    router.push(`${enumRoutes.ADMIN_MARKAZ}`)
+                    return;
+                }
+                router.push(`${enumRoutes.ADMIN_MARKAZ}/${markaz_id}`)
             })
             .catch(error => {
                 setLoading(false)

@@ -57,6 +57,10 @@ function AdminCreateOrEditSantri(props) {
                         message: variant === 'create' ? "Santri Created" : "Santri Edited"
                     }
                 })
+                if (isCreate) {
+                    router.push(`${enumRoutes.ADMIN_SANTRI}`)
+                    return;
+                }
                 router.push(`${enumRoutes.ADMIN_SANTRI}/${santri_id}`)
             })
             .catch(e => {
