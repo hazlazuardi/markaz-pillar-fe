@@ -120,7 +120,6 @@ describe(`Test if all components exist and visible`, () => {
       .get("li")
       .contains("Show All")
       .click();
-    cy.get("[data-testid=fab-at-admin-or-user-template]").should("exist");
   });
 });
 

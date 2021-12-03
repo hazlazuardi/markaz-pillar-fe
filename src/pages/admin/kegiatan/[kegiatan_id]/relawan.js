@@ -106,7 +106,6 @@ export default function AdminRelawan(props) {
         setPage={setPage}
         data={responseVolunteer}
         error={error}
-        hrefCreate="/admin/kegiatan/create"
         mutate={mutate}
         FilterRadioObject={radioRegister}
       />
