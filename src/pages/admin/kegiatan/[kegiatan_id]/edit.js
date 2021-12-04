@@ -26,20 +26,14 @@ function AdminEditVolunteerKegiatan() {
     const [kegiatan, setKegiatan] = useState({
         status: responseKegiatan ? responseKegiatan.status : "",
         name: responseKegiatan ? responseKegiatan.name : "",
-        open: responseKegiatan ? responseKegiatan.open : "",
-        close: responseKegiatan ? responseKegiatan.close : "",
         description: responseKegiatan ? responseKegiatan.description : "",
         term: responseKegiatan ? responseKegiatan.term : "",
         benefit: responseKegiatan ? responseKegiatan.benefit : "",
         volunteerNeeded: responseKegiatan ? responseKegiatan.volunteerNeeded : 0,
         location: responseKegiatan ? responseKegiatan.location : "",
         schedule: responseKegiatan ? responseKegiatan.schedule : "",
-        isActive: responseKegiatan ? responseKegiatan.isActive : null,
         programOpened: responseKegiatan? responseKegiatan.programOpened: "",
         programClosed: responseKegiatan? responseKegiatan.programClosed: "",
-        programCompleted: responseKegiatan? responseKegiatan.programCompleted: null,
-        volunteerApplied: responseKegiatan? responseKegiatan.volunteerApplied: null,
-        testimonies: responseKegiatan? responseKegiatan.testimonies: [],
     });
 
     const editKegiatan = useCallback(async (data) => {
@@ -62,8 +56,11 @@ function AdminEditVolunteerKegiatan() {
         }
     }, [responseAllMarkaz, responseKegiatan])
 
-    if (errorKegiatan) return "Error"
+    if (errorKegiatan || errorResponseAllMarkaz) {
+        return "Error"
+    }
     if (!responseKegiatan) return "wait.."
+    if (!responseAllMarkaz) return "wait.."
     return (
         <>
             <ArrowBack href={`/admin/kegiatan/${kegiatan_id}`} />
@@ -74,6 +71,7 @@ function AdminEditVolunteerKegiatan() {
                 kegiatan_id={kegiatan_id}
                 apiCall={editKegiatan}
                 allMarkaz={allMarkaz}
+                originalKegiatan={responseKegiatan}
             />
         </>
     );

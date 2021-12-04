@@ -24,7 +24,7 @@ function AdminCreateMarkazProgresDonasi() {
                 progres={progres}
                 setProgres={setProgres}
                 createOrEdit="create"
-                markazOrSantri="Markaz"
+                markazOrSantri="markaz"
                 apiCall={createProgresDonasiMarkaz}
                 redirectID={markaz_id}
             />

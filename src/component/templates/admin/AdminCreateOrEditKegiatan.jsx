@@ -19,12 +19,17 @@ function AdminCreateOrEditKegiatan(props) {
         kegiatan,
         setKegiatan,
         apiCall,
-        allMarkaz
+        allMarkaz,
+        originalKegiatan,
     } = props;
+
+    const isCreate = variant === 'create'
     const form = useRef(null);
     const { dispatch } = useAppContext();
     const [loading, setLoading] = useState(false)
     const [thumbnail, setThumbnail] = useState({});
+
+    const originalKegiatanResult = !!originalKegiatan ? originalKegiatan.result : null
 
     const handleChangeKegiatan = ({ target }) => {
         const { name, value } = target;
@@ -44,8 +49,6 @@ function AdminCreateOrEditKegiatan(props) {
         data.append("thumbnail", thumbnail);
         data.append("detail", kegiatanBlob);
 
-
-
         await apiCall(data)
             .then(response => {
                 setLoading(false)
@@ -57,7 +60,7 @@ function AdminCreateOrEditKegiatan(props) {
                         message: variant === 'create' ? "Kegiatan Created" : "Kegiatan Edited"
                     }
                 })
-                router.push(`${enumRoutes.ADMIN_KEGIATAN}/${kegiatan.id}`)
+                router.push(`/admin/kegiatan/`)
             })
             .catch(error => {
                 setLoading(false)
@@ -111,18 +114,24 @@ function AdminCreateOrEditKegiatan(props) {
                         <Grid item>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <Typography variant="h5" color="initial">{variant} Kegiatan</Typography>
+                                    <Typography sx={{textTransform: "capitalize"}} variant="h5" color="initial">{variant} Kegiatan</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <TextField
-                                        id='kegiatanStatusAtComponentAdminCreateOrEditKegiatan'
-                                        name="status"
-                                        label="Status"
-                                        fullWidth
-                                        onChange={handleChangeKegiatan}
-                                        value={kegiatan.status}
-                                        placeholder="Membuka pendaftaran"
-                                    />
+                                    <FormControl fullWidth>
+                                        <InputLabel id="status-label">Status</InputLabel>
+                                        <Select
+                                            labelId="gender-label"
+                                            data-testid='kegiatan-status-at-AdminCreateOrEditKegiatan-module'
+                                            id="status-select"
+                                            name='status'
+                                            value={kegiatan.status}
+                                            label="Status"
+                                            onChange={handleChangeKegiatan}
+                                        >
+                                            <MenuItem value={"MEMBUKA_PENDAFTARAN"}>Membuka pendaftaran</MenuItem>
+                                            <MenuItem value={"MENUTUP_PENDAFTARAN"}>Menutup pendaftaran</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <FormControl fullWidth>
@@ -132,7 +141,7 @@ function AdminCreateOrEditKegiatan(props) {
                                             data-testid='kegiatan-markaz-at-AdminCreateOrEditKegiatan-module'
                                             id="kegiatan-select"
                                             name='markazId'
-                                            value={kegiatan.markazId}
+                                            value={kegiatan || isCreate ? kegiatan.markazId : originalKegiatanResult.markaz.id}
                                             label="Tempat Markaz"
                                             onChange={handleChangeKegiatan}
                                         >
@@ -157,22 +166,22 @@ function AdminCreateOrEditKegiatan(props) {
                                 <Grid item xs={12}>
                                     <TextField
                                         id='kegiatanOpenAtComponentAdminCreateOrEditKegiatan'
-                                        name="open"
+                                        name="programOpened"
                                         label="Tanggal buka pendaftaran"
                                         fullWidth
                                         onChange={handleChangeKegiatan}
-                                        value={kegiatan.open}
+                                        value={kegiatan.programOpened}
                                         placeholder="2021-01-01"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
                                         id='kegiatanCloseAtComponentAdminCreateOrEditKegiatan'
-                                        name="close"
+                                        name="programClosed"
                                         label="Tanggal tutup pendaftaran"
                                         fullWidth
                                         onChange={handleChangeKegiatan}
-                                        value={kegiatan.close}
+                                        value={kegiatan.programClosed}
                                         placeholder="2021-01-02"
                                     />
                                 </Grid>

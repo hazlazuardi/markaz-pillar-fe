@@ -10,20 +10,16 @@ const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 function AdminCreateVolunteerKegiatan() {
     const router = useRouter();
     const [kegiatan, setKegiatan] = useState({
-        status: "MEMBUKA_PENDAFTARAN",
+        status: "",
         name: "",
         programOpened: "",
         programClosed: "",
-        programCompleted: null,
         description: "",
         term: "",
         benefit: "",
         volunteerNeeded: 0,
-        volunteerApplied: null,
         location: "",
         schedule: "",
-        testimonies: [],
-        markazId: "",
     });
 
     const { data: responseAllMarkaz, error: errorResponseAllMarkaz }
@@ -31,9 +27,9 @@ function AdminCreateVolunteerKegiatan() {
         fetcher,
     );
 
-    const createKegiatan = useCallback( async (data) => {
-        return axiosFormData.post("/admin/volunteer", data)
-    }, [])
+    const createKegiatan = async (data) => {
+        return axiosFormData.post("/admin/volunteer?markaz_id="+kegiatan.markazId, data)
+    };
 
     const [allMarkaz, setAllMarkaz] = useState()
 

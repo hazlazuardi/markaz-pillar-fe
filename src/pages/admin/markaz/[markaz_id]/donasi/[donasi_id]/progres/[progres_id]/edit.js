@@ -44,8 +44,8 @@ function AdminEditMarkazProgresDonasi() {
             <AdminCreateOrEditProgres
                 progres={progres}
                 setProgres={setProgres}
-                createOrEdit="Edit"
-                markazOrSantri="Markaz"
+                createOrEdit="edit"
+                markazOrSantri="markaz"
                 apiCall={editProgresDonasiMarkaz}
                 redirectID={markaz_id}
             />
