@@ -13,6 +13,8 @@ function AdminCreateMarkazProgresDonasi() {
         description: "",
     });
 
+    console.log(progres)
+
     const createProgresDonasiMarkaz = async (data) => {
         return axiosFormData.post(`/admin/donation/progress?donation_id=${donasi_id}`, data)
     };

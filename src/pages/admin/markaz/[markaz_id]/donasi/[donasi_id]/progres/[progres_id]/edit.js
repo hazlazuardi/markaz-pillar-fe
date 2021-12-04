@@ -15,7 +15,7 @@ function AdminEditMarkazProgresDonasi() {
         data: responseProgres, error: errorProgres
     } = useSWR(
         router.isReady ?
-            `/admin/donation?id=${donasi_id}` : null,
+            `/admin/donation/progress?id=${progres_id}` : null,
         fetcher,
     );
     const [progres, setProgres] = useState({
@@ -35,7 +35,7 @@ function AdminEditMarkazProgresDonasi() {
                 ...responseProgres.result,
             })
         }
-    }, [responseProgres, progres])
+    }, [responseProgres])
 
     if (errorProgres) return "Error"
     if (!responseProgres) return "wait.."
