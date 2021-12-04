@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {axiosFormData, axiosMain} from "../../../axiosInstances";
 import AdminCreateOrEditKegiatan from "../../../component/templates/admin/AdminCreateOrEditKegiatan";
 import ArrowBack from "../../../component/modules/ArrowBack";
@@ -31,6 +31,10 @@ function AdminCreateVolunteerKegiatan() {
         fetcher,
     );
 
+    const createKegiatan = useCallback( async (data) => {
+        return axiosFormData.post("/admin/volunteer", data)
+    }, [])
+
     const [allMarkaz, setAllMarkaz] = useState()
 
     // We use useEffect because we store the useSwr Data into
@@ -45,10 +49,6 @@ function AdminCreateVolunteerKegiatan() {
         return "Error"
     }
     if (!responseAllMarkaz) return "wait.."
-
-    const createKegiatan = async (data) => {
-        return axiosFormData.post("/admin/volunteer", data)
-    };
 
     return (
         <>

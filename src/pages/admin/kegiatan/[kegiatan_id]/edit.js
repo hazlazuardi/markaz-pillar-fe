@@ -18,6 +18,11 @@ function AdminEditVolunteerKegiatan() {
         fetcher,
     );
 
+    const { data: responseAllMarkaz, error: errorResponseAllMarkaz }
+        = useSWR(router.isReady ? `/markaz/search?n=1000` : null,
+        fetcher,
+    );
+
     const [kegiatan, setKegiatan] = useState({
         status: responseKegiatan ? responseKegiatan.status : "",
         name: responseKegiatan ? responseKegiatan.name : "",
@@ -41,13 +46,21 @@ function AdminEditVolunteerKegiatan() {
         return axiosFormData.post(`/admin/volunteer/edit?id=${kegiatan_id}`, data)
     }, [kegiatan_id])
 
+
+    const [allMarkaz, setAllMarkaz] = useState()
+
+    // We use useEffect because we store the useSwr Data into
     useEffect(() => {
         if (responseKegiatan) {
             setKegiatan({
                 ...responseKegiatan.result,
+                markazId: responseKegiatan.result.markaz.id
             })
         }
-    }, [responseKegiatan])
+        if (responseAllMarkaz) {
+            setAllMarkaz([...responseAllMarkaz.result])
+        }
+    }, [responseAllMarkaz, responseKegiatan])
 
     if (errorKegiatan) return "Error"
     if (!responseKegiatan) return "wait.."
@@ -60,6 +73,7 @@ function AdminEditVolunteerKegiatan() {
                 setKegiatan={setKegiatan}
                 kegiatan_id={kegiatan_id}
                 apiCall={editKegiatan}
+                allMarkaz={allMarkaz}
             />
         </>
     );

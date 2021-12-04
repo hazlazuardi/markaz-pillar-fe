@@ -24,10 +24,10 @@ function AdminCreateOrEditDonasi(props) {
         markazOrSantri,
         donasi,
         label,
-
         displayTotal,
         setData,
-        apiCall
+        apiCall,
+        redirectID
     } = props;
 
     const form = useRef(null);
@@ -75,6 +75,8 @@ function AdminCreateOrEditDonasi(props) {
         }));
     };
 
+    const [success, setSuccess] = useState(false)
+
     const handleSubmit = useCallback(async (event) => {
         setLoading(true)
         event.preventDefault();
@@ -90,6 +92,7 @@ function AdminCreateOrEditDonasi(props) {
                         message: createOrEdit === 'create' ? "Donasi Created" : "Donasi Edited"
                     }
                 })
+                setSuccess(true)
             })
             .catch(error => {
                 setLoading(false)
@@ -106,6 +109,10 @@ function AdminCreateOrEditDonasi(props) {
             })
 
     }, [apiCall, dispatch, donasi, createOrEdit])
+
+    if (success) {
+        router.push(`/admin/${markazOrSantri}/${redirectID}`)
+    }
 
     return (
         <div>

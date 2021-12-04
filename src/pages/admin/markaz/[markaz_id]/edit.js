@@ -49,6 +49,7 @@ export default function AdminMarkazEdit() {
                 setMarkaz={setEditedMarkaz}
                 data={responseDetailAdminMarkaz}
                 apiCall={editMarkaz}
+                redirectID={markaz_id}
             />
         </>
     )

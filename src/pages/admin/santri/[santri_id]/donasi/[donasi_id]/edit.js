@@ -47,10 +47,11 @@ function AdminSantriDonasiEdit() {
             <AdminCreateOrEditDonasi
                 donasi={data}
                 createOrEdit="Edit"
-                markazOrSantri="Santri"
+                markazOrSantri="santri"
                 label="Kebutuhan beasiswa"
                 setData={setData}
                 apiCall={editDonasiSantri}
+                redirectID={santri_id}
             />
         </>
     );
