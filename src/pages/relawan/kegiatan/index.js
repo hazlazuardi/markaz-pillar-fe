@@ -72,29 +72,14 @@ export default function Home() {
   const { currentUser, stateLoaded } = state;
 
 
-//   const handleKegiatan = (href) => {
-//     if (stateLoaded && currentUser) {
-//         router.push({ pathname: href, query: { ...router.query } })
-//     } else {
-//         dispatch({ type: dispatchTypes.LOGIN_NEEDED })
-//         router.push(enumRoutes.LOGIN)
-//     }
-// }
-
-  const buttonVolunteer = () => {
-    return (
-      <>
-        <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
-          <Link href={responseProgram} target="_blank" underline="none">
-            <Button variant="outlined">Daftar</Button>
-          </Link>
-          <Link href={responseProgram} target="_blank" underline="none">
-            <Button variant="outlined">Lihat Detail</Button>
-          </Link>
-        </Stack>
-      </>
-    );
-  };
+  const handleKegiatan = (href) => {
+    if (stateLoaded && currentUser) {
+        router.push({ pathname: href, query: { ...router.query } })
+    } else {
+        dispatch({ type: dispatchTypes.LOGIN_NEEDED_RELAWAN })
+        router.push(enumRoutes.LOGIN)
+    }
+}
 
   const matches = useMediaQuery("(max-width:600px)");
   const size = matches ? "small" : "medium";
@@ -144,21 +129,16 @@ export default function Home() {
                     sx={{ p: 1 }}
                     mt={4}
                   >
-                    <Link
-                      href={`kegiatan/${randomProgram.result.id}/registrasi`}
-                      passHref
-                    >
                       <Button
                         data-testid="daftar-sekarang-button-relawan-kegiatan"
                         variant="contained"
                         color="primary"
                         fullWidth
                         size="small"
-                        // onClick={() => handleKegiatan(`${enumRoutes.MEMBER_KEGIATAN}/${kegiatan_id}/registrasi`)}
+                        onClick={() => handleKegiatan(`${enumRoutes.MEMBER_KEGIATAN}/${randomProgram.result.id}/registrasi`)}
                       >
                         Daftar Sekarang
                       </Button>
-                    </Link>
                     <Link
                       href={`kegiatan/${randomProgram.result.id}`}
                       passHref
