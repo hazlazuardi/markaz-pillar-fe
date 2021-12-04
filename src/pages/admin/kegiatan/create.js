@@ -12,14 +12,11 @@ function AdminCreateVolunteerKegiatan() {
     const [kegiatan, setKegiatan] = useState({
         status: "",
         name: "",
-        programOpened: "",
-        programClosed: "",
         description: "",
-        term: "",
-        benefit: "",
         volunteerNeeded: 0,
         location: "",
         schedule: "",
+        programCompleted: null,
     });
 
     const { data: responseAllMarkaz, error: errorResponseAllMarkaz }
@@ -45,6 +42,8 @@ function AdminCreateVolunteerKegiatan() {
         return "Error"
     }
     if (!responseAllMarkaz) return "wait.."
+
+    console.log(kegiatan)
 
     return (
         <>

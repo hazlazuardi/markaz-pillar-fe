@@ -10,12 +10,12 @@ const fetcher = url => axiosMain.get(url).then(res => res.data)
 
 function AdminEditMarkazProgresDonasi() {
     const router = useRouter();
-    const { markaz_id, progres_id } = router.query
+    const { donasi_id, markaz_id, progres_id } = router.query
     const {
         data: responseProgres, error: errorProgres
     } = useSWR(
         router.isReady ?
-            `/admin/markaz?id=${markaz_id}` : null,
+            `/admin/donation?id=${donasi_id}` : null,
         fetcher,
     );
     const [progres, setProgres] = useState({
@@ -26,6 +26,8 @@ function AdminEditMarkazProgresDonasi() {
     const editProgresDonasiMarkaz = useCallback(async (data) => {
         return axiosFormData.post(`/admin/donation/progress/edit?id=${progres_id}`, data)
     }, [progres_id])
+
+    console.log(progres)
 
     useEffect(() => {
         if (responseProgres) {

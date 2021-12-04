@@ -41,6 +41,8 @@ function AdminEditVolunteerKegiatan() {
     }, [kegiatan_id])
 
 
+    console.log(kegiatan)
+
     const [allMarkaz, setAllMarkaz] = useState()
 
     // We use useEffect because we store the useSwr Data into
