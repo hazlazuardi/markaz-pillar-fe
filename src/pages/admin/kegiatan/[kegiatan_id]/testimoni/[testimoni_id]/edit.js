@@ -45,6 +45,7 @@ function AdminEditVolunteerTestimoni() {
                 createOrEdit="edit"
                 setTesti={setTesti}
                 apiCall={editTesti}
+                redirectID={testimoni_id}
             />
         </>
     );

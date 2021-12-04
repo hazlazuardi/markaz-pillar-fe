@@ -47,6 +47,7 @@ function AdminEditMarkazProgresDonasi() {
                 createOrEdit="Edit"
                 markazOrSantri="Markaz"
                 apiCall={editProgresDonasiMarkaz}
+                redirectID={markaz_id}
             />
         </>
     );

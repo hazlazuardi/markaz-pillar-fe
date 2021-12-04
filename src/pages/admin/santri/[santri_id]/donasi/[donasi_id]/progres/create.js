@@ -8,7 +8,7 @@ import ArrowBack from '../../../../../../../component/modules/ArrowBack'
 
 function AdminCreateSantriProgresDonasi() {
     const router = useRouter();
-    const { donasi_id } = router.query
+    const { santri_id, donasi_id } = router.query
     const [progres, setProgres] = useState({
         progressDate: "",
         description: "",
@@ -27,6 +27,7 @@ function AdminCreateSantriProgresDonasi() {
                 createOrEdit="create"
                 markazOrSantri="Santri"
                 apiCall={createProgresDonasiSantri}
+                redirectID={santri_id}
             />
         </>
     );

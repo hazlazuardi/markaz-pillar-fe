@@ -14,7 +14,8 @@ function AdminCreateOrEditTestimoni(props) {
         testi,
         createOrEdit,
         setTesti,
-        apiCall
+        apiCall,
+        redirectID
     } = props;
 
     const form = useRef(null);
@@ -51,7 +52,7 @@ function AdminCreateOrEditTestimoni(props) {
                         message: createOrEdit === 'create' ? "Testimoni Created" : "Testimoni Edited"
                     }
                 })
-
+                router.push(`/admin/kegiatan/${redirectID}`)
             })
             .catch(error => {
                 setLoading(false)

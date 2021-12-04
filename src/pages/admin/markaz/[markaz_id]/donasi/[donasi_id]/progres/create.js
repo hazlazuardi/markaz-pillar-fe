@@ -7,7 +7,7 @@ import {useRouter} from "next/router";
 
 function AdminCreateMarkazProgresDonasi() {
     const router = useRouter();
-    const { donasi_id } = router.query
+    const { markaz_id, donasi_id } = router.query
     const [progres, setProgres] = useState({
         progressDate: "",
         description: "",
@@ -26,6 +26,7 @@ function AdminCreateMarkazProgresDonasi() {
                 createOrEdit="create"
                 markazOrSantri="Markaz"
                 apiCall={createProgresDonasiMarkaz}
+                redirectID={markaz_id}
             />
         </>
     );

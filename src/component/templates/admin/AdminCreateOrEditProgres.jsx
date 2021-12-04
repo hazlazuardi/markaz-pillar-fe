@@ -15,7 +15,8 @@ function AdminCreateOrEditProgres(props) {
         setProgres,
         createOrEdit,
         markazOrSantri,
-        apiCall
+        apiCall,
+        redirectID
     } = props;
 
     const form = useRef(null);
@@ -52,7 +53,7 @@ function AdminCreateOrEditProgres(props) {
                         message: createOrEdit === 'create' ? "Progres Donasi Created" : "Progres Donasi Edited"
                     }
                 })
-
+                router.push(`/admin/${markazOrSantri}/${redirectID}`)
             })
             .catch(error => {
                 setLoading(false)

@@ -24,6 +24,7 @@ function AdminCreateVolunteerTestimoni() {
                 createOrEdit="create"
                 setTesti={setTesti}
                 apiCall={createTesti}
+                redirectID={kegiatan_id}
             />
         </>
     );
