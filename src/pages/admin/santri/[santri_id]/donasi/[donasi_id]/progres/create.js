@@ -20,7 +20,7 @@ function AdminCreateSantriProgresDonasi() {
 
     return (
         <>
-            <ArrowBack href={enumRoutes.ADMIN_MARKAZ_DETAIL} />
+            <ArrowBack  href={`${enumRoutes.ADMIN_SANTRI}/${santri_id}/donasi`} />
             <AdminCreateOrEditProgres
                 progres={progres}
                 setProgres={setProgres}

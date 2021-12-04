@@ -78,6 +78,8 @@ function AdminCreateOrEditKegiatan(props) {
 
     }, [apiCall, dispatch, kegiatan, thumbnail, variant])
 
+    console.log(kegiatan.status)
+
     const router = useRouter()
     const pathname = router.pathname;
         return (
@@ -219,6 +221,7 @@ function AdminCreateOrEditKegiatan(props) {
                                                     onChange={handleChangeKegiatan}
                                                     value={kegiatan.programCompleted}
                                                     placeholder="2021-02-01"
+                                                    type="datetime-local"
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -284,7 +287,7 @@ function AdminCreateOrEditKegiatan(props) {
                                                         data-testid='kegiatan-status-at-AdminCreateOrEditKegiatan-module'
                                                         id="status-select"
                                                         name='status'
-                                                        value={kegiatan || isCreate ? kegiatan.status : originalKegiatanResult.status}
+                                                        value={!!kegiatan.status ? kegiatan.status : originalKegiatanResult.status}
                                                         label="Status"
                                                         onChange={handleChangeKegiatan}
                                                     >
@@ -305,7 +308,7 @@ function AdminCreateOrEditKegiatan(props) {
                                                         data-testid='kegiatan-markaz-at-AdminCreateOrEditKegiatan-module'
                                                         id="kegiatan-select"
                                                         name='markazId'
-                                                        value={kegiatan || isCreate ? kegiatan.markazId : originalKegiatanResult.markaz.id}
+                                                        value={kegiatan.markazId}
                                                         label="Tempat Markaz"
                                                         onChange={handleChangeKegiatan}
                                                     >
@@ -337,6 +340,7 @@ function AdminCreateOrEditKegiatan(props) {
                                                     onChange={handleChangeKegiatan}
                                                     value={kegiatan.programOpened}
                                                     placeholder="2021-01-01"
+                                                    type="datetime-local"
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -348,6 +352,7 @@ function AdminCreateOrEditKegiatan(props) {
                                                     onChange={handleChangeKegiatan}
                                                     value={kegiatan.programClosed}
                                                     placeholder="2021-01-02"
+                                                    type="datetime-local"
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>

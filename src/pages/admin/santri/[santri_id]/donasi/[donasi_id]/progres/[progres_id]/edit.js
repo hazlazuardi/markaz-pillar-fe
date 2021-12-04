@@ -16,7 +16,7 @@ function AdminEditSantriProgresDonasi() {
         data: responseProgres, error: errorProgres
     } = useSWR(
         router.isReady ?
-            `/admin/santri?id=${santri_id}` : null,
+            `/admin/donation/progress?id=${progres_id}` : null,
         fetcher,
     );
     const [progres, setProgres] = useState({
@@ -41,7 +41,7 @@ function AdminEditSantriProgresDonasi() {
 
     return (
         <>
-            <ArrowBack href={enumRoutes.ADMIN_SANTRI_DETAIL} />
+            <ArrowBack href={`${enumRoutes.ADMIN_SANTRI_DETAIL}/${santri_id}/`} />
             <AdminCreateOrEditProgres
                 progres={progres}
                 setProgres={setProgres}

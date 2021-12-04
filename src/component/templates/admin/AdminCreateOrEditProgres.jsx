@@ -115,6 +115,7 @@ function AdminCreateOrEditProgres(props) {
                                         name="progressDate"
                                         label="Tanggal (YYYY-MM-DD)"
                                         fullWidth
+                                        type="date"
                                         onChange={handleChangeProgres}
                                         value={progres.progressDate}
                                     />

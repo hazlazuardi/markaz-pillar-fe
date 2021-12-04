@@ -11,7 +11,7 @@ function AdminEditVolunteerKegiatan() {
     const router = useRouter();
     const { kegiatan_id } = router.query
     const {
-        data: responseKegiatan, error: errorKegiatan
+        data: responseKegiatan, error: errorKegiatan, mutate
     } = useSWR(
         router.isReady ?
             `/volunteer?id=${kegiatan_id}` : null,
@@ -23,25 +23,16 @@ function AdminEditVolunteerKegiatan() {
         fetcher,
     );
 
+    console.log(responseKegiatan)
+    console.log(responseAllMarkaz)
+
     const [kegiatan, setKegiatan] = useState({
-        status: responseKegiatan ? responseKegiatan.status : "",
-        name: responseKegiatan ? responseKegiatan.name : "",
-        description: responseKegiatan ? responseKegiatan.description : "",
-        term: responseKegiatan ? responseKegiatan.term : "",
-        benefit: responseKegiatan ? responseKegiatan.benefit : "",
-        volunteerNeeded: responseKegiatan ? responseKegiatan.volunteerNeeded : 0,
-        location: responseKegiatan ? responseKegiatan.location : "",
-        schedule: responseKegiatan ? responseKegiatan.schedule : "",
-        programOpened: responseKegiatan? responseKegiatan.programOpened: "",
-        programClosed: responseKegiatan? responseKegiatan.programClosed: "",
+        markazId: ""
     });
 
     const editKegiatan = useCallback(async (data) => {
         return axiosFormData.post(`/admin/volunteer/edit?id=${kegiatan_id}`, data)
     }, [kegiatan_id])
-
-
-    console.log(kegiatan)
 
     const [allMarkaz, setAllMarkaz] = useState()
 
@@ -53,6 +44,9 @@ function AdminEditVolunteerKegiatan() {
                 markazId: responseKegiatan.result.markaz.id
             })
         }
+        else {
+            mutate();
+        }
         if (responseAllMarkaz) {
             setAllMarkaz([...responseAllMarkaz.result])
         }
@@ -61,7 +55,7 @@ function AdminEditVolunteerKegiatan() {
     if (errorKegiatan || errorResponseAllMarkaz) {
         return "Error"
     }
-    if (!responseKegiatan) return "wait.."
+    if (!responseKegiatan && !kegiatan.status) return "wait.."
     if (!responseAllMarkaz) return "wait.."
     return (
         <>

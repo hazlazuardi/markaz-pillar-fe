@@ -208,6 +208,7 @@ function AdminCreateOrEditSantri(props) {
                                         name="birthDate"
                                         value={santri || isCreate ? santri.birthDate : originalSantriResult.birthDate}
                                         label="Tanggal Lahir"
+                                        type="date"
                                         fullWidth
                                         onChange={handleChangeSantri}
                                         placeholder="YYYY-MM-DD"
