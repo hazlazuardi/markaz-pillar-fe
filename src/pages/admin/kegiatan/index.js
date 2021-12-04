@@ -64,7 +64,7 @@ export default function AdminKegiatan() {
     return (
       <TableView
         data={responseProgram}
-        detail="admin/kegiatan"
+        detail="kegiatan"
         handleDelete={handleDeleteMarkaz}
         santriormarkaz="kegiatan"
         titleTwo="Status"
