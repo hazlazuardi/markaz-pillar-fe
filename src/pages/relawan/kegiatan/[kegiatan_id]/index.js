@@ -37,14 +37,6 @@ export default function DetailKegiatan(props) {
   });
   const [convertedData, setConvertedData] = useState();
 
-<<<<<<< HEAD
-    const DaftarKegiatanCTA = () => {
-        return (
-            <>
-                <Button variant='contained' onClick={() => handleKegiatan(`${enumRoutes.MEMBER_KEGIATAN}/${kegiatan_id}/registrasi`)}>Daftar Sekarang</Button>
-            </>
-        )
-=======
   useEffect(() => {
     if (!!responseDetailKegiatan) {
       const dataResult = responseDetailKegiatan.result;
@@ -81,7 +73,6 @@ export default function DetailKegiatan(props) {
       });
     } else {
       mutate();
->>>>>>> a7c162f (fix: fixed snackbar for login needed daftar relawan)
     }
   }, [mutate, responseDetailKegiatan]);
 
