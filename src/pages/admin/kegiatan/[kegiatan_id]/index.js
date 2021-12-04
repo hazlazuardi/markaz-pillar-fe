@@ -28,7 +28,7 @@ export default function DetailKegiatan() {
         if (stateLoaded && currentUser) {
             router.push({ pathname: href, query: { ...router.query } })
         } else {
-            dispatch({ type: dispatchTypes.LOGIN_NEEDED })
+            dispatch({ type: dispatchTypes.LOGIN_NEEDED_RELAWAN })
             router.push(enumRoutes.LOGIN)
         }
     }

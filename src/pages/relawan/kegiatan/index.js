@@ -75,29 +75,14 @@ export default function Home(props) {
   const { currentUser, stateLoaded } = state;
 
 
-//   const handleKegiatan = (href) => {
-//     if (stateLoaded && currentUser) {
-//         router.push({ pathname: href, query: { ...router.query } })
-//     } else {
-//         dispatch({ type: dispatchTypes.LOGIN_NEEDED })
-//         router.push(enumRoutes.LOGIN)
-//     }
-// }
-
-  const buttonVolunteer = () => {
-    return (
-      <>
-        <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
-          <Link href={responseProgram} passHref>
-            <Button variant="outlined">Daftar</Button>
-          </Link>
-          <Link href={responseProgram} passHref>
-            <Button variant="outlined">Lihat Detail</Button>
-          </Link>
-        </Stack>
-      </>
-    );
-  };
+  const handleKegiatan = (href) => {
+    if (stateLoaded && currentUser) {
+        router.push({ pathname: href, query: { ...router.query } })
+    } else {
+        dispatch({ type: dispatchTypes.LOGIN_NEEDED_RELAWAN })
+        router.push(enumRoutes.LOGIN)
+    }
+}
 
   const responseRandomProgram = null;
 
@@ -155,21 +140,16 @@ export default function Home(props) {
                     sx={{ p: 1 }}
                     mt={4}
                   >
-                    <Link
-                      href={`kegiatan/${responseRandomProgram.result.id}/registrasi`}
-                      passHref
-                    >
                       <Button
                         data-testid="daftar-sekarang-button-relawan-kegiatan"
                         variant="contained"
                         color="primary"
                         fullWidth
                         size="small"
-                        // onClick={() => handleKegiatan(`${enumRoutes.MEMBER_KEGIATAN}/${kegiatan_id}/registrasi`)}
+                        onClick={() => handleKegiatan(`${enumRoutes.MEMBER_KEGIATAN}/${randomProgram.result.id}/registrasi`)}
                       >
                         Daftar Sekarang
                       </Button>
-                    </Link>
                     <Link
                       href={`kegiatan/${responseRandomProgram.result.id}`}
                       passHref
