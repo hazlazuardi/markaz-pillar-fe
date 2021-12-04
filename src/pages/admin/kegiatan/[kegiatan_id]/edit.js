@@ -23,9 +23,6 @@ function AdminEditVolunteerKegiatan() {
         fetcher,
     );
 
-    console.log(responseKegiatan)
-    console.log(responseAllMarkaz)
-
     const [kegiatan, setKegiatan] = useState({
         markazId: ""
     });
