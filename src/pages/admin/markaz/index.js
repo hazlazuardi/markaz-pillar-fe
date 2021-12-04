@@ -22,9 +22,12 @@ export default function AdminMarkaz() {
     error,
     mutate,
   } = useSWR(
-    `/markaz/search?page=${page - 1}&n=${entries}&${!!locationFilter ? "address=" + locationFilter : ""
-    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${!!categoryFilter ? "category=" + categoryFilter : ""
-    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${!!categoryFilter3 ? "category=" + categoryFilter3 : ""
+    `/markaz/search?page=${page - 1}&n=${entries}&${
+      !!locationFilter ? "address=" + locationFilter : ""
+    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${
+      !!categoryFilter ? "category=" + categoryFilter : ""
+    }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${
+      !!categoryFilter3 ? "category=" + categoryFilter3 : ""
     }&${!!searchMarkaz && "name=" + searchMarkaz}
 `,
     fetcher
@@ -63,7 +66,7 @@ export default function AdminMarkaz() {
     return (
       <TableView
         data={responseMarkaz}
-        detail={enumRoutes.ADMIN_MARKAZ}
+        detail="markaz"
         handleDelete={handleDeleteMarkaz}
         santriormarkaz="markaz"
         titleTwo="Kategori"

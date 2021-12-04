@@ -13,6 +13,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import ListIcon from "@mui/icons-material/List";
 import Tooltip from "@mui/material/Tooltip";
 import Stack from "@mui/material/Stack";
+import { Typography } from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -182,17 +183,31 @@ function TableDataRow(props) {
 
   return (
     <StyledTableRow>
-      <StyledTableCell component="th" scope="row">
-        <Link data-testid="name-at-table-row" href={`${detail}/` + id}>
-          {nama}
-        </Link>
+      {!!detail ? (
+        <StyledTableCell component="th" scope="row">
+          <Typography color="primary">
+            <Link data-testid="name-at-table-row" href={`${detail}/` + id}>
+              {nama}
+            </Link>
+          </Typography>
+        </StyledTableCell>
+      ) : (
+        <StyledTableCell component="th" scope="row">
+          <Typography>{nama}</Typography>
+        </StyledTableCell>
+      )}
+      <StyledTableCell align="left">
+        <Typography>{markaz}</Typography>
       </StyledTableCell>
-      <StyledTableCell align="left">{markaz}</StyledTableCell>
-      <StyledTableCell align="left">{domisili}</StyledTableCell>
-      <StyledTableCell align="left">{kelamin}</StyledTableCell>
+      <StyledTableCell align="left">
+        <Typography>{domisili}</Typography>
+      </StyledTableCell>
+      <StyledTableCell align="left">
+        <Typography>{kelamin}</Typography>
+      </StyledTableCell>
       {!!tanggal && (
         <StyledTableCell id="tableCellFive" align="left">
-          {tanggal}
+          <Typography>{tanggal}</Typography>
         </StyledTableCell>
       )}
       {santriormarkaz === "santri" || santriormarkaz === "markaz" ? (
