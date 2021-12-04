@@ -146,7 +146,7 @@ export default function Home(props) {
                         color="primary"
                         fullWidth
                         size="small"
-                        onClick={() => handleKegiatan(`${enumRoutes.MEMBER_KEGIATAN}/${randomProgram.result.id}/registrasi`)}
+                        onClick={() => handleKegiatan(`${enumRoutes.MEMBER_KEGIATAN}/${responseRandomProgram.result.id}/registrasi`)}
                       >
                         Daftar Sekarang
                       </Button>
