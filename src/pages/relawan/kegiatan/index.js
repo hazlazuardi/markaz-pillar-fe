@@ -84,8 +84,6 @@ export default function Home(props) {
     }
 }
 
-  const responseRandomProgram = null;
-
   const matches = useMediaQuery("(max-width:600px)");
   const size = matches ? "small" : "medium";
 
