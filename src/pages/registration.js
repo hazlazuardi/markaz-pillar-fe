@@ -37,6 +37,38 @@ export default function Registration() {
 
     const registerUsingDefault = useCallback(async (data) => {
         return axiosMain.post("/register", data)
+        .then(response => {
+            setLoading(false)
+
+            const decodedJWT = jwtDecode(response.data.result.accessToken)
+            dispatch({
+                type: dispatchTypes.REGISTRATION_SUCCEED,
+                payload: {
+                    currentUser: decodedJWT.sub,
+                    currentUserRole: decodedJWT.role,
+                    currentAccessToken: response.data.result.accessToken,
+                    currentRefreshToken: response.data.result.refreshToken
+                }
+            });
+
+        })
+        .catch(e => {
+            setLoading(false)
+
+            setError(prev => ({
+                ...prev,
+                ...e.response.data.result
+            }))
+            if (e.response.data.result.message) {
+                dispatch({
+                    type: dispatchTypes.REGISTRATION_FAIL,
+                    payload: {
+                        message: "Alamat email sudah digunakan"
+                    }
+                })
+            }
+
+        })
     }, [])
 
     useEffect(() => {
