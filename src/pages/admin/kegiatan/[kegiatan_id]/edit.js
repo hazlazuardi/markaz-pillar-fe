@@ -29,7 +29,12 @@ function AdminEditVolunteerKegiatan() {
         volunteerNeeded: responseKegiatan ? responseKegiatan.volunteerNeeded : 0,
         location: responseKegiatan ? responseKegiatan.location : "",
         schedule: responseKegiatan ? responseKegiatan.schedule : "",
-        isActive: responseKegiatan ? responseKegiatan.isActive : null
+        isActive: responseKegiatan ? responseKegiatan.isActive : null,
+        programOpened: responseKegiatan? responseKegiatan.programOpened: "",
+        programClosed: responseKegiatan? responseKegiatan.programClosed: "",
+        programCompleted: responseKegiatan? responseKegiatan.programCompleted: null,
+        volunteerApplied: responseKegiatan? responseKegiatan.volunteerApplied: null,
+        testimonies: responseKegiatan? responseKegiatan.testimonies: [],
     });
 
     const editKegiatan = useCallback(async (data) => {

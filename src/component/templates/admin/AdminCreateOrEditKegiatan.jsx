@@ -8,13 +8,18 @@ import Dropzone from "../../modules/Dropzone";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useAppContext } from "../../../context/AppContext";
 import { dispatchTypes, enumRoutes } from "../../../context/AppReducer";
+import {FormControl} from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 function AdminCreateOrEditKegiatan(props) {
     const {
         variant,
         kegiatan,
         setKegiatan,
-        apiCall
+        apiCall,
+        allMarkaz
     } = props;
     const form = useRef(null);
     const { dispatch } = useAppContext();
@@ -116,8 +121,26 @@ function AdminCreateOrEditKegiatan(props) {
                                         fullWidth
                                         onChange={handleChangeKegiatan}
                                         value={kegiatan.status}
-                                        placeholder="Dibuka"
+                                        placeholder="Membuka pendaftaran"
                                     />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="kegiatan-label">Tempat Markaz</InputLabel>
+                                        <Select
+                                            labelId="kegiatan-label"
+                                            data-testid='kegiatan-markaz-at-AdminCreateOrEditKegiatan-module'
+                                            id="kegiatan-select"
+                                            name='markazId'
+                                            value={kegiatan.markazId}
+                                            label="Tempat Markaz"
+                                            onChange={handleChangeKegiatan}
+                                        >
+                                            {!!allMarkaz && allMarkaz.map(markaz => (
+                                                <MenuItem key={markaz.id} value={markaz.id}>{markaz.name}</MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
