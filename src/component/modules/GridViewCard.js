@@ -24,7 +24,14 @@ export default function GridViewCard(props) {
 
   const router = useRouter();
   const path = router.pathname;
+  const pathMember = path.split("/")
+  const removedEl = pathMember.shift()
+  const joinedPath = pathMember.join('/')
+  console.log(joinedPath)
+
+
   const isAdmin = currentUserRole === roleType.ROLE_SUPERUSER
+
 
   const isXXS = useMediaQuery("(max-width:400px)");
   const IMAGE_SIZE = 252;
@@ -33,7 +40,7 @@ export default function GridViewCard(props) {
 
   const handleDonasiCTA = () => {
     if (!!currentUser) {
-      router.push(`${path}/${fullResponseResult.id}/donasi/bayar`)
+      router.push(`${joinedPath}/${fullResponseResult.id}/donasi/bayar`)
     } else {
       dispatch({ type: dispatchTypes.UNAUTHORIZED_DONASI })
       router.push('/login')
@@ -44,8 +51,9 @@ export default function GridViewCard(props) {
     if (variant === 'relawan') {
       return;
     }
-    router.push(`${path}/${fullResponseResult.id}`)
+    router.push(`${joinedPath}/${fullResponseResult.id}`)
   }
+
 
   const CTAGroup = () => {
     if (CTAs) {
@@ -56,7 +64,7 @@ export default function GridViewCard(props) {
     if (isAdmin) {
       return (
         <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
-          <Link href={`${path}/${fullResponseResult.id}/edit`} passHref>
+          <Link href={`/admin/${joinedPath}/${fullResponseResult.id}/edit`} passHref>
             <Button
               data-testid='edit-button-at-gridview-card'
               variant="contained"
@@ -88,7 +96,7 @@ export default function GridViewCard(props) {
             >
               Donasi
             </Button>)}
-          <Link href={`${path}/${fullResponseResult.id}`} passHref>
+          <Link href={`${joinedPath}/${fullResponseResult.id}`} passHref>
             <Button
               data-testid="lihat-detail-button-at-gridview-card"
               variant="outlined"

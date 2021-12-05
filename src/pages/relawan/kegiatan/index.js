@@ -50,10 +50,11 @@ const useStyles = makeStyles((theme) => ({
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function Home(props) {
-  const { allKegiatanRandom, allKegiatanDefault } = props;
+  const { allKegiatanRandom, allKegiatanOpen, allKegiatanDone } = props
   const classes = useStyles();
   const theme = useTheme();
-  const [page, setPage] = useState(1);
+  const [page1, setPage1] = useState(1);
+  const [page2, setPage2] = useState(1);
 
   //   const { data: responseRandomProgram, error: error1 } = useSWR(
   //     `/volunteer/random
@@ -63,10 +64,15 @@ export default function Home(props) {
   //   );
 
   const { data: responseProgram, error: error2 } = useSWR(
-    `/volunteer?n=4&page=${page - 1}
+    `/volunteer?n=4&page=${page1 - 1}&status=MEMBUKA_PENDAFTARAN
 `,
-    fetcher,
-    { fallbackData: allKegiatanDefault, refreshInterval: 10000 }
+    fetcher, { fallbackData: allKegiatanOpen, refreshInterval: 10000 }
+  );
+
+  const { data: responseProgram2, error: error3 } = useSWR(
+    `/volunteer?n=4&page=${page2 - 1}&status=SUDAH_DILAKSANAKAN
+`,
+    fetcher, { fallbackData: allKegiatanDone, refreshInterval: 10000 }
   );
   
   const router = useRouter();
@@ -87,11 +93,16 @@ export default function Home(props) {
   const matches = useMediaQuery("(max-width:600px)");
   const size = matches ? "small" : "medium";
 
-  if (error2 && error1) {
+
+
+  if (error3 && error2 && error1) {
     return "an error has occured.";
   }
   if (!responseProgram) {
     return "loading..";
+  }
+  if (!responseProgram2) {
+    return "loading.."
   }
   if (!responseRandomProgram) {
     return "loading...";
@@ -99,7 +110,7 @@ export default function Home(props) {
 
   return (
     <>
-      {!!responseProgram && !!responseRandomProgram && (
+      {!!responseProgram && !!responseProgram2 &&!!responseRandomProgram && (
         <>
           <div className={classes.bg}>
             <div className={classes.pad1}>
@@ -170,21 +181,23 @@ export default function Home(props) {
           <Grid container mt={9}>
             <LandingGridView
               data-testid="landing-grid-view"
+              variant="kegiatan-landing"
               type={"open"}
               data={responseProgram}
               size={size}
-              page={page}
-              setPage={setPage}
-              variant="kegiatan"
+              page={page1}
+              setPage={setPage1}
+              variant='kegiatan'
             />
             <LandingGridView
               data-testid="landing-grid-view"
+              variant="kegiatan-landing"
               type={"close"}
-              data={responseProgram}
+              data={responseProgram2}
               size={size}
-              page={page}
-              setPage={setPage}
-              variant="kegiatan"
+              page={page2}
+              setPage={setPage2}
+              variant='kegiatan'
             />
           </Grid>
         </>
@@ -195,17 +208,19 @@ export default function Home(props) {
 
 export async function getStaticProps() {
   const staticKegiatanRandomResponse = await axiosMain.get(`/volunteer/random`);
-  const staticKegiatanRandom = await staticKegiatanRandomResponse.data;
+  const staticKegiatanRandom = await staticKegiatanRandomResponse.data
 
-  const staticKegiatanDefaultResponse = await axiosMain.get(
-    `/volunteer?n=1000`
-  );
-  const staticKegiatanDefault = await staticKegiatanDefaultResponse.data;
+  const staticKegiatanOpenResponse = await axiosMain.get(`/volunteer?n=1000&status=MEMBUKA_PENDAFTARAN`);
+  const staticKegiatanOpen = await staticKegiatanOpenResponse.data
+
+  const staticKegiatanDoneResponse = await axiosMain.get(`/volunteer?n=1000&status=SUDAH_DILAKSANAKAN`);
+  const staticKegiatanDone = await staticKegiatanDoneResponse.data
 
   return {
     props: {
       allKegiatanRandom: staticKegiatanRandom,
-      allKegiatanDefault: staticKegiatanDefault,
+      allKegiatanOpen: staticKegiatanOpen,
+      allKegiatanDone: staticKegiatanDone,
     },
     revalidate: 10,
   };
