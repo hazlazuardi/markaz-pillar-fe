@@ -40,9 +40,6 @@ export default function CustomizedTables(props) {
             {!!titleFive && (
               <StyledTableCell align="left">{titleFive}</StyledTableCell>
             )}
-            {santriormarkaz === "markaz" || santriormarkaz === "santri" ? (
-              <StyledTableCell align="left">Daftar Donasi</StyledTableCell>
-            ) : null}
             <StyledTableCell align="center">Action</StyledTableCell>
           </TableRow>
         </TableHead>

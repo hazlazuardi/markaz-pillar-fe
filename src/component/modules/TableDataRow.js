@@ -64,15 +64,26 @@ function TableDataRow(props) {
       return (
         <>
           {santriormarkaz !== "pengguna" ? (
-            <Tooltip title="Edit ">
-              <IconButton
-                onClick={() =>
-                  router.push(`/admin/${santriormarkaz}/${id}/edit`)
-                }
-              >
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
+            <>
+              <Tooltip title="Manage">
+                <IconButton
+                  onClick={() =>
+                    router.push(`/admin/${santriormarkaz}/${id}/donasi`)
+                  }
+                >
+                  <ListIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Edit ">
+                <IconButton
+                  onClick={() =>
+                    router.push(`/admin/${santriormarkaz}/${id}/edit`)
+                  }
+                >
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+            </>
           ) : null}
           <Tooltip title="Delete">
             <IconButton onClick={() => handleDelete(id)}>
@@ -214,16 +225,6 @@ function TableDataRow(props) {
           <Typography>{tanggal}</Typography>
         </StyledTableCell>
       )}
-      {santriormarkaz === "santri" || santriormarkaz === "markaz" ? (
-        <StyledTableCell align="left">
-          <Button
-            variant="outlined"
-            onClick={() => router.push(`/admin/${santriormarkaz}/${id}/donasi`)}
-          >
-            Lihat Daftar
-          </Button>
-        </StyledTableCell>
-      ) : null}
       <StyledTableCell align="center" width="auto">
         <Stack
           direction="row"
