@@ -8,7 +8,7 @@ import Dropzone from "../../modules/Dropzone";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useAppContext } from "../../../context/AppContext";
 import { dispatchTypes, enumRoutes } from "../../../context/AppReducer";
-import {FormControl} from "@mui/material";
+import { FormControl } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -82,13 +82,13 @@ function AdminCreateOrEditKegiatan(props) {
 
     const router = useRouter()
     const pathname = router.pathname;
-        return (
-            <>
+    return (
+        <>
             {
                 kegiatan.status === "SUDAH_DILAKSANAKAN" ? (
                     <div>
                         <Container>
-                            <form ref={form} onSubmit={handleSubmit} style={{marginTop: "5%"}}>
+                            <form ref={form} onSubmit={handleSubmit} style={{ marginTop: "5%" }}>
                                 <Grid
                                     container
                                     direction="column"
@@ -100,7 +100,7 @@ function AdminCreateOrEditKegiatan(props) {
                                         <Grid container spacing={2}>
                                             <Grid item xs={12}>
                                                 <Typography variant="h5"
-                                                            color="initial">{pathname.includes('create') ? 'Upload New Thumbnail' : 'Edit Thumbnail'}</Typography>
+                                                    color="initial">{pathname.includes('create') ? 'Upload New Thumbnail' : 'Edit Thumbnail'}</Typography>
                                             </Grid>
                                             <Grid item xs={12}>
                                                 <Dropzone
@@ -111,19 +111,19 @@ function AdminCreateOrEditKegiatan(props) {
                                                 />
                                             </Grid>
                                             {thumbnail.name &&
-                                            <Grid item xs={12}>
-                                                <Typography data-testid='dropzone-uploaded' id='dropzone-uploaded'
-                                                            variant="body1"
-                                                            color="initial">Uploaded: {thumbnail.name}</Typography>
-                                            </Grid>
+                                                <Grid item xs={12}>
+                                                    <Typography data-testid='dropzone-uploaded' id='dropzone-uploaded'
+                                                        variant="body1"
+                                                        color="initial">Uploaded: {thumbnail.name}</Typography>
+                                                </Grid>
                                             }
                                         </Grid>
                                     </Grid>
                                     <Grid item>
                                         <Grid container spacing={2}>
                                             <Grid item xs={12}>
-                                                <Typography sx={{textTransform: "capitalize"}} variant="h5"
-                                                            color="initial">{variant} Kegiatan</Typography>
+                                                <Typography sx={{ textTransform: "capitalize" }} variant="h5"
+                                                    color="initial">{variant} Kegiatan</Typography>
                                             </Grid>
                                             <Grid item xs={12}>
                                                 <TextField
@@ -153,23 +153,23 @@ function AdminCreateOrEditKegiatan(props) {
                                                         >
                                                             {!!allMarkaz && allMarkaz.map(markaz => (
                                                                 <MenuItem key={markaz.id}
-                                                                          value={markaz.id}>{markaz.name}</MenuItem>
+                                                                    value={markaz.id}>{markaz.name}</MenuItem>
                                                             ))}
                                                         </Select>
-                                                    :
+                                                        :
                                                         <Select
                                                             labelId="kegiatan-label"
                                                             data-testid='kegiatan-markaz-at-AdminCreateOrEditKegiatan-module'
                                                             id="kegiatan-select"
                                                             name='markazId'
-                                                            value={originalKegiatanResult.markaz.id}
+                                                            value={!!kegiatan || isCreate ? kegiatan.markazId : originalKegiatanResult.markaz.id}
                                                             label="Tempat Markaz"
                                                             disabled
                                                             onChange={handleChangeKegiatan}
                                                         >
                                                             {!!allMarkaz && allMarkaz.map(markaz => (
                                                                 <MenuItem key={markaz.id}
-                                                                          value={markaz.id}>{markaz.name}</MenuItem>
+                                                                    value={markaz.id}>{markaz.name}</MenuItem>
                                                             ))}
                                                         </Select>
                                                     }
@@ -242,7 +242,7 @@ function AdminCreateOrEditKegiatan(props) {
                 ) : (
                     <div>
                         <Container>
-                            <form ref={form} onSubmit={handleSubmit} style={{marginTop: "5%"}}>
+                            <form ref={form} onSubmit={handleSubmit} style={{ marginTop: "5%" }}>
                                 <Grid
                                     container
                                     direction="column"
@@ -254,7 +254,7 @@ function AdminCreateOrEditKegiatan(props) {
                                         <Grid container spacing={2}>
                                             <Grid item xs={12}>
                                                 <Typography variant="h5"
-                                                            color="initial">{pathname.includes('create') ? 'Upload New Thumbnail' : 'Edit Thumbnail'}</Typography>
+                                                    color="initial">{pathname.includes('create') ? 'Upload New Thumbnail' : 'Edit Thumbnail'}</Typography>
                                             </Grid>
                                             <Grid item xs={12}>
                                                 <Dropzone
@@ -265,19 +265,19 @@ function AdminCreateOrEditKegiatan(props) {
                                                 />
                                             </Grid>
                                             {thumbnail.name &&
-                                            <Grid item xs={12}>
-                                                <Typography data-testid='dropzone-uploaded' id='dropzone-uploaded'
-                                                            variant="body1"
-                                                            color="initial">Uploaded: {thumbnail.name}</Typography>
-                                            </Grid>
+                                                <Grid item xs={12}>
+                                                    <Typography data-testid='dropzone-uploaded' id='dropzone-uploaded'
+                                                        variant="body1"
+                                                        color="initial">Uploaded: {thumbnail.name}</Typography>
+                                                </Grid>
                                             }
                                         </Grid>
                                     </Grid>
                                     <Grid item>
                                         <Grid container spacing={2}>
                                             <Grid item xs={12}>
-                                                <Typography sx={{textTransform: "capitalize"}} variant="h5"
-                                                            color="initial">{variant} Kegiatan</Typography>
+                                                <Typography sx={{ textTransform: "capitalize" }} variant="h5"
+                                                    color="initial">{variant} Kegiatan</Typography>
                                             </Grid>
                                             <Grid item xs={12}>
                                                 <FormControl fullWidth>
@@ -287,7 +287,7 @@ function AdminCreateOrEditKegiatan(props) {
                                                         data-testid='kegiatan-status-at-AdminCreateOrEditKegiatan-module'
                                                         id="status-select"
                                                         name='status'
-                                                        value={!!kegiatan.status ? kegiatan.status : originalKegiatanResult.status}
+                                                        value={!!kegiatan.status || isCreate ? kegiatan.status : originalKegiatanResult.status}
                                                         label="Status"
                                                         onChange={handleChangeKegiatan}
                                                     >
@@ -314,7 +314,7 @@ function AdminCreateOrEditKegiatan(props) {
                                                     >
                                                         {!!allMarkaz && allMarkaz.map(markaz => (
                                                             <MenuItem key={markaz.id}
-                                                                      value={markaz.id}>{markaz.name}</MenuItem>
+                                                                value={markaz.id}>{markaz.name}</MenuItem>
                                                         ))}
                                                     </Select>
                                                 </FormControl>
@@ -444,7 +444,7 @@ function AdminCreateOrEditKegiatan(props) {
                     </div>
                 )
             }
-            </>
+        </>
     );
 }
 

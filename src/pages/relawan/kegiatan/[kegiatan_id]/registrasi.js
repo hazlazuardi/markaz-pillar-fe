@@ -14,6 +14,7 @@ import ArrowBack from '../../../../component/modules/ArrowBack';
 export default function RegisterVolunteer() {
     const { dispatch } = useAppContext();
     const router = useRouter();
+    const { kegiatan_id } = router.query
 
     const [volunteer, setVolunteer] = useState({
         name: "",
@@ -50,7 +51,7 @@ export default function RegisterVolunteer() {
         data.append("detail", detailBlob);
 
         await axiosFormData
-            .post(`volunteer/registration?program_id=${programId}`, data)
+            .post(`volunteer/registration?program_id=${kegiatan_id}`, data)
             .then(() => {
 
                 dispatch({
@@ -62,7 +63,7 @@ export default function RegisterVolunteer() {
                 })
 
                 // Redirection here
-                // router.replace(``)
+                router.push(`${enumRoutes.MEMBER_KEGIATAN}/${kegiatan_id}`)
             })
             .catch(error => {
                 // Check & Handle if error.response is defined
@@ -99,12 +100,6 @@ export default function RegisterVolunteer() {
                 }
             })
     }
-
-    useEffect(() => {
-        if (router.isReady) {
-            setProgramId(router.query.id)
-        }
-    }, [router.query.id, router.isReady])
 
     return (
         <div>

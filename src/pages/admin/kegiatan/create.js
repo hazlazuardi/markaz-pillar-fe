@@ -16,7 +16,8 @@ function AdminCreateVolunteerKegiatan() {
         volunteerNeeded: 0,
         location: "",
         schedule: "",
-        programCompleted: null,
+        programCompleted: "",
+        markazId: ""
     });
 
     const { data: responseAllMarkaz, error: errorResponseAllMarkaz }
