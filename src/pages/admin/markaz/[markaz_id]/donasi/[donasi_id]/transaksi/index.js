@@ -35,7 +35,6 @@ export default function TransaksiMarkaz() {
     <TableView
       data={transactions}
       santriormarkaz="transaksi"
-      detail={enumRoutes.ADMIN_MARKAZ}
       titleTwo="ID Transaksi"
       titleThree="Nominal Donasi"
       titleFour="Status"

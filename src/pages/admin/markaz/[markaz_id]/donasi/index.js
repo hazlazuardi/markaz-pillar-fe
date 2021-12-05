@@ -17,8 +17,9 @@ export default function DonasiMarkaz(props) {
   const [entries, setEntries] = useState(10);
   const { data: responseDonasiMarkaz, error } = useSWR(
     router.isReady
-      ? `/admin/donation/markaz?id=${markaz_id}&page=${page - 1}&n=${entries}&${!!searchDonasiMarkaz && "s=" + searchDonasiMarkaz
-      }`
+      ? `/admin/donation/markaz?id=${markaz_id}&page=${page - 1}&n=${entries}&${
+          !!searchDonasiMarkaz && "s=" + searchDonasiMarkaz
+        }`
       : null,
     fetcher
   );
@@ -27,15 +28,12 @@ export default function DonasiMarkaz(props) {
     <TableView
       data={responseDonasiMarkaz}
       santriormarkaz="donasi"
-      detail={enumRoutes.ADMIN_MARKAZ}
       titleTwo="ID Donasi"
       titleThree="Nominal Donasi"
       titleFour="Jumlah Donasi Terkumpul"
       titleFive="Status"
     />
   );
-
-
 
   if (error) return "An error has occurred.";
   return (

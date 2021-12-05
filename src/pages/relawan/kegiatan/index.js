@@ -47,28 +47,30 @@ const useStyles = makeStyles((theme) => ({
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function Home(props) {
-  const { allKegiatanRandom, allKegiatanDefault } = props
+  const { allKegiatanRandom, allKegiatanDefault } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [page, setPage] = useState(1);
 
-  const { data: responseRandomProgram, error: error1 } = useSWR(
-    `/volunteer/random
-`,
-    fetcher, { fallbackData: allKegiatanRandom, refreshInterval: 10000 }
-  );
+  //   const { data: responseRandomProgram, error: error1 } = useSWR(
+  //     `/volunteer/random
+  // `,
+  //     fetcher,
+  //     { fallbackData: allKegiatanRandom, refreshInterval: 10000 }
+  //   );
 
   const { data: responseProgram, error: error2 } = useSWR(
     `/volunteer?n=4&page=${page - 1}
 `,
-    fetcher, { fallbackData: allKegiatanDefault, refreshInterval: 10000 }
+    fetcher,
+    { fallbackData: allKegiatanDefault, refreshInterval: 10000 }
   );
 
   const buttonVolunteer = () => {
     return (
       <>
         <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
-          <Link href={responseProgram} passHref >
+          <Link href={responseProgram} passHref>
             <Button variant="outlined">Daftar</Button>
           </Link>
           <Link href={responseProgram} passHref>
@@ -79,21 +81,20 @@ export default function Home(props) {
     );
   };
 
+  const responseRandomProgram = null;
+
   const matches = useMediaQuery("(max-width:600px)");
   const size = matches ? "small" : "medium";
-
-
 
   if (error2 && error1) {
     return "an error has occured.";
   }
   if (!responseProgram) {
-    return "loading.."
+    return "loading..";
   }
   if (!responseRandomProgram) {
     return "loading...";
   }
-
 
   return (
     <>
@@ -126,7 +127,9 @@ export default function Home(props) {
                     {responseRandomProgram.result.name}
                   </Typography>
                   <br />
-                  <Typography>{responseRandomProgram.result.description}</Typography>
+                  <Typography>
+                    {responseRandomProgram.result.description}
+                  </Typography>
                   <Stack
                     direction="row"
                     width="100%"
@@ -175,7 +178,7 @@ export default function Home(props) {
               size={size}
               page={page}
               setPage={setPage}
-              variant='kegiatan'
+              variant="kegiatan"
             />
             <LandingGridView
               data-testid="landing-grid-view"
@@ -184,7 +187,7 @@ export default function Home(props) {
               size={size}
               page={page}
               setPage={setPage}
-              variant='kegiatan'
+              variant="kegiatan"
             />
           </Grid>
         </>
@@ -195,17 +198,18 @@ export default function Home(props) {
 
 export async function getStaticProps() {
   const staticKegiatanRandomResponse = await axiosMain.get(`/volunteer/random`);
-  const staticKegiatanRandom = await staticKegiatanRandomResponse.data
+  const staticKegiatanRandom = await staticKegiatanRandomResponse.data;
 
-  const staticKegiatanDefaultResponse = await axiosMain.get(`/volunteer?n=1000`);
-  const staticKegiatanDefault = await staticKegiatanDefaultResponse.data
-
+  const staticKegiatanDefaultResponse = await axiosMain.get(
+    `/volunteer?n=1000`
+  );
+  const staticKegiatanDefault = await staticKegiatanDefaultResponse.data;
 
   return {
     props: {
       allKegiatanRandom: staticKegiatanRandom,
-      allKegiatanDefault: staticKegiatanDefault
+      allKegiatanDefault: staticKegiatanDefault,
     },
-    revalidate: 10
-  }
+    revalidate: 10,
+  };
 }

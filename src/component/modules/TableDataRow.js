@@ -13,6 +13,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import ListIcon from "@mui/icons-material/List";
 import Tooltip from "@mui/material/Tooltip";
 import Stack from "@mui/material/Stack";
+import { Typography } from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -62,13 +63,17 @@ function TableDataRow(props) {
     ) {
       return (
         <>
-          <Tooltip title="Edit ">
-            <IconButton
-              onClick={() => router.push(`/admin/${santriormarkaz}/${id}/edit`)}
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
+          {santriormarkaz !== "pengguna" ? (
+            <Tooltip title="Edit ">
+              <IconButton
+                onClick={() =>
+                  router.push(`/admin/${santriormarkaz}/${id}/edit`)
+                }
+              >
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+          ) : null}
           <Tooltip title="Delete">
             <IconButton onClick={() => handleDelete(id)}>
               <DeleteIcon />
@@ -110,13 +115,6 @@ function TableDataRow(props) {
     } else if (santriormarkaz === "transaksi") {
       return (
         <>
-          <Dialog
-            mutate={mutate}
-            isStatus
-            dialogButtons={<MoreVertIcon />}
-            {...props}
-            tooltip={"Change Status"}
-          />
           <Tooltip title="Download File">
             <IconButton
               passHref
@@ -127,18 +125,18 @@ function TableDataRow(props) {
               <DownloadIcon />
             </IconButton>
           </Tooltip>
+          <Dialog
+            mutate={mutate}
+            isStatus
+            dialogButtons={<MoreVertIcon />}
+            {...props}
+            tooltip={"Change Status"}
+          />
         </>
       );
     } else if (santriormarkaz === "kegiatan") {
       return (
         <>
-          <Tooltip title="Edit">
-            <IconButton
-              onClick={() => router.push(`/admin/kegiatan/${id}/edit`)}
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
           <Tooltip title="Manage">
             <IconButton
               onClick={() => router.push(`/admin/kegiatan/${id}/relawan`)}
@@ -146,6 +144,14 @@ function TableDataRow(props) {
               <ListIcon />
             </IconButton>
           </Tooltip>
+          <Tooltip title="Edit">
+            <IconButton
+              onClick={() => router.push(`/admin/kegiatan/${id}/edit`)}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+
           <Dialog
             mutate={mutate}
             isStatus
@@ -181,17 +187,31 @@ function TableDataRow(props) {
 
   return (
     <StyledTableRow>
-      <StyledTableCell component="th" scope="row">
-        <Link data-testid="name-at-table-row" href={`${detail}/` + id}>
-          {nama}
-        </Link>
+      {!!detail ? (
+        <StyledTableCell component="th" scope="row">
+          <Typography color="primary">
+            <Link data-testid="name-at-table-row" href={`${detail}/` + id}>
+              {nama}
+            </Link>
+          </Typography>
+        </StyledTableCell>
+      ) : (
+        <StyledTableCell component="th" scope="row">
+          <Typography>{nama}</Typography>
+        </StyledTableCell>
+      )}
+      <StyledTableCell align="left">
+        <Typography>{markaz}</Typography>
       </StyledTableCell>
-      <StyledTableCell align="left">{markaz}</StyledTableCell>
-      <StyledTableCell align="left">{domisili}</StyledTableCell>
-      <StyledTableCell align="left">{kelamin}</StyledTableCell>
+      <StyledTableCell align="left">
+        <Typography>{domisili}</Typography>
+      </StyledTableCell>
+      <StyledTableCell align="left">
+        <Typography>{kelamin}</Typography>
+      </StyledTableCell>
       {!!tanggal && (
         <StyledTableCell id="tableCellFive" align="left">
-          {tanggal}
+          <Typography>{tanggal}</Typography>
         </StyledTableCell>
       )}
       {santriormarkaz === "santri" || santriormarkaz === "markaz" ? (

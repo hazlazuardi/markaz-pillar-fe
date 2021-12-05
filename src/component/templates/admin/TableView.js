@@ -39,7 +39,7 @@ export default function TableView(props) {
     } else if (santriormarkaz === "pengguna") {
       return field.username;
     } else if (santriormarkaz === "kegiatan") {
-      return "status";
+      return kegiatanStatusConverter(field.status);
     } else if (santriormarkaz === "volunteer") {
       return field.ktp;
     }
@@ -100,6 +100,16 @@ export default function TableView(props) {
       return "Pendaftaran Ditolak";
     } else if (status === "PENDAFTARAN_DITERIMA") {
       return "Pendaftaran Diterima";
+    }
+  }
+
+  function kegiatanStatusConverter(field) {
+    if (field === "MEMBUKA_PENDAFTARAN") {
+      return "Membuka Pendaftaran";
+    } else if (field === "MENUTUP_PENDAFTARAN") {
+      return "Menutup Pendaftaran";
+    } else if (field === "SUDAH_DILAKSANAKAN") {
+      return "Sudah Dilaksanakan";
     }
   }
 
