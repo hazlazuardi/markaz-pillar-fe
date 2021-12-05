@@ -37,10 +37,6 @@ export default function DetailKegiatan(props) {
   });
   const [convertedData, setConvertedData] = useState();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a7c162f (fix: fixed snackbar for login needed daftar relawan)
   useEffect(() => {
     if (!!responseDetailKegiatan) {
       const dataResult = responseDetailKegiatan.result;
@@ -77,17 +73,6 @@ export default function DetailKegiatan(props) {
       });
     } else {
       mutate();
-<<<<<<< HEAD
-=======
-    const DaftarKegiatanCTA = () => {
-        return (
-            <>
-                <Button variant='contained' onClick={() => handleKegiatan(`${enumRoutes.MEMBER_KEGIATAN}/${kegiatan_id}/registrasi`)}>Daftar Sekarang</Button>
-            </>
-        )
->>>>>>> 0b93058 (feat: handle if login needed for daftar kegiatan)
-=======
->>>>>>> a7c162f (fix: fixed snackbar for login needed daftar relawan)
     }
   }, [mutate, responseDetailKegiatan]);
 
