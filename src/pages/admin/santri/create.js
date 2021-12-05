@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { enumRoutes } from "../../../context/AppReducer";
 import AdminCreateOrEditSantri from "../../../component/templates/admin/AdminCreateOrEditSantri";
-import { axiosMain, axiosFormData } from "../../../axiosInstances";
+import { axiosMainAuth, axiosFormData } from "../../../axiosInstances";
 import ArrowBack from "../../../component/modules/ArrowBack";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => axiosMainAuth.get(url).then((res) => res.data);
 
 export default function AdminSantriCreate() {
     const router = useRouter();

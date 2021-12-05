@@ -127,34 +127,34 @@ export const enumProtectedRoutes = [
 ]
 
 export const enumAuthenticatedRoutes = [
-  enumRoutes.PROFILE,
+    enumRoutes.PROFILE,
 
 ]
 
 // Initialize variables
 export const initialFunction = initial => {
-  let {
-      currentUser,
-      currentUserRole,
-      currentExpirationDate,
-      currentAccessToken,
-      currentRefreshToken,
-      snackbarStatus,
-      snackbarSeverity,
-      snackbarMessage,
-      stateLoaded
-  } = initial;
-  return {
-      currentUser,
-      currentUserRole,
-      currentExpirationDate,
-      currentAccessToken,
-      currentRefreshToken,
-      snackbarStatus,
-      snackbarSeverity,
-      snackbarMessage,
-      stateLoaded
-  }
+    let {
+        currentUser,
+        currentUserRole,
+        currentExpirationDate,
+        currentAccessToken,
+        currentRefreshToken,
+        snackbarStatus,
+        snackbarSeverity,
+        snackbarMessage,
+        stateLoaded
+    } = initial;
+    return {
+        currentUser,
+        currentUserRole,
+        currentExpirationDate,
+        currentAccessToken,
+        currentRefreshToken,
+        snackbarStatus,
+        snackbarSeverity,
+        snackbarMessage,
+        stateLoaded
+    }
 }
 
 // Initialize the initial state
@@ -191,11 +191,11 @@ export const AppReducer = (state, action) => {
             }
         }
         case dispatchTypes.SESSION_EXPIRED: {
-            cookies.remove("currentAccessToken")
-            cookies.remove("currentRefreshToken")
-            cookies.remove('currentUser');
-            cookies.remove('currentUserRole');
-            cookies.remove('currentExpirationDate');
+            cookies.remove("currentAccessToken", {path: "/"})
+            cookies.remove("currentRefreshToken", {path: "/"})
+            cookies.remove('currentUser', {path: "/"});
+            cookies.remove('currentUserRole', {path: "/"});
+            cookies.remove('currentExpirationDate', {path: "/"});
             return {
                 ...state,
                 currentUser: "",
@@ -275,11 +275,11 @@ export const AppReducer = (state, action) => {
             }
         }
         case dispatchTypes.LOGOUT: {
-            cookies.remove("currentAccessToken")
-            cookies.remove("currentRefreshToken")
-            cookies.remove('currentUser');
-            cookies.remove('currentUserRole');
-            cookies.remove('currentExpirationDate');
+            cookies.remove("currentAccessToken", {path: "/"})
+            cookies.remove("currentRefreshToken", {path: "/"})
+            cookies.remove('currentUser', {path: "/"});
+            cookies.remove('currentUserRole', {path: "/"});
+            cookies.remove('currentExpirationDate', {path: "/"});
             return {
                 ...state,
                 currentUser: "",

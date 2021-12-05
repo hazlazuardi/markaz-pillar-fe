@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { axiosMain } from "../../../axiosInstances";
+import { axiosMainAuth } from "../../../axiosInstances";
 import useSWR from "swr";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
 import GridView from "../../../component/templates/admin/GridView";
 import TableView from "../../../component/templates/admin/TableView";
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => axiosMainAuth.get(url).then((res) => res.data);
 
 export default function AdminKegiatan() {
   const [page, setPage] = useState(1);
@@ -31,7 +31,7 @@ export default function AdminKegiatan() {
   // Delete
   // *******************************************************
   const handleDeleteMarkaz = async (id) => {
-    await axiosMain
+    await axiosMainAuth
       .delete(`/admin/volunteer?id=${id}`)
       .then((response) => {
         mutate();
@@ -39,7 +39,7 @@ export default function AdminKegiatan() {
   };
 
   const changeStatus = async (ids, status) => {
-    return axiosMain.post(`/admin/volunteer/edit/status?id=${ids}`, {
+    return axiosMainAuth.post(`/admin/volunteer/edit/status?id=${ids}`, {
       status: `${status}`,
     });
   };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DetailView from '../../../../component/templates/DetailView'
-import { axiosMain } from '../../../../axiosInstances';
+import { axiosMainAuth } from '../../../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../../component/modules/ArrowBack";
@@ -10,7 +10,7 @@ import Add from "@mui/icons-material/Add";
 import { DonutLarge } from "@mui/icons-material";
 import { Typography } from '@mui/material'
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => axiosMainAuth.get(url).then((res) => res.data);
 export default function AdminMarkazDetail(props) {
   const router = useRouter();
   const { markaz_id } = router.query
@@ -20,11 +20,11 @@ export default function AdminMarkazDetail(props) {
   );
 
   const deleteProgress = async (id) => {
-    return axiosMain.delete(`/admin/donation/progress?id=${id}`);
+    return axiosMainAuth.delete(`/admin/donation/progress?id=${id}`);
   };
 
   const deleteMarkaz = async (id) => {
-    return axiosMain.delete(`/admin/markaz?id=${id}`)
+    return axiosMainAuth.delete(`/admin/markaz?id=${id}`)
   }
 
   const [convertedData, setConvertedData] = useState()

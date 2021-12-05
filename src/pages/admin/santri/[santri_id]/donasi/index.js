@@ -1,12 +1,12 @@
 import { useState } from "react";
 import TableView from "../../../../../component/templates/admin/TableView";
-import { axiosMain } from "../../../../../axiosInstances";
+import { axiosMainAuth } from "../../../../../axiosInstances";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import AdminOrUserTemplate from "../../../../../component/templates/admin/AdminOrUserTemplate";
 import ArrowBack from "../../../../../component/modules/ArrowBack";
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => axiosMainAuth.get(url).then((res) => res.data);
 
 export default function DonasiSantri() {
   const router = useRouter();

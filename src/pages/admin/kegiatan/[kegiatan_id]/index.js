@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DetailView from "../../../../component/templates/DetailView";
-import { axiosMain } from '../../../../axiosInstances';
+import { axiosMainAuth } from '../../../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../../component/modules/ArrowBack";
@@ -12,7 +12,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { useAppContext } from '../../../../context/AppContext';
 import { dispatchTypes, enumRoutes } from '../../../../context/AppReducer';
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = url => axiosMainAuth.get(url).then(res => res.data)
 export default function DetailKegiatan() {
     const router = useRouter();
 
@@ -21,7 +21,7 @@ export default function DetailKegiatan() {
 
 
     const deleteKegiatan = async (id) => {
-        return axiosMain.delete(`/admin/volunteer?id=${id}`)
+        return axiosMainAuth.delete(`/admin/volunteer?id=${id}`)
     }
 
     const handleRelawan = (href) => {
@@ -85,7 +85,7 @@ export default function DetailKegiatan() {
     }
 
     const deleteTestimoni = async (id) => {
-        return axiosMain.delete(`/admin/volunteer/testimony?id=${id}`)
+        return axiosMainAuth.delete(`/admin/volunteer/testimony?id=${id}`)
     }
 
     const AdminDetailKegiatanActions = [

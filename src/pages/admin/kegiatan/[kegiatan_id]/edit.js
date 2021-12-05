@@ -1,11 +1,11 @@
 import { useState, useCallback, useEffect } from "react";
-import { axiosFormData, axiosMain } from "../../../../axiosInstances";
+import { axiosFormData, axiosMainAuth } from "../../../../axiosInstances";
 import { useRouter } from 'next/router';
 import AdminCreateOrEditKegiatan from "../../../../component/templates/admin/AdminCreateOrEditKegiatan";
 import useSWR from "swr";
 import ArrowBack from "../../../../component/modules/ArrowBack";
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = url => axiosMainAuth.get(url).then(res => res.data)
 
 function AdminEditVolunteerKegiatan() {
     const router = useRouter();

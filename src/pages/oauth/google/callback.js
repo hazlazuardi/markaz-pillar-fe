@@ -17,13 +17,13 @@ const Callback = () => {
                 code: router.query.code
             }).then(response => {
                 if (response.data.result.token == null) {
-                    cookies.remove('fullName')
-                    cookies.remove('email')
-                    cookies.set('fullName', `${response.data.result.credential.name}`)
-                    cookies.set('email', `${response.data.result.credential.email}`)
+                    cookies.remove('fullName', {path: "/"})
+                    cookies.remove('email', {path: "/"})
+                    cookies.set('fullName', `${response.data.result.credential.name}`, {path: "/"})
+                    cookies.set('email', `${response.data.result.credential.email}`, {path: "/"})
                     router.replace("/googleRegister")
                 } else {
-                    cookies.remove('state')
+                    cookies.remove('state', {path: "/"})
                     const decodedJWT = jwtDecode(response.data.result.token.accessToken)
                     dispatch({
                         type: dispatchTypes.LOGIN_SUCCEED,

@@ -1,13 +1,13 @@
 import { useState, useRef } from "react";
 import { useAppContext } from "../../../../../../context/AppContext";
 import { dispatchTypes } from "../../../../../../context/AppReducer";
-import { axiosFormData, axiosMain } from "../../../../../../axiosInstances";
+import { axiosFormData, axiosMainAuth } from "../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
 import AdminCreateOrEditTestimoni from "../../../../../../component/templates/admin/AdminCreateOrEditTestimoni";
 import useSWR from "swr";
 import ArrowBack from "../../../../../../component/modules/ArrowBack";
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = url => axiosMainAuth.get(url).then(res => res.data)
 
 function AdminEditVolunteerTestimoni() {
     const router = useRouter();

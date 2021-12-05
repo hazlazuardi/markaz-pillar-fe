@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DetailView from '../../../../component/templates/DetailView'
-import { axiosMain } from '../../../../axiosInstances';
+import { axiosMainAuth } from '../../../../axiosInstances';
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import ArrowBack from "../../../../component/modules/ArrowBack";
@@ -10,7 +10,7 @@ import Add from "@mui/icons-material/Add";
 import { DonutLarge } from "@mui/icons-material";
 import { enumRoutes } from "../../../../context/AppReducer";
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = url => axiosMainAuth.get(url).then(res => res.data)
 export default function AdminDetailSantri(props) {
   const router = useRouter();
   const { santri_id } = router.query

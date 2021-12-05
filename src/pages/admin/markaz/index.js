@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { axiosMain } from "../../../axiosInstances";
+import { axiosMainAuth } from "../../../axiosInstances";
 import useSWR from "swr";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
 import GridView from "../../../component/templates/admin/GridView";
 import TableView from "../../../component/templates/admin/TableView";
 import { enumRoutes } from "../../../context/AppReducer";
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => axiosMainAuth.get(url).then((res) => res.data);
 
 export default function AdminMarkaz() {
   const [page, setPage] = useState(1);
@@ -41,7 +41,7 @@ export default function AdminMarkaz() {
   // Delete
   // *******************************************************
   const handleDeleteMarkaz = async (id) => {
-    await axiosMain
+    await axiosMainAuth
       .delete(`/admin/markaz?id=${id}`)
       .then((response) => {
         mutate();

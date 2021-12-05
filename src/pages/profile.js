@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react'
 import useSWR from 'swr'
-import { axiosMain } from '../axiosInstances';
+import { axiosMainAuth } from '../axiosInstances';
 import { useRouter } from "next/router";
 import { useAppContext } from "../context/AppContext";
 import { dispatchTypes } from '../context/AppReducer';
@@ -22,7 +22,7 @@ import FilterComponent from "../component/modules/FilterComponent";
 import ActivityCard from "../component/modules/ActivityCard";
 
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => axiosMainAuth.get(url).then((res) => res.data);
 export default function Profile() {
 
     const { state, dispatch } = useAppContext();

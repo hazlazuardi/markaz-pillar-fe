@@ -29,6 +29,15 @@ before(function fetchUser() {
 // but set the user before visiting the page
 // so the app thinks it is already authenticated
 beforeEach(function setUser() {
+  Cypress.Cookies.debug(true)
+  cy.setCookie("currentUser", JSON.stringify(currentUser), {path: "/"})
+  cy.setCookie("currentUserRole", JSON.stringify(currentUserRole), {path: "/"})
+  cy.setCookie("currentAccessToken", JSON.stringify(currentAccessToken), {path: "/"})
+  cy.setCookie("currentRefreshToken", JSON.stringify(currentRefreshToken), {path: "/"})
+  Cypress.Cookies.preserveOnce("currentUser", JSON.stringify(currentUser), {path: "/"})
+  Cypress.Cookies.preserveOnce("currentUserRole", JSON.stringify(currentUserRole), {path: "/"})
+  Cypress.Cookies.preserveOnce("currentAccessToken", JSON.stringify(currentAccessToken), {path: "/"})
+  Cypress.Cookies.preserveOnce("currentRefreshToken", JSON.stringify(currentRefreshToken), {path: "/"})
   cy.visit('/', {
     onBeforeLoad(win) {
       // and before the page finishes loading

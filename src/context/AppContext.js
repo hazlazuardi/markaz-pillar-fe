@@ -30,10 +30,10 @@ export function AppWrapper({ children }) {
 
             if (res.status === 200) {
               // 1) put token to LocalStorage
-              cookies.remove("currentAccessToken")
-              cookies.remove("currentRefreshToken")
-              cookies.set("currentAccessToken", res.data.result.accessToken);
-              cookies.set("currentRefreshToken", res.data.result.refreshToken);
+              cookies.remove("currentAccessToken", {path: "/"})
+              cookies.remove("currentRefreshToken", {path: "/"})
+              cookies.set("currentAccessToken", res.data.result.accessToken, {path: "/"});
+              cookies.set("currentRefreshToken", res.data.result.refreshToken, {path: "/"});
               // 2) Change Authorization header
 
               axiosFormData.defaults.headers.common['Authorization'] = 'Bearer ' + cookies.get("currentAccessToken");
@@ -109,11 +109,11 @@ export function AppWrapper({ children }) {
   useEffect(() => {
     // If there's an update in the state, update the localStorage
     if (state !== initialState) {
-      cookies.set('currentUser', `${state.currentUser}`);
-      cookies.set('currentUserRole', `${state.currentUserRole}`);
-      cookies.set('currentExpirationDate', `${state.currentExpirationDate}`);
-      cookies.set("currentAccessToken", `${state.currentAccessToken}`);
-      cookies.set("currentRefreshToken", `${state.currentRefreshToken}`);
+      cookies.set('currentUser', `${state.currentUser}`, {path: "/"});
+      cookies.set('currentUserRole', `${state.currentUserRole}`, {path: "/"});
+      cookies.set('currentExpirationDate', `${state.currentExpirationDate}`, {path: "/"});
+      cookies.set("currentAccessToken", `${state.currentAccessToken}`, {path: "/"});
+      cookies.set("currentRefreshToken", `${state.currentRefreshToken}`, {path: "/"});
       axiosMain.defaults.headers.common["Authorization"] = `Bearer ${state.currentAccessToken}`
       axiosFormData.defaults.headers.common["Authorization"] = `Bearer ${state.currentAccessToken}`
       axiosMain.interceptors.response.use((response) => {

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import DonationForm from '../../../../component/templates/form/DonationForm'
 import { useRouter } from 'next/router'
-import { axiosFormData, axiosMain } from "../../../../axiosInstances";
+import { axiosFormData, axiosMainAuth } from "../../../../axiosInstances";
 import { enumRoutes } from "../../../../context/AppReducer";
 import useSWR from "swr";
 import ArrowBack from '../../../../component/modules/ArrowBack';
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = url => axiosMainAuth.get(url).then(res => res.data)
 
 export default function DonasiSantri(props) {
     const { detailSantri } = props
@@ -57,7 +57,7 @@ export default function DonasiSantri(props) {
 
 export async function getStaticProps(context) {
     const id = context.params.santri_id;
-    const staticDetailSantriResponse = await axiosMain.get(`/santri?id=${id}`)
+    const staticDetailSantriResponse = await axiosMainAuth.get(`/santri?id=${id}`)
     const staticDetailSantri = staticDetailSantriResponse.data
     return {
         props: {
@@ -68,7 +68,7 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-    const staticAllSantriResponse = await axiosMain.get(`/santri/search?n=1000`)
+    const staticAllSantriResponse = await axiosMainAuth.get(`/santri/search?n=1000`)
     const staticAllSantri = await staticAllSantriResponse.data
 
     const paths = await staticAllSantri.result.map((santri) => ({

@@ -1,12 +1,12 @@
 import { useState, useRef } from "react";
 import { useAppContext } from "../../../../../../../../context/AppContext";
 import { dispatchTypes } from "../../../../../../../../context/AppReducer";
-import { axiosFormData, axiosMain } from "../../../../../../../../axiosInstances";
+import { axiosFormData, axiosMainAuth } from "../../../../../../../../axiosInstances";
 import { useRouter } from 'next/router';
 import AdminCreateOrEditProgres from '../../../../../../../../component/templates/admin/AdminCreateOrEditProgres'
 import useSWR from "swr";
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = url => axiosMainAuth.get(url).then(res => res.data)
 
 function AdminEditMarkazProgresDonasi(props) {
     const router = useRouter();

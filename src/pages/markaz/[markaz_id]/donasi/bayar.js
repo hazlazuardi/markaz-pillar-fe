@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import DonationForm from '../../../../component/templates/form/DonationForm'
 import { useRouter } from 'next/router'
-import { axiosFormData, axiosMain } from "../../../../axiosInstances";
+import { axiosFormData, axiosMainAuth } from "../../../../axiosInstances";
 import { useAppContext } from "../../../../context/AppContext";
 import { dispatchTypes, enumRoutes } from "../../../../context/AppReducer";
 import useSWR from "swr";
 import ArrowBack from '../../../../component/modules/ArrowBack';
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = url => axiosMainAuth.get(url).then(res => res.data)
 
 export default function DonasiMarkaz(props) {
     const { detailMarkaz } = props
@@ -57,7 +57,7 @@ export default function DonasiMarkaz(props) {
 
 export async function getStaticProps(context) {
     const id = context.params.markaz_id;
-    const staticDetailMarkazResponse = await axiosMain.get(`/markaz?id=${id}`)
+    const staticDetailMarkazResponse = await axiosMainAuth.get(`/markaz?id=${id}`)
     const staticDetailMarkaz = staticDetailMarkazResponse.data
     return {
         props: {
@@ -68,7 +68,7 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-    const staticAllMarkazResponse = await axiosMain.get(`/markaz/search?n=1000`)
+    const staticAllMarkazResponse = await axiosMainAuth.get(`/markaz/search?n=1000`)
     const staticAllMarkaz = await staticAllMarkazResponse.data
 
     const paths = await staticAllMarkaz.result.map((markaz) => ({

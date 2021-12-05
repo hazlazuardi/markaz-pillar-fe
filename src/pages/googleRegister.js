@@ -45,7 +45,7 @@ export default function GoogleRegister() {
         return axiosMain.post(`oauth/create?state=${cookies.get("state")}`, data)
         .then(response => {
             setLoading(false)
-            cookies.remove('state')
+            cookies.remove('state', {path: "/"})
             const decodedJWT = jwtDecode(response.data.result.accessToken)
             dispatch({
                 type: dispatchTypes.REGISTRATION_SUCCEED,
