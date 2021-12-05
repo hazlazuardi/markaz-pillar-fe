@@ -125,7 +125,6 @@ export default function DetailKegiatan(props) {
       </>
     );
   }
-
   return (
     <>
       <ArrowBack href={enumRoutes.MEMBER_KEGIATAN} />
