@@ -27,8 +27,6 @@ export default function GridViewCard(props) {
   const pathMember = path.split("/")
   const removedEl = pathMember.shift()
   const joinedPath = pathMember.join('/')
-  console.log(joinedPath)
-
 
   const isAdmin = currentUserRole === roleType.ROLE_SUPERUSER
 

@@ -56,12 +56,12 @@ export default function Home(props) {
   const [page1, setPage1] = useState(1);
   const [page2, setPage2] = useState(1);
 
-  //   const { data: responseRandomProgram, error: error1 } = useSWR(
-  //     `/volunteer/random
-  // `,
-  //     fetcher,
-  //     { fallbackData: allKegiatanRandom, refreshInterval: 10000 }
-  //   );
+    const { data: responseRandomProgram, error: error1 } = useSWR(
+      `/volunteer/random
+  `,
+      fetcher,
+      { fallbackData: allKegiatanRandom, refreshInterval: 10000 }
+    );
 
   const { data: responseProgram, error: error2 } = useSWR(
     `/volunteer?n=4&page=${page1 - 1}&status=MEMBUKA_PENDAFTARAN
@@ -187,7 +187,6 @@ export default function Home(props) {
               size={size}
               page={page1}
               setPage={setPage1}
-              variant='kegiatan'
             />
             <LandingGridView
               data-testid="landing-grid-view"
@@ -197,7 +196,6 @@ export default function Home(props) {
               size={size}
               page={page2}
               setPage={setPage2}
-              variant='kegiatan'
             />
           </Grid>
         </>
