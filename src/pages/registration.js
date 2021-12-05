@@ -38,7 +38,6 @@ export default function Registration() {
     const registerUsingDefault = useCallback(async (data) => {
         return axiosMain.post("/register", data)
         .then(response => {
-            setLoading(false)
 
             const decodedJWT = jwtDecode(response.data.result.accessToken)
             dispatch({
@@ -53,7 +52,6 @@ export default function Registration() {
 
         })
         .catch(e => {
-            setLoading(false)
 
             setError(prev => ({
                 ...prev,
