@@ -36,11 +36,6 @@ export default function AdminKegiatan() {
       .then((response) => {
         mutate();
       })
-      .catch((e) => {
-        if (e.response.data.status === 401) {
-          localStorage.clear();
-        }
-      });
   };
 
   const changeStatus = async (ids, status) => {

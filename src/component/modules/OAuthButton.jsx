@@ -11,11 +11,11 @@ export default function OAuthButton(props) {
     const router = useRouter();
 
     const handleOAuth = async (event) => {
-        cookies.remove('state')
+        cookies.remove('state', {path: "/"})
         await axiosMain
             .post("/oauth/state")
             .then(response => {
-                cookies.set('state', response.data.result.state);
+                cookies.set('state', response.data.result.state, {path: "/"});
                 router.replace(`https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?redirect_uri=${frontendURL}oauth/google/callback&prompt=consent&response_type=code&client_id=620820262877-85f9anugmu77f59ibtu3qfbf2nmat00j.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%20openid&access_type=offline&flowName=GeneralOAuthFlow&state=${response.data.result.state}`)
             })
     }

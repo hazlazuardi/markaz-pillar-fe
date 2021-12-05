@@ -30,6 +30,15 @@ before(function fetchUser() {
 // but set the user before visiting the page
 // so the app thinks it is already authenticated
 beforeEach(function setUser() {
+  Cypress.Cookies.debug(true)
+  cy.setCookie("currentUser", JSON.stringify(currentUser))
+  cy.setCookie("currentUserRole", JSON.stringify(currentUserRole))
+  cy.setCookie("currentAccessToken", JSON.stringify(currentAccessToken))
+  cy.setCookie("currentRefreshToken", JSON.stringify(currentRefreshToken))
+  Cypress.Cookies.preserveOnce("currentUser", JSON.stringify(currentUser))
+  Cypress.Cookies.preserveOnce("currentUserRole", JSON.stringify(currentUserRole))
+  Cypress.Cookies.preserveOnce("currentAccessToken", JSON.stringify(currentAccessToken))
+  Cypress.Cookies.preserveOnce("currentRefreshToken", JSON.stringify(currentRefreshToken))
   cy.visit('/', {
     onBeforeLoad(win) {
       // and before the page finishes loading
@@ -79,7 +88,7 @@ describe(`Test functionality of inputs when edit new santri`, () => {
     cy.get('[data-testid=santri-name-at-AdminCreateOrEditSantri-module]').type(';').clear().type(testSantri)
     cy.get('[data-testid=santri-background-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('test-santri-background')
     cy.get('[data-testid=santri-gender-at-AdminCreateOrEditSantri-module]').click().get('li').contains('Perempuan').click()
-    cy.get('[data-testid=santri-markaz-at-AdminCreateOrEditSantri-module]').click().get('li').contains('test-markaz2').click()
+    cy.get('[data-testid=santri-markaz-at-AdminCreateOrEditSantri-module]').click().get('li').contains('test-markaz').click()
     cy.get('[data-testid=santri-address-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('0811122343')
     cy.get('[data-testid=santri-birthPlace-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('test-santri-birthPlace')
     cy.get('[data-testid=santri-birthDate-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('2021-12-12')

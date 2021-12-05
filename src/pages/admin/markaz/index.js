@@ -46,11 +46,6 @@ export default function AdminMarkaz() {
       .then((response) => {
         mutate();
       })
-      .catch((e) => {
-        if (e.response.data.status === 401) {
-          localStorage.clear();
-        }
-      });
   };
 
   const GridViewAdminMarkaz = () => {

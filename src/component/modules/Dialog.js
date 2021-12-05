@@ -59,11 +59,6 @@ function SimpleDialog(props) {
       .then((res) => {
         mutate();
       })
-      .catch((e) => {
-        if (e.response.data.status === 401) {
-          localStorage.clear();
-        }
-      });
     onClose(true);
   };
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { axiosMain } from "../../../../axiosInstances";
 import useSWR from "swr";
 import AdminOrUserTemplate from "../../../../component/templates/admin/AdminOrUserTemplate";

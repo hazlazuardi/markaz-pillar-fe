@@ -1,3 +1,7 @@
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies()
+
 // Enums for dispatch types
 export const dispatchTypes = {
   LOGOUT: "logout",
@@ -123,34 +127,34 @@ export const enumProtectedRoutes = [
 ]
 
 export const enumAuthenticatedRoutes = [
-  enumRoutes.PROFILE,
+    enumRoutes.PROFILE,
 
 ]
 
 // Initialize variables
 export const initialFunction = initial => {
-  let {
-      currentUser,
-      currentUserRole,
-      currentExpirationDate,
-      currentAccessToken,
-      currentRefreshToken,
-      snackbarStatus,
-      snackbarSeverity,
-      snackbarMessage,
-      stateLoaded
-  } = initial;
-  return {
-      currentUser,
-      currentUserRole,
-      currentExpirationDate,
-      currentAccessToken,
-      currentRefreshToken,
-      snackbarStatus,
-      snackbarSeverity,
-      snackbarMessage,
-      stateLoaded
-  }
+    let {
+        currentUser,
+        currentUserRole,
+        currentExpirationDate,
+        currentAccessToken,
+        currentRefreshToken,
+        snackbarStatus,
+        snackbarSeverity,
+        snackbarMessage,
+        stateLoaded
+    } = initial;
+    return {
+        currentUser,
+        currentUserRole,
+        currentExpirationDate,
+        currentAccessToken,
+        currentRefreshToken,
+        snackbarStatus,
+        snackbarSeverity,
+        snackbarMessage,
+        stateLoaded
+    }
 }
 
 // Initialize the initial state
@@ -169,161 +173,160 @@ export const initialState = {
 
 export const AppReducer = (state, action) => {
 
-  switch (action.type) {
-      case dispatchTypes.UNAUTHORIZED_DONASI: {
-          return {
-              ...state,
-              snackbarStatus: true,
-              snackbarSeverity: 'secondary',
-              snackbarMessage: "Harap login sebelum berdonasi"
-          }
-      }
-      case dispatchTypes.UNAUTHORIZED_ADMIN: {
-          return {
-              ...state,
-              snackbarStatus: true,
-              snackbarSeverity: 'error',
-              snackbarMessage: "Maaf, anda tidak memiliki akses ke halaman ini"
-          }
-      }
-      case dispatchTypes.SESSION_EXPIRED: {
-          localStorage.clear()
-          return {
-              ...state,
-              currentUser: "",
-              currentUserRole: "",
-              currentExpirationDate: 3600, // 1 hour
-              currentAccessToken: "",
-              currentRefreshToken: "",
-              snackbarStatus: true,
-              snackbarSeverity: 'error',
-              snackbarMessage: `Sesi anda berakhir, harap login kembali.`
-          }
-      }
-      case dispatchTypes.LOGIN_NEEDED_RELAWAN: {
-        return {
-          ...state,
-          snackbarStatus: true,
-          snackbarSeverity: "secondary",
-          snackbarMessage: "Harap login sebelum mendaftar",
-        };
-      }
-  
-      case dispatchTypes.LOGIN_SUCCEED: {
-          return {
-              ...state,
-              currentUser: action.payload.currentUser,
-              currentUserRole: action.payload.currentUserRole,
-              currentExpirationDate: action.payload.currentExpirationDate,
-              currentAccessToken: action.payload.currentAccessToken,
-              currentRefreshToken: action.payload.currentRefreshToken,
-              snackbarStatus: true,
-              snackbarSeverity: 'success',
-              snackbarMessage: `Welcome back, ${action.payload.currentUser.split('@')[0]}`
-          }
-      }
-      case dispatchTypes.LOGIN_FAIL: {
-          return {
-              ...state,
-              snackbarStatus: true,
-              snackbarSeverity: 'error',
-              snackbarMessage: `Alamat email atau password salah`
-          }
-      }
-      case dispatchTypes.REGISTRATION_SUCCEED: {
-          return {
-              ...state,
-              currentUser: action.payload.currentUser,
-              currentUserRole: action.payload.currentUserRole,
-              currentExpirationDate: action.payload.currentExpirationDate,
-              currentAccessToken: action.payload.currentAccessToken,
-              currentRefreshToken: action.payload.currentRefreshToken,
-              snackbarStatus: true,
-              snackbarSeverity: 'success',
-              snackbarMessage: `Welcome, ${action.payload.currentUser}`
-          }
-      }
+    switch (action.type) {
+        case dispatchTypes.UNAUTHORIZED_DONASI: {
+            return {
+                ...state,
+                snackbarStatus: true,
+                snackbarSeverity: 'secondary',
+                snackbarMessage: "Harap login sebelum berdonasi"
+            }
+        }
+        case dispatchTypes.UNAUTHORIZED_ADMIN: {
+            return {
+                ...state,
+                snackbarStatus: true,
+                snackbarSeverity: 'error',
+                snackbarMessage: "Maaf, anda tidak memiliki akses ke halaman ini"
+            }
+        }
+        case dispatchTypes.SESSION_EXPIRED: {
+            cookies.remove("currentAccessToken", {path: "/"})
+            cookies.remove("currentRefreshToken", {path: "/"})
+            cookies.remove('currentUser', {path: "/"});
+            cookies.remove('currentUserRole', {path: "/"});
+            cookies.remove('currentExpirationDate', {path: "/"});
+            return {
+                ...state,
+                currentUser: "",
+                currentUserRole: "",
+                currentExpirationDate: 3600, // 1 hour
+                currentAccessToken: "",
+                currentRefreshToken: "",
+                snackbarStatus: true,
+                snackbarSeverity: 'error',
+                snackbarMessage: `Sesi anda berakhir, harap login kembali.`
+            }
+        }
+        case dispatchTypes.LOGIN_SUCCEED: {
+            return {
+                ...state,
+                currentUser: action.payload.currentUser,
+                currentUserRole: action.payload.currentUserRole,
+                currentExpirationDate: action.payload.currentExpirationDate,
+                currentAccessToken: action.payload.currentAccessToken,
+                currentRefreshToken: action.payload.currentRefreshToken,
+                snackbarStatus: true,
+                snackbarSeverity: 'success',
+                snackbarMessage: `Welcome back, ${action.payload.currentUser.split('@')[0]}`
+            }
+        }
+        case dispatchTypes.LOGIN_FAIL: {
+            return {
+                ...state,
+                snackbarStatus: true,
+                snackbarSeverity: 'error',
+                snackbarMessage: `Alamat email atau password salah`
+            }
+        }
+        case dispatchTypes.REGISTRATION_SUCCEED: {
+            return {
+                ...state,
+                currentUser: action.payload.currentUser,
+                currentUserRole: action.payload.currentUserRole,
+                currentExpirationDate: action.payload.currentExpirationDate,
+                currentAccessToken: action.payload.currentAccessToken,
+                currentRefreshToken: action.payload.currentRefreshToken,
+                snackbarStatus: true,
+                snackbarSeverity: 'success',
+                snackbarMessage: `Welcome, ${action.payload.currentUser}`
+            }
+        }
 
-      case dispatchTypes.REGISTRATION_FAIL: {
-          return {
-              ...state,
-              currentUser: "",
-              currentUserRole: "",
-              currentExpirationDate: 3600,
-              currentAccessToken: "",
-              currentRefreshToken: "",
-              snackbarStatus: true,
-              snackbarSeverity: 'error',
-              snackbarMessage: action.payload.message
-          }
-      }
-      case dispatchTypes.AUTHENTICATED: {
-          return {
-              ...state,
-              currentUser: action.payload.currentUser,
-              currentUserRole: action.payload.currentUserRole,
-              currentExpirationDate: action.payload.currentExpirationDate,
-              currentAccessToken: action.payload.currentAccessToken,
-              currentRefreshToken: action.payload.currentRefreshToken,
-              snackbarStatus: false,
-              snackbarMessage: ``
-          }
-      }
-      case dispatchTypes.SNACKBAR_CLOSE: {
-          return {
-              ...state,
-              snackbarStatus: false
-          }
-      }
-      case dispatchTypes.LOGOUT: {
-          localStorage.clear()
-          return {
-              ...state,
-              currentUser: "",
-              currentUserRole: "",
-              currentAccessToken: "",
-              currentRefreshToken: "",
-              snackbarStatus: true,
-              snackbarSeverity: 'secondary',
-              snackbarMessage: `Good bye`
-          }
-      }
-      case dispatchTypes.SNACKBAR_CUSTOM: {
-          return {
-              ...state,
-              snackbarStatus: true,
-              snackbarSeverity: action.payload.severity || 'secondary',
-              snackbarMessage: action.payload.message
-          }
-      }
-      // To make sure state is loaded & updated from localStorage
-      case dispatchTypes.STATE_LOADED: {
-          return {
-              ...state,
-              stateLoaded: true
-          }
-      }
-      case dispatchTypes.SERVER_ERROR: {
-          return {
-              ...state,
-              snackbarStatus: true,
-              snackbarSeverity: 'error',
-              snackbarMessage: "Sorry, Server Error"
-          }
-      }
+        case dispatchTypes.REGISTRATION_FAIL: {
+            return {
+                ...state,
+                currentUser: "",
+                currentUserRole: "",
+                currentExpirationDate: 3600,
+                currentAccessToken: "",
+                currentRefreshToken: "",
+                snackbarStatus: true,
+                snackbarSeverity: 'error',
+                snackbarMessage: action.payload.message
+            }
+        }
+        case dispatchTypes.AUTHENTICATED: {
+            return {
+                ...state,
+                currentUser: action.payload.currentUser,
+                currentUserRole: action.payload.currentUserRole,
+                currentExpirationDate: action.payload.currentExpirationDate,
+                currentAccessToken: action.payload.currentAccessToken,
+                currentRefreshToken: action.payload.currentRefreshToken,
+                snackbarStatus: false,
+                snackbarMessage: ``
+            }
+        }
+        case dispatchTypes.SNACKBAR_CLOSE: {
+            return {
+                ...state,
+                snackbarStatus: false
+            }
+        }
+        case dispatchTypes.LOGOUT: {
+            cookies.remove("currentAccessToken", {path: "/"})
+            cookies.remove("currentRefreshToken", {path: "/"})
+            cookies.remove('currentUser', {path: "/"});
+            cookies.remove('currentUserRole', {path: "/"});
+            cookies.remove('currentExpirationDate', {path: "/"});
+            return {
+                ...state,
+                currentUser: "",
+                currentUserRole: "",
+                currentAccessToken: "",
+                currentRefreshToken: "",
+                snackbarStatus: true,
+                snackbarSeverity: 'secondary',
+                snackbarMessage: `Good bye`
+            }
+        }
+        case dispatchTypes.SNACKBAR_CUSTOM: {
+            return {
+                ...state,
+                snackbarStatus: true,
+                snackbarSeverity: action.payload.severity || 'secondary',
+                snackbarMessage: action.payload.message
+            }
+        }
+        // To make sure state is loaded & updated from localStorage
+        case dispatchTypes.STATE_LOADED: {
+            return {
+                ...state,
+                stateLoaded: true
+            }
+        }
+        case dispatchTypes.SERVER_ERROR: {
+            return {
+                ...state,
+                snackbarStatus: true,
+                snackbarSeverity: 'error',
+                snackbarMessage: "Sorry, Server Error"
+            }
+        }
 
-      case dispatchTypes.DELETE_SUCCEED: {
-          return {
-              ...state,
-              snackbarStatus: true,
-              snackbarSeverity: 'success',
-              snackbarMessage: `Berhasil Dihapus`
-          }
-      }
+        case dispatchTypes.DELETE_SUCCEED: {
+            return {
+                ...state,
+                snackbarStatus: true,
+                snackbarSeverity: 'success',
+                snackbarMessage: `Berhasil Dihapus`
+            }
+        }
 
-      default:
-          return {
-              ...state
-          }
-  }
+        default:
+            return {
+                ...state
+            }
+    }
 }
