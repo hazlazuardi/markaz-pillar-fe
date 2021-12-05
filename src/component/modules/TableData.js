@@ -19,14 +19,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 export default function CustomizedTables(props) {
-  const {
-    children,
-    titleTwo,
-    titleThree,
-    titleFour,
-    titleFive,
-    santriormarkaz,
-  } = props;
+  const { children, titleTwo, titleThree, titleFour, titleFive } = props;
 
   return (
     <TableContainer component={Paper}>
