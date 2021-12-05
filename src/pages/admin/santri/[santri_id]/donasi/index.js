@@ -16,8 +16,9 @@ export default function DonasiSantri() {
   const [entries, setEntries] = useState(10);
   const { data: responseDonasiSantri, error } = useSWR(
     router.isReady
-      ? `/admin/donation/santri?id=${santri_id}&page=${page - 1}&n=${entries}&${!!searchDonasiSantri && "s=" + searchDonasiSantri
-      }`
+      ? `/admin/donation/santri?id=${santri_id}&page=${page - 1}&n=${entries}&${
+          !!searchDonasiSantri && "s=" + searchDonasiSantri
+        }`
       : null,
     fetcher
   );
@@ -26,7 +27,6 @@ export default function DonasiSantri() {
     <TableView
       data={responseDonasiSantri}
       santriormarkaz="donasi"
-      detail="admin/santri"
       titleTwo="ID Donasi"
       titleThree="Nominal Donasi"
       titleFour="Jumlah Donasi Terkumpul"

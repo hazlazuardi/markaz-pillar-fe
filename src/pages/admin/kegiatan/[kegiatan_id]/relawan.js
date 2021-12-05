@@ -22,9 +22,11 @@ export default function AdminRelawan(props) {
     mutate,
   } = useSWR(
     router.isReady
-      ? `/admin/volunteer/registration?page=${page - 1
-      }&n=${entries}&id=${kegiatan_id}&name=${searchVolunteer}${!!statusFilter ? "&status=" + statusFilter : ""
-      }
+      ? `/admin/volunteer/registration?page=${
+          page - 1
+        }&n=${entries}&id=${kegiatan_id}&name=${searchVolunteer}${
+          !!statusFilter ? "&status=" + statusFilter : ""
+        }
 `
       : null,
     fetcher
@@ -43,14 +45,14 @@ export default function AdminRelawan(props) {
   };
 
   const GridViewAdminVolunteerDetail = () => {
-    return <GridView data={responseVolunteer} variant='relawan' />;
+    return <GridView data={responseVolunteer} variant="relawan" />;
   };
 
   const TableViewAdminVolunteerDetail = () => {
     return (
       <TableView
         data={responseVolunteer}
-        detail="admin/kegiatan"
+        // detail="admin/kegiatan"
         santriormarkaz="volunteer"
         titleTwo="Nomor KTP"
         titleThree="Email"

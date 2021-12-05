@@ -15,9 +15,8 @@ const status_list = [
   "DONASI_DITERIMA",
   "PENDAFTARAN_DITOLAK",
   "PENDAFTARAN_DITERIMA",
-  "KEGIATAN_DIBUKA",
-  "KEGIATAN_DITUTUP",
-  "KEGIATAN_SELESAI",
+  "MEMBUKA_PENDAFTARAN",
+  "MENUTUP_PENDAFTARAN",
 ];
 
 const transaksi_status_list = [
@@ -32,13 +31,9 @@ const volunteer_status_list = [
   "PENDAFTARAN_DITERIMA",
 ];
 
-const kegiatan_status_list = [
-  "KEGIATAN_DIBUKA",
-  "KEGIATAN_DITUTUP",
-  "KEGIATAN_SELESAI",
-];
+const kegiatan_status_list = ["MEMBUKA_PENDAFTARAN", "MENUTUP_PENDAFTARAN"];
 
-const download_list = ["cvURL", "essayURL", "pictureURL"];
+// const download_list = ["cvURL", "essayURL", "pictureURL"];
 
 function SimpleDialog(props) {
   const {
@@ -92,12 +87,10 @@ function SimpleDialog(props) {
   }
 
   function kegiatanStatusConverter(field) {
-    if (field === "KEGIATAN_DIBUKA") {
-      return "Kegiatan Dibuka";
-    } else if (field === "KEGIATAN_DITUTUP") {
-      return "Kegiatan Ditutup";
-    } else if (field === "KEGIATAN_SELESAI") {
-      return "Kegiatan Selesai";
+    if (field === "MEMBUKA_PENDAFTARAN") {
+      return "Membuka Pendaftaran";
+    } else if (field === "MENUTUP_PENDAFTARAN") {
+      return "Menutup Pendaftaran";
     }
   }
 
@@ -136,22 +129,42 @@ function SimpleDialog(props) {
               <ListItemText primary={kegiatanStatusConverter(statusL)} />
             </ListItem>
           ))}
+          <Link href={`kegiatan/${id}/edit`} color="inherit" underline="none">
+            <ListItem button>
+              <ListItemText primary="Sudah Dilaksanakan" />
+            </ListItem>
+          </Link>
         </List>
       );
     } else if (dialogType === "statusVolunteer" && isDownloadVolunteer) {
       return (
         <List sx={{ pt: 0 }}>
-          <Link href={userdata.cvURL} target="_blank" underline="none">
+          <Link
+            href={userdata.cvURL}
+            target="_blank"
+            color="inherit"
+            underline="none"
+          >
             <ListItem button>
               <ListItemText primary="CV" />
             </ListItem>
           </Link>
-          <Link href={userdata.essayURL} target="_blank" underline="none">
+          <Link
+            href={userdata.essayURL}
+            target="_blank"
+            color="inherit"
+            underline="none"
+          >
             <ListItem button>
               <ListItemText primary="Essay" />
             </ListItem>
           </Link>
-          <Link href={userdata.pictureURL} target="_blank" underline="none">
+          <Link
+            href={userdata.pictureURL}
+            target="_blank"
+            color="inherit"
+            underline="none"
+          >
             <ListItem button>
               <ListItemText primary="Picture" />
             </ListItem>

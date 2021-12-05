@@ -19,17 +19,18 @@ const Callback = () => {
                 if (response.data.result.token == null) {
                     cookies.remove('fullName')
                     cookies.remove('email')
-                    cookies.remove('state')
                     cookies.set('fullName', `${response.data.result.credential.name}`)
                     cookies.set('email', `${response.data.result.credential.email}`)
                     router.replace("/googleRegister")
                 } else {
+                    cookies.remove('state')
                     const decodedJWT = jwtDecode(response.data.result.token.accessToken)
                     dispatch({
-                        type: dispatchTypes.REGISTRATION_SUCCEED,
+                        type: dispatchTypes.LOGIN_SUCCEED,
                         payload: {
                             currentUser: decodedJWT.sub,
                             currentUserRole: decodedJWT.role,
+                            currentExpirationDate: decodedJWT.exp,
                             currentAccessToken: response.data.result.token.accessToken,
                             currentRefreshToken: response.data.result.token.refreshToken
                         }

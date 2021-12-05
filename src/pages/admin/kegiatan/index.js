@@ -38,6 +38,12 @@ export default function AdminKegiatan() {
       })
   };
 
+  const changeStatus = async (ids, status) => {
+    return axiosMain.post(`/admin/volunteer/edit/status?id=${ids}`, {
+      status: `${status}`,
+    });
+  };
+
   const GridViewAdminVolunteer = () => {
     return (
       <GridView
@@ -53,7 +59,7 @@ export default function AdminKegiatan() {
     return (
       <TableView
         data={responseProgram}
-        detail="admin/kegiatan"
+        detail="kegiatan"
         handleDelete={handleDeleteMarkaz}
         santriormarkaz="kegiatan"
         titleTwo="Status"
@@ -61,6 +67,8 @@ export default function AdminKegiatan() {
         titleFour="Volunteer Saat Ini"
         titleFive="Lokasi"
         dialogType="statusKegiatan"
+        mutate={mutate}
+        apiCall={changeStatus}
       />
     );
   };

@@ -1,9 +1,14 @@
 import { Button } from '@mui/material'
 import React from 'react'
+import Cookies from 'universal-cookie';
+import { axiosMain } from '../../axiosInstances';
+import { useRouter } from 'next/router'
 
 
-export default function OAuthButton() {
-    const frontendURL = 'https://localhost:3000/';
+export default function OAuthButton(props) {
+    const frontendURL = 'http://localhost:3000/';
+    const cookies = new Cookies();
+    const router = useRouter();
 
     const handleOAuth = async (event) => {
         cookies.remove('state')
@@ -22,7 +27,7 @@ export default function OAuthButton() {
                 sx={{ mt: 3, mb: 2 }}
                 onClick={handleOAuth}
             >
-                Daftar dengan Google
+                {props.text}
             </Button>
 
         </>

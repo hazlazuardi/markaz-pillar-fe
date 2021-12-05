@@ -6,9 +6,6 @@ import React, { useState } from 'react'
 import Copyright from './Copyright'
 import Link from 'next/link'
 import OAuthButton from './OAuthButton'
-import { useAppContext } from '../../context/AppContext'
-import { dispatchTypes } from '../../context/AppReducer'
-import jwtDecode from 'jwt-decode'
 
 export default function RegistrationForm(props) {
     const {
@@ -17,9 +14,10 @@ export default function RegistrationForm(props) {
         data,
         setData,
         error,
-        setError } = props
-
-    const { dispatch } = useAppContext();
+        setError,
+        loading,
+        setLoading
+    } = props
 
     const handleChange = ({ target }) => {
         const { name, value } = target;
@@ -33,43 +31,10 @@ export default function RegistrationForm(props) {
         })))
     };
 
-    const [loading, setLoading] = useState(false)
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true)
         await apiCall(data)
-            .then(response => {
-                setLoading(false)
-
-                const decodedJWT = jwtDecode(response.data.result.accessToken)
-                dispatch({
-                    type: dispatchTypes.REGISTRATION_SUCCEED,
-                    payload: {
-                        currentUser: decodedJWT.sub,
-                        currentUserRole: decodedJWT.role,
-                        currentAccessToken: response.data.result.accessToken,
-                        currentRefreshToken: response.data.result.refreshToken
-                    }
-                });
-
-            })
-            .catch(e => {
-                setLoading(false)
-
-                setError(prev => ({
-                    ...prev,
-                    ...e.response.data.result
-                }))
-                if (e.response.data.result.message) {
-                    dispatch({
-                        type: dispatchTypes.REGISTRATION_FAIL,
-                        payload: {
-                            message: "Alamat email sudah digunakan"
-                        }
-                    })
-                }
-
-            })
     }
 
     const [show, setShow] = useState(false)
@@ -88,15 +53,26 @@ export default function RegistrationForm(props) {
                     justifyContent: 'center',
                 }}
             >
-                <Typography component="h1" variant="h5">
-                    Daftarkan diri anda
-                </Typography>
-                {/* OAuth */}
-                <OAuthButton />
-                <Divider orientation="horizontal" flexItem>
-                    atau
-                </Divider>
-                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                {variant !== 'oauth' && (
+                    <>
+                        <Typography component="h1" variant="h5">
+                            Daftarkan diri anda
+                        </Typography>
+                        <OAuthButton text={"Daftar dengan Google"} />
+                        <Divider orientation="horizontal" flexItem>
+                            atau
+                        </Divider>
+                    </>
+                )}
+
+                {variant == 'oauth' && (
+                    <>
+                        <Typography component="h1" variant="h5">
+                            Lengkapi Data Diri Anda
+                        </Typography>
+                    </>
+                )}
+                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1}}>
                     {variant !== 'oauth' && (
                         <TextField
                             margin="normal"

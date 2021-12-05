@@ -94,13 +94,14 @@ export default function AdminSantri(props) {
     return (
       <TableView
         data={responseSantri}
-        detail="admin/santri"
+        detail="santri"
         handleDelete={handleDeleteSantri}
         santriormarkaz="santri"
         titleTwo="Tempat Markaz"
         titleThree="Domisili"
         titleFour="Jenis Kelamin"
         titleFive="Tanggal Lahir"
+        mutate={mutate}
       />
     );
   };
