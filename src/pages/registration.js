@@ -9,11 +9,13 @@ import Grid from '@mui/material/Grid';
 import { axiosMain } from '../axiosInstances';
 import Image from 'next/image'
 import RegistrationForm from '../component/modules/RegistrationForm';
+import { dispatchTypes } from '../context/AppReducer';
+import jwtDecode from 'jwt-decode';
 
 export default function Registration() {
     const router = useRouter();
 
-    const { state } = useAppContext();
+    const { state, dispatch } = useAppContext();
     const { currentUser } = state;
 
     const [data, setData] = useState({
@@ -34,11 +36,12 @@ export default function Registration() {
         address: ""
     })
 
+    const [loading, setLoading] = useState(false)
 
     const registerUsingDefault = useCallback(async (data) => {
         return axiosMain.post("/register", data)
         .then(response => {
-
+            setLoading(false)
             const decodedJWT = jwtDecode(response.data.result.accessToken)
             dispatch({
                 type: dispatchTypes.REGISTRATION_SUCCEED,
@@ -52,20 +55,13 @@ export default function Registration() {
 
         })
         .catch(e => {
-
-            setError(prev => ({
-                ...prev,
-                ...e.response.data.result
-            }))
-            if (e.response.data.result.message) {
-                dispatch({
-                    type: dispatchTypes.REGISTRATION_FAIL,
-                    payload: {
-                        message: "Alamat email sudah digunakan"
-                    }
-                })
-            }
-
+            setLoading(false)
+            dispatch({
+                type: dispatchTypes.REGISTRATION_FAIL,
+                payload: {
+                    message: "Alamat email sudah digunakan"
+                }
+            })
         })
     }, [])
 
@@ -99,6 +95,8 @@ export default function Registration() {
                         setData={setData}
                         error={error}
                         setError={setError}
+                        loading={loading}
+                        setLoading={setLoading}
                     />
                 </Grid>
             </Grid>

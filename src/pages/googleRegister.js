@@ -39,10 +39,12 @@ export default function GoogleRegister() {
         password: "",
     })
 
+    const [loading, setLoading] = useState(false)
 
     const registerUsingOAuth = useCallback(async (data) => {
         return axiosMain.post(`oauth/create?state=${cookies.get("state")}`, data)
         .then(response => {
+            setLoading(false)
             cookies.remove('state')
             const decodedJWT = jwtDecode(response.data.result.accessToken)
             dispatch({
@@ -56,7 +58,7 @@ export default function GoogleRegister() {
             });
             router.replace("/")
         }).catch(e => {
-            console.log(e)
+            setLoading(false)
             dispatch({
                 type: dispatchTypes.REGISTRATION_FAIL,
                 payload: {
@@ -90,6 +92,8 @@ export default function GoogleRegister() {
                         error={error}
                         setError={setError}
                         apiCall={registerUsingOAuth}
+                        loading={loading}
+                        setLoading={setLoading}
                     />
                 </Grid>
             </Grid>

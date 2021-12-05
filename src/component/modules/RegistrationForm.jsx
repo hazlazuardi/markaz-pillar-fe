@@ -14,7 +14,10 @@ export default function RegistrationForm(props) {
         data,
         setData,
         error,
-        setError } = props
+        setError,
+        loading,
+        setLoading
+    } = props
 
     const handleChange = ({ target }) => {
         const { name, value } = target;
@@ -28,7 +31,6 @@ export default function RegistrationForm(props) {
         })))
     };
 
-    const [loading, setLoading] = useState(false)
     const handleSubmit = async (event) => {
         event.preventDefault();
         setLoading(true)
@@ -188,7 +190,7 @@ export default function RegistrationForm(props) {
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
-                        // disabled={data.password.length < 8 || loading}
+                        disabled={data.password.length < 8 || loading}
                     >
                         Daftar
                     </Button>
