@@ -1,15 +1,17 @@
 import axios from "axios";
+import Cookies from 'universal-cookie';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_HOST;
 
 axios.defaults.baseURL = BASE_URL;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-
+const cookies = new Cookies()
 export const axiosMain = axios.create({
     baseURL: BASE_URL,
     headers: {
         'Content-Type': 'application/json',
         'Accept': "application/json, text/plain, */*",
+        'Authorization' : `Bearer ${cookies.get("currentAccessToken")}`
     }
 })
 

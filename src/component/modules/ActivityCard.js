@@ -6,7 +6,6 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Image from 'next/image'
 import Link from "next/link";
-import { DeleteOutlined } from '@mui/icons-material';
 
 export default function ActivityCard(props) {
 
@@ -14,7 +13,14 @@ export default function ActivityCard(props) {
     const theme = useTheme();
     const smallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const {type, name, date, secInfo, targetId, recipientType} = props
+    const {type, name, date, secInfo, targetId, recipientType, status} = props
+
+    const capitalizeFirstLetter = (s => {
+        return s.toLowerCase().replace( /\b./g, function(a){ return a.toUpperCase(); } );
+    });
+
+    const temp = status.split("_");
+    const processedStatus = `${capitalizeFirstLetter(temp[0])} ${temp[1].toLowerCase()}`
 
     // Difference in detail info
     const header1 = type == "Volunteer" ? "Volunteer" : "Donasi"
@@ -24,7 +30,6 @@ export default function ActivityCard(props) {
 
     return (
         <>
-        {pageType === "profile"? (
         <Grid item lg={6} xs={12}>
             <Paper>
                 <Grid container p={1} sx={{display:"flex", flexDirection: smallScreen ? "column" : "row"}}>
@@ -65,61 +70,7 @@ export default function ActivityCard(props) {
                                     
                                     <Grid item sm={4} xs={12} p={1} sx={{alignSelf:"flex-end"}}>
                                         <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", textAlign:"right"}}>
-                                            <Link href={`/${recipientType}/` + targetId} passHref>{`Lihat ${(recipientType)}`}</Link>
-                                            <DeleteOutlined />
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
-               </Paper>
-            </Grid>
-            ):(
-            <Grid item lg={12} xs={12} m={3}>
-                <Paper>
-                    <Grid container p={1} sx={{display:"flex", flexDirection: smallScreen ? "column" : "row"}}>
-                        {/* thumbnail */}
-                    <Grid item sm={2} xs={12} sx={{display:"flex", justifyContent:"center", alignItems:"center"}}>
-                        <Image alt='thumbnail' src='https://source.unsplash.com/random' width={500} height={500}/>
-                    </Grid>
-                    <Grid item sm={10} xs={12}>
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <Grid container sx={{display:"flex", justifyContent:"center", alignItems:"center"}}>
-                                    <Grid item sm={4} xs={12} p={1}>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>Nama</Typography>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>{("Kowalski Mosby")}</Typography>
-                                    </Grid>
-
-                                    <Grid item sm={3} xs={12} p={1}>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>No. KTP</Typography>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}> 31740102030405</Typography>
-                                    </Grid>
-
-                                    <Grid item sm={5} xs={12} p={1}>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>Email</Typography>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>kmosby@gmail.com</Typography>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Grid container sx={{display:"flex", justifyContent:"center", alignItems:"center"}}>
-                                    <Grid item sm={4} xs={12} p={1}>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>No. Telp</Typography>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>0858585850123</Typography>
-                                    </Grid>
-                                    
-                                    <Grid item sm={4} xs={12} p={1}>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", fontWeight:"bold"}}>Alamat</Typography>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem"}}>Jl. Ninja</Typography>
-                                    </Grid>
-                                    
-                                    <Grid item sm={4} xs={12} p={1} sx={{alignSelf:"flex-end"}}>
-                                        <Typography sx={{fontSize: smallScreen ? "1.1rem" : "0.75rem", textAlign:"right"}}>
-                                            <Link href={`/${recipientType}/` + targetId} passHref>{`Lihat Daftar Kegiatan`}</Link>
-                                            <DeleteOutlined/>
+                                            <Link href={recipientType == "VOLUNTEER" ? `/relawan/kegiatan/` : `/${recipientType.toLowerCase()}/` + targetId} passHref>{`Lihat ${capitalizeFirstLetter(recipientType)}`}</Link>
                                         </Typography>
                                     </Grid>
                                 </Grid>
@@ -129,7 +80,6 @@ export default function ActivityCard(props) {
                 </Grid>
             </Paper>
         </Grid>
-        )}
         </>
     )
 }

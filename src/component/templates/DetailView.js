@@ -55,11 +55,6 @@ export default function DetailView(props) {
         })
         router.push(`/admin/${variant}`)
       })
-      .catch((e) => {
-        if (e.response.data.status === 401) {
-          localStorage.clear();
-        }
-      });
   };
 
   const actions = speedDialActions

@@ -3,6 +3,7 @@ import { createContext, useContext, useMemo, useReducer, useEffect, useCallback 
 import { AppReducer, initialState, initialFunction, dispatchTypes, roleType } from "./AppReducer";
 import { axiosFormData, axiosMain } from "../axiosInstances";
 import axios from "axios";
+import Cookies from 'universal-cookie';
 
 import Error from 'next/error'
 
@@ -10,7 +11,7 @@ const AppContext = createContext();
 
 export function AppWrapper({ children }) {
   const [state, dispatch] = useReducer(AppReducer, initialState, initialFunction);
-
+  const cookies = useMemo(() => new Cookies(), []);
   const contextValue = useMemo(() => {
     return { state, dispatch };
   }, [state, dispatch]);
@@ -19,21 +20,24 @@ export function AppWrapper({ children }) {
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      if (JSON.parse(localStorage.getItem('currentRefreshToken')) != "") {
+      if (cookies.get('currentRefreshToken') != "") {
         return axios.post('/authenticate/refresh', {
-          refreshToken: JSON.parse(localStorage.getItem('currentRefreshToken')),
-          accessToken: JSON.parse(localStorage.getItem('currentAccessToken'))
+          accessToken: JSON.parse(JSON.stringify(cookies.get("currentAccessToken"))),
+          refreshToken: JSON.parse(JSON.stringify(cookies.get("currentRefreshToken")))
         })
           .then(res => {
+            console.log(res)
 
             if (res.status === 200) {
               // 1) put token to LocalStorage
-              localStorage.setItem("currentAccessToken", res.data.accessToken);
-              localStorage.setItem("currentRefreshToken", res.data.refreshToken);
+              cookies.remove("currentAccessToken")
+              cookies.remove("currentRefreshToken")
+              cookies.set("currentAccessToken", res.data.result.accessToken);
+              cookies.set("currentRefreshToken", res.data.result.refreshToken);
               // 2) Change Authorization header
 
-              axiosFormData.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('currentAccessToken');
-              axiosMain.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('currentAccessToken');
+              axiosFormData.defaults.headers.common['Authorization'] = 'Bearer ' + cookies.get("currentAccessToken");
+              axiosMain.defaults.headers.common['Authorization'] = 'Bearer ' + cookies.get("currentAccessToken");
 
               // 3) return originalRequest object with Axios.
               return axios(originalRequest);
@@ -74,11 +78,11 @@ export function AppWrapper({ children }) {
 
   useEffect(() => {
     // Get user and tokens from localStorage
-    const parsedLoggedUsername = JSON.parse(localStorage.getItem("currentUser"));
-    const parsedLoggedUserRole = JSON.parse(localStorage.getItem("currentUserRole"));
-    const parsedExpirationDate = JSON.parse(localStorage.getItem("currentExpirationDate"));
-    const parsedAccessToken = JSON.parse(localStorage.getItem("currentAccessToken"));
-    const parsedRefreshToken = JSON.parse(localStorage.getItem("currentRefreshToken"));
+    const parsedLoggedUsername = cookies.get('currentUser');
+    const parsedLoggedUserRole = cookies.get('currentUserRole');
+    const parsedExpirationDate = cookies.get('currentExpirationDate');
+    const parsedAccessToken = cookies.get("currentAccessToken");
+    const parsedRefreshToken = cookies.get("currentRefreshToken");
 
     // Check if those exist
     if (parsedLoggedUsername) {
@@ -105,11 +109,11 @@ export function AppWrapper({ children }) {
   useEffect(() => {
     // If there's an update in the state, update the localStorage
     if (state !== initialState) {
-      localStorage.setItem("currentUser", JSON.stringify(state.currentUser))
-      localStorage.setItem("currentUserRole", JSON.stringify(state.currentUserRole))
-      localStorage.setItem("currentExpirationDate", JSON.stringify(state.currentExpirationDate))
-      localStorage.setItem("currentAccessToken", JSON.stringify(state.currentAccessToken))
-      localStorage.setItem("currentRefreshToken", JSON.stringify(state.currentRefreshToken))
+      cookies.set('currentUser', `${state.currentUser}`);
+      cookies.set('currentUserRole', `${state.currentUserRole}`);
+      cookies.set('currentExpirationDate', `${state.currentExpirationDate}`);
+      cookies.set("currentAccessToken", `${state.currentAccessToken}`);
+      cookies.set("currentRefreshToken", `${state.currentRefreshToken}`);
       axiosMain.defaults.headers.common["Authorization"] = `Bearer ${state.currentAccessToken}`
       axiosFormData.defaults.headers.common["Authorization"] = `Bearer ${state.currentAccessToken}`
       axiosMain.interceptors.response.use((response) => {
@@ -119,7 +123,7 @@ export function AppWrapper({ children }) {
         return response
       }, (error) => handleRefresh(error))
     }
-  }, [handleRefresh, state]);
+  }, [handleRefresh, cookies, state]);
 
 
   // useState(() => {

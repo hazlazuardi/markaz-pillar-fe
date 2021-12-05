@@ -1,3 +1,6 @@
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies()
 
 // Enums for dispatch types
 export const dispatchTypes = {
@@ -187,7 +190,11 @@ export const AppReducer = (state, action) => {
             }
         }
         case dispatchTypes.SESSION_EXPIRED: {
-            localStorage.clear()
+            cookies.remove("currentAccessToken")
+            cookies.remove("currentRefreshToken")
+            cookies.remove('currentUser');
+            cookies.remove('currentUserRole');
+            cookies.remove('currentExpirationDate');
             return {
                 ...state,
                 currentUser: "",
@@ -267,7 +274,11 @@ export const AppReducer = (state, action) => {
             }
         }
         case dispatchTypes.LOGOUT: {
-            localStorage.clear()
+            cookies.remove("currentAccessToken")
+            cookies.remove("currentRefreshToken")
+            cookies.remove('currentUser');
+            cookies.remove('currentUserRole');
+            cookies.remove('currentExpirationDate');
             return {
                 ...state,
                 currentUser: "",
