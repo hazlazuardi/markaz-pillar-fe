@@ -24,7 +24,6 @@ function AdminMarkazCreate() {
                 markaz={markaz}
                 setMarkaz={setMarkaz}
                 apiCall={createMarkaz}
-                redirectID={markaz_id}
             />
         </>
     );

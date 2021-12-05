@@ -41,9 +41,6 @@ function AdminEditVolunteerKegiatan() {
                 markazId: responseKegiatan.result.markaz.id
             })
         }
-        else {
-            mutate();
-        }
         if (responseAllMarkaz) {
             setAllMarkaz([...responseAllMarkaz.result])
         }
