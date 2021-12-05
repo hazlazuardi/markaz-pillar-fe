@@ -24,7 +24,7 @@ export default function AdminRelawan(props) {
     router.isReady
       ? `/admin/volunteer/registration?page=${
           page - 1
-        }&n=${entries}&id=${kegiatan_id}&name=${searchVolunteer}${
+        }&n=${entries}&id=${kegiatan_id}&name=${searchVolunteer}&${
           !!statusFilter ? "&status=" + statusFilter : ""
         }
 `
