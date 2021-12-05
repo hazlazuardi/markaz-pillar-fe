@@ -181,21 +181,21 @@ export default function Home(props) {
           <Grid container mt={9}>
             <LandingGridView
               data-testid="landing-grid-view"
-              variant="kegiatan-landing"
               type={"open"}
               data={responseProgram}
               size={size}
               page={page1}
               setPage={setPage1}
+              variant='kegiatan'
             />
             <LandingGridView
               data-testid="landing-grid-view"
-              variant="kegiatan-landing"
               type={"close"}
               data={responseProgram2}
               size={size}
               page={page2}
               setPage={setPage2}
+              variant='kegiatan'
             />
           </Grid>
         </>
