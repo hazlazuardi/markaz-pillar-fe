@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 
 
 export default function OAuthButton(props) {
-    const frontendURL = 'http://localhost:3000/';
+    const frontendURL = process.env.REDIRECT_URI;
     const cookies = new Cookies();
     const router = useRouter();
 
