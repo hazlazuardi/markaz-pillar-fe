@@ -12,8 +12,8 @@ export default function AdminMarkaz() {
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [searchMarkaz, setSearchMarkaz] = useState("");
-  const [locationFilter, setLocationFilter] = useState();
-  const [nameFilter, setNameFilter] = useState();
+  const [locationFilter, setLocationFilter] = useState("");
+  const [nameFilter, setNameFilter] = useState("ASC");
   const [categoryFilter, setCategoryFilter] = useState();
   const [categoryFilter2, setCategoryFilter2] = useState();
   const [categoryFilter3, setCategoryFilter3] = useState();
@@ -80,18 +80,6 @@ export default function AdminMarkaz() {
   };
 
   const radioMarkaz = [
-    {
-      title: "Lokasi",
-      value: locationFilter,
-      onChange: handleChangeLocation,
-      labels: [
-        {
-          value: "false",
-          label: "Luar Jabodetabek",
-        },
-        { value: "true", label: "Jabodetabok" },
-      ],
-    },
     {
       title: "Urutkan Nama",
       value: nameFilter,

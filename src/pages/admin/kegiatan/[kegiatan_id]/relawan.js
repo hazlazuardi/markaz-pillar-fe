@@ -15,6 +15,9 @@ export default function AdminRelawan(props) {
   const [searchVolunteer, setSearchVolunteer] = useState("");
   const router = useRouter();
   const [statusFilter, setStatusFilter] = useState();
+  const [statusFilter1, setStatusFilter1] = useState();
+  const [statusFilter2, setStatusFilter2] = useState();
+  const [statusFilter3, setStatusFilter3] = useState();
   const { kegiatan_id } = router.query;
   const {
     data: responseVolunteer,
@@ -22,9 +25,15 @@ export default function AdminRelawan(props) {
     mutate,
   } = useSWR(
     router.isReady
-      ? `/admin/volunteer/registration?page=${page - 1
-      }&n=${entries}&id=${kegiatan_id}&name=${searchVolunteer}${!!statusFilter ? "&status=" + statusFilter : ""
-      }
+      ? `/admin/volunteer/registration?page=${
+          page - 1
+        }&n=${entries}&id=${kegiatan_id}&name=${searchVolunteer}&${
+          !!statusFilter1 ? "status=" + statusFilter1 : ""
+        }&${
+          !!statusFilter2 ? "status=" + statusFilter2 : ""
+        }&${
+          !!statusFilter3 ? "status=" + statusFilter3 : ""
+        }
 `
       : null,
     fetcher
@@ -102,6 +111,12 @@ export default function AdminRelawan(props) {
         error={error}
         mutate={mutate}
         FilterRadioObject={radioRegister}
+        statusFilter1={statusFilter1}
+        statusFilter2={statusFilter2}
+        statusFilter3={statusFilter3}
+        setStatusFilter1={setStatusFilter1}
+        setStatusFilter2={setStatusFilter2}
+        setStatusFilter3={setStatusFilter3}
       />
     </>
   );

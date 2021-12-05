@@ -13,16 +13,13 @@ export default function Santri(props) {
   const [searchSantri, setSearchSantri] = useState("");
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
-  const [ageFilter, setAgeFilter] = useState();
-  const [nameFilter, setNameFilter] = useState();
+  const [sort, setSort] = useState("NAME_ASC");
   const {
     data: responseSantri,
     error,
     mutate,
   } = useSWR(
-    `/santri/search?${!!ageFilter ? "sortedAge=" + ageFilter : ""}${
-      !!nameFilter ? "sortedName=" + nameFilter : ""
-    }&page=${page - 1}&n=${entries}&${
+    `/santri/search?${!!sort ? "sort=" + sort : ""}&page=${page - 1}&n=${entries}&${
       !!searchSantri && "name=" + searchSantri
     }`,
     fetcher,
@@ -31,49 +28,34 @@ export default function Santri(props) {
 
   useEffect(() => {
     mutate();
-  }, [ageFilter, nameFilter, mutate]);
+  }, [sort, mutate]);
 
   const GridViewSantri = () => {
     return (
       <GridView data={responseSantri} detail="santri" />
     );
   };
-  
-  const handleChangeAge = (event) => {
-    setAgeFilter(event.target.value);
-    setNameFilter("");
-    mutate();
-  };
 
-  const handleChangeName = (event) => {
-    setNameFilter(event.target.value);
-    setAgeFilter("");
+  const handleChangeSort = (event) => {
+    setSort(event.target.value);
     mutate();
   };
 
   const radioSantri = [
     {
-      title: "Urutkan Nama",
-      value: nameFilter,
-      onChange: handleChangeName,
+      title: "Urutkan",
+      value: sort,
+      onChange: handleChangeSort,
       labels: [
         {
-          value: "ASC",
-          label: "A-Z",
+          value: "NAME_ASC",
+          label: "Abjad A-Z",
         },
-        { value: "DESC", label: "Z-A" },
-      ],
-    },
-    {
-      title: "Urutkan Umur",
-      value: ageFilter,
-      onChange: handleChangeAge,
-      labels: [
-        {
-          value: "ASC",
-          label: "Tertua",
+        { value: "NAME_DESC", label: "Abjad Z-A" },
+        {value: "AGE_ASC",
+          label: "Umur Tertua",
         },
-        { value: "DESC", label: "Termuda" },
+        { value: "AGE_DESC", label: "Umur Termuda" },
       ],
     },
   ];
@@ -91,10 +73,8 @@ export default function Santri(props) {
         setPage={setPage}
         data={responseSantri}
         error={error}
-        ageFilter={ageFilter}
-        setAgeFilter={setAgeFilter}
-        nameFilter={nameFilter}
-        setNameFilter={setNameFilter}
+        sort={sort}
+        setSort={setSort}
         mutate={mutate}
         FilterRadioObject={radioSantri}
       />

@@ -11,16 +11,15 @@ export default function AdminSantri(props) {
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [searchSantri, setSearchSantri] = useState("");
-  const [ageFilter, setAgeFilter] = useState();
-  const [nameFilter, setNameFilter] = useState();
+  const [sort, setSort] = useState("NAME_ASC");
   const {
     data: responseSantri,
     error,
     mutate,
   } = useSWR(
-    `/santri/search?page=${page - 1}&n=${entries}&${!!ageFilter ? "sortedAge=" + ageFilter : ""
-    }${!!nameFilter ? "sortedName=" + nameFilter : ""}
-    &${!!searchSantri && "name=" + searchSantri}
+    `/santri/search?page=${page - 1}&n=${entries}&${
+      !!sort ? "sort=" + sort: ""
+    }&${!!searchSantri && "name=" + searchSantri}
     `,
     fetcher
     // {
@@ -40,44 +39,30 @@ export default function AdminSantri(props) {
       })
   };
 
-  const handleChangeAge = (event) => {
-    setAgeFilter(event.target.value);
-    setNameFilter("");
-    mutate();
-  };
-
-  const handleChangeName = (event) => {
-    setNameFilter(event.target.value);
-    setAgeFilter("");
+  const handleChangeSort = (event) => {
+    setSort(event.target.value);
     mutate();
   };
 
   const radioSantri = [
     {
-      title: "Urutkan Nama",
-      value: nameFilter,
-      onChange: handleChangeName,
+      title: "Urutkan",
+      value: sort,
+      onChange: handleChangeSort,
       labels: [
         {
-          value: "ASC",
-          label: "A-Z",
+          value: "NAME_ASC",
+          label: "Abjad A-Z",
         },
-        { value: "DESC", label: "Z-A" },
-      ],
-    },
-    {
-      title: "Urutkan Umur",
-      value: ageFilter,
-      onChange: handleChangeAge,
-      labels: [
-        {
-          value: "ASC",
-          label: "Tertua",
+        { value: "NAME_DESC", label: "Abjad Z-A" },
+        {value: "AGE_ASC",
+          label: "Umur Tertua",
         },
-        { value: "DESC", label: "Termuda" },
+        { value: "AGE_DESC", label: "Umur Termuda" },
       ],
     },
   ];
+
 
   const GridViewAdminSantri = () => {
     return (
@@ -122,10 +107,8 @@ export default function AdminSantri(props) {
         data={responseSantri}
         error={error}
         hrefCreate="/admin/santri/create"
-        ageFilter={ageFilter}
-        setAgeFilter={setAgeFilter}
-        nameFilter={nameFilter}
-        setNameFilter={setNameFilter}
+        sort={sort}
+        setSort={setSort}
         mutate={mutate}
         FilterRadioObject={radioSantri}
       />
