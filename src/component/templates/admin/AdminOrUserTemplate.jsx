@@ -150,7 +150,7 @@ function AdminOrUserTemplate(props) {
           />
 
           {/* Filter */}
-          {(variant === "markaz") | (variant === "santri") | (variant === "volunteer") ? (
+          {(variant === "markaz") | (variant === "santri") | (variant === "relawan") ? (
             <FilterComponent
               data-testid="filterChipButton-at-admin-or-user-template"
               size={SIZE}

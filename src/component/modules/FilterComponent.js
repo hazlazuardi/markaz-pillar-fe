@@ -26,53 +26,58 @@ export default function FilterComponent(props) {
     setCategoryFilter,
     setCategoryFilter2,
     setCategoryFilter3,
-    setLocationFilter,
-    setNameFilter,
     mutate,
     variant,
     size,
     FilterRadioObject,
   } = props;
 
-  const [checked, setChecked] = React.useState();
+  const [state, setState] = React.useState({
+    PEMBANGUNAN_MARKAZ: false,
+    RENOVASI: false,
+    PENAMBAHAN_FASILITAS: false,
+  });
 
-  const handleChangeCategory = (event) => {
-    setChecked(event.target.checked);
+  const handleChange1 = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
     if (event.target.checked) {
       setCategoryFilter(event.target.name);
     } else {
       setCategoryFilter("");
     }
-
-    setNameFilter("");
-    setLocationFilter("");
     mutate();
   };
 
-  const handleChangeCategory2 = (event) => {
-    setChecked(event.target.checked);
+  const handleChange2 = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
     if (event.target.checked) {
       setCategoryFilter2(event.target.name);
     } else {
       setCategoryFilter2("");
     }
-
-    setNameFilter("");
-    setLocationFilter("");
     mutate();
   };
 
-  const handleChangeCategory3 = (event) => {
-    setChecked(event.target.checked);
+  const handleChange3 = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
     if (event.target.checked) {
       setCategoryFilter3(event.target.name);
     } else {
       setCategoryFilter3("");
     }
-    setNameFilter("");
-    setLocationFilter("");
     mutate();
   };
+
+  const { PEMBANGUNAN_MARKAZ, RENOVASI, PENAMBAHAN_FASILITAS } = state;
 
   // *******************************************************
   // MenuList Composition
@@ -89,25 +94,6 @@ export default function FilterComponent(props) {
     setOpenDrawer(false);
   };
 
-  function handleListKeyDown(event) {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      setOpenDrawer(false);
-    } else if (event.key === "Escape") {
-      setOpenDrawer(false);
-    }
-  }
-
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open);
-  React.useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current.focus();
-    }
-
-    prevOpen.current = open;
-  }, [open]);
-
   // *******************************************************
   // Drawer
   // *******************************************************
@@ -123,61 +109,7 @@ export default function FilterComponent(props) {
   // *******************************************************
   // Accordions
   // *******************************************************
-  const CategoryAccordionMarkaz = useCallback((event) => {
-    return (
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography>Kategori</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <FormControl component="fieldset">
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked}
-                    onChange={handleChangeCategory}
-                    name="PEMBANGUNAN_MARKAZ"
-                  />
-                }
-                value="PEMBANGUNAN_MARKAZ"
-                label="Pembangunan Markaz"
-              />
-
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked}
-                    onChange={handleChangeCategory2}
-                    name="RENOVASI"
-                  />
-                }
-                value="RENOVASI"
-                label="Renovasi"
-              />
-
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked}
-                    onChange={handleChangeCategory3}
-                    name="PENAMBAHAN_FASILITAS"
-                  />
-                }
-                value="PENAMBAHAN_FASILITAS"
-                label="Penambahan Fasilitas"
-              />
-            </FormGroup>
-          </FormControl>
-        </AccordionDetails>
-      </Accordion>
-    );
-  }, []);
-
+  
   const accordionFilter = FilterRadioObject.map((element, index) => (
     <Accordion key={index}>
       <AccordionSummary
@@ -200,11 +132,13 @@ export default function FilterComponent(props) {
               value={element.labels[1].value}
               label={element.labels[1].label}
             />
-            {variant === "kegiatan" || variant === "volunteer" ? (<FormControlLabel
-              control={<Radio />}
-              value={element.labels[2].value}
-              label={element.labels[2].label}
-            />) : (null)}
+            {variant === "kegiatan" || variant === "relawan" ? (
+              <FormControlLabel
+                control={<Radio />}
+                value={element.labels[2].value}
+                label={element.labels[2].label}
+              />
+            ) : null}
           </RadioGroup>
         </FormControl>
       </AccordionDetails>
@@ -223,7 +157,7 @@ export default function FilterComponent(props) {
         aria-controls={open ? "composition-menu" : undefined}
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
-        color='primary'
+        color="primary"
       />
 
       {
@@ -249,17 +183,69 @@ export default function FilterComponent(props) {
                 <Paper>
                   <ClickAwayListener onClickAway={handleClose}>
                     <Box
-                      autoFocusItem={open}
                       id="composition-menu"
                       aria-labelledby="composition-button"
-                      onKeyDown={handleListKeyDown}
                     >
                       <Typography variant="h6" ml={2}>
                         Filter
                       </Typography>
 
                       {accordionFilter}
-                      {variant === "markaz" && <CategoryAccordionMarkaz />}
+                      {variant === "markaz" && (
+                        <Accordion>
+                          <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                          >
+                            <Typography>Kategori</Typography>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            <FormControl
+                              component="fieldset"
+                              variant="standard"
+                            >
+                              <FormGroup>
+                                <FormControlLabel
+                                  control={
+                                    <Checkbox
+                                      checked={PEMBANGUNAN_MARKAZ}
+                                      onChange={handleChange1}
+                                      name="PEMBANGUNAN_MARKAZ"
+                                    />
+                                  }
+                                  // value="PEMBANGUNAN_MARKAZ"
+                                  label="Pembangunan Markaz"
+                                />
+
+                                <FormControlLabel
+                                  control={
+                                    <Checkbox
+                                      checked={RENOVASI}
+                                      onChange={handleChange2}
+                                      name="RENOVASI"
+                                    />
+                                  }
+                                  // value="RENOVASI"
+                                  label="Renovasi"
+                                />
+
+                                <FormControlLabel
+                                  control={
+                                    <Checkbox
+                                      checked={PENAMBAHAN_FASILITAS}
+                                      onChange={handleChange3}
+                                      name="PENAMBAHAN_FASILITAS"
+                                    />
+                                  }
+                                  // value="PENAMBAHAN_FASILITAS"
+                                  label="Penambahan Fasilitas"
+                                />
+                              </FormGroup>
+                            </FormControl>
+                          </AccordionDetails>
+                        </Accordion>
+                      )}
                     </Box>
                   </ClickAwayListener>
                 </Paper>
@@ -270,7 +256,61 @@ export default function FilterComponent(props) {
           // mobile view
           <Drawer open={openDrawer} toggleDrawer={toggleDrawer}>
             {accordionFilter}
-            {variant === "markaz" && <CategoryAccordionMarkaz />}
+            {variant === "markaz" && (
+              <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography>Kategori</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <FormControl
+                  component="fieldset"
+                  variant="standard"
+                >
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={PEMBANGUNAN_MARKAZ}
+                          onChange={handleChange1}
+                          name="PEMBANGUNAN_MARKAZ"
+                        />
+                      }
+                      // value="PEMBANGUNAN_MARKAZ"
+                      label="Pembangunan Markaz"
+                    />
+
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={RENOVASI}
+                          onChange={handleChange2}
+                          name="RENOVASI"
+                        />
+                      }
+                      // value="RENOVASI"
+                      label="Renovasi"
+                    />
+
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={PENAMBAHAN_FASILITAS}
+                          onChange={handleChange3}
+                          name="PENAMBAHAN_FASILITAS"
+                        />
+                      }
+                      // value="PENAMBAHAN_FASILITAS"
+                      label="Penambahan Fasilitas"
+                    />
+                  </FormGroup>
+                </FormControl>
+              </AccordionDetails>
+            </Accordion>
+            )}
           </Drawer>
         )
       }
