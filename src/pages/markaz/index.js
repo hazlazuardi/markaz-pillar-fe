@@ -25,7 +25,7 @@ export default function Markaz(props) {
     mutate,
   } = useSWR(
     `/markaz/search?page=${page - 1}&n=${entries}&${!!locationFilter ? "address=" + locationFilter : ""
-    }${!!nameFilter ? "sortedName=" + nameFilter : ""}${!!categoryFilter ? "category=" + categoryFilter : ""
+    }&${!!nameFilter ? "sortedName=" + nameFilter : ""}&${!!categoryFilter ? "category=" + categoryFilter : ""
     }&${!!categoryFilter2 ? "category=" + categoryFilter2 : ""}&${!!categoryFilter3 ? "category=" + categoryFilter3 : ""
     }&${!!searchMarkaz && "name=" + searchMarkaz}
 `,
@@ -45,19 +45,11 @@ export default function Markaz(props) {
 
   const handleChangeName = (event) => {
     setNameFilter(event.target.value);
-    setLocationFilter("");
-    setCategoryFilter("");
-    setCategoryFilter2("");
-    setCategoryFilter3("");
     mutate();
   };
 
   const handleChangeLocation = (event) => {
     setLocationFilter(event.target.value);
-    setNameFilter("");
-    setCategoryFilter("");
-    setCategoryFilter2("");
-    setCategoryFilter3("");
     mutate();
   };
 
