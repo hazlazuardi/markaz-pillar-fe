@@ -1,13 +1,13 @@
 import { useState } from "react";
 import TableView from "../../../../../../../component/templates/admin/TableView";
-import { axiosMainAuth } from "../../../../../../../axiosInstances";
+import { axiosMain } from "../../../../../../../axiosInstances";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import AdminOrUserTemplate from "../../../../../../../component/templates/admin/AdminOrUserTemplate";
 import ArrowBack from "../../../../../../../component/modules/ArrowBack";
 import { enumRoutes } from "../../../../../../../context/AppReducer";
 
-const fetcher = (url) => axiosMainAuth.get(url).then((res) => res.data);
+const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function TransaksiMarkaz() {
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function TransaksiMarkaz() {
   );
 
   const changeStatus = async (ids, status) => {
-    return axiosMainAuth.post(`/admin/transaction/status?id=${ids}`, {
+    return axiosMain.post(`/admin/transaction/status?id=${ids}`, {
       status: `${status}`,
     });
   };

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserTemplate";
 import useSWR from "swr";
-import { axiosMainAuth } from "../../../axiosInstances";
+import { axiosMain } from "../../../axiosInstances";
 import TableView from "../../../component/templates/admin/TableView";
 
-const fetcher = (url) => axiosMainAuth.get(url).then((res) => res.data);
+const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
 export default function AdminUsers() {
   const [page, setPage] = useState(1);
@@ -16,7 +16,7 @@ export default function AdminUsers() {
   } = useSWR(`/admin/user?page=${page - 1}&n=${entries}`, fetcher);
 
   const handleDeletePengguna = async (id) => {
-    await axiosMainAuth
+    await axiosMain
       .delete(`/admin/user?id=${id}`)
       .then((response) => {
         mutate();

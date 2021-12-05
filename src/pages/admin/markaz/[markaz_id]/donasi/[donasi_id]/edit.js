@@ -2,12 +2,12 @@ import { useState, useRef } from "react";
 import { useAppContext } from "../../../../../../context/AppContext";
 import { dispatchTypes, enumRoutes } from "../../../../../../context/AppReducer";
 import { useRouter } from "next/router";
-import { axiosMainAuth } from "../../../../../../axiosInstances";
+import { axiosMain } from "../../../../../../axiosInstances";
 import AdminCreateOrEditDonasi from "../../../../../../component/templates/admin/AdminCreateOrEditDonasi";
 import ArrowBack from "../../../../../../component/modules/ArrowBack";
 import useSWR from "swr";
 
-const fetcher = url => axiosMainAuth.get(url).then(res => res.data)
+const fetcher = url => axiosMain.get(url).then(res => res.data)
 
 function AdminMarkazDonasiEdit() {
     const router = useRouter();
@@ -41,7 +41,7 @@ function AdminMarkazDonasiEdit() {
         setLoading(true)
         event.preventDefault();
 
-        await axiosMainAuth
+        await axiosMain
             .post(`/admin/donation/markaz?edit=${markaz_id}`, data)
             .then(response => {
                 setLoading(false)

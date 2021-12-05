@@ -11,6 +11,7 @@ export const axiosMain = axios.create({
     headers: {
         'Content-Type': 'application/json',
         'Accept': "application/json, text/plain, */*",
+        'Authorization' : `Bearer ${typeof(cookies.get("currentAccessToken")) == "undefined" ? "" : (cookies.get("currentAccessToken"))}`
     }
 })
 
@@ -25,22 +26,5 @@ export const axiosApiRoutes = axios.create({
     baseURL: 'http://localhost:3000',
     headers: {
         'Accept': "application/json, text/plain, */*",
-    }
-})
-
-export const axiosMainAuth = axios.create({
-    baseURL: BASE_URL,
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept': "application/json, text/plain, */*",
-        'Authorization' : `Bearer ${cookies.get("currentAccessToken")}`
-    }
-})
-
-export const axiosFormAuth = axios.create({
-    baseURL: BASE_URL,
-    headers: {
-        'Accept': "application/json, text/plain, */*",
-        'Authorization' : `Bearer ${cookies.get("currentAccessToken")}`
     }
 })
