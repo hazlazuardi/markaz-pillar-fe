@@ -12,6 +12,12 @@ import Link from "@mui/material/Link";
 import useSWR from "swr";
 import {axiosMain} from "../axiosInstances";
 import {useRouter} from "next/router";
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import SwipeableViews from 'react-swipeable-views';
+import MobileStepper from '@mui/material/MobileStepper';
+import Box from '@mui/material/Box';
+
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 
@@ -51,24 +57,41 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home(props) {
+
   const router = useRouter();
-  const { data: responseDetailKegiatan, error, mutate }
-      = useSWR(router.isReady ? `/volunteer?id=1` : null, fetcher)
-  const { data: responseDetailKegiatan2, error2, mutate2 }
-      = useSWR(router.isReady ? `/volunteer?id=3` : null, fetcher)
-  const { data: responseDetailMarkaz, error3, mutate3 }
-      = useSWR(router.isReady ? `/markaz?id=1` : null, fetcher)
-  const { data: responseDetailSantri, error4, mutate4 }
-      = useSWR(router.isReady ? `/santri?id=1` : null, fetcher)
+  const { data: responseLanding, error, mutate }
+      = useSWR(router.isReady ? `/landing` : null, fetcher)
   const classes = useStyles();
   const theme = useTheme();
   const largeScreen = useMediaQuery(theme.breakpoints.up('lg'));
+  const [activeStep, setActiveStep] = React.useState(0);
 
-  console.log(responseDetailKegiatan)
-  console.log(responseDetailKegiatan2)
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
 
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
 
-  if (!responseDetailKegiatan || !responseDetailKegiatan2 || !responseDetailSantri || !responseDetailMarkaz) return "wait.."
+  const handleStepChange = (step) => {
+    setActiveStep(step);
+  };
+
+  console.log(responseLanding)
+
+  if (!responseLanding) return "wait..."
+
+  const images = [
+    {
+      imgPath: responseLanding.result.programCarousel[0].thumbnailURL
+    },
+    {
+      imgPath: responseLanding.result.programCarousel[1].thumbnailURL
+    },
+  ];
+
+  const maxSteps = images.length;
 
   return (
     <>
@@ -99,7 +122,7 @@ export default function Home(props) {
             <Grid item xs>
               <Typography className={classes.contentCenter}>
                 <Grid item>
-                  <Image src={responseDetailKegiatan2.result.thumbnailURL} layout='intrinsic'
+                  <Image src={responseLanding.result.program.thumbnailURL} layout='intrinsic'
                          width={100} height={100} quality={65} sizes={50} alt='Backdrop' />
                 </Grid>
                 <b className={classes.sub}>
@@ -115,7 +138,7 @@ export default function Home(props) {
             <Grid item xs>
               <Typography className={classes.contentCenter}>
                 <Grid item>
-                  <Image src={responseDetailMarkaz.result.thumbnailURL} layout='intrinsic'
+                  <Image src={responseLanding.result.markaz.thumbnailURL} layout='intrinsic'
                          width={100} height={100} quality={65} sizes={50} alt='Backdrop' />
                 </Grid>
                 <b className={classes.sub}>
@@ -131,7 +154,7 @@ export default function Home(props) {
             <Grid item xs>
               <Typography className={classes.contentCenter}>
                 <Grid item>
-                <Image src={responseDetailSantri.result.thumbnailURL} layout='intrinsic'
+                <Image src={responseLanding.result.santri.thumbnailURL} layout='intrinsic'
                        width={100} height={100} quality={65} sizes={50} alt='Backdrop' />
                 </Grid>
                 <b className={classes.sub}>
@@ -148,8 +171,60 @@ export default function Home(props) {
       </div>
       <Grid container spacing={0} direction={largeScreen ? "row" : "column-reverse"}>
         <Grid item xs className={classes.heading}>
-          <Image src={responseDetailKegiatan.result.thumbnailURL} layout="intrinsic"
-                 width={2000} height={1200} quality={65} sizes={30} alt='Backdrop' />
+          <SwipeableViews
+              axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+              index={activeStep}
+              onChangeIndex={handleStepChange}
+              enableMouseEvents
+          >
+            {images.map((step, index) => (
+                <div key={step.label}>
+                  {Math.abs(activeStep - index) <= 2 ? (
+                      <Box
+                          component="img"
+                          sx={{
+                            height: 255,
+                            display: 'block',
+                            maxWidth: 400,
+                            overflow: 'hidden',
+                            width: '100%',
+                          }}
+                          src={step.imgPath}
+                          alt={step.label}
+                      />
+                  ) : null}
+                </div>
+            ))}
+          </SwipeableViews>
+          <MobileStepper
+              steps={maxSteps}
+              position="static"
+              activeStep={activeStep}
+              nextButton={
+                <Button
+                    size="small"
+                    onClick={handleNext}
+                    disabled={activeStep === maxSteps - 1}
+                >
+                  Next
+                  {theme.direction === 'rtl' ? (
+                      <KeyboardArrowLeft />
+                  ) : (
+                      <KeyboardArrowRight />
+                  )}
+                </Button>
+              }
+              backButton={
+                <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                  {theme.direction === 'rtl' ? (
+                      <KeyboardArrowRight />
+                  ) : (
+                      <KeyboardArrowLeft />
+                  )}
+                  Back
+                </Button>
+              }
+          />
         </Grid>
         <Grid item xs className={classes.content}>
           <Typography>
@@ -166,11 +241,11 @@ export default function Home(props) {
             <Grid container spacing={5}>
               <Grid item xs>
                 <div className={classes.sub}>
-                  <b>{responseDetailKegiatan.result.name}</b><br />
+                  <b>{responseLanding.result.programCarousel[0].name}</b><br />
                 </div>
-                Lokasi: {responseDetailKegiatan.result.location}<br />
-                Jadwal: {responseDetailKegiatan.result.schedule}<br />
-                Jumlah Volunteer: {responseDetailKegiatan.result. volunteerNeeded}
+                Lokasi: {responseLanding.result.programCarousel[0].location}<br />
+                Jadwal: {responseLanding.result.programCarousel[0].schedule}<br />
+                Jumlah Volunteer: {responseLanding.result.programCarousel[0].volunteerNeeded}
                 <div className={classes.sub}>
                   <br />
                   <Link href={`/relawan/kegiatan`}>
@@ -180,11 +255,11 @@ export default function Home(props) {
               </Grid>
               <Grid item xs>
                 <div className={classes.sub}>
-                  <b>{responseDetailKegiatan2.result.name}</b><br />
+                  <b>{responseLanding.result.programCarousel[1].name}</b><br />
                 </div>
-                Lokasi: {responseDetailKegiatan2.result.location}<br />
-                Jadwal: {responseDetailKegiatan2.result.schedule}<br />
-                Jumlah Volunteer: {responseDetailKegiatan2.result.volunteerNeeded}
+                Lokasi: {responseLanding.result.programCarousel[1].location}<br />
+                Jadwal: {responseLanding.result.programCarousel[1].schedule}<br />
+                Jumlah Volunteer: {responseLanding.result.programCarousel[1].volunteerNeeded}
               </Grid>
             </Grid>
           </Typography>

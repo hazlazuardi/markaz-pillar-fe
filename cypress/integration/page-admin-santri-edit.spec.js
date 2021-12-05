@@ -91,7 +91,7 @@ describe(`Test functionality of inputs when edit new santri`, () => {
     cy.get('[data-testid=santri-markaz-at-AdminCreateOrEditSantri-module]').click().get('li').contains('test-markaz').click()
     cy.get('[data-testid=santri-address-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('0811122343')
     cy.get('[data-testid=santri-birthPlace-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('test-santri-birthPlace')
-    cy.get('[data-testid=santri-birthDate-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('2021-12-12')
+    cy.get('[data-testid=santri-birthDate-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type('22').clear().type('2021-12-12')
     cy.get('[data-testid=santri-submit-button-at-AdminCreateOrEditSantri-module]').contains('Simpan').click()
     cy.get('[data-testid=snackbar-at-layout]').contains('Santri Edited').should('exist')
 
@@ -103,7 +103,7 @@ describe(`Test functionality of inputs when edit new santri`, () => {
     cy.get(`[data-testid=dropzone-uploaded]`).contains('low.png');
     cy.get('[data-testid=santri-address-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('0811122343')
     cy.get('[data-testid=santri-birthPlace-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('test-santri-birthPlace')
-    cy.get('[data-testid=santri-birthDate-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('tanggal')
+    cy.get('[data-testid=santri-birthDate-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type('22').clear().type('tanggal')
     cy.get('[data-testid=santri-submit-button-at-AdminCreateOrEditSantri-module]').contains('Simpan').click()
     cy.get('[data-testid=snackbar-at-layout]').contains('Incorrect information').should('exist')
 
@@ -115,7 +115,7 @@ describe(`Test functionality of inputs when edit new santri`, () => {
     cy.get(`[data-testid=dropzone-uploaded]`).should('not.exist');
     cy.get('[data-testid=santri-address-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('0811122343')
     cy.get('[data-testid=santri-birthPlace-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('test-santri-birthPlace')
-    cy.get('[data-testid=santri-birthDate-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type(';').clear().type('2021-12-12')
+    cy.get('[data-testid=santri-birthDate-at-AdminCreateOrEditSantri-module]').should('not.be.empty').type('22').clear().type('2021-12-12')
     cy.get('[data-testid=santri-submit-button-at-AdminCreateOrEditSantri-module]').contains('Simpan').click()
     cy.get('[data-testid=snackbar-at-layout]').should('exist')
 

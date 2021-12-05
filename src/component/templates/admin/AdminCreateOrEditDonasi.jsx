@@ -122,7 +122,7 @@ function AdminCreateOrEditDonasi(props) {
                         <Grid item>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <Typography sx={{textTransform: "capitalize"}} variant="h5" color="initial">{createOrEdit} {markazOrSantri} Donation Detail</Typography>
+                                    <Typography sx={{textTransform: "capitalize"}} variant="h5" component="h5" color="initial">{createOrEdit} {markazOrSantri} Donation Detail</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
