@@ -24,8 +24,8 @@ export default function Landing(props) {
   const { allLanding } = props
   const { data: responseLanding, error, mutate } = useSWR('/landing', fetcher, { fallbackData: allLanding, refreshInterval: 100000 })
 
-  console.log('static', allLanding)
-  console.log('swr', responseLanding)
+
+
 
 
   // *****************************************
@@ -48,7 +48,7 @@ export default function Landing(props) {
   };
 
 
-  console.log(responseLanding.result.programCarousel.length)
+
   return (
     <>
       {/* Hero About Me */}
@@ -67,18 +67,19 @@ export default function Landing(props) {
             }}
           // src={program.thumbnailURL}
           >
-            <Image src='/logo.png' layout='responsive'
+            <Image src='/icon.png' layout='responsive'
               width={16} height={16} quality={65} sizes={20} alt='' objectFit="cover"
             />
           </Box>
         </Grid>
 
         {/* Text About Me */}
-        <Grid item xs={12} md={6} p={2} alignItems='center' justifyContent='center'>
-          <Box m='auto'>
-            <Typography variant='h6' component='h2' color='primary'>Tentang Kami</Typography>
-            <Typography variant='body1' component='p'>Bantu kami menjalankan berbagai program untuk santri tahfidz dengan mendaftarkan diri anda sebagai volunteer di Markaz Pilar.</Typography>
-          </Box>
+        <Grid item xs={12} md={6} p={2} >
+          <Stack spacing={2} p={0}>
+            <Typography mt={{ xs: 0, md: '25%' }} variant='h6' component='h2' color='primary'>Tentang Kami</Typography>
+            <Typography variant='h4' component='h1' color='primary'>Markaz Pillar</Typography>
+            <Typography variant='body1' paragraph>Markaz Pillar adalah Yaudah Terserah Kalian aja — Adyssa</Typography>
+          </Stack>
         </Grid>
       </Grid>
 
@@ -86,43 +87,44 @@ export default function Landing(props) {
       {/* Cards Feature */}
       <Grid container mt={4}>
         {/* Markaz */}
-        <Grid item xs={12} sm={4} p={2} pl={{ xs: 12, sm: 2 }} pr={{ xs: 12, sm: 2 }} alignItems='center' justifyContent='center'>
+        <Grid item xs={12} sm={4} p={2} pl={{ xs: 12, sm: 2 }} pr={{ xs: 12, sm: 2 }} sx={{ height: 400 }} alignItems='center' justifyContent='center'>
           <Image src={responseLanding.result.markaz.thumbnailURL} layout='responsive'
             width={16} height={16} quality={65} sizes={20} alt='' objectFit="cover"
           />
           <Typography variant='h6' component='h6' textAlign='center' mt={2}>{responseLanding.result.markaz.name}</Typography>
-          <Typography variant='body1' component='p' textAlign='center' mt={2}>{responseLanding.result.markaz.background.slice(0, 50) + "..."}</Typography>
-          <Box mt={2} display='flex' alignItems='center' justifyContent='center'>
+          <Typography variant='body1' component='p' textAlign='center' mt={2} sx={{ textOverflow: 'ellipsis' }}>{responseLanding.result.markaz.background}</Typography>
+          <Box mt={2} mb={0} display='flex' alignItems='center' justifyContent='center'>
             <Link href={`${enumRoutes.MEMBER_MARKAZ}/${responseLanding.result.markaz.id}/donasi/bayar`} passHref>
-              <Button variant='contained'>Donasi Sekarang</Button>
+              <Button variant='contained' fullWidth>Donasi Sekarang</Button>
             </Link>
           </Box>
         </Grid>
 
+
         {/* Santri */}
-        <Grid item xs={12} sm={4} p={2} pl={{ xs: 12, sm: 2 }} pr={{ xs: 12, sm: 2 }} alignItems='center' justifyContent='center'>
+        <Grid item xs={12} sm={4} p={2} pl={{ xs: 12, sm: 2 }} pr={{ xs: 12, sm: 2 }} sx={{ height: 400 }} alignItems='center' justifyContent='center' overflow='hidden'>
           <Image src={responseLanding.result.santri.thumbnailURL} layout='responsive'
             width={16} height={16} quality={65} sizes={20} alt='' objectFit="cover"
           />
           <Typography variant='h6' component='h6' textAlign='center' mt={2}>{responseLanding.result.santri.name}</Typography>
-          <Typography variant='body1' component='p' textAlign='center' mt={2}>{responseLanding.result.santri.background.slice(0, 50) + "..."}</Typography>
+          <Typography variant='body1' component='p' textAlign='center' mt={2} sx={{ textOverflow: 'ellipsis', height: 24 }} >{responseLanding.result.santri.background}</Typography>
           <Box mt={2} display='flex' alignItems='center' justifyContent='center'>
             <Link href={`${enumRoutes.MEMBER_SANTRI}/${responseLanding.result.santri.id}/donasi/bayar`} passHref>
-              <Button variant='contained'>Donasi Sekarang</Button>
+              <Button variant='contained' fullWidth>Donasi Sekarang</Button>
             </Link>
           </Box>
         </Grid>
 
         {/* Kegiatan */}
-        <Grid item xs={12} sm={4} p={2} pl={{ xs: 12, sm: 2 }} pr={{ xs: 12, sm: 2 }} alignItems='center' justifyContent='center'>
+        <Grid item xs={12} sm={4} p={2} pl={{ xs: 12, sm: 2 }} pr={{ xs: 12, sm: 2 }} sx={{ height: 400 }} alignItems='center' justifyContent='center'>
           <Image src={responseLanding.result.program.thumbnailURL} layout='responsive'
             width={16} height={16} quality={65} sizes={20} alt='' objectFit="cover"
           />
           <Typography variant='h6' component='h6' textAlign='center' mt={2}>{responseLanding.result.program.name}</Typography>
-          <Typography variant='body1' component='p' textAlign='center' mt={2}>{responseLanding.result.program.description.slice(0, 50) + "..."}</Typography>
+          <Typography variant='body1' component='p' textAlign='center' mt={2} sx={{ textOverflow: 'ellipsis', height: 24 }} >{responseLanding.result.program.description}</Typography>
           <Box mt={2} display='flex' alignItems='center' justifyContent='center'>
-            <Link href={`${enumRoutes.MEMBER_MARKAZ}/${responseLanding.result.program.id}/donasi/bayar`} passHref>
-              <Button variant='contained'>Donasi Sekarang</Button>
+            <Link href={`${enumRoutes.MEMBER_KEGIATAN}/${responseLanding.result.program.id}/registrasi`} passHref>
+              <Button variant='contained' fullWidth>Daftar Sekarang</Button>
             </Link>
           </Box>
         </Grid>
@@ -202,16 +204,19 @@ export default function Landing(props) {
             <Grid item xs={12} sm={6} p={2}>
               <Stack p={0} spacing={2}>
                 <Typography variant='h6' component='h5' color='secondary'>Program untuk masyarakat</Typography>
-                <Typography variant='h3' component='h2' color='primary'>Daftarkan diri anda sebagai relawan!</Typography>
+                <Typography variant='h4' component='h2' color='primary'>Daftarkan diri anda sebagai relawan!</Typography>
                 <Typography variant='body1' component='p'>Bantu kami menjalankan berbagai program untuk santri tahfidz dengan mendaftarkan diri anda sebagai volunteer di Markaz Pilar.</Typography>
               </Stack>
               <Grid container mt={2} spacing={2}>
                 {responseLanding.result.programCarousel.map(program => (
-                  <Grid key={program.id} item xs={12} md={6}>
+                  <Grid key={program.id} item xs={12} md={6} spacing={2} >
                     <Typography variant='h6' component='h6'>{program.name}</Typography>
                     <Typography variant='subtitle1' component='h6'>{program.description}</Typography>
                     <Typography variant='caption' component='h6'>{program.location}</Typography>
                     <Typography variant='caption' component='h6'>Jumlah Relawan: {program.volunteerApplied} / {program.volunteerNeeded}</Typography>
+                    <Link href={`${enumRoutes.MEMBER_KEGIATAN}/${responseLanding.result.program.id}/registrasi`} passHref>
+                      <Button mt={2} variant='contained'>Daftar Sekarang</Button>
+                    </Link>
                   </Grid>
                 ))}
               </Grid>

@@ -78,7 +78,7 @@ function AdminCreateOrEditKegiatan(props) {
 
     }, [apiCall, dispatch, kegiatan, thumbnail, variant])
 
-    console.log(kegiatan)
+    
 
     const router = useRouter()
     const pathname = router.pathname;

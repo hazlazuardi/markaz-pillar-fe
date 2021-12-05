@@ -44,7 +44,7 @@ function AdminCreateVolunteerKegiatan() {
     }
     if (!responseAllMarkaz) return "wait.."
 
-    console.log(kegiatan)
+    
 
     return (
         <>

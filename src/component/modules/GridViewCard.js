@@ -54,9 +54,7 @@ export default function GridViewCard(props) {
 
   const CTAGroup = () => {
     if (CTAs) {
-      return (
-        <CTAs />
-      )
+      return CTAs
     }
     if (isAdmin) {
       return (

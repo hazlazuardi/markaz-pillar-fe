@@ -27,7 +27,7 @@ function AdminEditMarkazProgresDonasi() {
         return axiosFormData.post(`/admin/donation/progress/edit?id=${progres_id}`, data)
     }, [progres_id])
 
-    console.log(progres)
+    
 
     useEffect(() => {
         if (responseProgres) {

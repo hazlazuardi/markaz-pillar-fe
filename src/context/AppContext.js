@@ -26,7 +26,7 @@ export function AppWrapper({ children }) {
           refreshToken: JSON.parse(JSON.stringify(cookies.get("currentRefreshToken")))
         })
           .then(res => {
-            console.log(res)
+            
 
             if (res.status === 200) {
               // 1) put token to LocalStorage
@@ -109,7 +109,7 @@ export function AppWrapper({ children }) {
   useEffect(() => {
     // If there's an update in the state, update the localStorage
     if (state !== initialState) {
-      console.log(state.currentAccessToken)
+      
       cookies.set('currentUser', `${state.currentUser}`, {path: "/"});
       cookies.set('currentUserRole', `${state.currentUserRole}`, {path: "/"});
       cookies.set('currentExpirationDate', `${state.currentExpirationDate}`, {path: "/"});
