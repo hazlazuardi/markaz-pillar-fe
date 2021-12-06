@@ -87,7 +87,7 @@ export default function AdminKegiatan() {
       labels: [
         {
           value: "MEMBUKA_PENDAFTARAN",
-          label: "Membuka Pendaftan",
+          label: "Membuka Pendaftaran",
         },
         { value: "MENUTUP_PENDAFTARAN", label: "Menutup Pendaftaran" },
         { value: "SUDAH_DILAKSANAKAN", label: "Sudah Dilaksanakan" },

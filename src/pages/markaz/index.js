@@ -36,12 +36,12 @@ export default function Markaz(props) {
     }
   );
 
-  
+
   const GridViewMarkaz = () => {
     return (
-      <GridView data={responseMarkaz}  />
-     );
-    };
+      <GridView data={responseMarkaz} variant='markaz' />
+    );
+  };
 
   const handleChangeName = (event) => {
     setNameFilter(event.target.value);
@@ -72,7 +72,7 @@ export default function Markaz(props) {
     <>
       <AdminOrUserTemplate
         variant="markaz"
-        GridView={<GridViewMarkaz/>}
+        GridView={<GridViewMarkaz />}
         entries={entries}
         searchTerm={searchMarkaz}
         setSearchTerm={setSearchMarkaz}

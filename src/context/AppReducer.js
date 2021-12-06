@@ -17,6 +17,7 @@ export const dispatchTypes = {
     SESSION_EXPIRED: 'session_expired',
     DELETE_SUCCEED: 'delete_succeed',
     UNAUTHORIZED_DONASI: 'unauthorized_donasi',
+    UNAUTHORIZED_PROGRAM: 'unauthorized_program',
     UNAUTHORIZED_ADMIN: 'unauthorized_admin',
     UNAUTHORIZED_USER: 'unauthorized_user',
     LOGIN_NEEDED_RELAWAN: "login_needed_relawan",
@@ -134,6 +135,9 @@ export const enumProtectedRoutes = [
 
 export const enumAuthenticatedRoutes = [
     enumRoutes.PROFILE,
+    enumRoutes.MEMBER_KEGIATAN_REGISTRASI,
+    enumRoutes.MEMBER_MARKAZ_DONASI,
+    enumRoutes.MEMBER_SANTRI_DONASI
 
 ]
 
@@ -186,6 +190,14 @@ export const AppReducer = (state, action) => {
                 snackbarStatus: true,
                 snackbarSeverity: 'secondary',
                 snackbarMessage: "Harap login sebelum berdonasi"
+            }
+        }
+        case dispatchTypes.UNAUTHORIZED_PROGRAM: {
+            return {
+                ...state,
+                snackbarStatus: true,
+                snackbarSeverity: 'secondary',
+                snackbarMessage: "Harap login sebelum mendaftar kegiatan relawan"
             }
         }
         case dispatchTypes.UNAUTHORIZED_ADMIN: {

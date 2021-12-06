@@ -304,7 +304,7 @@ export default function FilterComponent(props) {
                         Filter
                       </Typography>
 
-                      {(variant != "relawan" || variant != "profile") && accordionFilter}
+                      {(variant === "relawan" || variant === "profile") ? (null):(accordionFilter)}
                       {variant === "markaz" && (
                         <>
                           <Accordion>
@@ -514,7 +514,7 @@ export default function FilterComponent(props) {
         ) : (
           // mobile view
           <Drawer open={openDrawer} toggleDrawer={toggleDrawer}>
-            {(variant != "relawan" || variant != "profile") && accordionFilter}
+            {(variant === "relawan" || variant === "profile") ? (null):(accordionFilter)}
             {variant === "markaz" && (
               <>
                 <Accordion>

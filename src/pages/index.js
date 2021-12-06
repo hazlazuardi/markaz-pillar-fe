@@ -14,9 +14,11 @@ import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import Image from 'next/image'
 import Link from 'next/link'
-import { enumRoutes } from '../context/AppReducer';
+import { dispatchTypes, enumRoutes } from '../context/AppReducer';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import EmailIcon from '@mui/icons-material/Email';
+import { useAppContext } from '../context/AppContext';
+import { useRouter } from 'next/router';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -24,27 +26,39 @@ const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 export default function Landing(props) {
   const { allLanding } = props
   const { data: responseLanding } = useSWR('/landing', fetcher, { fallbackData: allLanding, refreshInterval: 100000 })
+  const { state, dispatch } = useAppContext()
+  const { currentUser } = state;
 
+  const router = useRouter()
 
   // *****************************************
   // Carousel
   // *****************************************
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
-  // const maxSteps = 2;
-
-  // const handleNext = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  // };
-
-  // const handleBack = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  // };
 
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
 
+
+  // const handleDonasiCTA = (variant, id) => {
+  //   if (!!currentUser) {
+  //     router.push(`${variant}/${id}/donasi/bayar`)
+  //   } else {
+  //     dispatch({ type: dispatchTypes.UNAUTHORIZED_DONASI })
+  //     router.push('/login')
+  //   }
+  // }
+
+  // const handleDaftarCTA = (id) => {
+  //   if (!!currentUser) {
+  //     router.push(`/relawan/kegiatan/${id}/registrasi`)
+  //   } else {
+  //     dispatch({ type: dispatchTypes.UNAUTHORIZED_PROGRAM })
+  //     router.push('/login')
+  //   }
+  // }
 
 
   return (
@@ -97,9 +111,8 @@ export default function Landing(props) {
               <Typography variant='body1' component='p' textAlign='center' sx={{ textOverflow: 'ellipsis' }}>{responseLanding.result.markaz.background}</Typography>
             </Box>
             <Box mt={2} mb={0} display='flex' alignItems='center' justifyContent='center'>
-              <Link href={`${enumRoutes.MEMBER_MARKAZ}/${responseLanding.result.markaz.id}/donasi/bayar`} passHref>
-                <Button variant='contained'>Donasi Sekarang</Button>
-              </Link>
+            {/* <Button variant='contained' onClick={handleDonasiCTA('markaz', responseLanding.result.markaz.id)}>Donasi Sekarang</Button> */}
+            <Button variant='contained' onClick={!!currentUser ? `${variant}/${responseLanding.result.markaz.id}/donasi/bayar` : `/login`}>Donasi Sekarang</Button>
             </Box>
           </Grid>
 
@@ -116,9 +129,8 @@ export default function Landing(props) {
               <Typography variant='body1' component='p' textAlign='center' sx={{ textOverflow: 'ellipsis' }} >{responseLanding.result.santri.background}</Typography>
             </Box>
             <Box mt={2} display='flex' alignItems='center' justifyContent='center'>
-              <Link href={`${enumRoutes.MEMBER_SANTRI}/${responseLanding.result.santri.id}/donasi/bayar`} passHref>
-                <Button variant='contained'>Donasi Sekarang</Button>
-              </Link>
+            {/* <Button variant='contained' onClick={handleDonasiCTA('santri', responseLanding.result.santri.id)} >Donasi Sekarang</Button> */}
+              <Button variant='contained' onClick={!!currentUser ? `${variant}/${responseLanding.result.santri.id}/donasi/bayar` : `/login`} >Donasi Sekarang</Button>
             </Box>
           </Grid>
 
@@ -134,9 +146,8 @@ export default function Landing(props) {
               <Typography variant='body1' component='p' textAlign='center' sx={{ textOverflow: 'ellipsis' }} >{responseLanding.result.program.description}</Typography>
             </Box>
             <Box mt={2} display='flex' alignItems='center' justifyContent='center'>
-              <Link href={`${enumRoutes.MEMBER_KEGIATAN}/${responseLanding.result.program.id}/registrasi`} passHref>
-                <Button variant='contained'>Daftar Sekarang</Button>
-              </Link>
+            {/* <Button variant='contained' onClick={handleDaftarCTA(responseLanding.result.program.id)}>Daftar Sekarang</Button> */}
+              <Button variant='contained' onClick={!!currentUser ? `/relawan/kegiatan/${id}/registrasi` : `/login`}>Daftar Sekarang</Button>
             </Box>
           </Grid>
         </Grid>

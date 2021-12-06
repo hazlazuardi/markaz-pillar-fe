@@ -41,6 +41,15 @@ export default function GridViewCard(props) {
     }
   }
 
+  const handleDaftarCTA = () => {
+    if (!!currentUser) {
+      router.push(`/relawan/kegiatan/${fullResponseResult.id}/registrasi`)
+    } else {
+      dispatch({ type: dispatchTypes.UNAUTHORIZED_PROGRAM })
+      router.push('/login')
+    }
+  }
+
   const handleCardActionArea = () => {
     if (variant === 'relawan') {
       return;
@@ -81,17 +90,16 @@ export default function GridViewCard(props) {
       if (variant === 'kegiatan' && type === 'open') {
         return (
           <Stack direction="row" width="100%" spacing={2} sx={{ p: 1 }}>
-            <Link href={`/relawan/kegiatan/${fullResponseResult.id}/registrasi`} passHref>
-              <Button
-                data-testid='edit-button-at-gridview-card'
-                variant="contained"
-                color="primary"
-                fullWidth
-                size="small"
-              >
-                Daftar
-              </Button>
-            </Link>
+            <Button
+              data-testid='edit-button-at-gridview-card'
+              variant="contained"
+              color="primary"
+              fullWidth
+              size="small"
+              onClick={handleDaftarCTA}
+            >
+              Daftar
+            </Button>
             <Link href={`/relawan/kegiatan/${fullResponseResult.id}`} passHref>
               <Button
                 data-testid="lihat-detail-button-at-gridview-card"

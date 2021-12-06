@@ -32,7 +32,7 @@ export default function Santri(props) {
 
   const GridViewSantri = () => {
     return (
-      <GridView data={responseSantri} detail="santri" />
+      <GridView data={responseSantri} variant="santri" />
     );
   };
 
