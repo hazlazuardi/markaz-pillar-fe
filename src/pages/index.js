@@ -112,7 +112,7 @@ export default function Landing(props) {
             </Box>
             <Box mt={2} mb={0} display='flex' alignItems='center' justifyContent='center'>
             {/* <Button variant='contained' onClick={handleDonasiCTA('markaz', responseLanding.result.markaz.id)}>Donasi Sekarang</Button> */}
-            <Button variant='contained' onClick={!!currentUser ? `${variant}/${responseLanding.result.markaz.id}/donasi/bayar` : `/login`}>Donasi Sekarang</Button>
+            {/* <Button variant='contained' onClick={!!currentUser ? `${variant}/${responseLanding.result.markaz.id}/donasi/bayar` : `/login`}>Donasi Sekarang</Button> */}
             </Box>
           </Grid>
 
@@ -130,7 +130,7 @@ export default function Landing(props) {
             </Box>
             <Box mt={2} display='flex' alignItems='center' justifyContent='center'>
             {/* <Button variant='contained' onClick={handleDonasiCTA('santri', responseLanding.result.santri.id)} >Donasi Sekarang</Button> */}
-              <Button variant='contained' onClick={!!currentUser ? `${variant}/${responseLanding.result.santri.id}/donasi/bayar` : `/login`} >Donasi Sekarang</Button>
+              {/* <Button variant='contained' onClick={!!currentUser ? `${variant}/${responseLanding.result.santri.id}/donasi/bayar` : `/login`} >Donasi Sekarang</Button> */}
             </Box>
           </Grid>
 
@@ -147,7 +147,7 @@ export default function Landing(props) {
             </Box>
             <Box mt={2} display='flex' alignItems='center' justifyContent='center'>
             {/* <Button variant='contained' onClick={handleDaftarCTA(responseLanding.result.program.id)}>Daftar Sekarang</Button> */}
-              <Button variant='contained' onClick={!!currentUser ? `/relawan/kegiatan/${id}/registrasi` : `/login`}>Daftar Sekarang</Button>
+              {/* <Button variant='contained' onClick={!!currentUser ? `/relawan/kegiatan/${id}/registrasi` : `/login`}>Daftar Sekarang</Button> */}
             </Box>
           </Grid>
         </Grid>

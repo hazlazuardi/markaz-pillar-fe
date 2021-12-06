@@ -14,7 +14,7 @@ export default function AdminUsers() {
     data: responsePengguna,
     error,
     mutate,
-  } = useSWR(`/admin/user?page=${page - 1}&n=${entries}&${!!searchUser && "name=" + searchUser}`, fetcher);
+  } = useSWR(`/admin/user?page=${page - 1}&n=${entries}&${!!searchUser && "query=" + searchUser}`, fetcher);
 
   const handleDeletePengguna = async (id) => {
     await axiosMain

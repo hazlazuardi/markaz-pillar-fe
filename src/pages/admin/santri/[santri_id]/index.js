@@ -54,7 +54,7 @@ export default function AdminDetailSantri(props) {
             },
             {
               subtitle: "Kebutuhan Beasiswa",
-              detail: dataResult.desc
+              detail: dataResult.description
             },
             {
               subtitle: "Tempat & Tanggal Lahir",
