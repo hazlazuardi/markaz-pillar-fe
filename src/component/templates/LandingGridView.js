@@ -42,31 +42,20 @@ export default function LandingGridView(props) {
     [setPage]
   );
 
-  
+
   return (
     <Container>
       {type === "open" ? (
-        <Typography>
-          <b style={{ color: "#004F5D" }}>
-            Daftar Program Relawan<br />
-            <br />
-          </b>
-        </Typography>
+        <Typography variant="h4" component="h2" gutterBottom>Daftar Program Relawan</Typography>
       ) : (
-        <Typography>
-          <b style={{ color: "#004F5D" }}>
-            Kegiatan Relawan Sebelumnya
-            <br />
-            <br />
-          </b>
-        </Typography>
+        <Typography variant="h4" component="h2" gutterBottom>Kegiatan Relawan Sebelumnya</Typography>
       )}
       <Grid sx={{ p: 1 }}>
         <GridView {...props} data={data} />
       </Grid>
       {/* Pagination */}
       {!!data && data.totalElement !== 0 && (
-        <Stack sx={{ bottom: "0em" }} spacing={2} alignItems="center">
+        <Stack mt={4} mb={8} sx={{ bottom: "0em" }} spacing={2} alignItems="center">
           <Pagination
             data-testid="pagination-at-admin-or-user-template"
             size={size}

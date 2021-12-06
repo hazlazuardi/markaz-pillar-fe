@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Grid, Stack } from '@mui/material';
+import React, { useState } from 'react'
+import { Grid, Stack, } from '@mui/material';
 import useSWR from 'swr';
 import { axiosMain } from '../axiosInstances';
 import { useTheme } from '@mui/material/styles';
@@ -26,23 +26,20 @@ export default function Landing(props) {
   const { data: responseLanding } = useSWR('/landing', fetcher, { fallbackData: allLanding, refreshInterval: 100000 })
 
 
-
-
-
   // *****************************************
   // Carousel
   // *****************************************
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = 2;
+  // const maxSteps = 2;
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
+  // const handleNext = () => {
+  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  // };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  // const handleBack = () => {
+  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  // };
 
   const handleStepChange = (step) => {
     setActiveStep(step);

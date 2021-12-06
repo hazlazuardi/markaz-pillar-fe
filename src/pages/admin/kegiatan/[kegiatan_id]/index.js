@@ -74,19 +74,19 @@ export default function DetailKegiatan() {
                         },
                         {
                             subtitle: "Pendaftaran Dibuka",
-                            detail: dataResult.programOpened,
+                            detail: !!dataResult.programOpened && dataResult.programOpened.split("T").join(" @"),
                         },
                         {
                             subtitle: "Pendaftaran Ditutup",
-                            detail: dataResult.programClosed,
+                            detail: !!dataResult.programClosed && dataResult.programClosed.split("T").join(" @"),
                         },
                         {
                             subtitle: "Program Selesai",
-                            detail: dataResult.programCompleted.split("T").join(" "),
+                            detail: !!dataResult.programCompleted && dataResult.programCompleted.split("T").join(" @"),
                         },
                         {
                             subtitle: "Status Kegiatan",
-                            detail: dataResult.status.split('_').join(" ").toLowerCase(),
+                            detail: !!dataResult.programCompleted && dataResult.status.split('_').join(" ").toLowerCase(),
                         },
                     ],
                 },

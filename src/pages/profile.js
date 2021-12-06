@@ -31,6 +31,9 @@ export default function Profile() {
 
     const [tabIndex, setTabIndex] = useState(0);
     const [statusFilter, setStatusFilter] = useState();
+    const [statusProfile1, setStatusProfile1] = useState();
+    const [statusProfile2, setStatusProfile2] = useState();
+    const [statusProfile3, setStatusProfile3] = useState();
     const [page, setPage] = useState(0)
     const [typeFilter, setTypeFilter] = useState("ALL")
 
@@ -45,7 +48,13 @@ export default function Profile() {
     };
 
     const { data, error, mutate } = useSWR(router.isReady && currentUser ?
-        `/user/activity?page=${page}&n=10&type=${typeFilter}${statusFilter != null ? "&status=" + statusFilter : ""}` : null,
+        `/user/activity?page=${page}&n=10&type=${typeFilter}&${
+            !!statusProfile1 ? "status=" + statusProfile1 : ""
+          }&${
+            !!statusProfile2 ? "status=" + statusProfile2 : ""
+          }&${
+            !!statusProfile3 ? "status=" + statusProfile3 : ""
+          }` : null,
         fetcher,
     );
 
@@ -77,31 +86,31 @@ export default function Profile() {
         },
     ];
 
-    const Filter = useCallback(() => {
-        return (
-        <FilterComponent
-            data-testid="filterChipButton-at-admin-or-user-template"
-            mutate={mutate}
-            size={size}
-            variant={"kegiatan"}
-            FilterRadioObject={radioProfile}
-        />
-        );
-    }, [size, mutate, radioProfile]);
+    // const Filter = useCallback(() => {
+    //     return (
+    //     <FilterComponent
+    //         data-testid="filterChipButton-at-admin-or-user-template"
+    //         mutate={mutate}
+    //         size={size}
+    //         variant={"kegiatan"}
+    //         FilterRadioObject={radioProfile}
+    //     />
+    //     );
+    // }, [size, mutate, radioProfile]);
 
     const handleTabIndex = (event, tab) => {
         setTabIndex(tab);
         if (tab == 0) {
             setTypeFilter("ALL");
-            setStatusFilter("");
+            setPage(0);
             mutate();
         } else if (tab == 1) {
             setTypeFilter("TRANSACTION");
-            setStatusFilter("");
+            setPage(0);
             mutate();
         } else if (tab == 2) {
             setTypeFilter("VOLUNTEER");
-            setStatusFilter("");
+            setPage(0);
             mutate();
         }
     };
@@ -222,7 +231,19 @@ export default function Profile() {
         <Grid container spacing={2}>
             <Grid item xs={12}>
             <Typography>
-                Kegiatan Saya <Filter />
+                Kegiatan Saya <FilterComponent
+                data-testid="filterChipButton-at-admin-or-user-template"
+                size={size}
+                variant="profile"
+                statusProfile1={statusProfile1}
+                statusProfile2={statusProfile2}
+                statusProfile3={statusProfile3}
+                setStatusProfile1={setStatusProfile1}
+                setStatusProfile2={setStatusProfile2}
+                setStatusProfile3={setStatusProfile3}
+                FilterRadioObject={radioProfile}
+                mutate={mutate}
+            />
             </Typography>
             </Grid>
 

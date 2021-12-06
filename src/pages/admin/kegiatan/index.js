@@ -11,14 +11,15 @@ export default function AdminKegiatan() {
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [searchProgram, setSearchProgram] = useState("");
+  const [status, setStatus] = useState("")
   const {
     data: responseProgram,
     error,
     mutate,
   } = useSWR(
-    `/volunteer?page=${page - 1}&n=${entries}&${
-      !!searchProgram && "name=" + searchProgram
-    }
+    `/volunteer?page=${page - 1}&n=${entries}&${!!searchProgram && "name=" + searchProgram
+    }&${!!status ? "status=" + status : ""}
+
 `,
     fetcher
     // {
@@ -73,6 +74,27 @@ export default function AdminKegiatan() {
     );
   };
 
+  const handleChangeStatus = (event) => {
+    setStatus(event.target.value);
+    mutate();
+  };
+
+  const radioStatus = [
+    {
+      title: "Status",
+      value: status,
+      onChange: handleChangeStatus,
+      labels: [
+        {
+          value: "MEMBUKA_PENDAFTARAN",
+          label: "Membuka Pendaftan",
+        },
+        { value: "MENUTUP_PENDAFTARAN", label: "Menutup Pendaftaran" },
+        { value: "SUDAH_DILAKSANAKAN", label: "Sudah Dilaksanakan" },
+      ],
+    },
+  ];
+
   return (
     <>
       <AdminOrUserTemplate
@@ -89,6 +111,7 @@ export default function AdminKegiatan() {
         data={responseProgram}
         error={error}
         hrefCreate="/admin/kegiatan/create"
+        FilterRadioObject={radioStatus}
         mutate={mutate}
       />
     </>

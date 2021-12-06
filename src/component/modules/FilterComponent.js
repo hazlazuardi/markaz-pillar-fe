@@ -29,6 +29,9 @@ export default function FilterComponent(props) {
     setStatusFilter1,
     setStatusFilter2,
     setStatusFilter3,
+    setStatusProfile1,
+    setStatusProfile2,
+    setStatusProfile3,
     locationFilter,
     setLocationFilter,
     mutate,
@@ -49,8 +52,53 @@ export default function FilterComponent(props) {
     PENDAFTARAN_DITOLAK: false,
   });
 
+  const [statusProfile, setStatusProfile] = React.useState({
+    MENUNGGU_KONFIRMASI: false,
+    DITERIMA: false,
+    DITOLAK: false,
+  });
+
   const handleChangeLocation = (event) => {
     setLocationFilter(event.target.value);
+    mutate();
+  };
+
+  const handleChangeStatusProfile1 = (event) => {
+    setStatus({
+      ...status,
+      [event.target.name]: event.target.checked,
+    });
+    if (event.target.checked) {
+      setStatusProfile1(event.target.name);
+    } else {
+      setStatusProfile1("");
+    }
+    mutate();
+  };
+
+  const handleChangeStatusProfile2 = (event) => {
+    setStatus({
+      ...status,
+      [event.target.name]: event.target.checked,
+    });
+    if (event.target.checked) {
+      setStatusProfile2(event.target.name);
+    } else {
+      setStatusProfile2("");
+    }
+    mutate();
+  };
+
+  const handleChangeStatusProfile3 = (event) => {
+    setStatus({
+      ...status,
+      [event.target.name]: event.target.checked,
+    });
+    if (event.target.checked) {
+      setStatusProfile3(event.target.name);
+    } else {
+      setStatusProfile3("");
+    }
     mutate();
   };
 
@@ -133,8 +181,10 @@ export default function FilterComponent(props) {
   };
 
   const { PEMBANGUNAN_MARKAZ, RENOVASI, PENAMBAHAN_FASILITAS } = state;
-  const { MENUNGGU_KONFIRMASI, PENDAFTARAN_DITERIMA, PENDAFTARAN_DITOLAK } =
+  const { MENUNGGU_KONFIRMASI, PENDAFTARAN_DITERIMA, PENDAFTARAN_DITOLAK, DITERIMA, DITOLAK } =
     status;
+
+  // const { MENUNGGU_KONFIRMASI, DITERIMA, DITOLAK } = statusProfile;
 
   // *******************************************************
   // MenuList Composition
@@ -254,7 +304,7 @@ export default function FilterComponent(props) {
                         Filter
                       </Typography>
 
-                      {variant != "relawan" && accordionFilter}
+                      {(variant != "relawan" || variant != "profile") && accordionFilter}
                       {variant === "markaz" && (
                         <>
                           <Accordion>
@@ -400,6 +450,61 @@ export default function FilterComponent(props) {
                           </AccordionDetails>
                         </Accordion>
                       )}
+                      {variant === "profile" && (
+                        <Accordion>
+                          <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                          >
+                            <Typography>Status</Typography>
+                          </AccordionSummary>
+                          <AccordionDetails>
+                            <FormControl
+                              component="fieldset"
+                              variant="standard"
+                            >
+                              <FormGroup>
+                                <FormControlLabel
+                                  control={
+                                    <Checkbox
+                                      checked={MENUNGGU_KONFIRMASI}
+                                      onChange={handleChangeStatusProfile1}
+                                      name="MENUNGGU_KONFIRMASI"
+                                    />
+                                  }
+                                  // value="PEMBANGUNAN_MARKAZ"
+                                  label="Menunggu Konfirmasi"
+                                />
+
+                                <FormControlLabel
+                                  control={
+                                    <Checkbox
+                                      checked={DITERIMA}
+                                      onChange={handleChangeStatusProfile2}
+                                      name="DITERIMA"
+                                    />
+                                  }
+                                  // value="RENOVASI"
+                                  label="Diterima"
+                                />
+
+                                <FormControlLabel
+                                  control={
+                                    <Checkbox
+                                      checked={DITOLAK}
+                                      onChange={handleChangeStatusProfile3}
+                                      name="DITOLAK"
+                                    />
+                                  }
+                                  // value="PENAMBAHAN_FASILITAS"
+                                  label="Ditolak"
+                                />
+                              </FormGroup>
+                            </FormControl>
+                          </AccordionDetails>
+                        </Accordion>
+                      )}
                     </Box>
                   </ClickAwayListener>
                 </Paper>
@@ -409,7 +514,7 @@ export default function FilterComponent(props) {
         ) : (
           // mobile view
           <Drawer open={openDrawer} toggleDrawer={toggleDrawer}>
-            {variant != "relawan" && accordionFilter}
+            {(variant != "relawan" || variant != "profile") && accordionFilter}
             {variant === "markaz" && (
               <>
                 <Accordion>
@@ -543,6 +648,58 @@ export default function FilterComponent(props) {
                         }
                         // value="PENAMBAHAN_FASILITAS"
                         label="Pendaftaran Ditolak"
+                      />
+                    </FormGroup>
+                  </FormControl>
+                </AccordionDetails>
+              </Accordion>
+            )}
+            {variant === "profile" && (
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography>Status</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <FormControl component="fieldset" variant="standard">
+                    <FormGroup>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={MENUNGGU_KONFIRMASI}
+                            onChange={handleChangeStatusProfile1}
+                            name="MENUNGGU_KONFIRMASI"
+                          />
+                        }
+                        // value="PEMBANGUNAN_MARKAZ"
+                        label="Menunggu Konfirmasi"
+                      />
+
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={DITERIMA}
+                            onChange={handleChangeStatusProfile2}
+                            name="DITERIMA"
+                          />
+                        }
+                        // value="RENOVASI"
+                        label="Diterima"
+                      />
+
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={DITOLAK}
+                            onChange={handleChangeStatusProfile3}
+                            name="DITOLAK"
+                          />
+                        }
+                        // value="PENAMBAHAN_FASILITAS"
+                        label="Ditolak"
                       />
                     </FormGroup>
                   </FormControl>
