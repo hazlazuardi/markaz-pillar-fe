@@ -54,7 +54,7 @@ export default function AdminMarkazDetail(props) {
             },
             {
               subtitle: "Alamat",
-              detail: dataResult.contactInfo,
+              detail: dataResult.address,
             },
           ],
           donation: [

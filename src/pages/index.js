@@ -111,8 +111,10 @@ export default function Landing(props) {
               <Typography variant='body1' component='p' textAlign='center' sx={{ textOverflow: 'ellipsis' }}>{responseLanding.result.markaz.background}</Typography>
             </Box>
             <Box mt={2} mb={0} display='flex' alignItems='center' justifyContent='center'>
-            {/* <Button variant='contained' onClick={handleDonasiCTA('markaz', responseLanding.result.markaz.id)}>Donasi Sekarang</Button> */}
-            {/* <Button variant='contained' onClick={!!currentUser ? `${variant}/${responseLanding.result.markaz.id}/donasi/bayar` : `/login`}>Donasi Sekarang</Button> */}
+              <Link href={!!currentUser ? `${enumRoutes.MEMBER_MARKAZ}/${responseLanding.result.markaz.id}/donasi/bayar` : '/login'} passHref>
+                <Button variant='contained'>Donasi Sekarang</Button>
+                {/* <Button variant='contained' onClick={!!currentUser ? `${variant}/${responseLanding.result.markaz.id}/donasi/bayar` : `/login`}>Donasi Sekarang</Button> */}
+              </Link>
             </Box>
           </Grid>
 
@@ -129,8 +131,10 @@ export default function Landing(props) {
               <Typography variant='body1' component='p' textAlign='center' sx={{ textOverflow: 'ellipsis' }} >{responseLanding.result.santri.background}</Typography>
             </Box>
             <Box mt={2} display='flex' alignItems='center' justifyContent='center'>
-            {/* <Button variant='contained' onClick={handleDonasiCTA('santri', responseLanding.result.santri.id)} >Donasi Sekarang</Button> */}
-              {/* <Button variant='contained' onClick={!!currentUser ? `${variant}/${responseLanding.result.santri.id}/donasi/bayar` : `/login`} >Donasi Sekarang</Button> */}
+              <Link href={!!currentUser ? `${enumRoutes.MEMBER_SANTRI}/${responseLanding.result.santri.id}/donasi/bayar` : '/login'} passHref>
+                <Button variant='contained' >Donasi Sekarang</Button>
+                {/* <Button variant='contained' onClick={!!currentUser ? `${variant}/${responseLanding.result.santri.id}/donasi/bayar` : `/login`} >Donasi Sekarang</Button> */}
+              </Link>
             </Box>
           </Grid>
 
@@ -146,8 +150,10 @@ export default function Landing(props) {
               <Typography variant='body1' component='p' textAlign='center' sx={{ textOverflow: 'ellipsis' }} >{responseLanding.result.program.description}</Typography>
             </Box>
             <Box mt={2} display='flex' alignItems='center' justifyContent='center'>
-            {/* <Button variant='contained' onClick={handleDaftarCTA(responseLanding.result.program.id)}>Daftar Sekarang</Button> */}
-              {/* <Button variant='contained' onClick={!!currentUser ? `/relawan/kegiatan/${id}/registrasi` : `/login`}>Daftar Sekarang</Button> */}
+              <Link href={!!currentUser ? `${enumRoutes.MEMBER_KEGIATAN}/${responseLanding.result.program.id}/registrasi` : '/login'} passHref>
+                <Button variant='contained'>Daftar Sekarang</Button>
+                {/* <Button variant='contained' onClick={!!currentUser ? `/relawan/kegiatan/${id}/registrasi` : `/login`}>Daftar Sekarang</Button> */}
+              </Link>
             </Box>
           </Grid>
         </Grid>

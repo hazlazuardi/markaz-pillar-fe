@@ -34,7 +34,7 @@ export default function MarkazDetail(props) {
       },
       {
         subtitle: "Contact Person",
-        detail: dataResult.contactInfo,
+        detail: dataResult.contactPerson,
       },
       {
         subtitle: "Contact Name",
@@ -42,7 +42,7 @@ export default function MarkazDetail(props) {
       },
       {
         subtitle: "Alamat",
-        detail: dataResult.contactInfo,
+        detail: dataResult.address,
       },
     ],
     donation: [
