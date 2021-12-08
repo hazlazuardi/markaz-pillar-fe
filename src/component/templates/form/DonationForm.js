@@ -52,18 +52,20 @@ export default function DonationForm(props) {
 
 
     const [isCopied, setIsCopied] = useState(false);
-    const onCopyText = () => {
+    const [copiedText, setCopiedText] = useState("")
+    const onCopyText = (text) => {
         setIsCopied(true);
+        setCopiedText(text);
         dispatch({
             type: dispatchTypes.SNACKBAR_CUSTOM,
             payload: {
                 severity: "success",
-                message: "Tersalin ke Clipboard!"
+                message: `Rek. ${text} tersalin ke Clipboard!`
             }
         })
         setTimeout(() => {
             setIsCopied(false);
-        }, 1000);
+        }, 4000);
     };
     // ******************************************  
     // From pages
@@ -191,12 +193,12 @@ export default function DonationForm(props) {
                                         Pembayaran dilakukan ke rekening a.n. MARKAZ PILAR
                                     </Typography>
                                     <Box sx={{ backgroundColor: "lightgrey", display: "flex", justifyContent: "space-between", p: 2, m: 1 }}>
-                                        <Typography sx={{ fontWeight: "bold" }}>
+                                        <Typography sx={{ fontWeight: "bold" }}  >
                                             567890
                                         </Typography>
-                                        <CopyToClipboard text={"567890"} onCopy={onCopyText}>
-                                            <Button color='primary'>
-                                                Salin
+                                        <CopyToClipboard text={"567890"} onCopy={() => onCopyText("567890")}>
+                                            <Button color={isCopied && copiedText === '567890' ? 'success' : 'primary'} variant={isCopied && copiedText === '567890' ? 'contained' : 'text'} >
+                                                {isCopied && copiedText === "567890" ? "Tersalin" : "Salin"}
                                             </Button>
                                         </CopyToClipboard>
                                     </Box>
@@ -221,9 +223,9 @@ export default function DonationForm(props) {
                                         <Typography sx={{ fontWeight: "bold" }}>
                                             12345
                                         </Typography>
-                                        <CopyToClipboard text={"12345"} onCopy={onCopyText}>
-                                            <Button color='primary'>
-                                                Salin
+                                        <CopyToClipboard text={"12345"} onCopy={() => onCopyText("12345")}>
+                                            <Button color={isCopied && copiedText === '12345' ? 'success' : 'primary'} variant={isCopied && copiedText === '12345' ? 'contained' : 'text'}>
+                                                {isCopied && copiedText === "12345" ? "Tersalin" : "Salin"}
                                             </Button>
                                         </CopyToClipboard>
                                     </Box>
@@ -248,9 +250,9 @@ export default function DonationForm(props) {
                                         <Typography sx={{ fontWeight: "bold" }}>
                                             98765
                                         </Typography>
-                                        <CopyToClipboard text={"98765"} onCopy={onCopyText}>
-                                            <Button color='primary'>
-                                                Salin
+                                        <CopyToClipboard text={"98765"} onCopy={() => onCopyText("98765")}>
+                                            <Button color={isCopied && copiedText === '98765' ? 'success' : 'primary'} variant={isCopied && copiedText === '98765' ? 'contained' : 'text'}>
+                                                {isCopied && copiedText === "98765" ? "Tersalin" : "Salin"}
                                             </Button>
                                         </CopyToClipboard>
                                     </Box>
