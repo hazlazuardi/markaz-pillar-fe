@@ -34,14 +34,14 @@ function AdminEditSantriProgresDonasi() {
                 ...responseProgres.result,
             })
         }
-    }, [responseProgres, progres])
+    }, [responseProgres])
 
     if (errorProgres) return "Error"
     if (!responseProgres) return "wait.."
 
     return (
         <>
-            <ArrowBack href={`${enumRoutes.ADMIN_SANTRI_DETAIL}/${santri_id}/`} />
+            <ArrowBack href={`${enumRoutes.ADMIN_SANTRI}/${santri_id}`} />
             <AdminCreateOrEditProgres
                 progres={progres}
                 setProgres={setProgres}

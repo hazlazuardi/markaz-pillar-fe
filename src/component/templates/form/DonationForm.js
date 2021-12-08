@@ -21,6 +21,7 @@ import { useTheme } from "@mui/material/styles";
 import { dispatchTypes, enumRoutes } from '../../../context/AppReducer';
 import { useAppContext } from '../../../context/AppContext';
 import { useRouter } from 'next/router';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 const steps = [
     'Informasi Donasi',
@@ -50,7 +51,20 @@ export default function DonationForm(props) {
     const { dispatch } = useAppContext();
 
 
-
+    const [isCopied, setIsCopied] = useState(false);
+    const onCopyText = () => {
+        setIsCopied(true);
+        dispatch({
+            type: dispatchTypes.SNACKBAR_CUSTOM,
+            payload: {
+                severity: "success",
+                message: "Tersalin ke Clipboard!"
+            }
+        })
+        setTimeout(() => {
+            setIsCopied(false);
+        }, 1000);
+    };
     // ******************************************  
     // From pages
     // ******************************************
@@ -178,11 +192,13 @@ export default function DonationForm(props) {
                                     </Typography>
                                     <Box sx={{ backgroundColor: "lightgrey", display: "flex", justifyContent: "space-between", p: 2, m: 1 }}>
                                         <Typography sx={{ fontWeight: "bold" }}>
-                                            123456889
+                                            567890
                                         </Typography>
-                                        <Typography>
-                                            Salin
-                                        </Typography>
+                                        <CopyToClipboard text={"567890"} onCopy={onCopyText}>
+                                            <Button color='primary'>
+                                                Salin
+                                            </Button>
+                                        </CopyToClipboard>
                                     </Box>
                                     <Typography>
                                         Lakukan pembayaran sebelum ...
@@ -203,11 +219,13 @@ export default function DonationForm(props) {
                                     </Typography>
                                     <Box sx={{ backgroundColor: "lightgrey", display: "flex", justifyContent: "space-between", p: 2, m: 1 }}>
                                         <Typography sx={{ fontWeight: "bold" }}>
-                                            123456889
+                                            12345
                                         </Typography>
-                                        <Typography>
-                                            Salin
-                                        </Typography>
+                                        <CopyToClipboard text={"12345"} onCopy={onCopyText}>
+                                            <Button color='primary'>
+                                                Salin
+                                            </Button>
+                                        </CopyToClipboard>
                                     </Box>
                                     <Typography>
                                         Lakukan pembayaran sebelum ...
@@ -228,11 +246,13 @@ export default function DonationForm(props) {
                                     </Typography>
                                     <Box sx={{ backgroundColor: "lightgrey", display: "flex", justifyContent: "space-between", p: 2, m: 1 }}>
                                         <Typography sx={{ fontWeight: "bold" }}>
-                                            123456889
+                                            98765
                                         </Typography>
-                                        <Typography>
-                                            Salin
-                                        </Typography>
+                                        <CopyToClipboard text={"98765"} onCopy={onCopyText}>
+                                            <Button color='primary'>
+                                                Salin
+                                            </Button>
+                                        </CopyToClipboard>
                                     </Box>
                                     <Typography>
                                         Lakukan pembayaran sebelum ...

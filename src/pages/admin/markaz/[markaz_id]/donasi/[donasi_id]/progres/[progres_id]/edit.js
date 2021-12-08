@@ -42,7 +42,7 @@ function AdminEditMarkazProgresDonasi() {
 
     return (
         <>
-        <ArrowBack href={`${enumRoutes.ADMIN_MARKAZ}/${markaz_id}/`} />
+        <ArrowBack href={`${enumRoutes.ADMIN_MARKAZ}/${markaz_id}`} />
             <AdminCreateOrEditProgres
                 progres={progres}
                 setProgres={setProgres}
