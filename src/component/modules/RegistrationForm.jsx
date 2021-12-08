@@ -197,7 +197,7 @@ export default function RegistrationForm(props) {
                     <FormControl
                         fullWidth margin="normal" variant="outlined"
                         required
-                        error={data.password.length > 0 && data.password.length < 8}
+                        error={data.password.length > 0 && data.password.length < 8 || (error.password && data.password.length > 0)}
                     >
                         <InputLabel htmlFor="password">Password</InputLabel>
                         <OutlinedInput
@@ -227,6 +227,11 @@ export default function RegistrationForm(props) {
                                 Password harus minimal terdiri dari 8 karakter
                             </FormHelperText>
                         }
+                        {(error.password && data.password.length > 0) && (
+                            <FormHelperText>
+                                Password harus mengandung huruf kapital dan angka
+                            </FormHelperText>
+                        )}
                     </FormControl>
                     <Button
                         id='submitAtRegistration'

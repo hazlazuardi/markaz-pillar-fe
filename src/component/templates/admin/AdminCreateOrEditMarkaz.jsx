@@ -42,6 +42,12 @@ function AdminCreateOrEditMarkaz(props) {
         }));
     };
 
+    const [errorMessage, setErrorMessage] = useState({
+        name: "",
+        background: "",
+        category: "",
+        address: "",
+    })
     const [loading, setLoading] = useState(false)
     const handleSubmit = async (event) => {
         setLoading(true)
@@ -75,7 +81,7 @@ function AdminCreateOrEditMarkaz(props) {
                 setLoading(false)
                 console.log(error.response)
                 if (!!error.response && error.response.status === 400) {
-
+                    setError(error.response.data.result)
                     // Check & Handle if bad request (empty fields, etc)
                     dispatch({
                         type: dispatchTypes.SNACKBAR_CUSTOM,
@@ -131,7 +137,10 @@ function AdminCreateOrEditMarkaz(props) {
                                         label="Markaz Name"
                                         fullWidth
                                         onChange={handleChangeMarkaz}
-                                        value={markaz ? markaz.name : result.name}
+                                        value={markaz.name}
+                                        defaultValue={!!isCreate ? "" : result.name}
+                                        error={!!errorMessage.name}
+                                        required={isCreate}
 
                                     />
                                 </Grid>
@@ -141,8 +150,11 @@ function AdminCreateOrEditMarkaz(props) {
                                         name="background"
                                         label="Background"
                                         fullWidth
-                                        value={markaz ? markaz.background : result.background}
+                                        value={markaz.background}
                                         onChange={handleChangeMarkaz}
+                                        defaultValue={!!isCreate ? "" : result.background}
+                                        error={!!errorMessage.background}
+                                        required={isCreate}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -152,8 +164,9 @@ function AdminCreateOrEditMarkaz(props) {
                                             labelId="category-label"
                                             id="category-select"
                                             name='category'
-                                            defaultValue={markaz.category}
-                                            value={markaz ? markaz.category : result.category}
+                                            defaultValue={result.category}
+                                            value={markaz.category}
+                                            required={isCreate}
                                             label="Kategori"
                                             onChange={handleChangeMarkaz}
                                         >
@@ -170,8 +183,9 @@ function AdminCreateOrEditMarkaz(props) {
                                         label="Markaz Address"
                                         fullWidth
                                         onChange={handleChangeMarkaz}
-                                        value={markaz ? markaz.address : result.address}
-
+                                        defaultValue={result.address}
+                                        value={markaz.address}
+                                        required={isCreate}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -181,8 +195,9 @@ function AdminCreateOrEditMarkaz(props) {
                                         label="Contact Name"
                                         fullWidth
                                         onChange={handleChangeMarkaz}
-                                        value={markaz ? markaz.contactName : result.contactName}
-
+                                        defaultValue={result.contactName}
+                                        value={markaz.contactName}
+                                        required={isCreate}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -192,8 +207,9 @@ function AdminCreateOrEditMarkaz(props) {
                                         label="Contact Info"
                                         fullWidth
                                         onChange={handleChangeMarkaz}
-                                        value={markaz ? markaz.contactInfo : result.contactInfo}
-
+                                        defaultValue={result.contactInfo}
+                                        value={markaz.contactInfo}
+                                        required={isCreate}
                                     />
                                 </Grid>
                                 <Grid item xs={12} >
