@@ -45,7 +45,7 @@ export default function RegistrationForm(props) {
         await apiCall(data)
             .then(response => {
                 setLoading(false)
-
+                console.log(response)
                 const decodedJWT = jwtDecode(response.data.result.accessToken)
                 dispatch({
                     type: dispatchTypes.REGISTRATION_SUCCEED,
@@ -59,19 +59,22 @@ export default function RegistrationForm(props) {
 
             })
             .catch(e => {
+                console.log(e.response)
                 setLoading(false)
                 if (!isOnline) return (<Fallback />)
-                setError(prev => ({
-                    ...prev,
-                    ...e.response.data.result
-                }))
-                if (e.response.data.result.message) {
-                    dispatch({
-                        type: dispatchTypes.REGISTRATION_FAIL,
-                        payload: {
-                            message: "Alamat email sudah digunakan"
-                        }
-                    })
+                if (!!e.response) {
+                    setError(prev => ({
+                        ...prev,
+                        ...e.response.data.result
+                    }))
+                    if (e.response.data.result.message) {
+                        dispatch({
+                            type: dispatchTypes.REGISTRATION_FAIL,
+                            payload: {
+                                message: "Alamat email sudah digunakan"
+                            }
+                        })
+                    }
                 }
 
             })
@@ -113,7 +116,7 @@ export default function RegistrationForm(props) {
                         </Typography>
                     </>
                 )}
-                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1}}>
+                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                     {variant !== 'oauth' && (
                         <TextField
                             margin="normal"

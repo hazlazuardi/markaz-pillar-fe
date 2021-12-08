@@ -73,6 +73,7 @@ function AdminCreateOrEditMarkaz(props) {
             })
             .catch(error => {
                 setLoading(false)
+                console.log(error.response)
                 if (!!error.response && error.response.status === 400) {
 
                     // Check & Handle if bad request (empty fields, etc)

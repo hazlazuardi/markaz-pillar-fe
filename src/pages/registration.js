@@ -38,32 +38,33 @@ export default function Registration() {
 
     const [loading, setLoading] = useState(false)
 
-    const registerUsingDefault = useCallback(async (data) => {
-        return axiosMain.post("/register", data)
-        .then(response => {
-            setLoading(false)
-            const decodedJWT = jwtDecode(response.data.result.accessToken)
-            dispatch({
-                type: dispatchTypes.REGISTRATION_SUCCEED,
-                payload: {
-                    currentUser: decodedJWT.sub,
-                    currentUserRole: decodedJWT.role,
-                    currentAccessToken: response.data.result.accessToken,
-                    currentRefreshToken: response.data.result.refreshToken
-                }
-            });
+    const registerUsingDefault = async (user) => {
+        return axiosMain.post("/register", user)
+        //         .then(response => {
+        //             setLoading(false)
+        //             const decodedJWT = jwtDecode(response.data.result.accessToken)
+        //             dispatch({
+        //                 type: dispatchTypes.REGISTRATION_SUCCEED,
+        //                 payload: {
+        //                     currentUser: decodedJWT.sub,
+        //                     currentUserRole: decodedJWT.role,
+        //                     currentAccessToken: response.data.result.accessToken,
+        //                     currentRefreshToken: response.data.result.refreshToken
+        //                 }
+        //             });
 
-        })
-        .catch(e => {
-            setLoading(false)
-            dispatch({
-                type: dispatchTypes.REGISTRATION_FAIL,
-                payload: {
-                    message: "Alamat email sudah digunakan"
-                }
-            })
-        })
-    }, [])
+        //         })
+        //         .catch(e => {
+        //             setLoading(false)
+        //             console.log(e.response)
+        //             dispatch({
+        //                 type: dispatchTypes.REGISTRATION_FAIL,
+        //                 payload: {
+        //                     message: "Alamat email sudah digunakan"
+        //                 }
+        //             })
+        //         })
+    }
 
     useEffect(() => {
         if (currentUser) {
