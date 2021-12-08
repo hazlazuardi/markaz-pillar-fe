@@ -220,8 +220,11 @@ function AdminCreateOrEditKegiatan(props) {
                                                     fullWidth
                                                     onChange={handleChangeKegiatan}
                                                     value={kegiatan.programCompleted}
-                                                    placeholder="2021-02-01"
+                                                    defaultValue="2017-05-24T10:30"
                                                     type="datetime-local"
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -339,8 +342,11 @@ function AdminCreateOrEditKegiatan(props) {
                                                     fullWidth
                                                     onChange={handleChangeKegiatan}
                                                     value={kegiatan.programOpened}
-                                                    placeholder="2021-01-01"
+                                                    defaultValue="2017-05-24T10:30"
                                                     type="datetime-local"
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -351,8 +357,11 @@ function AdminCreateOrEditKegiatan(props) {
                                                     fullWidth
                                                     onChange={handleChangeKegiatan}
                                                     value={kegiatan.programClosed}
-                                                    placeholder="2021-01-02"
+                                                    defaultValue="2017-05-24T10:30"
                                                     type="datetime-local"
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>

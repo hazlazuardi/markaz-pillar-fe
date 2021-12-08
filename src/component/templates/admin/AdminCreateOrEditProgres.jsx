@@ -113,11 +113,14 @@ function AdminCreateOrEditProgres(props) {
                                     <TextField
                                         id='progresNameAtComponentAdminCreateOrEditProgres'
                                         name="progressDate"
-                                        label="Tanggal (YYYY-MM-DD)"
+                                        label="Tanggal"
                                         fullWidth
                                         type="date"
                                         onChange={handleChangeProgres}
                                         value={progres.progressDate}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>

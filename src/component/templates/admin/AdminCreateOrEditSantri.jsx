@@ -212,6 +212,10 @@ function AdminCreateOrEditSantri(props) {
                                         fullWidth
                                         onChange={handleChangeSantri}
                                         placeholder="YYYY-MM-DD"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        defaultValue="2001-10-10"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
