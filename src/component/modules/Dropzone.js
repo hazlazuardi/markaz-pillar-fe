@@ -34,7 +34,7 @@ const rejectStyle = {
 export default function Dropzone({ setFile, accept, fileSize }) {
   const { dispatch } = useAppContext();
 
-  const onDropAccepted = useCallback((acceptedFiles) => {
+  const onDropAccepted = (acceptedFiles) => {
     const reader = new FileReader();
     reader.onload = function (e) {
       setFile(acceptedFiles[0]);
@@ -43,9 +43,9 @@ export default function Dropzone({ setFile, accept, fileSize }) {
 
     return acceptedFiles[0];
 
-  }, [setFile]);
+  }
 
-  const onDropRejected = useCallback((fileRejections) => {
+  const onDropRejected = (fileRejections) => {
     var message = ""
 
     if (accept == "image/*") {
@@ -65,8 +65,6 @@ export default function Dropzone({ setFile, accept, fileSize }) {
       }
 
     }
-
-
     dispatch({
       type: dispatchTypes.SNACKBAR_CUSTOM,
       payload: {
@@ -74,7 +72,7 @@ export default function Dropzone({ setFile, accept, fileSize }) {
         message: message
       }
     })
-  }, [accept, dispatch]);
+  }
 
 
   const {

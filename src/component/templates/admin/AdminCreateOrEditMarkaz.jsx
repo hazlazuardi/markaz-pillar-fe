@@ -124,23 +124,23 @@ function AdminCreateOrEditMarkaz(props) {
             })
     };
 
-    useEffect(() => {
-        if (!isCreate || (
-            !!markaz.name &&
-            !!markaz.background &&
-            !!markaz.category &&
-            !!markaz.address &&
-            !!markaz.contactName &&
-            !!markaz.contactInfo
-        )
-        ) {
-            console.log('false', markaz)
-            setDisableSubmit(false)
-        } else {
-            console.log('true', markaz)
-            setDisableSubmit(true)
-        }
-    }, [isCreate, markaz]);
+    // useEffect(() => {
+    //     if (!isCreate || (
+    //         !!markaz.name &&
+    //         !!markaz.background &&
+    //         !!markaz.category &&
+    //         !!markaz.address &&
+    //         !!markaz.contactName &&
+    //         !!markaz.contactInfo
+    //     )
+    //     ) {
+    //         console.log('false', markaz)
+    //         setDisableSubmit(false)
+    //     } else {
+    //         console.log('true', markaz)
+    //         setDisableSubmit(true)
+    //     }
+    // }, [isCreate, markaz]);
 
     console.log(errorMessage)
     return (
@@ -279,7 +279,14 @@ function AdminCreateOrEditMarkaz(props) {
                                         loading={loading}
                                         loadingIndicator="Menyimpan..."
                                         variant="contained"
-                                        disabled={isCreate && disableSubmit}>
+                                        disabled={isCreate && !(
+                                            !!markaz.name &&
+                                            !!markaz.background &&
+                                            !!markaz.category &&
+                                            !!markaz.address &&
+                                            !!markaz.contactName &&
+                                            !!markaz.contactInfo
+                                        )}>
                                         Simpan
                                     </LoadingButton>
                                 </Grid>
