@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -31,12 +31,17 @@ function AdminCreateOrEditSantri(props) {
     const { dispatch } = useAppContext();
     const form = useRef(null);
 
+    const [disableSubmit, setDisableSubmit] = useState(true)
     const handleChangeSantri = ({ target }) => {
         const { name, value } = target;
         setSantri((prev) => ({
             ...prev,
             [name]: value,
         }));
+        setErrorMessage((prev => ({
+            ...prev,
+            [name]: ""
+        })))
     };
 
     const router = useRouter()
@@ -63,22 +68,71 @@ function AdminCreateOrEditSantri(props) {
                 }
                 router.push(`${enumRoutes.ADMIN_SANTRI}/${santri_id}`)
             })
-            .catch(e => {
+            .catch(error => {
                 setLoading(false)
-                // Check & Handle if e.response is defined
-                if (!!e.response) {
-                    // Check & Handle if bad request (empty fields, etc)
-                    dispatch({
-                        type: dispatchTypes.SNACKBAR_CUSTOM,
-                        payload: {
-                            severity: 'error',
-                            message: 'Incorrect information'
-                        }
-                    });
+                console.log(error.response)
+                if (!!error.response && error.response.status === 400) {
+                    console.log(error.response.data)
+                    if (!!error.response.data.message && error.response.data.message.includes("thumbnail")) {
+                        dispatch({
+                            type: dispatchTypes.SNACKBAR_CUSTOM,
+                            payload: {
+                                severity: 'error',
+                                message: 'Please insert the thumbnail'
+                            }
+                        });
+                    }
+                    console.log(error.response.data.result)
+                    if (!!error.response.data.message && error.response.data.message.includes("exists")) {
+                        dispatch({
+                            type: dispatchTypes.SNACKBAR_CUSTOM,
+                            payload: {
+                                severity: 'error',
+                                message: 'Santri dengan nama tersebut sudah ada'
+                            }
+                        });
+                        setErrorMessage(prev => ({
+                            ...prev,
+                            name: 'Santri dengan nama tersebut sudah ada'
+                        }))
+                        // Check & Handle if bad request (empty fields, etc)
+                    }
+                    setErrorMessage(prev => ({
+                        ...prev,
+                        ...error.response.data.result
+                    }))
                 }
             })
     };
 
+    const [errorMessage, setErrorMessage] = useState({
+        name: "",
+        background: "",
+        markaz: "",
+        gender:"",
+        address: "",
+        birthPlace: "",
+        birthDate: "",
+    })
+
+    useEffect(() => {
+        if (!isCreate || (
+            !!santri.name &&
+            !!santri.background &&
+            (!!santri.markazId || originalSantriResult.markaz.id) &&
+            !!santri.gender &&
+            !!santri.address &&
+            !!santri.birthPlace &&
+            !!santri.birthDate
+        )
+        ) {
+            console.log('false', santri)
+            setDisableSubmit(false)
+        } else {
+            console.log('true', santri)
+            setDisableSubmit(true)
+        }
+    }, [isCreate, santri]);
 
     const buildSantriFormData = (santriJson, thumbnailFile) => {
         const data = new FormData();
@@ -135,6 +189,9 @@ function AdminCreateOrEditSantri(props) {
                                         label="Nama Santri"
                                         fullWidth
                                         onChange={handleChangeSantri}
+                                        required={isCreate}
+                                        error={!!errorMessage.name}
+                                        helperText={!!errorMessage.name && `Nama Santri ${santri.name} sudah ada.`}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -145,6 +202,9 @@ function AdminCreateOrEditSantri(props) {
                                         label="Background"
                                         fullWidth
                                         onChange={handleChangeSantri}
+                                        required={isCreate}
+                                        error={!!errorMessage.background}
+                                        helperText={!!errorMessage.background && "Harap isi background Santri dengan benar."}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -158,6 +218,9 @@ function AdminCreateOrEditSantri(props) {
                                             value={santri.gender || isCreate ? santri.gender : originalSantriResult.gender}
                                             label="Jenis Kelamin"
                                             onChange={handleChangeSantri}
+                                            required={isCreate}
+                                            error={!!errorMessage.gender}
+                                            helperText={!!errorMessage.gender && "Harap pilih salah satu jenis kelamin."}
                                         >
                                             <MenuItem value={"LAKI_LAKI"}>Laki-laki</MenuItem>
                                             <MenuItem value={"PEREMPUAN"}>Perempuan</MenuItem>
@@ -175,6 +238,9 @@ function AdminCreateOrEditSantri(props) {
                                             value={santri || isCreate ? santri.markazId : originalSantriResult.markaz.id}
                                             label="Tempat Markaz"
                                             onChange={handleChangeSantri}
+                                            error={!!errorMessage.markaz}
+                                            required={isCreate}
+                                            helperText={!!errorMessage.markaz && "Harap pilih salah satu markaz."}
                                         >
                                             {!!allMarkaz && allMarkaz.map(markaz => (
                                                 <MenuItem key={markaz.id} value={markaz.id}>{markaz.name}</MenuItem>
@@ -190,6 +256,9 @@ function AdminCreateOrEditSantri(props) {
                                         label="Domisili Asal"
                                         fullWidth
                                         onChange={handleChangeSantri}
+                                        required={isCreate}
+                                        error={!!errorMessage.address}
+                                        helperText={!!errorMessage.address && "Harap isi domisili Santri dengan benar."}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -200,6 +269,9 @@ function AdminCreateOrEditSantri(props) {
                                         label="Tempat Lahir"
                                         fullWidth
                                         onChange={handleChangeSantri}
+                                        required={isCreate}
+                                        error={!!errorMessage.birthPlace}
+                                        helperText={!!errorMessage.birthPlace && "Harap isi tempat lahir Santri dengan benar."}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -211,11 +283,22 @@ function AdminCreateOrEditSantri(props) {
                                         type="date"
                                         fullWidth
                                         onChange={handleChangeSantri}
-                                        placeholder="YYYY-MM-DD"
+                                        required={isCreate}
+                                        error={!!errorMessage.birthDate}
+                                        helperText={!!errorMessage.birthDate && "Harap isi tempat lahir Santri dengan benar."}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <LoadingButton data-testid='santri-submit-button-at-AdminCreateOrEditSantri-module' fullWidth type='submit' loading={loading} loadingIndicator="Menyimpan..." variant="contained">
+                                    <LoadingButton 
+                                        data-testid='santri-submit-button-at-AdminCreateOrEditSantri-module' 
+                                        fullWidth type='submit' 
+                                        loading={loading} 
+                                        loadingIndicator="Menyimpan..." 
+                                        variant="contained" 
+                                        disabled={isCreate && disableSubmit}>
                                         Simpan
                                     </LoadingButton>
                                 </Grid>
