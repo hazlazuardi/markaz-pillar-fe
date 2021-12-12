@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -6,8 +6,8 @@ import Typography from '@mui/material/Typography'
 import { useRouter } from 'next/router';
 import Dropzone from "../../modules/Dropzone";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {useAppContext} from "../../../context/AppContext";
-import {dispatchTypes} from "../../../context/AppReducer";
+import { useAppContext } from "../../../context/AppContext";
+import { dispatchTypes } from "../../../context/AppReducer";
 
 function AdminCreateOrEditProgres(props) {
     const {
@@ -19,6 +19,7 @@ function AdminCreateOrEditProgres(props) {
         redirectID
     } = props;
 
+    const isCreate = createOrEdit === 'create'
     const form = useRef(null);
     const { dispatch } = useAppContext();
     const [loading, setLoading] = useState(false)
@@ -30,9 +31,13 @@ function AdminCreateOrEditProgres(props) {
             ...prev,
             [name]: value,
         }));
+        setErrorMessage((prev => ({
+            ...prev,
+            [name]: ""
+        })))
     };
 
-    const handleSubmit = useCallback(async (event) => {
+    const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
@@ -59,17 +64,29 @@ function AdminCreateOrEditProgres(props) {
                 setLoading(false)
                 // Check & Handle if error.response is undefined
                 if (!!error.response && error.response.status === 400) {
-                    dispatch({
-                        type: dispatchTypes.SNACKBAR_CUSTOM,
-                        payload: {
-                            severity: 'error',
-                            message: 'Incorrect information'
-                        }
-                    });
+                    console.log(error.response.data)
+                    if (!!error.response.data.message && error.response.data.message.includes("thumbnail")) {
+                        dispatch({
+                            type: dispatchTypes.SNACKBAR_CUSTOM,
+                            payload: {
+                                severity: 'error',
+                                message: 'Please insert the thumbnail'
+                            }
+                        });
+                    }
+                    setErrorMessage(prev => ({
+                        ...prev,
+                        ...error.response.data.result
+                    }))
                 }
             })
+    }
 
-    }, [apiCall, dispatch, progres, thumbnail, createOrEdit])
+    const [errorMessage, setErrorMessage] = useState({
+        progressDate: "",
+        description: ""
+    })
+    console.log(errorMessage)
 
     const router = useRouter()
     const pathname = router.pathname;
@@ -107,7 +124,7 @@ function AdminCreateOrEditProgres(props) {
                         <Grid item>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <Typography sx={{textTransform: "capitalize"}} variant="h5" color="initial">{createOrEdit} Progres Donasi {markazOrSantri}</Typography>
+                                    <Typography sx={{ textTransform: "capitalize" }} variant="h5" color="initial">{createOrEdit} Progres Donasi {markazOrSantri}</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
@@ -121,6 +138,9 @@ function AdminCreateOrEditProgres(props) {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
+                                        required
+                                        error={!!errorMessage.progressDate}
+                                        helperText={!!errorMessage.progressDate && "Harap masukkan tanggal yang benar."}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -131,10 +151,24 @@ function AdminCreateOrEditProgres(props) {
                                         fullWidth
                                         value={progres.description}
                                         onChange={handleChangeProgres}
+                                        error={!!errorMessage.description}
+                                        required
+                                        helperText={!!errorMessage.description && "Harap masukkan deskripsi."}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <LoadingButton id='progresSubmitAtComponentAdminCreateOrEditProgres' fullWidth type='submit' loading={loading} loadingIndicator="Menyimpan..." variant="contained">
+                                    <LoadingButton
+                                        id='progresSubmitAtComponentAdminCreateOrEditProgres'
+                                        fullWidth
+                                        type='submit'
+                                        loading={loading}
+                                        loadingIndicator="Menyimpan..."
+                                        variant="contained"
+                                        disabled={isCreate && !(
+                                            !!thumbnail.name &&
+                                            !!progres.progressDate &&
+                                            !!progres.description
+                                        )}>
                                         Simpan
                                     </LoadingButton>
                                 </Grid>

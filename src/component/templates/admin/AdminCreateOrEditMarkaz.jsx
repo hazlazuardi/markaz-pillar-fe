@@ -46,7 +46,6 @@ function AdminCreateOrEditMarkaz(props) {
             ...prev,
             [name]: ""
         })))
-
     };
 
     const [errorMessage, setErrorMessage] = useState({
