@@ -168,17 +168,41 @@ function AdminCreateOrEditKegiatan(props) {
                                                     color="initial">{variant} Kegiatan</Typography>
                                             </Grid>
                                             <Grid item xs={12}>
-                                                <TextField
-                                                    labelId="gender-label"
-                                                    data-testid='kegiatan-status-at-AdminCreateOrEditKegiatan-module'
-                                                    id="status-select"
-                                                    name='status'
-                                                    value="Sudah diselenggarakan"
-                                                    disabled
-                                                    fullWidth
-                                                    label="Status"
-                                                    onChange={handleChangeKegiatan}
-                                                />
+                                                { variant == "create" ? (
+                                                    <FormControl fullWidth>
+                                                        <InputLabel id="status-label">Status</InputLabel>
+                                                        <Select
+                                                            labelId="gender-label"
+                                                            data-testid='kegiatan-status-at-AdminCreateOrEditKegiatan-module'
+                                                            id="status-select"
+                                                            name='status'
+                                                            value={!!kegiatan.status || isCreate ? kegiatan.status : originalKegiatanResult.status}
+                                                            label="Status"
+                                                            onChange={handleChangeKegiatan}
+                                                        >
+                                                            <MenuItem value={"MEMBUKA_PENDAFTARAN"}>Membuka
+                                                                pendaftaran</MenuItem>
+                                                            <MenuItem value={"MENUTUP_PENDAFTARAN"}>Menutup
+                                                                pendaftaran</MenuItem>
+                                                            <MenuItem value={"SUDAH_DILAKSANAKAN"}>Sudah
+                                                                diselenggarakan</MenuItem>
+                                                        </Select>
+                                                    </FormControl>
+                                                ) : (
+                                                    <TextField
+                                                        labelId="gender-label"
+                                                        data-testid='kegiatan-status-at-AdminCreateOrEditKegiatan-module'
+                                                        id="status-select"
+                                                        name='status'
+                                                        value="Sudah diselenggarakan"
+                                                        disabled
+                                                        fullWidth
+                                                        label="Status"
+                                                        onChange={handleChangeKegiatan}
+                                                    />
+                                                )
+                                                }
+
                                             </Grid>
                                             <Grid item xs={12}>
                                                 <FormControl fullWidth>
@@ -280,7 +304,8 @@ function AdminCreateOrEditKegiatan(props) {
                                                     data-testid='kegiatan-submit-button-at-AdminCreateOrEditKegiatan-module'
                                                     id='kegiatanSubmitAtComponentAdminCreateOrEditKegiatan' fullWidth
                                                     type='submit' loading={loading} loadingIndicator="Menyimpan..."
-                                                    variant="contained">
+                                                    variant="contained"
+                                                    disabled={isCreate && disableSubmit}>
                                                     Simpan
                                                 </LoadingButton>
                                             </Grid>
@@ -396,6 +421,8 @@ function AdminCreateOrEditKegiatan(props) {
                                                     InputLabelProps={{
                                                         shrink: true,
                                                     }}
+                                                    error={!!errorMessage.programOpened}
+                                                    helperText={!!errorMessage.programOpened && "Harap isi tanggal buka kegiatan dengan benar."}
 
                                                 />
                                             </Grid>
@@ -411,6 +438,8 @@ function AdminCreateOrEditKegiatan(props) {
                                                     InputLabelProps={{
                                                         shrink: true,
                                                     }}
+                                                    error={!!errorMessage.programClosed}
+                                                    helperText={!!errorMessage.programClosed && "Harap isi tanggal tutup kegiatan dengan benar."}
 
                                                 />
                                             </Grid>
