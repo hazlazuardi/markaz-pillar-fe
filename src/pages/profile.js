@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react'
+import React, { useCallback, useState } from 'react'
 import useSWR from 'swr'
 import { axiosProfile } from '../axiosInstances';
 import { useRouter } from "next/router";
@@ -48,13 +48,10 @@ export default function Profile() {
     };
 
     const { data, error, mutate } = useSWR(router.isReady && currentUser ?
-        `/user/activity?page=${page}&n=10&type=${typeFilter}&${
-            !!statusProfile1 ? "status=" + statusProfile1 : ""
-          }&${
-            !!statusProfile2 ? "status=" + statusProfile2 : ""
-          }&${
-            !!statusProfile3 ? "status=" + statusProfile3 : ""
-          }` : null,
+        `/user/activity?page=${page}&n=10&type=${typeFilter}&${!!statusProfile1 ? "status=" + statusProfile1 : ""
+        }&${!!statusProfile2 ? "status=" + statusProfile2 : ""
+        }&${!!statusProfile3 ? "status=" + statusProfile3 : ""
+        }` : null,
         fetcher,
     );
 
@@ -65,7 +62,7 @@ export default function Profile() {
 
     const handlePagination = useCallback(
         (event, value) => {
-        setPage(value-1);
+            setPage(value - 1);
         },
         [setPage]
     );
@@ -142,11 +139,11 @@ export default function Profile() {
                 key={activity.id}
                 targetId={activity.data.program.id}
             />
-        )) 
+        ))
     }
 
     const showActivities = () => {
-        if(typeFilter == "ALL") {
+        if (typeFilter == "ALL") {
             return [renderDonasi(), renderVolunteer()]
         } else if (typeFilter == "TRANSACTION") {
             return renderDonasi()
@@ -154,141 +151,150 @@ export default function Profile() {
             return renderVolunteer()
         }
     }
-    
+
     return (
         <Container maxWidth="lg" className={styles.container}>
-        <Grid container spacing={0} direction="column" alignItems="center" mb={5}>
-            <Grid item xs={12}>
-            {currentUser && (
-                <Box>
-                <Box
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="center"
-                    justifyContent="center"
-                >
-                    <Avatar sx={{ width: 100, height: 100, mb: "1em" }}>
-                    {currentUser[0].toUpperCase()}
-                    </Avatar>
-                </Box>
-                <Typography
-                    sx={{ wordWrap: "break-word" }}
-                    textAlign="center"
-                    variant="h5"
-                >
-                    {currentUser.split("@")[0]}
-                </Typography>
-                <Typography sx={{ wordWrap: "break-word" }} textAlign="center">
-                    {currentUserRole.split("_")[1]}
-                </Typography>
-                <Button
-                    fullWidth
-                    color="error"
-                    sx={{ mt: "2em" }}
-                    size="large"
-                    variant="text"
-                    onClick={handleLogout}
-                >
-                    Keluar
-                </Button>
-                </Box>
-            )}
+            <Grid container spacing={0} direction="column" alignItems="center" mb={5}>
+                <Grid item xs={12}>
+                    {currentUser && (
+                        <Box>
+                            <Box
+                                display="flex"
+                                flexDirection="column"
+                                alignItems="center"
+                                justifyContent="center"
+                            >
+                                <Avatar sx={{ width: 100, height: 100, mb: "1em" }}>
+                                    {currentUser[0].toUpperCase()}
+                                </Avatar>
+                            </Box>
+                            <Typography
+                                sx={{ wordWrap: "break-word" }}
+                                textAlign="center"
+                                variant="h5"
+                            >
+                                {currentUser.split("@")[0]}
+                            </Typography>
+                            <Typography sx={{ wordWrap: "break-word" }} textAlign="center">
+                                {currentUserRole.split("_")[1]}
+                            </Typography>
+                            <Button
+                                fullWidth
+                                color="error"
+                                sx={{ mt: "2em" }}
+                                size="large"
+                                variant="text"
+                                onClick={handleLogout}
+                            >
+                                Keluar
+                            </Button>
+                        </Box>
+                    )}
 
-            {!currentUser && (
-                <Box>
-                <Typography
-                    sx={{ wordWrap: "break-word", margin: 1 }}
-                    textAlign="center"
-                >
-                    Anda Belum Log In
-                </Typography>
-                <Link href="/login" passHref>
-                    <Button
-                    fullWidth
-                    sx={{ mb: "1em" }}
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    >
-                    Masuk
-                    </Button>
-                </Link>
-                <Link href="/registration" passHref>
-                    <Button
-                    fullWidth
-                    variant="outlined"
-                    color="primary"
-                    size="large"
-                    >
-                    Daftar
-                    </Button>
-                </Link>
-                </Box>
-            )}
-            </Grid>
-        </Grid>
-
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
-            <Typography>
-                Kegiatan Saya <FilterComponent
-                data-testid="filterChipButton-at-admin-or-user-template"
-                size={size}
-                variant="profile"
-                statusProfile1={statusProfile1}
-                statusProfile2={statusProfile2}
-                statusProfile3={statusProfile3}
-                setStatusProfile1={setStatusProfile1}
-                setStatusProfile2={setStatusProfile2}
-                setStatusProfile3={setStatusProfile3}
-                FilterRadioObject={radioProfile}
-                mutate={mutate}
-            />
-            </Typography>
-            </Grid>
-
-            <Grid item xs={12} mt={2}>
-            <Box>
-                <Tabs
-                value={tabIndex}
-                onChange={handleTabIndex}
-                variant="scrollable"
-                scrollButtons
-                allowScrollButtonsMobile
-                >
-                <Tab label="Semua Kegiatan" value={0} />
-                <Tab label="Donasi" value={1} />
-                <Tab label="Volunteer" value={2} />
-                </Tabs>
-            </Box>
-            </Grid>
-
-            <Grid item xs={12}>
-                <Grid container spacing={2}>
-                    {
-                        data != null ? showActivities() : 
-                        <Grid item p={1}> 
-                            <Typography> No activities yet </Typography>
-                        </Grid>
-                    }
+                    {!currentUser && (
+                        <Box>
+                            <Typography
+                                sx={{ wordWrap: "break-word", margin: 1 }}
+                                textAlign="center"
+                            >
+                                Anda Belum Log In
+                            </Typography>
+                            <Link href="/login" passHref>
+                                <Button
+                                    fullWidth
+                                    sx={{ mb: "1em" }}
+                                    variant="contained"
+                                    color="primary"
+                                    size="large"
+                                >
+                                    Masuk
+                                </Button>
+                            </Link>
+                            <Link href="/registration" passHref>
+                                <Button
+                                    fullWidth
+                                    variant="outlined"
+                                    color="primary"
+                                    size="large"
+                                >
+                                    Daftar
+                                </Button>
+                            </Link>
+                        </Box>
+                    )}
                 </Grid>
             </Grid>
 
-            <Grid
-            item
-            xs={12}
-            mt={5}
-            sx={{ display: "flex", justifyContent: "flex-end" }}
-            >
-            <Pagination
-            data-testid="pagination-at-profile-page"
-            boundaryCount={1}
-            count={data != null ? data.totalPage : 1}
-            page={page + 1}
-            onChange={handlePagination}
-            />
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <Typography
+                        data-testid="titlePage-at-admin-or-user-template"
+                        variant="h4"
+                        component="h2"
+                        sx={{ textTransform: "capitalize" }}
+                        color="primary"
+                        gutterBottom
+                    >
+                        Kegiatan Saya
+                    </Typography>
+
+                    <FilterComponent
+                        data-testid="filterChipButton-at-admin-or-user-template"
+                        size={size}
+                        variant="profile"
+                        statusProfile1={statusProfile1}
+                        statusProfile2={statusProfile2}
+                        statusProfile3={statusProfile3}
+                        setStatusProfile1={setStatusProfile1}
+                        setStatusProfile2={setStatusProfile2}
+                        setStatusProfile3={setStatusProfile3}
+                        FilterRadioObject={radioProfile}
+                        mutate={mutate}
+                    />
+                </Grid>
+
+                <Grid item xs={12} mt={2}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <Tabs
+                            value={tabIndex}
+                            onChange={handleTabIndex}
+                            variant="scrollable"
+                            scrollButtons
+                            allowScrollButtonsMobile
+                        >
+                            <Tab label="Semua Kegiatan" value={0} />
+                            <Tab label="Donasi" value={1} />
+                            <Tab label="Volunteer" value={2} />
+                        </Tabs>
+                    </Box>
+                </Grid>
+
+                <Grid item xs={12}>
+                    <Grid container spacing={2}>
+                        {
+                            data != null ? showActivities() :
+                                <Grid item p={1}>
+                                    <Typography> No activities yet </Typography>
+                                </Grid>
+                        }
+                    </Grid>
+                </Grid>
+
+                <Grid
+                    item
+                    xs={12}
+                    mt={5}
+                    sx={{ display: "flex", justifyContent: "flex-end" }}
+                >
+                    <Pagination
+                        data-testid="pagination-at-profile-page"
+                        boundaryCount={1}
+                        count={data != null ? data.totalPage : 1}
+                        page={page + 1}
+                        onChange={handlePagination}
+                    />
+                </Grid>
             </Grid>
-        </Grid>
-    </Container>
+        </Container>
     )
 }
