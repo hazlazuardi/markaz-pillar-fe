@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -6,8 +6,8 @@ import Typography from '@mui/material/Typography'
 import { useRouter } from 'next/router';
 import Dropzone from "../../modules/Dropzone";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {useAppContext} from "../../../context/AppContext";
-import {dispatchTypes} from "../../../context/AppReducer";
+import { useAppContext } from "../../../context/AppContext";
+import { dispatchTypes } from "../../../context/AppReducer";
 
 function AdminCreateOrEditTestimoni(props) {
     const {
@@ -29,8 +29,6 @@ function AdminCreateOrEditTestimoni(props) {
         description: ""
     });
 
-    const [disableSubmit, setDisableSubmit] = useState(true)
-
     const handleChangeTestimoni = ({ target }) => {
         const { name, value } = target;
         setTesti((prev) => ({
@@ -43,7 +41,7 @@ function AdminCreateOrEditTestimoni(props) {
         })))
     };
 
-    const handleSubmit = useCallback(async (event) => {
+    const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
         const data = new FormData();
@@ -88,21 +86,21 @@ function AdminCreateOrEditTestimoni(props) {
                 }
             })
 
-    }, [apiCall, dispatch, testi, thumbnail, createOrEdit])
+    }
 
-    useEffect(() => {
-        if (!isCreate || (
-            !!testi.name &&
-            !!testi.description
-        )
-        ) {
-            console.log('false', testi)
-            setDisableSubmit(false)
-        } else {
-            console.log('true', testi)
-            setDisableSubmit(true)
-        }
-    }, [isCreate, testi]);
+    // useEffect(() => {
+    //     if (!isCreate || (
+    //         !!testi.name &&
+    //         !!testi.description
+    //     )
+    //     ) {
+    //         console.log('false', testi)
+    //         setDisableSubmit(false)
+    //     } else {
+    //         console.log('true', testi)
+    //         setDisableSubmit(true)
+    //     }
+    // }, [isCreate, testi]);
 
     const router = useRouter()
     const pathname = router.pathname;
@@ -131,16 +129,16 @@ function AdminCreateOrEditTestimoni(props) {
                                     />
                                 </Grid>
                                 {thumbnail.name &&
-                                <Grid item xs={12}>
-                                    <Typography id='dropzone-uploaded' variant="body1" color="initial">Uploaded: {thumbnail.name}</Typography>
-                                </Grid>
+                                    <Grid item xs={12}>
+                                        <Typography id='dropzone-uploaded' variant="body1" color="initial">Uploaded: {thumbnail.name}</Typography>
+                                    </Grid>
                                 }
                             </Grid>
                         </Grid>
                         <Grid item>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <Typography sx={{textTransform: "capitalize"}} variant="h5" color="initial">{createOrEdit} Volunteer Testimoni</Typography>
+                                    <Typography sx={{ textTransform: "capitalize" }} variant="h5" color="initial">{createOrEdit} Volunteer Testimoni</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
@@ -170,7 +168,11 @@ function AdminCreateOrEditTestimoni(props) {
                                 </Grid>
                                 <Grid item xs={12}>
                                     <LoadingButton id='testimoniSubmitAtComponentAdminCreateOrEditTestimon' fullWidth type='submit' loading={loading} loadingIndicator="Menyimpan..." variant="contained"
-                                                   disabled={isCreate && disableSubmit}>
+                                        disabled={isCreate && !(
+                                            !!thumbnail.name &&
+                                            !!testi.name &&
+                                            !!testi.description
+                                        )}>
                                         Simpan
                                     </LoadingButton>
                                 </Grid>
@@ -179,7 +181,7 @@ function AdminCreateOrEditTestimoni(props) {
                     </Grid>
                 </form>
             </Container>
-        </div>
+        </div >
     );
 }
 
