@@ -19,8 +19,8 @@ function AdminEditVolunteerTestimoni() {
     );
 
     const [testi, setTesti] = useState({
-        name: responseTestimoni ? responseTestimoni.name : "",
-        description: responseTestimoni ? responseTestimoni.description : "",
+        name: "",
+        description: "",
     });
 
     const editTesti = useCallback(async (data) => {

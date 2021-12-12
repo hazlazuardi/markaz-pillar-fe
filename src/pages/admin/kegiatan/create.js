@@ -20,6 +20,16 @@ function AdminCreateVolunteerKegiatan() {
         markazId: ""
     });
 
+    const [error, setError] = useState({
+        status: "",
+        name: "",
+        description: "",
+        volunteerNeeded: 0,
+        location: "",
+        schedule: "",
+        programCompleted: "",
+        markazId: ""
+    })
     const { data: responseAllMarkaz, error: errorResponseAllMarkaz }
         = useSWR(router.isReady ? `/markaz/search?n=1000` : null,
         fetcher,
@@ -55,6 +65,8 @@ function AdminCreateVolunteerKegiatan() {
                 setKegiatan={setKegiatan}
                 apiCall={createKegiatan}
                 allMarkaz={allMarkaz}
+                setError={setError}
+                error={error}
             />
         </>
     );
