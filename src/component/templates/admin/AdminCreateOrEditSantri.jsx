@@ -82,7 +82,7 @@ function AdminCreateOrEditSantri(props) {
                             }
                         });
                     }
-                    console.log(error.response.data.result)
+                    console.log(error.response.data)
                     if (!!error.response.data.message && error.response.data.message.includes("exists")) {
                         dispatch({
                             type: dispatchTypes.SNACKBAR_CUSTOM,
@@ -97,6 +97,13 @@ function AdminCreateOrEditSantri(props) {
                         }))
                         // Check & Handle if bad request (empty fields, etc)
                     }
+                    if (!!error.response.data.message && error.response.data.message.includes("parse")) {
+                        setErrorMessage(prev => ({
+                            ...prev,
+                            birthDate: 'Harap masukkan tanggal lahir yang benar.'
+                        }))
+                        // Check & Handle if bad request (empty fields, etc)
+                    }
                     setErrorMessage(prev => ({
                         ...prev,
                         ...error.response.data.result
@@ -105,34 +112,35 @@ function AdminCreateOrEditSantri(props) {
             })
     };
 
+    console.log(errorMessage)
     const [errorMessage, setErrorMessage] = useState({
         name: "",
         background: "",
         markaz: "",
-        gender:"",
+        gender: "",
         address: "",
         birthPlace: "",
         birthDate: "",
     })
 
-    useEffect(() => {
-        if (!isCreate || (
-            !!santri.name &&
-            !!santri.background &&
-            (!!santri.markazId || originalSantriResult.markaz.id) &&
-            !!santri.gender &&
-            !!santri.address &&
-            !!santri.birthPlace &&
-            !!santri.birthDate
-        )
-        ) {
-            console.log('false', santri)
-            setDisableSubmit(false)
-        } else {
-            console.log('true', santri)
-            setDisableSubmit(true)
-        }
-    }, [isCreate, santri]);
+    // useEffect(() => {
+    //     if (!isCreate || (
+    //         !!santri.name &&
+    //         !!santri.background &&
+    //         (!!santri.markazId || originalSantriResult.markaz.id) &&
+    //         !!santri.gender &&
+    //         !!santri.address &&
+    //         !!santri.birthPlace &&
+    //         !!santri.birthDate
+    //     )
+    //     ) {
+    //         console.log('false', santri)
+    //         setDisableSubmit(false)
+    //     } else {
+    //         console.log('true', santri)
+    //         setDisableSubmit(true)
+    //     }
+    // }, [isCreate, santri]);
 
     const buildSantriFormData = (santriJson, thumbnailFile) => {
         const data = new FormData();
@@ -285,20 +293,28 @@ function AdminCreateOrEditSantri(props) {
                                         onChange={handleChangeSantri}
                                         required={isCreate}
                                         error={!!errorMessage.birthDate}
-                                        helperText={!!errorMessage.birthDate && "Harap isi tempat lahir Santri dengan benar."}
+                                        helperText={!!errorMessage.birthDate && "Harap isi tanggal lahir Santri dengan benar."}
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <LoadingButton 
-                                        data-testid='santri-submit-button-at-AdminCreateOrEditSantri-module' 
-                                        fullWidth type='submit' 
-                                        loading={loading} 
-                                        loadingIndicator="Menyimpan..." 
-                                        variant="contained" 
-                                        disabled={isCreate && disableSubmit}>
+                                    <LoadingButton
+                                        data-testid='santri-submit-button-at-AdminCreateOrEditSantri-module'
+                                        fullWidth type='submit'
+                                        loading={loading}
+                                        loadingIndicator="Menyimpan..."
+                                        variant="contained"
+                                        disabled={isCreate && !(
+                                            !!santri.name &&
+                                            !!santri.background &&
+                                            !!santri.markazId &&
+                                            !!santri.gender &&
+                                            !!santri.address &&
+                                            !!santri.birthPlace &&
+                                            !!santri.birthDate
+                                        )}>
                                         Simpan
                                     </LoadingButton>
                                 </Grid>
