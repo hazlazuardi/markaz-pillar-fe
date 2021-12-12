@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -26,6 +26,7 @@ function AdminCreateOrEditMarkaz(props) {
     const isCreate = variant === 'create'
     const result = !!data ? data.result : null
 
+    console.log(result)
     const { dispatch } = useAppContext();
     const [thumbnail, setThumbnail] = useState({});
     const form = useRef(null);
@@ -34,12 +35,18 @@ function AdminCreateOrEditMarkaz(props) {
     const pathname = router.pathname;
 
 
+    const [disableSubmit, setDisableSubmit] = useState(true)
     const handleChangeMarkaz = ({ target }) => {
         const { name, value } = target;
         setMarkaz((prev) => ({
             ...prev,
             [name]: value,
         }));
+        setErrorMessage((prev => ({
+            ...prev,
+            [name]: ""
+        })))
+
     };
 
     const [errorMessage, setErrorMessage] = useState({
@@ -47,6 +54,9 @@ function AdminCreateOrEditMarkaz(props) {
         background: "",
         category: "",
         address: "",
+        contactName: "",
+        contactInfo: "",
+
     })
     const [loading, setLoading] = useState(false)
     const handleSubmit = async (event) => {
@@ -81,19 +91,58 @@ function AdminCreateOrEditMarkaz(props) {
                 setLoading(false)
                 console.log(error.response)
                 if (!!error.response && error.response.status === 400) {
-                    setError(error.response.data.result)
-                    // Check & Handle if bad request (empty fields, etc)
-                    dispatch({
-                        type: dispatchTypes.SNACKBAR_CUSTOM,
-                        payload: {
-                            severity: 'error',
-                            message: 'Incorrect information'
-                        }
-                    });
+                    console.log(error.response.data)
+                    if (!!error.response.data.message && error.response.data.message.includes("thumbnail")) {
+                        dispatch({
+                            type: dispatchTypes.SNACKBAR_CUSTOM,
+                            payload: {
+                                severity: 'error',
+                                message: 'Please insert the thumbnail'
+                            }
+                        });
+                    }
+                    console.log(error.response.data.result)
+                    if (!!error.response.data.message && error.response.data.message.includes("exists")) {
+                        dispatch({
+                            type: dispatchTypes.SNACKBAR_CUSTOM,
+                            payload: {
+                                severity: 'error',
+                                message: 'Markaz dengan nama tersebut sudah ada'
+                            }
+                        });
+                        setErrorMessage(prev => ({
+                            ...prev,
+                            name: 'Markaz dengan nama tersebut sudah ada'
+                        }))
+                        // Check & Handle if bad request (empty fields, etc)
+                    }
+                    setErrorMessage(prev => ({
+                        ...prev,
+                        ...error.response.data.result
+                    }))
                 }
             })
     };
 
+    useEffect(() => {
+        if (!isCreate || (
+            !!markaz.name &&
+            !!markaz.background &&
+            !!markaz.category &&
+            !!markaz.address &&
+            !!markaz.contactName &&
+            !!markaz.contactInfo
+        )
+        ) {
+            console.log('false', markaz)
+            setDisableSubmit(false)
+        } else {
+            console.log('true', markaz)
+            setDisableSubmit(true)
+        }
+    }, [isCreate, markaz]);
+
+    console.log(errorMessage)
     return (
         <div>
             <Container>
@@ -128,7 +177,7 @@ function AdminCreateOrEditMarkaz(props) {
                         <Grid item>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <Typography variant="h5" color="initial">{pathname.includes('create') ? 'Create New Markaz' : `Edit ${markaz.name} Information`}</Typography>
+                                    <Typography variant="h5" color="initial">{isCreate ? 'Create New Markaz' : `Edit Markaz`}</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
@@ -139,9 +188,9 @@ function AdminCreateOrEditMarkaz(props) {
                                         onChange={handleChangeMarkaz}
                                         value={markaz.name}
                                         defaultValue={!!isCreate ? "" : result.name}
-                                        error={!!errorMessage.name}
                                         required={isCreate}
-
+                                        error={!!errorMessage.name}
+                                        helperText={!!errorMessage.name && `Nama Markaz ${markaz.name} sudah ada.`}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -153,22 +202,25 @@ function AdminCreateOrEditMarkaz(props) {
                                         value={markaz.background}
                                         onChange={handleChangeMarkaz}
                                         defaultValue={!!isCreate ? "" : result.background}
-                                        error={!!errorMessage.background}
                                         required={isCreate}
+                                        error={!!errorMessage.background}
+                                        helperText={!!errorMessage.background && "Harap isi background Markaz dengan benar."}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <FormControl fullWidth>
+                                    <FormControl fullWidth required={isCreate}>
                                         <InputLabel id="category-label">Kategori</InputLabel>
                                         <Select
                                             labelId="category-label"
                                             id="category-select"
                                             name='category'
-                                            defaultValue={result.category}
+                                            defaultValue={!!isCreate ? "" : result.category}
                                             value={markaz.category}
                                             required={isCreate}
                                             label="Kategori"
                                             onChange={handleChangeMarkaz}
+                                            error={!!errorMessage.category}
+                                            helperText={!!errorMessage.category && "Harap pilih salah satu kategori markaz."}
                                         >
                                             <MenuItem value={"MARKAZ_UMUM"}>Markaz Umum</MenuItem>
                                             <MenuItem value={"MARKAZ_IKHWAN"}>Markaz Ikhwan</MenuItem>
@@ -183,9 +235,12 @@ function AdminCreateOrEditMarkaz(props) {
                                         label="Markaz Address"
                                         fullWidth
                                         onChange={handleChangeMarkaz}
-                                        defaultValue={result.address}
+                                        defaultValue={!!isCreate ? "" : result.address}
                                         value={markaz.address}
                                         required={isCreate}
+                                        error={!!errorMessage.address}
+                                        helperText={!!errorMessage.address && "Harap masukkan alamat yang benar."}
+
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -195,9 +250,11 @@ function AdminCreateOrEditMarkaz(props) {
                                         label="Contact Name"
                                         fullWidth
                                         onChange={handleChangeMarkaz}
-                                        defaultValue={result.contactName}
+                                        defaultValue={!!isCreate ? "" : result.contactName}
                                         value={markaz.contactName}
                                         required={isCreate}
+                                        error={!!errorMessage.contactName}
+                                        helperText={!!errorMessage.contactName && "Harap isi nama kontak yang benar."}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
@@ -207,13 +264,22 @@ function AdminCreateOrEditMarkaz(props) {
                                         label="Contact Info"
                                         fullWidth
                                         onChange={handleChangeMarkaz}
-                                        defaultValue={result.contactInfo}
+                                        defaultValue={!!isCreate ? "" : result.contactInfo}
                                         value={markaz.contactInfo}
                                         required={isCreate}
+                                        error={!!errorMessage.contactInfo}
+                                        helperText={!!errorMessage.contactInfo && "Harap masukkan Email atau No. Telpon yang benar."}
                                     />
                                 </Grid>
                                 <Grid item xs={12} >
-                                    <LoadingButton id='markazSubmitAtComponentAdminCreateOrEditMarkaz' fullWidth type='submit' loading={loading} loadingIndicator="Menyimpan..." variant="contained">
+                                    <LoadingButton
+                                        id='markazSubmitAtComponentAdminCreateOrEditMarkaz'
+                                        fullWidth
+                                        type='submit'
+                                        loading={loading}
+                                        loadingIndicator="Menyimpan..."
+                                        variant="contained"
+                                        disabled={isCreate && disableSubmit}>
                                         Simpan
                                     </LoadingButton>
                                 </Grid>

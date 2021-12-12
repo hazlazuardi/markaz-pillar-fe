@@ -54,7 +54,7 @@ export default function ProgresDonasiBar(props) {
                 </Box>
                 <Typography mb={2} sx={{ fontWeight: 600 }} color={(donated / nominal) * 100 < 100 ? 'primary' : 'secondary'} > {formatter.format(donated)} / {formatter.format(nominal)}</Typography>
                 {!!isAdmin ? (
-                    <Button variant='contained' onClick={() => handleDonasi(hrefDonasi)} >Kelola Donasi</Button>
+                    null
                 ) : (
                     <Button variant='contained' color={(donated / nominal) * 100 < 100 ? 'primary' : 'secondary'} onClick={() => handleDonasi(hrefDonasi)} >Donasi</Button>
                 )}

@@ -16,12 +16,12 @@ export default function AdminMarkazEdit() {
     );
 
     const [editedMarkaz, setEditedMarkaz] = useState({
-        name: responseDetailAdminMarkaz ? responseDetailAdminMarkaz.result.name : "",
-        background: responseDetailAdminMarkaz ? responseDetailAdminMarkaz.result.background : "",
-        category: responseDetailAdminMarkaz ? responseDetailAdminMarkaz.result.category : "",
-        address: responseDetailAdminMarkaz ? responseDetailAdminMarkaz.result.address : "",
-        contactName: responseDetailAdminMarkaz ? responseDetailAdminMarkaz.result.contactName : "",
-        contactInfo: responseDetailAdminMarkaz ? responseDetailAdminMarkaz.result.contactInfo : null
+        name: "",
+        background: "",
+        category: "",
+        address: "",
+        contactName: "",
+        contactInfo: null
     });
 
     const editMarkaz = useCallback(async (data) => {

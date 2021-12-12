@@ -8,7 +8,7 @@ import ProgresDonasiFooter from "../../../../component/modules/ProgresDonasiFoot
 import { enumRoutes, markazCategory } from "../../../../context/AppReducer";
 import Add from "@mui/icons-material/Add";
 import { DonutLarge } from "@mui/icons-material";
-import { Typography } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 
 const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
 export default function AdminMarkazDetail(props) {
@@ -25,6 +25,12 @@ export default function AdminMarkazDetail(props) {
 
   const deleteMarkaz = async (id) => {
     return axiosMain.delete(`/admin/markaz?id=${id}`)
+  }
+
+  const KelolaDonasiCTA = () => {
+    return (
+      <Button variant='contained' onClick={() => router.push(`${enumRoutes.ADMIN_MARKAZ}/${markaz_id}/donasi`)} >Kelola Donasi</Button>
+    )
   }
 
   const [convertedData, setConvertedData] = useState()
@@ -110,7 +116,7 @@ export default function AdminMarkazDetail(props) {
   return (
     <>
       <ArrowBack href={enumRoutes.ADMIN_MARKAZ} />
-      <DetailView isAdmin variant='markaz' data={convertedData} deleteApiCall={deleteMarkaz} speedDialActions={adminMarkazDetailActions} hrefDonasi={enumRoutes.ADMIN_MARKAZ_DONASI} disableDonasi={!!convertedData && !convertedData.result.nominal} />
+      <DetailView isAdmin variant='markaz' data={convertedData} deleteApiCall={deleteMarkaz} CTA={<KelolaDonasiCTA />} speedDialActions={adminMarkazDetailActions} hrefDonasi={enumRoutes.ADMIN_MARKAZ_DONASI} disableDonasi={!!convertedData && !convertedData.result.nominal} />
       <ProgresDonasiFooter isAdmin variant='markaz' data={convertedData} apiCall={deleteProgress} mutate={mutate} />
     </>
   );
