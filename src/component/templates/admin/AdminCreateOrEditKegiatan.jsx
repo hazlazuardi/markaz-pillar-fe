@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -21,6 +21,8 @@ function AdminCreateOrEditKegiatan(props) {
         apiCall,
         allMarkaz,
         originalKegiatan,
+        setError,
+        error
     } = props;
 
     const isCreate = variant === 'create'
@@ -31,12 +33,27 @@ function AdminCreateOrEditKegiatan(props) {
 
     const originalKegiatanResult = !!originalKegiatan ? originalKegiatan.result : null
 
+    const [errorMessage, setErrorMessage] = useState({
+        name: "",
+        background: "",
+        category: "",
+        address: "",
+        contactName: "",
+        contactInfo: "",
+        benefit: ""
+    })
+
+    const [disableSubmit, setDisableSubmit] = useState(true)
     const handleChangeKegiatan = ({ target }) => {
         const { name, value } = target;
         setKegiatan((prev) => ({
             ...prev,
             [name]: value,
         }));
+        setErrorMessage((prev => ({
+            ...prev,
+            [name]: ""
+        })))
     };
 
     const handleSubmit = useCallback(async (event) => {
@@ -64,21 +81,46 @@ function AdminCreateOrEditKegiatan(props) {
             })
             .catch(error => {
                 setLoading(false)
-                // Check & Handle if error.response is undefined
+                console.log(error.response)
                 if (!!error.response && error.response.status === 400) {
-                    dispatch({
-                        type: dispatchTypes.SNACKBAR_CUSTOM,
-                        payload: {
-                            severity: 'error',
-                            message: 'Incorrect information'
-                        }
-                    });
+                    console.log(error.response.data)
+                    if (!!error.response.data.message && error.response.data.message.includes("thumbnail")) {
+                        dispatch({
+                            type: dispatchTypes.SNACKBAR_CUSTOM,
+                            payload: {
+                                severity: 'error',
+                                message: 'Please insert the thumbnail'
+                            }
+                        });
+                    }
+                    console.log(error.response.data.result)
+                    setErrorMessage(prev => ({
+                        ...prev,
+                        ...error.response.data.result
+                    }))
                 }
             })
 
     }, [apiCall, dispatch, kegiatan, thumbnail, variant])
 
-    
+    useEffect(() => {
+        if (!isCreate || (
+            !!kegiatan.status &&
+            !!kegiatan.name &&
+            !!kegiatan.description &&
+            !!kegiatan.volunteerNeeded &&
+            !!kegiatan.location &&
+            !!kegiatan.schedule &&
+            !!kegiatan.markazId
+        )
+        ) {
+            console.log('false', kegiatan)
+            setDisableSubmit(false)
+        } else {
+            console.log('true', kegiatan)
+            setDisableSubmit(true)
+        }
+    }, [isCreate, kegiatan]);
 
     const router = useRouter()
     const pathname = router.pathname;
@@ -185,6 +227,8 @@ function AdminCreateOrEditKegiatan(props) {
                                                     onChange={handleChangeKegiatan}
                                                     value={kegiatan.name}
                                                     placeholder="Bercocok tanam"
+                                                    error={!!errorMessage.name}
+                                                    helperText={!!errorMessage.name && "Harap isi nama kegiatan dengan benar."}
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -197,6 +241,8 @@ function AdminCreateOrEditKegiatan(props) {
                                                     value={kegiatan.description}
                                                     onChange={handleChangeKegiatan}
                                                     placeholder="Kegiatan bercocok tanam di taman kota"
+                                                    error={!!errorMessage.background}
+                                                    helperText={!!errorMessage.background && "Harap isi background kegiatan dengan benar."}
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -209,6 +255,8 @@ function AdminCreateOrEditKegiatan(props) {
                                                     value={kegiatan.location}
                                                     onChange={handleChangeKegiatan}
                                                     placeholder="Taman Kota"
+                                                    error={!!errorMessage.location}
+                                                    helperText={!!errorMessage.location && "Harap isi lokasi kegiatan dengan benar."}
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -220,8 +268,11 @@ function AdminCreateOrEditKegiatan(props) {
                                                     fullWidth
                                                     onChange={handleChangeKegiatan}
                                                     value={kegiatan.programCompleted}
-                                                    placeholder="2021-02-01"
                                                     type="datetime-local"
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -329,6 +380,8 @@ function AdminCreateOrEditKegiatan(props) {
                                                     onChange={handleChangeKegiatan}
                                                     value={kegiatan.name}
                                                     placeholder="Bercocok tanam"
+                                                    error={!!errorMessage.name}
+                                                    helperText={!!errorMessage.name && "Harap isi nama kegiatan dengan benar."}
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -339,8 +392,11 @@ function AdminCreateOrEditKegiatan(props) {
                                                     fullWidth
                                                     onChange={handleChangeKegiatan}
                                                     value={kegiatan.programOpened}
-                                                    placeholder="2021-01-01"
                                                     type="datetime-local"
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -351,8 +407,11 @@ function AdminCreateOrEditKegiatan(props) {
                                                     fullWidth
                                                     onChange={handleChangeKegiatan}
                                                     value={kegiatan.programClosed}
-                                                    placeholder="2021-01-02"
                                                     type="datetime-local"
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -365,6 +424,8 @@ function AdminCreateOrEditKegiatan(props) {
                                                     value={kegiatan.description}
                                                     onChange={handleChangeKegiatan}
                                                     placeholder="Kegiatan bercocok tanam di taman kota"
+                                                    error={!!errorMessage.description}
+                                                    helperText={!!errorMessage.description && "Harap isi deskripsi kegiatan dengan benar."}
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -377,6 +438,8 @@ function AdminCreateOrEditKegiatan(props) {
                                                     onChange={handleChangeKegiatan}
                                                     value={kegiatan.term}
                                                     placeholder="Lulus SLTA/sederajat"
+                                                    error={!!errorMessage.term}
+                                                    helperText={!!errorMessage.term && "Harap isi syarat kegiatan dengan benar."}
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -389,6 +452,8 @@ function AdminCreateOrEditKegiatan(props) {
                                                     value={kegiatan.benefit}
                                                     onChange={handleChangeKegiatan}
                                                     placeholder="Go green"
+                                                    error={!!errorMessage.benefit}
+                                                    helperText={!!errorMessage.benefit && "Harap isi manfaat kegiatan dengan benar."}
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -413,6 +478,8 @@ function AdminCreateOrEditKegiatan(props) {
                                                     value={kegiatan.location}
                                                     onChange={handleChangeKegiatan}
                                                     placeholder="Taman Kota"
+                                                    error={!!errorMessage.location}
+                                                    helperText={!!errorMessage.location && "Harap isi lokasi kegiatan dengan benar."}
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -424,7 +491,10 @@ function AdminCreateOrEditKegiatan(props) {
                                                     fullWidth
                                                     onChange={handleChangeKegiatan}
                                                     value={kegiatan.schedule}
-                                                    placeholder="2021-02-01"
+                                                    type="datetime-local"
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
                                                 />
                                             </Grid>
                                             <Grid item xs={12}>
@@ -432,8 +502,10 @@ function AdminCreateOrEditKegiatan(props) {
                                                     data-testid='kegiatan-submit-button-at-AdminCreateOrEditKegiatan-module'
                                                     id='kegiatanSubmitAtComponentAdminCreateOrEditKegiatan' fullWidth
                                                     type='submit' loading={loading} loadingIndicator="Menyimpan..."
-                                                    variant="contained">
+                                                    variant="contained"
+                                                    disabled={isCreate && disableSubmit}>
                                                     Simpan
+
                                                 </LoadingButton>
                                             </Grid>
                                         </Grid>

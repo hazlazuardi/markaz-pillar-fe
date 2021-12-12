@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -18,10 +18,18 @@ function AdminCreateOrEditTestimoni(props) {
         redirectID
     } = props;
 
+    const isCreate = createOrEdit === 'create'
     const form = useRef(null);
     const { dispatch } = useAppContext();
     const [loading, setLoading] = useState(false)
     const [thumbnail, setThumbnail] = useState({});
+
+    const [errorMessage, setErrorMessage] = useState({
+        name: "",
+        description: ""
+    });
+
+    const [disableSubmit, setDisableSubmit] = useState(true)
 
     const handleChangeTestimoni = ({ target }) => {
         const { name, value } = target;
@@ -29,6 +37,10 @@ function AdminCreateOrEditTestimoni(props) {
             ...prev,
             [name]: value,
         }));
+        setErrorMessage((prev => ({
+            ...prev,
+            [name]: ""
+        })))
     };
 
     const handleSubmit = useCallback(async (event) => {
@@ -56,19 +68,41 @@ function AdminCreateOrEditTestimoni(props) {
             })
             .catch(error => {
                 setLoading(false)
-                // Check & Handle if error.response is undefined
+                console.log(error.response)
                 if (!!error.response && error.response.status === 400) {
-                    dispatch({
-                        type: dispatchTypes.SNACKBAR_CUSTOM,
-                        payload: {
-                            severity: 'error',
-                            message: 'Incorrect information'
-                        }
-                    });
+                    console.log(error.response.data)
+                    if (!!error.response.data.message && error.response.data.message.includes("thumbnail")) {
+                        dispatch({
+                            type: dispatchTypes.SNACKBAR_CUSTOM,
+                            payload: {
+                                severity: 'error',
+                                message: 'Please insert the thumbnail'
+                            }
+                        });
+                    }
+                    console.log(error.response.data.result)
+                    setErrorMessage(prev => ({
+                        ...prev,
+                        ...error.response.data.result
+                    }))
                 }
             })
 
     }, [apiCall, dispatch, testi, thumbnail, createOrEdit])
+
+    useEffect(() => {
+        if (!isCreate || (
+            !!testi.name &&
+            !!testi.description
+        )
+        ) {
+            console.log('false', testi)
+            setDisableSubmit(false)
+        } else {
+            console.log('true', testi)
+            setDisableSubmit(true)
+        }
+    }, [isCreate, testi]);
 
     const router = useRouter()
     const pathname = router.pathname;
@@ -117,6 +151,8 @@ function AdminCreateOrEditTestimoni(props) {
                                         onChange={handleChangeTestimoni}
                                         value={testi.name}
                                         placeholder="Muhammad Adam"
+                                        error={!!errorMessage.name}
+                                        helperText={!!errorMessage.name && "Harap isi nama pemberi testimoni dengan benar."}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -128,10 +164,13 @@ function AdminCreateOrEditTestimoni(props) {
                                         value={testi.description}
                                         onChange={handleChangeTestimoni}
                                         placeholder="Saya sangat menyukai kegiatan ini"
+                                        error={!!errorMessage.description}
+                                        helperText={!!errorMessage.description && "Harap isi deskripsi testimoni dengan benar."}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <LoadingButton id='testimoniSubmitAtComponentAdminCreateOrEditTestimon' fullWidth type='submit' loading={loading} loadingIndicator="Menyimpan..." variant="contained">
+                                    <LoadingButton id='testimoniSubmitAtComponentAdminCreateOrEditTestimon' fullWidth type='submit' loading={loading} loadingIndicator="Menyimpan..." variant="contained"
+                                                   disabled={isCreate && disableSubmit}>
                                         Simpan
                                     </LoadingButton>
                                 </Grid>
