@@ -1,8 +1,8 @@
-import {useState} from "react";
-import {axiosMain} from "../../../../../axiosInstances";
+import { useState } from "react";
+import { axiosMain } from "../../../../../axiosInstances";
 import AdminCreateOrEditDonasi from "../../../../../component/templates/admin/AdminCreateOrEditDonasi";
 import ArrowBack from "../../../../../component/modules/ArrowBack";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 function AdminMarkazDonasiCreate() {
     const router = useRouter();
@@ -30,6 +30,7 @@ function AdminMarkazDonasiCreate() {
                 setData={setData}
                 apiCall={createDonasiMarkaz}
                 displayTotal="none"
+                redirectID={markaz_id}
             />
         </>
     );

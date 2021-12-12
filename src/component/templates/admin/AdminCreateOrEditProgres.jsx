@@ -138,7 +138,7 @@ function AdminCreateOrEditProgres(props) {
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
-                                        required
+                                        required={isCreate}
                                         error={!!errorMessage.progressDate}
                                         helperText={!!errorMessage.progressDate && "Harap masukkan tanggal yang benar."}
                                     />
@@ -152,7 +152,7 @@ function AdminCreateOrEditProgres(props) {
                                         value={progres.description}
                                         onChange={handleChangeProgres}
                                         error={!!errorMessage.description}
-                                        required
+                                        required={isCreate}
                                         helperText={!!errorMessage.description && "Harap masukkan deskripsi."}
                                     />
                                 </Grid>

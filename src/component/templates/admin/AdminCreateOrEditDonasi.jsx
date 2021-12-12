@@ -1,21 +1,23 @@
-import React, {useCallback, useRef, useState} from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Typography from '@mui/material/Typography'
-import { FormControl } from "@mui/material";
-import  Select  from "@mui/material/Select";
-import  InputLabel  from "@mui/material/InputLabel";
-import  MenuItem  from "@mui/material/MenuItem";
+import { Chip, FormControl, FormHelperText } from "@mui/material";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 import OutlinedInput from '@mui/material/OutlinedInput';
 import FormLabel from '@mui/material/FormLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from "@mui/material/Button";
-import {useAppContext} from "../../../context/AppContext";
-import {dispatchTypes} from "../../../context/AppReducer";
-import {useRouter} from "next/router";
+import { useAppContext } from "../../../context/AppContext";
+import { dispatchTypes } from "../../../context/AppReducer";
+import { useRouter } from "next/router";
+import { LoadingButton } from '@mui/lab';
+import { Box } from '@mui/system';
 
 function AdminCreateOrEditDonasi(props) {
     const router = useRouter();
@@ -30,10 +32,22 @@ function AdminCreateOrEditDonasi(props) {
         redirectID
     } = props;
 
+    const isCreate = createOrEdit === 'create'
     const form = useRef(null);
     const { dispatch } = useAppContext();
     const [loading, setLoading] = useState(false)
     const [isActive, setIsActive] = useState();
+
+    const [errorMessage, setErrorMessage] = useState({
+        name: "",
+        description: "",
+        categories: "",
+        nominal: "",
+        contactName: "",
+        contactInfo: "",
+
+    })
+
 
     const handleIsActive = (event) => {
         const {
@@ -53,10 +67,8 @@ function AdminCreateOrEditDonasi(props) {
 
     const [category, setCategory] = useState([]);
 
-    const handleChange = (event) => {
-        const {
-            target: { value },
-        } = event;
+    const handleChange = ({ target }) => {
+        const { name, value } = target;
         setCategory(
             // On autofill we get a the stringified value.
             typeof value === 'string' ? value.split(',') : value,
@@ -73,9 +85,13 @@ function AdminCreateOrEditDonasi(props) {
             ...prev,
             [name]: value,
         }));
+        setErrorMessage((prev => ({
+            ...prev,
+            [name]: ""
+        })))
     };
 
-    const handleSubmit = useCallback(async (event) => {
+    const handleSubmit = async (event) => {
         setLoading(true)
         event.preventDefault();
 
@@ -96,18 +112,28 @@ function AdminCreateOrEditDonasi(props) {
                 setLoading(false)
                 // Check & Handle if error.response is undefined
                 if (!!error.response && error.response.status === 400) {
-                    dispatch({
-                        type: dispatchTypes.SNACKBAR_CUSTOM,
-                        payload: {
-                            severity: 'error',
-                            message: 'Incorrect information'
-                        }
-                    });
+                    setErrorMessage(prev => ({
+                        ...prev,
+                        ...error.response.data.result
+                    }))
                 }
             })
 
-    }, [apiCall, dispatch, donasi, createOrEdit])
+    }
 
+
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                width: 250,
+            },
+        },
+    };
+
+    console.log(donasi)
     return (
         <div>
             <Container>
@@ -122,7 +148,7 @@ function AdminCreateOrEditDonasi(props) {
                         <Grid item>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                    <Typography sx={{textTransform: "capitalize"}} variant="h5" component="h5" color="initial">{createOrEdit} {markazOrSantri} Donation Detail</Typography>
+                                    <Typography sx={{ textTransform: "capitalize" }} variant="h5" component="h5" color="initial">{createOrEdit} {markazOrSantri} Donation Detail</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
@@ -132,32 +158,51 @@ function AdminCreateOrEditDonasi(props) {
                                         fullWidth
                                         value={donasi.name}
                                         onChange={handleChangeDonasi}
+                                        required={isCreate}
+                                        error={!!errorMessage.name}
+                                        helperText={!!errorMessage.name && "Harap isi nama donasi dengan benar."}
                                     />
                                 </Grid>
-                                { markazOrSantri === "markaz" ?
+                                {markazOrSantri === "markaz" ?
                                     <Grid item xs={12}>
-                                      <FormControl sx= {{width: '100%'}}>
-                                        <InputLabel id="demo-multiple-name-label">Kategori</InputLabel>
-                                        <Select
-                                          labelId="demo-multiple-name-label"
-                                          id="demo-multiple-name"
-                                          multiple
-                                          value={donasi.categories}
-                                          onChange={handleChange}
-                                          input={<OutlinedInput label="Categories" />}
-                                        >
-                                          {names.map((category) => (
-                                            <MenuItem
-                                              key={category}
-                                              value={category}
+                                        <FormControl fullWidth error={!!errorMessage.categories}>
+                                            <InputLabel id="demo-multiple-name-label">Kategori</InputLabel>
+                                            <Select
+                                                labelId="demo-multiple-name-label"
+                                                id="demo-multiple-name"
+                                                multiple
+                                                name='categories'
+                                                value={donasi.categories}
+                                                onChange={handleChangeDonasi}
+                                                required={isCreate}
+                                                input={<OutlinedInput label="Categories" />}
+                                                renderValue={(selected) => (
+                                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                        {selected.map((value) => (
+                                                            <Chip key={value} label={value} />
+                                                        ))}
+                                                    </Box>
+                                                )}
+                                                MenuProps={MenuProps}
+
                                             >
-                                              {category}
-                                            </MenuItem>
-                                          ))}
-                                        </Select>
-                                      </FormControl>
+                                                {names.map((category) => (
+                                                    <MenuItem
+                                                        key={category}
+                                                        value={category}
+                                                    >
+                                                        {category}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                            {!!errorMessage.categories && (
+                                                <FormHelperText>
+                                                    Harap pilih kategori donasi.
+                                                </FormHelperText>
+                                            )}
+                                        </FormControl>
                                     </Grid>
-                                    : <></> }
+                                    : <></>}
                                 <Grid item xs={12}>
                                     <TextField
                                         name="description"
@@ -165,7 +210,10 @@ function AdminCreateOrEditDonasi(props) {
                                         fullWidth
                                         value={donasi.description}
                                         onChange={handleChangeDonasi}
+                                        required={isCreate}
                                         placeholder="Membutuhkan donasi untuk memenuhi kebutuhan"
+                                        error={!!errorMessage.description}
+                                        helperText={!!errorMessage.description && "Harap isi kebutuhan fasilitas donasi dengan benar."}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -176,6 +224,9 @@ function AdminCreateOrEditDonasi(props) {
                                         fullWidth
                                         value={donasi.nominal}
                                         onChange={handleChangeDonasi}
+                                        required={isCreate}
+                                        error={!!errorMessage.nominal}
+                                        helperText={!!errorMessage.nominal && "Harap isi nominal donasi dengan benar."}
                                     />
                                 </Grid>
                                 <Grid item xs={12} display={displayTotal}>
@@ -187,27 +238,42 @@ function AdminCreateOrEditDonasi(props) {
                                         value={donasi.donated}
                                         fullWidth
                                         onChange={handleChangeDonasi}
+                                        required={isCreate}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
-                                        <FormControl component="fieldset">
+                                    <FormControl component="fieldset">
                                         <FormLabel><Typography><p>Tampilkan di halaman detail {markazOrSantri}?</p></Typography></FormLabel>
-                                          <RadioGroup
+                                        <RadioGroup
                                             aria-label="displayOnMarkazDetail"
                                             defaultValue={false}
                                             name="radio-buttons-group"
                                             value={donasi.isActive}
                                             onChange={handleIsActive}
-                                          >
+                                            required={isCreate}
+                                        >
                                             <FormControlLabel value={true} control={<Radio />} label="Ya" />
                                             <FormControlLabel value={false} control={<Radio />} label="Tidak" />
-                                          </RadioGroup>
-                                        </FormControl>
+                                        </RadioGroup>
+                                    </FormControl>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <Button type="submit" variant="contained" color="primary" fullWidth>
-                                        Save
-                                    </Button>
+                                    <LoadingButton
+                                        id='markazSubmitAtComponentAdminCreateOrEditMarkaz'
+                                        fullWidth
+                                        type='submit'
+                                        loading={loading}
+                                        loadingIndicator="Menyimpan..."
+                                        variant="contained"
+                                        disabled={isCreate && !(
+                                            !!donasi.name &&
+                                            !!donasi.description &&
+                                            !!donasi.categories &&
+                                            !!donasi.nominal &&
+                                            !!donasi.isActive
+                                        )}>
+                                        Simpan
+                                    </LoadingButton>
                                 </Grid>
                             </Grid>
                         </Grid>

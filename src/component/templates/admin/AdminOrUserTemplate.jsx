@@ -283,7 +283,7 @@ AdminOrUserTemplate.propTypes = {
   data: PropTypes.any,
   variant: PropTypes.string,
   // A React element (ie. <MyComponent />).
-  GridView: PropTypes.element.isRequired,
+  GridView: PropTypes.element,
   TableView: PropTypes.element,
 
   searchTerm: PropTypes.string.isRequired,

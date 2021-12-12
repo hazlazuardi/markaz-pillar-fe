@@ -1,6 +1,6 @@
-import {useState, useCallback, useEffect} from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
-import {axiosFormData, axiosMain} from "../../../../../../axiosInstances";
+import { axiosFormData, axiosMain } from "../../../../../../axiosInstances";
 import AdminCreateOrEditDonasi from "../../../../../../component/templates/admin/AdminCreateOrEditDonasi";
 import ArrowBack from "../../../../../../component/modules/ArrowBack";
 import useSWR from "swr";
@@ -30,13 +30,15 @@ function AdminMarkazDonasiEdit() {
         return axiosMain.post(`/admin/donation/markaz/edit?id=${donasi_id}`, data)
     };
 
+    const [loaded, setLoaded] = useState(false)
     useEffect(() => {
-        if (responseDonasi) {
+        if (responseDonasi && !loaded) {
             setData({
                 ...responseDonasi.result,
             })
+            setLoaded(true)
         }
-    }, [responseDonasi])
+    }, [loaded, responseDonasi])
 
     if (errorDonasi) return "Error"
     if (!responseDonasi) return "wait.."
@@ -46,11 +48,12 @@ function AdminMarkazDonasiEdit() {
             <ArrowBack href={`/admin/markaz/${markaz_id}/donasi`} />
             <AdminCreateOrEditDonasi
                 donasi={data}
-                createOrEdit="Edit"
-                markazOrSantri="Markaz"
+                createOrEdit="edit"
+                markazOrSantri="markaz"
                 label="Kebutuhan fasilitas"
                 setData={setData}
                 apiCall={editDonasiMarkaz}
+                redirectID={markaz_id}
             />
         </>
     );
