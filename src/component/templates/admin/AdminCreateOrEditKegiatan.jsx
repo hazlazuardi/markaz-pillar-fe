@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
@@ -43,6 +43,7 @@ function AdminCreateOrEditKegiatan(props) {
         benefit: ""
     })
 
+    console.log(kegiatan)
     const [disableSubmit, setDisableSubmit] = useState(true)
     const handleChangeKegiatan = ({ target }) => {
         const { name, value } = target;
@@ -103,25 +104,58 @@ function AdminCreateOrEditKegiatan(props) {
 
     }, [apiCall, dispatch, kegiatan, thumbnail, variant])
 
-    useEffect(() => {
-        if (!isCreate || (
-            !!kegiatan.status &&
-            !!kegiatan.name &&
-            !!kegiatan.description &&
-            !!kegiatan.volunteerNeeded &&
-            !!kegiatan.location &&
-            !!kegiatan.schedule &&
-            !!kegiatan.markazId
-        )
-        ) {
-            console.log('false', kegiatan)
-            setDisableSubmit(false)
-        } else {
-            console.log('true', kegiatan)
-            setDisableSubmit(true)
-        }
-    }, [isCreate, kegiatan]);
+    // useEffect(() => {
+    //     if (!isCreate || (
+    //         !!kegiatan.status &&
+    //         !!kegiatan.name &&
+    //         !!kegiatan.description &&
+    //         !!kegiatan.volunteerNeeded &&
+    //         !!kegiatan.location &&
+    //         !!kegiatan.schedule &&
+    //         !!kegiatan.markazId
+    //     )
+    //     ) {
+    //         console.log('false', kegiatan)
+    //         setDisableSubmit(false)
+    //     } else {
+    //         console.log('true', kegiatan)
+    //         setDisableSubmit(true)
+    //     }
+    // }, [isCreate, kegiatan]);
 
+
+    function isDisabled() {
+        if (isCreate) {
+            if (kegiatan.status === 'SUDAH_DILAKSANAKAN') {
+                if (!(
+                    !!kegiatan.name &&
+                    !!kegiatan.description &&
+                    !!kegiatan.location &&
+                    !!kegiatan.markazId &&
+                    !!kegiatan.programCompleted
+                )) {
+                    return true;
+                }
+                return false;
+            } else {
+                if (!(
+                    !!kegiatan.status &&
+                    !!kegiatan.name &&
+                    !!kegiatan.description &&
+                    !!kegiatan.volunteerNeeded &&
+                    !!kegiatan.location &&
+                    !!kegiatan.schedule &&
+                    !!kegiatan.markazId)
+                ) {
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+
+    console.log(isDisabled())
     const router = useRouter()
     const pathname = router.pathname;
     return (
@@ -168,7 +202,7 @@ function AdminCreateOrEditKegiatan(props) {
                                                     color="initial">{variant} Kegiatan</Typography>
                                             </Grid>
                                             <Grid item xs={12}>
-                                                { variant == "create" ? (
+                                                {variant == "create" ? (
                                                     <FormControl fullWidth>
                                                         <InputLabel id="status-label">Status</InputLabel>
                                                         <Select
@@ -305,7 +339,7 @@ function AdminCreateOrEditKegiatan(props) {
                                                     id='kegiatanSubmitAtComponentAdminCreateOrEditKegiatan' fullWidth
                                                     type='submit' loading={loading} loadingIndicator="Menyimpan..."
                                                     variant="contained"
-                                                    disabled={isCreate && disableSubmit}>
+                                                    disabled={isDisabled()}>
                                                     Simpan
                                                 </LoadingButton>
                                             </Grid>
@@ -315,7 +349,12 @@ function AdminCreateOrEditKegiatan(props) {
                             </form>
                         </Container>
                     </div>
-                ) : (
+                ) 
+                
+                : 
+                
+                // BUKA / TUTUP
+                (
                     <div>
                         <Container>
                             <form ref={form} onSubmit={handleSubmit} style={{ marginTop: "5%" }}>
@@ -532,9 +571,8 @@ function AdminCreateOrEditKegiatan(props) {
                                                     id='kegiatanSubmitAtComponentAdminCreateOrEditKegiatan' fullWidth
                                                     type='submit' loading={loading} loadingIndicator="Menyimpan..."
                                                     variant="contained"
-                                                    disabled={isCreate && disableSubmit}>
+                                                    disabled={isDisabled()}>
                                                     Simpan
-
                                                 </LoadingButton>
                                             </Grid>
                                         </Grid>

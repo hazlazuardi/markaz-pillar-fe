@@ -62,7 +62,7 @@ export default function DetailKegiatan() {
                         },
                         {
                             subtitle: "Tanggal Pelaksanaan",
-                            detail: dataResult.schedule,
+                            detail: !!dataResult.schedule && dataResult.schedule.split("T").join(" @"),
                         },
                         {
                             subtitle: "Lokasi",
