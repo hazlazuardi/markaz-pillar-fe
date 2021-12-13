@@ -32,17 +32,17 @@ export default function DetailSantri(props) {
           description: dataResult.background,
           image: dataResult.thumbnailURL,
           details: [
-            {
+          {
               subtitle: "Tempat Markaz",
               detail: dataResult.markaz.name
             },
             {
               subtitle: "Jenis Kelamin",
-              detail: dataResult.gender
+              detail: dataResult.gender.split("_").join(" ").toLowerCase()
             },
             {
               subtitle: "Domisili Asal",
-              detail: dataResult.birthPlace
+              detail: dataResult.address
             },
             {
               subtitle: "Kebutuhan Beasiswa",

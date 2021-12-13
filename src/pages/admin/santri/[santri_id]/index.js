@@ -50,7 +50,7 @@ export default function AdminDetailSantri(props) {
             },
             {
               subtitle: "Domisili Asal",
-              detail: dataResult.birthPlace
+              detail: dataResult.address
             },
             {
               subtitle: "Kebutuhan Beasiswa",

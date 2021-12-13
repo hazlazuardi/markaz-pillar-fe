@@ -33,8 +33,12 @@ export default function MarkazDetail(props) {
         detail: dataResult.category.split("_").join(" ").toLowerCase(),
       },
       {
+        subtitle: "Kebutuhan Fasilitas",
+        detail: dataResult.description,
+      },
+      {
         subtitle: "Contact Person",
-        detail: dataResult.contactPerson,
+        detail: dataResult.contactInfo,
       },
       {
         subtitle: "Contact Name",

@@ -51,10 +51,6 @@ export default function DetailKegiatan(props) {
           image: dataResult.thumbnailURL,
           details: [
             {
-              subtitle: "Markaz Pelaksana",
-              detail: dataResult.markaz.name,
-            },
-            {
               subtitle: "Syarat",
               detail: dataResult.term,
             },
@@ -68,15 +64,15 @@ export default function DetailKegiatan(props) {
             },
             {
               subtitle: "Tanggal Pelaksanaan",
-              detail: dataResult.schedule,
+              detail: !!dataResult.schedule && dataResult.schedule.split("T").join(" @"),
             },
             {
               subtitle: "Lokasi",
               detail: dataResult.location,
             },
             {
-              subtitle: "Status Kegiatan",
-              detail: dataResult.status.split('_').join(" ").toLowerCase(),
+              subtitle: "Markaz Pelaksana",
+              detail: dataResult.markaz.name,
             },
             {
               subtitle: "Pendaftaran Dibuka",
@@ -89,6 +85,10 @@ export default function DetailKegiatan(props) {
             {
               subtitle: "Program Selesai",
               detail: !!dataResult.programCompleted && dataResult.programCompleted.split("T").join(" @"),
+            },
+            {
+              subtitle: "Status Kegiatan",
+              detail: !!dataResult.programCompleted && dataResult.status.split('_').join(" ").toLowerCase(),
             },
           ],
         },
