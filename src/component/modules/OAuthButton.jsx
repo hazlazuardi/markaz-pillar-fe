@@ -3,6 +3,7 @@ import React from 'react'
 import Cookies from 'universal-cookie';
 import { axiosMain } from '../../axiosInstances';
 import { useRouter } from 'next/router'
+import GoogleIcon from '@mui/icons-material/Google';
 
 
 export default function OAuthButton(props) {
@@ -24,9 +25,10 @@ export default function OAuthButton(props) {
         <>
             <Button
                 fullWidth
-                variant="contained"
+                variant="outlined"
                 sx={{ mt: 3, mb: 2 }}
                 onClick={handleOAuth}
+                startIcon={<GoogleIcon />}
             >
                 {props.text}
             </Button>

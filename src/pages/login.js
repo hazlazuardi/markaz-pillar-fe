@@ -100,8 +100,8 @@ export default function Login() {
   if (!isOnline) return (<Fallback />)
   return (
     <div>
-      <Grid container component="main" sx={{ height: '100vh' }}>
-        <CssBaseline />
+      <Grid container sx={{ height: '100vh' }}>
+        {/* <CssBaseline /> */}
         <Grid
           item
           xs={false}
@@ -129,11 +129,13 @@ export default function Login() {
               Masuk ke akun anda
             </Typography>
             {/* OAuth */}
-            <OAuthButton text={"Masuk dengan Google"}/>
+            <Box sx={{ mt: 1, width:"100%", maxWidth:500 }}>
+              <OAuthButton text={"Masuk dengan Google"} />
+            </Box>
             <Divider orientation="horizontal" flexItem>
               atau
             </Divider>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, width:"100%", maxWidth:500 }}>
               <TextField
                 margin="normal"
                 required
