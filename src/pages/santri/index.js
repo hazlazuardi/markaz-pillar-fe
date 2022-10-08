@@ -6,7 +6,8 @@ import AdminOrUserTemplate from "../../component/templates/admin/AdminOrUserTemp
 
 import GridView from "../../component/templates/admin/GridView";
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+// const fetcher = (url) => fetch(url).then((res) => res.json())
+const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function Santri(props) {
   const { allSantri } = props;
@@ -14,17 +15,26 @@ export default function Santri(props) {
   const [page, setPage] = useState(1);
   const [entries, setEntries] = useState(10);
   const [sort, setSort] = useState("NAME_ASC");
+  // const {
+  //   data: responseSantri,
+  //   error,
+  //   mutate,
+  // } = useSWR(
+  //   `/santri/search?${!!sort ? "sort=" + sort : ""}&page=${page - 1}&n=${entries}&${!!searchSantri && "name=" + searchSantri
+  //   }`,
+  //   fetcher,
+  //   { fallbackData: allSantri, refreshInterval: 30000 }
+  // );
   const {
     data: responseSantri,
     error,
     mutate,
   } = useSWR(
-    `/santri/search?${!!sort ? "sort=" + sort : ""}&page=${page - 1}&n=${entries}&${
-      !!searchSantri && "name=" + searchSantri
-    }`,
+    `/api/santri`,
     fetcher,
     { fallbackData: allSantri, refreshInterval: 30000 }
   );
+
 
   useEffect(() => {
     mutate();
@@ -52,7 +62,8 @@ export default function Santri(props) {
           label: "Abjad A-Z",
         },
         { value: "NAME_DESC", label: "Abjad Z-A" },
-        {value: "AGE_ASC",
+        {
+          value: "AGE_ASC",
           label: "Umur Tertua",
         },
         { value: "AGE_DESC", label: "Umur Termuda" },
@@ -64,7 +75,7 @@ export default function Santri(props) {
     <>
       <AdminOrUserTemplate
         variant="santri"
-        GridView={<GridViewSantri/>}
+        GridView={<GridViewSantri />}
         entries={entries}
         setEntries={setEntries}
         searchTerm={searchSantri}
@@ -82,13 +93,13 @@ export default function Santri(props) {
   );
 }
 
-export async function getStaticProps() {
-  const staticAllSantriResponse = await axiosMain.get("/santri/search?n=1000");
-  const staticAllSantri = staticAllSantriResponse.data;
-  return {
-    props: {
-      allSantri: staticAllSantri,
-    },
-    revalidate: 10,
-  };
-}
+// export async function getStaticProps() {
+//   const staticAllSantriResponse = await axiosMain.get("/santri");
+//   const staticAllSantri = staticAllSantriResponse.data;
+//   return {
+//     props: {
+//       allSantri: staticAllSantri,
+//     },
+//     revalidate: 10,
+//   };
+// }

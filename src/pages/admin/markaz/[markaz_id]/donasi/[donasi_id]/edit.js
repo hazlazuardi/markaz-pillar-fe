@@ -5,7 +5,7 @@ import AdminCreateOrEditDonasi from "../../../../../../component/templates/admin
 import ArrowBack from "../../../../../../component/modules/ArrowBack";
 import useSWR from "swr";
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = (url) => fetch(url).then((res) => res.json())
 
 function AdminMarkazDonasiEdit() {
     const router = useRouter();

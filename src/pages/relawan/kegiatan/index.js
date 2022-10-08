@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function Home(props) {
   const { allKegiatanRandom, allKegiatanOpen, allKegiatanDone } = props
@@ -56,25 +56,25 @@ export default function Home(props) {
   const [page1, setPage1] = useState(1);
   const [page2, setPage2] = useState(1);
 
-    const { data: responseRandomProgram, error: error1 } = useSWR(
-      `/volunteer/random
+  const { data: responseRandomProgram, error: error1 } = useSWR(
+    `/api/relawan/kegiatan?random=true
   `,
-      fetcher,
-      { fallbackData: allKegiatanRandom, refreshInterval: 10000 }
-    );
+    fetcher,
+    { fallbackData: allKegiatanRandom, refreshInterval: 10000 }
+  );
 
   const { data: responseProgram, error: error2 } = useSWR(
-    `/volunteer?n=4&page=${page1 - 1}&status=MEMBUKA_PENDAFTARAN
+    `/api/relawan/kegiatan?status=done
 `,
     fetcher, { fallbackData: allKegiatanOpen, refreshInterval: 10000 }
   );
 
   const { data: responseProgram2, error: error3 } = useSWR(
-    `/volunteer?n=4&page=${page2 - 1}&status=SUDAH_DILAKSANAKAN
+    `/api/relawan/kegiatan?status=upcoming
 `,
     fetcher, { fallbackData: allKegiatanDone, refreshInterval: 10000 }
   );
-  
+
   const router = useRouter();
 
   const { state, dispatch } = useAppContext()
@@ -83,12 +83,12 @@ export default function Home(props) {
 
   const handleKegiatan = (href) => {
     if (stateLoaded && currentUser) {
-        router.push({ pathname: href, query: { ...router.query } })
+      router.push({ pathname: href, query: { ...router.query } })
     } else {
-        dispatch({ type: dispatchTypes.LOGIN_NEEDED_RELAWAN })
-        router.push(enumRoutes.LOGIN)
+      dispatch({ type: dispatchTypes.LOGIN_NEEDED_RELAWAN })
+      router.push(enumRoutes.LOGIN)
     }
-}
+  }
 
   const matches = useMediaQuery("(max-width:600px)");
   const size = matches ? "small" : "medium";
@@ -110,7 +110,7 @@ export default function Home(props) {
 
   return (
     <>
-      {!!responseProgram && !!responseProgram2 &&!!responseRandomProgram && (
+      {!!responseProgram && !!responseProgram2 && !!responseRandomProgram && (
         <>
           <div className={classes.bg}>
             <div className={classes.pad1}>
@@ -122,7 +122,7 @@ export default function Home(props) {
                   md={6}
                   className={classes.heading}
                   sx={{
-                    backgroundImage: `url(${responseRandomProgram.result.thumbnailURL})`,
+                    backgroundImage: `url(${responseRandomProgram?.result?.thumbnailURL || 'https://source.unsplash.com/random'})`,
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                     backgroundPosition: "center",
@@ -149,16 +149,16 @@ export default function Home(props) {
                     sx={{ p: 1 }}
                     mt={4}
                   >
-                      <Button
-                        data-testid="daftar-sekarang-button-relawan-kegiatan"
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        size="small"
-                        onClick={() => handleKegiatan(`${enumRoutes.MEMBER_KEGIATAN}/${responseRandomProgram.result.id}/registrasi`)}
-                      >
-                        Daftar Sekarang
-                      </Button>
+                    <Button
+                      data-testid="daftar-sekarang-button-relawan-kegiatan"
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                      size="small"
+                      onClick={() => handleKegiatan(`${enumRoutes.MEMBER_KEGIATAN}/${responseRandomProgram.result.id}/registrasi`)}
+                    >
+                      Daftar Sekarang
+                    </Button>
                     <Link
                       href={`kegiatan/${responseRandomProgram.result.id}`}
                       passHref
@@ -204,22 +204,22 @@ export default function Home(props) {
   );
 }
 
-export async function getStaticProps() {
-  const staticKegiatanRandomResponse = await axiosMain.get(`/volunteer/random`);
-  const staticKegiatanRandom = await staticKegiatanRandomResponse.data
+// export async function getStaticProps() {
+//   const staticKegiatanRandomResponse = await axiosMain.get(`/volunteer/random`);
+//   const staticKegiatanRandom = await staticKegiatanRandomResponse.data
 
-  const staticKegiatanOpenResponse = await axiosMain.get(`/volunteer?n=1000&status=MEMBUKA_PENDAFTARAN`);
-  const staticKegiatanOpen = await staticKegiatanOpenResponse.data
+//   const staticKegiatanOpenResponse = await axiosMain.get(`/volunteer?n=1000&status=MEMBUKA_PENDAFTARAN`);
+//   const staticKegiatanOpen = await staticKegiatanOpenResponse.data
 
-  const staticKegiatanDoneResponse = await axiosMain.get(`/volunteer?n=1000&status=SUDAH_DILAKSANAKAN`);
-  const staticKegiatanDone = await staticKegiatanDoneResponse.data
+//   const staticKegiatanDoneResponse = await axiosMain.get(`/volunteer?n=1000&status=SUDAH_DILAKSANAKAN`);
+//   const staticKegiatanDone = await staticKegiatanDoneResponse.data
 
-  return {
-    props: {
-      allKegiatanRandom: staticKegiatanRandom,
-      allKegiatanOpen: staticKegiatanOpen,
-      allKegiatanDone: staticKegiatanDone,
-    },
-    revalidate: 10,
-  };
-}
+//   return {
+//     props: {
+//       allKegiatanRandom: staticKegiatanRandom,
+//       allKegiatanOpen: staticKegiatanOpen,
+//       allKegiatanDone: staticKegiatanDone,
+//     },
+//     revalidate: 10,
+//   };
+// }

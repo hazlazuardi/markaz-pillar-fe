@@ -10,12 +10,12 @@ import { enumRoutes } from "../../../context/AppReducer";
 import Fallback from "../../_offline";
 import useOnlineStatus from "../../../hook/useOnlineStatus";
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = (url) => fetch(url).then((res) => res.json())
 export default function DetailSantri(props) {
   const { detailSantri } = props
   const router = useRouter();
   const { santri_id } = router.query
-  const { data: responseDetailSantri, error, mutate } = useSWR(router.isReady ? `/santri?id=${santri_id}` : null,
+  const { data: responseDetailSantri, error, mutate } = useSWR(router.isReady ? `/api/santri/${santri_id}` : null,
     fetcher,
     { fallbackData: detailSantri, refreshInterval: 10000 }
   )
@@ -81,29 +81,29 @@ export default function DetailSantri(props) {
   );
 }
 
-export async function getStaticProps(context) {
-  const id = context.params.santri_id;
-  const staticDetailSantriResponse = await axiosMain.get(`/santri?id=${id}`)
-  const staticDetailSantri = staticDetailSantriResponse.data
-  return {
-    props: {
-      detailSantri: staticDetailSantri,
-    },
-    revalidate: 10
-  };
-}
+// export async function getStaticProps(context) {
+//   const id = context.params.santri_id;
+//   const staticDetailSantriResponse = await axiosMain.get(`/santri?id=${id}`)
+//   const staticDetailSantri = staticDetailSantriResponse.data
+//   return {
+//     props: {
+//       detailSantri: staticDetailSantri,
+//     },
+//     revalidate: 10
+//   };
+// }
 
-export async function getStaticPaths() {
-  const staticAllSantriResponse = await axiosMain.get(`/santri/search?n=1000`)
-  const staticAllSantri = await staticAllSantriResponse.data
+// export async function getStaticPaths() {
+//   const staticAllSantriResponse = await axiosMain.get(`/santri/search?n=1000`)
+//   const staticAllSantri = await staticAllSantriResponse.data
 
-  const paths = await staticAllSantri.result.map((santri) => ({
-    params: { santri_id: santri.id.toString() },
-  }));
+//   const paths = await staticAllSantri.result.map((santri) => ({
+//     params: { santri_id: santri.id.toString() },
+//   }));
 
-  return {
-    paths: paths,
-    fallback: 'blocking',
-  };
-}
+//   return {
+//     paths: paths,
+//     fallback: 'blocking',
+//   };
+// }
 

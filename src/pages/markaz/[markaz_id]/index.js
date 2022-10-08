@@ -10,107 +10,114 @@ import { Typography } from "@mui/material";
 import Fallback from "../../_offline";
 import useOnlineStatus from "../../../hook/useOnlineStatus";
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = (url) => fetch(url).then((res) => res.json())
 export default function MarkazDetail(props) {
-  const { detailMarkaz } = props
-  const router = useRouter();
-  const { markaz_id } = router.query
-  const { data: responseDetailMarkaz, error } = useSWR(router.isReady ? `/markaz?id=${markaz_id}` : null,
-    fetcher,
-    { fallbackData: detailMarkaz, refreshInterval: 10000 }
-  )
+	const { detailMarkaz } = props
+	const router = useRouter();
+	const { markaz_id } = router.query
+	// const { data: responseDetailMarkaz, error } = useSWR(router.isReady ? `/markaz?id=${markaz_id}` : null,
+	//   fetcher,
+	//   { fallbackData: detailMarkaz, refreshInterval: 10000 }
+	// )
 
-  const dataResult = {
-    ...responseDetailMarkaz.result
-  }
-  const convertedDataMarkaz = {
-    title: dataResult.name,
-    description: dataResult.background,
-    image: dataResult.thumbnailURL,
-    details: [
-      {
-        subtitle: "Kategori",
-        detail: dataResult.category.split("_").join(" ").toLowerCase(),
-      },
-      {
-        subtitle: "Kebutuhan Fasilitas",
-        detail: dataResult.description,
-      },
-      {
-        subtitle: "Contact Person",
-        detail: dataResult.contactInfo,
-      },
-      {
-        subtitle: "Contact Name",
-        detail: dataResult.contactName,
-      },
-      {
-        subtitle: "Alamat",
-        detail: dataResult.address,
-      },
-    ],
-    donation: [
-      {
-        subtitle: "Nominal yang dibutuhkan",
-        detail: dataResult.nominal
-      },
-    ],
-    progress: dataResult.progress
-  }
+	const { data: responseDetailMarkaz, error } = useSWR(router.isReady ? `/api/markaz/${markaz_id}` : null,
+		fetcher,
+		{ fallbackData: detailMarkaz, refreshInterval: 30000 }
+	)
 
-  const convertedData = {
-    ...responseDetailMarkaz,
-    result: {
-      ...dataResult,
-      ...convertedDataMarkaz
-    }
-  }
+	console.log(responseDetailMarkaz)
 
-  const isOnline = useOnlineStatus()
-  if (error) {
-    if (!isOnline) return (<Fallback />)
-    return (<ArrowBack href={enumRoutes.MEMBER_MARKAZ} />);
-  }
-  if (!responseDetailMarkaz) return (
-    <>
-      <ArrowBack href={enumRoutes.MEMBER_MARKAZ} />
-      <Typography component='p'>Loading Markaz Information..</Typography>
-    </>
-  );
-  return (
-    <>
-      <ArrowBack href={enumRoutes.MEMBER_MARKAZ} />
-      <DetailView variant='markaz' data={convertedData} hrefDonasi={enumRoutes.MEMBER_MARKAZ_DONASI} />
-      {convertedData.result.nominal && (
-        <ProgresDonasiFooter data={convertedData} />
-      )}
-    </>
-  );
+	const dataResult = {
+		...responseDetailMarkaz?.result
+	}
+	const convertedDataMarkaz = {
+		title: dataResult.name,
+		description: dataResult.background,
+		image: dataResult.thumbnailURL,
+		details: [
+			{
+				subtitle: "Kategori",
+				detail: dataResult?.category?.split("_").join(" ").toLowerCase(),
+			},
+			{
+				subtitle: "Kebutuhan Fasilitas",
+				detail: dataResult.description,
+			},
+			{
+				subtitle: "Contact Person",
+				detail: dataResult.contactInfo,
+			},
+			{
+				subtitle: "Contact Name",
+				detail: dataResult.contactName,
+			},
+			{
+				subtitle: "Alamat",
+				detail: dataResult.address,
+			},
+		],
+		donation: [
+			{
+				subtitle: "Nominal yang dibutuhkan",
+				detail: dataResult.nominal
+			},
+		],
+		progress: dataResult.progress
+	}
+
+	const convertedData = {
+		...responseDetailMarkaz,
+		result: {
+			...dataResult,
+			...convertedDataMarkaz
+		}
+	}
+
+	const isOnline = useOnlineStatus()
+	if (error) {
+		if (!isOnline) return (<Fallback />)
+		return (<ArrowBack href={enumRoutes.MEMBER_MARKAZ} />);
+	}
+	if (!responseDetailMarkaz) return (
+		<>
+			<ArrowBack href={enumRoutes.MEMBER_MARKAZ} />
+			<Typography component='p'>Loading Markaz Information..</Typography>
+		</>
+	);
+	return (
+		<>
+			<ArrowBack href={enumRoutes.MEMBER_MARKAZ} />
+			<DetailView variant='markaz' data={convertedData} hrefDonasi={enumRoutes.MEMBER_MARKAZ_DONASI} />
+			{convertedData.result.nominal && (
+				<ProgresDonasiFooter data={convertedData} />
+			)}
+		</>
+	);
 }
 
-export async function getStaticProps(context) {
-  const id = context.params.markaz_id;
-  const staticDetailMarkazResponse = await axiosMain.get(`/markaz?id=${id}`)
-  const staticDetailMarkaz = staticDetailMarkazResponse.data
-  return {
-    props: {
-      detailMarkaz: staticDetailMarkaz,
-    },
-    revalidate: 10
-  };
-}
+// export async function getStaticProps(context) {
+//   const id = context.params.markaz_id;
+//   const staticDetailMarkazResponse = await axiosMain.get(`/markaz?id=${id}`)
+//   const staticDetailMarkaz = staticDetailMarkazResponse.data
+//   return {
+//     props: {
+//       detailMarkaz: staticDetailMarkaz,
+//     },
+//     revalidate: 10
+//   };
+// }
 
-export async function getStaticPaths() {
-  const staticAllMarkazResponse = await axiosMain.get(`/markaz/search?n=1000`)
-  const staticAllMarkaz = await staticAllMarkazResponse.data
+// export async function getStaticPaths() {
+//   const staticAllMarkazResponse = await axiosMain.get(`/markaz/search?n=1000`)
+//   const staticAllMarkaz = await staticAllMarkazResponse.data
 
-  const paths = await staticAllMarkaz.result.map((markaz) => ({
-    params: { markaz_id: markaz.id.toString() },
-  }));
+//   const paths = await staticAllMarkaz.result.map((markaz) => ({
+//     params: { markaz_id: markaz.id.toString() },
+//   }));
 
-  return {
-    paths: paths,
-    fallback: 'blocking',
-  };
-}
+//   return {
+//     paths: paths,
+//     fallback: 'blocking',
+//   };
+// }
 

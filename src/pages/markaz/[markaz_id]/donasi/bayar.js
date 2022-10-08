@@ -7,7 +7,7 @@ import { dispatchTypes, enumRoutes } from "../../../../context/AppReducer";
 import useSWR from "swr";
 import ArrowBack from '../../../../component/modules/ArrowBack';
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function DonasiMarkaz(props) {
     const { detailMarkaz } = props

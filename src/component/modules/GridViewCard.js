@@ -186,7 +186,7 @@ export default function GridViewCard(props) {
               }
             >
               <Image
-                src={image}
+                src={image || 'https://source.unsplash.com/random'}
                 layout={isXXS ? "responsive" : "fill"}
                 objectFit="cover"
                 alt="Backdrop"

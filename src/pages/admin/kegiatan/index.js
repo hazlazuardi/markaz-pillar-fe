@@ -5,7 +5,7 @@ import AdminOrUserTemplate from "../../../component/templates/admin/AdminOrUserT
 import GridView from "../../../component/templates/admin/GridView";
 import TableView from "../../../component/templates/admin/TableView";
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function AdminKegiatan() {
   const [page, setPage] = useState(1);

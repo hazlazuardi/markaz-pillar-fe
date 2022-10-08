@@ -10,7 +10,7 @@ import Add from "@mui/icons-material/Add";
 import { DonutLarge } from "@mui/icons-material";
 import { Button, Typography } from '@mui/material'
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => fetch(url).then((res) => res.json())
 export default function AdminMarkazDetail(props) {
   const router = useRouter();
   const { markaz_id } = router.query

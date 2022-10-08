@@ -7,7 +7,7 @@ import AdminOrUserTemplate from "../../../../../component/templates/admin/AdminO
 import ArrowBack from "../../../../../component/modules/ArrowBack";
 import { enumRoutes } from "../../../../../context/AppReducer";
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function DonasiMarkaz(props) {
   const router = useRouter();

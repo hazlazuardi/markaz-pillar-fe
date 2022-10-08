@@ -4,7 +4,7 @@ API endpoint: http://api.staging.markazpillar.afriza.co <br>
 Postman: https://documenter.getpostman.com/view/12004801/UUxxgU6Y/ <br>
 
 ## What is Markazpillar?
-Markaz Pillar is a website for the tahfiz community where people can learn, volunteer, and donate. The Markazpillar project uses [Spring Boot](https://spring.io/projects/spring-boot) for its backend side.
+Markaz Pilar is a website for the tahfiz community where people can learn, volunteer, and donate. The Markazpillar project uses [Spring Boot](https://spring.io/projects/spring-boot) for its backend side.
 
 ## Developers
 - [Achmad Afriza Wibawa - 1906315821](https://gitlab.cs.ui.ac.id/achmad.afriza)

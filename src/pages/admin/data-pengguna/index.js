@@ -4,7 +4,7 @@ import useSWR from "swr";
 import { axiosMain } from "../../../axiosInstances";
 import TableView from "../../../component/templates/admin/TableView";
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function AdminUsers() {
   const [page, setPage] = useState(1);

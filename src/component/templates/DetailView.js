@@ -100,7 +100,7 @@ export default function DetailView(props) {
         <Grid item xs={12} md={6} >
 
           <Container disableGutters >
-            <Image src={result.image} layout='responsive'
+            <Image src={result.image || 'https://source.unsplash.com/random'} layout='responsive'
               width={16} height={16} quality={65} sizes={20} alt='' />
             {isDisabled ? null : (
               <ProgresDonasiBar {...props} donated={result.donated} nominal={result.nominal} hrefDonasi={hrefDonasi} />

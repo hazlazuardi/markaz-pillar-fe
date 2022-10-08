@@ -12,7 +12,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { useAppContext } from '../../../../context/AppContext';
 import { dispatchTypes, enumRoutes } from '../../../../context/AppReducer';
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = (url) => fetch(url).then((res) => res.json())
 export default function DetailKegiatan() {
     const router = useRouter();
 

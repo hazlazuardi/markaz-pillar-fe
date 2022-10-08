@@ -7,7 +7,7 @@ import TableView from "../../../../component/templates/admin/TableView";
 import ArrowBack from "../../../../component/modules/ArrowBack";
 import { useRouter } from "next/router";
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function AdminRelawan(props) {
   const [page, setPage] = useState(1);

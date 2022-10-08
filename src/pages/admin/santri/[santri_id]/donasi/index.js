@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import AdminOrUserTemplate from "../../../../../component/templates/admin/AdminOrUserTemplate";
 import ArrowBack from "../../../../../component/modules/ArrowBack";
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function DonasiSantri() {
   const router = useRouter();

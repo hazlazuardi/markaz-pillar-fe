@@ -5,7 +5,7 @@ import ArrowBack from "../../../component/modules/ArrowBack";
 import useSWR from "swr";
 import {useRouter} from "next/router";
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => fetch(url).then((res) => res.json())
 
 function AdminCreateVolunteerKegiatan() {
     const router = useRouter();

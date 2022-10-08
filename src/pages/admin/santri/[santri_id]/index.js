@@ -10,7 +10,7 @@ import Add from "@mui/icons-material/Add";
 import { DonutLarge } from "@mui/icons-material";
 import { enumRoutes } from "../../../../context/AppReducer";
 
-const fetcher = url => axiosMain.get(url).then(res => res.data)
+const fetcher = (url) => fetch(url).then((res) => res.json())
 export default function AdminDetailSantri(props) {
   const router = useRouter();
   const { santri_id } = router.query

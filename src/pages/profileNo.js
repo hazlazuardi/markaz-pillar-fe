@@ -19,7 +19,7 @@ import { axiosMain } from "../axiosInstances";
 import useSWR from "swr";
 import Link from "next/link";
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function ProfileNo() {
   const { state, dispatch } = useAppContext();

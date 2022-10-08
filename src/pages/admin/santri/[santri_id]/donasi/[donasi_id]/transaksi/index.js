@@ -7,7 +7,7 @@ import AdminOrUserTemplate from "../../../../../../../component/templates/admin/
 import ArrowBack from "../../../../../../../component/modules/ArrowBack";
 import { enumRoutes } from "../../../../../../../context/AppReducer";
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function TransaksiSantri() {
   const router = useRouter();

@@ -6,7 +6,7 @@ import ArrowBack from "../../../component/modules/ArrowBack";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => fetch(url).then((res) => res.json())
 
 export default function AdminSantriCreate() {
     const router = useRouter();

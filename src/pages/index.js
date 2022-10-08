@@ -22,10 +22,12 @@ import { useRouter } from 'next/router';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-const fetcher = (url) => axiosMain.get(url).then((res) => res.data);
+const fetcher = (url) => fetch(url).then((res) => res.json())
 export default function Landing(props) {
   const { allLanding } = props
-  const { data: responseLanding } = useSWR('/landing', fetcher, { fallbackData: allLanding, refreshInterval: 100000 })
+  // const { data: responseLanding? } = useSWR('/landing', fetcher, { fallbackData: allLanding, refreshInterval: 100000 })
+  const { data: responseLanding } = useSWR('/api', fetcher,
+    { fallbackData: allLanding, refreshInterval: 100000 })
   const { state, dispatch } = useAppContext()
   const { currentUser } = state;
 
@@ -78,7 +80,7 @@ export default function Landing(props) {
                 // maxWidth: 300,
                 overflow: 'hidden',
               }}
-            // src={program.thumbnailURL}
+            // src={program.thumbnailURL || 'https://source.unsplash.com/random'}
             >
               <Image src='/iconopq.png' layout='responsive'
                 width={16} height={16} quality={65} sizes={20} alt='' objectFit="cover"
@@ -90,8 +92,14 @@ export default function Landing(props) {
           <Grid item xs={12} md={6} p={2} >
             <Stack spacing={2} p={0}>
               <Typography mt={{ xs: 0, md: '25%' }} variant='h6' component='h2' color='primary'>Tentang Kami</Typography>
-              <Typography variant='h4' component='h1' color='primary'>Markaz Pillar</Typography>
-              <Typography variant='body1' paragraph>Markaz Pillar adalah Yaudah Terserah Kalian aja — Adyssa</Typography>
+              <Typography variant='h4' component='h1' color='primary'>Markaz Pilar</Typography>
+              <Typography variant='body1' paragraph>
+                Markaz Pilar adalah platform penggalangan dana untuk komunitas markaz tahfiz dan para santri di Indonesia.
+              </Typography>
+              <Typography>
+                Platform ini juga memberikan kemudahan kepada komunitas markaz tahifz yang sedang mengadakan kegiatan relawan sehingga para relawan
+                dapat mendaftarkan diri mereka.
+              </Typography>
             </Stack>
           </Grid>
         </Grid>
@@ -102,18 +110,18 @@ export default function Landing(props) {
           {/* Markaz */}
           <Grid item xs={12} sm={4} p={2} alignItems='center' justifyContent='center'>
             <Box pl={{ xs: 14, sm: 0 }} pr={{ xs: 14, sm: 0 }} >
-              <Image src={responseLanding.result.markaz.thumbnailURL} layout='responsive'
+              <Image src={responseLanding?.result?.markaz?.thumbnailURL || 'https://source.unsplash.com/random' || 'https://source.unsplash.com/random'} layout='responsive'
                 width={16} height={16} quality={65} sizes={20} alt='' objectFit="cover"
               />
             </Box>
-            <Typography variant='h6' component='h6' textAlign='center' mt={2}>{responseLanding.result.markaz.name}</Typography>
+            <Typography variant='h6' component='h6' textAlign='center' mt={2}>{responseLanding?.result.markaz.name}</Typography>
             <Box height={26} overflow='hidden' mt={2}>
-              <Typography variant='body1' component='p' textAlign='center' sx={{ textOverflow: 'ellipsis' }}>{responseLanding.result.markaz.background}</Typography>
+              <Typography variant='body1' component='p' textAlign='center' sx={{ textOverflow: 'ellipsis' }}>{responseLanding?.result.markaz.background}</Typography>
             </Box>
             <Box mt={2} mb={0} display='flex' alignItems='center' justifyContent='center'>
-              <Link href={!!currentUser ? `${enumRoutes.MEMBER_MARKAZ}/${responseLanding.result.markaz.id}/donasi/bayar` : '/login'} passHref>
+              <Link href={!!currentUser ? `${enumRoutes.MEMBER_MARKAZ}/${responseLanding?.result.markaz.id}/donasi/bayar` : '/login'} passHref>
                 <Button variant='contained'>Donasi Sekarang</Button>
-                {/* <Button variant='contained' onClick={!!currentUser ? `${variant}/${responseLanding.result.markaz.id}/donasi/bayar` : `/login`}>Donasi Sekarang</Button> */}
+                {/* <Button variant='contained' onClick={!!currentUser ? `${variant}/${responseLanding?.result.markaz.id}/donasi/bayar` : `/login`}>Donasi Sekarang</Button> */}
               </Link>
             </Box>
           </Grid>
@@ -122,18 +130,18 @@ export default function Landing(props) {
           {/* Santri */}
           <Grid item xs={12} sm={4} p={2} alignItems='center' justifyContent='center'>
             <Box pl={{ xs: 14, sm: 0 }} pr={{ xs: 14, sm: 0 }} >
-              <Image src={responseLanding.result.santri.thumbnailURL} layout='responsive'
+              <Image src={responseLanding?.result.santri.thumbnailURL || 'https://source.unsplash.com/random' || 'https://source.unsplash.com/random'} layout='responsive'
                 width={16} height={16} quality={65} sizes={20} alt='' objectFit="cover"
               />
             </Box>
-            <Typography variant='h6' component='h6' textAlign='center' mt={2}>{responseLanding.result.santri.name}</Typography>
+            <Typography variant='h6' component='h6' textAlign='center' mt={2}>{responseLanding?.result.santri.name}</Typography>
             <Box height={26} overflow='hidden' mt={2}>
-              <Typography variant='body1' component='p' textAlign='center' sx={{ textOverflow: 'ellipsis' }} >{responseLanding.result.santri.background}</Typography>
+              <Typography variant='body1' component='p' textAlign='center' sx={{ textOverflow: 'ellipsis' }} >{responseLanding?.result.santri.background}</Typography>
             </Box>
             <Box mt={2} display='flex' alignItems='center' justifyContent='center'>
-              <Link href={!!currentUser ? `${enumRoutes.MEMBER_SANTRI}/${responseLanding.result.santri.id}/donasi/bayar` : '/login'} passHref>
+              <Link href={!!currentUser ? `${enumRoutes.MEMBER_SANTRI}/${responseLanding?.result.santri.id}/donasi/bayar` : '/login'} passHref>
                 <Button variant='contained' >Donasi Sekarang</Button>
-                {/* <Button variant='contained' onClick={!!currentUser ? `${variant}/${responseLanding.result.santri.id}/donasi/bayar` : `/login`} >Donasi Sekarang</Button> */}
+                {/* <Button variant='contained' onClick={!!currentUser ? `${variant}/${responseLanding?.result.santri.id}/donasi/bayar` : `/login`} >Donasi Sekarang</Button> */}
               </Link>
             </Box>
           </Grid>
@@ -141,16 +149,16 @@ export default function Landing(props) {
           {/* Kegiatan */}
           <Grid item xs={12} sm={4} p={2} alignItems='center' justifyContent='center'>
             <Box pl={{ xs: 14, sm: 0 }} pr={{ xs: 14, sm: 0 }} >
-              <Image src={responseLanding.result.program.thumbnailURL} layout='responsive'
+              <Image src={responseLanding?.result.program.thumbnailURL || 'https://source.unsplash.com/random'} layout='responsive'
                 width={16} height={16} quality={65} sizes={20} alt='' objectFit="cover"
               />
             </Box>
-            <Typography variant='h6' component='h6' textAlign='center' mt={2}>{responseLanding.result.program.name}</Typography>
+            <Typography variant='h6' component='h6' textAlign='center' mt={2}>{responseLanding?.result.program.name}</Typography>
             <Box height={26} overflow='hidden' mt={2}>
-              <Typography variant='body1' component='p' textAlign='center' sx={{ textOverflow: 'ellipsis' }} >{responseLanding.result.program.description}</Typography>
+              <Typography variant='body1' component='p' textAlign='center' sx={{ textOverflow: 'ellipsis' }} >{responseLanding?.result.program.description}</Typography>
             </Box>
             <Box mt={2} display='flex' alignItems='center' justifyContent='center'>
-              <Link href={!!currentUser ? `${enumRoutes.MEMBER_KEGIATAN}/${responseLanding.result.program.id}/registrasi` : '/login'} passHref>
+              <Link href={!!currentUser ? `${enumRoutes.MEMBER_KEGIATAN}/${responseLanding?.result.program.id}/registrasi` : '/login'} passHref>
                 <Button variant='contained'>Daftar Sekarang</Button>
                 {/* <Button variant='contained' onClick={!!currentUser ? `/relawan/kegiatan/${id}/registrasi` : `/login`}>Daftar Sekarang</Button> */}
               </Link>
@@ -161,7 +169,7 @@ export default function Landing(props) {
 
 
       {/* Carousel Section */}
-      {responseLanding.result.programCarousel.length === 2 && (
+      {responseLanding?.result.programCarousel.length === 2 && (
         <>
           <Grid container pb={4} pt={4} mt={4}>
             {/* Carousel */}
@@ -173,7 +181,7 @@ export default function Landing(props) {
                   onChangeIndex={handleStepChange}
                   enableMouseEvents
                 >
-                  {responseLanding.result.programCarousel.map((program, index) => (
+                  {responseLanding?.result.programCarousel.map((program, index) => (
                     <div key={program.name}>
                       {Math.abs(activeStep - index) <= 2 ? (
                         <Box
@@ -185,9 +193,9 @@ export default function Landing(props) {
                             // maxWidth: 300,
                             overflow: 'hidden',
                           }}
-                        // src={program.thumbnailURL}
+                        // src={program.thumbnailURL || 'https://source.unsplash.com/random'}
                         >
-                          <Image src={program.thumbnailURL} layout='responsive'
+                          <Image src={program.thumbnailURL || 'https://source.unsplash.com/random'} layout='responsive'
                             width={16} height={16} quality={65} sizes={20} alt='' objectFit="cover"
                           />
                           <Typography variant='h6' p={2} sx={{ position: 'absolute', bottom: 0, width: '100%', backgroundColor: 'rgba(255,255,255,.5)', backdropFilter: 'blur(5px)' }} >{program.name}</Typography>
@@ -237,13 +245,13 @@ export default function Landing(props) {
                 <Typography variant='body1' component='p'>Bantu kami menjalankan berbagai program untuk santri tahfidz dengan mendaftarkan diri anda sebagai volunteer di Markaz Pilar.</Typography>
               </Stack>
               <Grid container mt={2} spacing={4}>
-                {responseLanding.result.programCarousel.map(program => (
+                {responseLanding?.result.programCarousel.map(program => (
                   <Grid key={program.id} item spacing={4} pl={0} pr={0}>
                     <Typography variant='h6' component='h6'>{program.name}</Typography>
                     <Typography variant='subtitle1' component='h6'>{program.description}</Typography>
                     <Typography variant='caption' component='h6'>{program.location}</Typography>
                     <Typography mb={2} variant='caption' component='h6'>Jumlah Relawan: {program.volunteerApplied} / {program.volunteerNeeded}</Typography>
-                    <Link href={`${enumRoutes.MEMBER_KEGIATAN}/${responseLanding.result.program.id}/registrasi`} passHref>
+                    <Link href={`${enumRoutes.MEMBER_KEGIATAN}/${responseLanding?.result.program.id}/registrasi`} passHref>
                       <Button mt={2} variant='contained'>Daftar Sekarang</Button>
                     </Link>
                   </Grid>
@@ -271,13 +279,14 @@ export default function Landing(props) {
   )
 }
 
-export async function getStaticProps() {
-  const staticLandingResponse = await axiosMain.get("/landing");
-  const staticLanding = staticLandingResponse.data
-  return {
-    props: {
-      allLanding: staticLanding
-    },
-    revalidate: 10
-  }
-}
+// export async function getStaticProps() {
+//   const staticLandingResponse = await axiosMain.get("/");
+//   const staticLanding = staticLandingResponse.data
+//   return {
+//     props: {
+//       allLanding: staticLanding
+//     },
+//     revalidate: 10,
+//     fallback: true
+//   }
+// }
