@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { Container, Snackbar } from '@mui/material';
 import { useAppContext } from '../context/AppContext';
 import { dispatchTypes } from '../context/AppReducer';
-import { Box } from '@mui/system';
+import { Box } from "@mui/material";
 import MuiAlert from '@mui/material/Alert';
 import useOnlineStatus from '../hook/useOnlineStatus';
 

@@ -10,7 +10,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { Box, width } from "@mui/system";
+import { Box, width } from "@mui/material";
 import Image from "next/image";
 import LinesEllipsis from "react-lines-ellipsis";
 import Link from "next/link";

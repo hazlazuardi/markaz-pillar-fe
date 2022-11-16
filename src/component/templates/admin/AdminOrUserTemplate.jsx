@@ -20,7 +20,7 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import SwipeableViews from "react-swipeable-views";
 import { SwipeableEnableScroll } from "../../SwipeableEnableScroll";
 import { useTheme } from "@mui/material/styles";
-import { Box } from "@mui/system";
+import { Box } from "@mui/material";
 import FilterComponent from "../../modules/FilterComponent";
 import useOnlineStatus from "../../../hook/useOnlineStatus";
 import ErrorView from "../ErrorView";

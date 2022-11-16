@@ -17,7 +17,7 @@ import { useAppContext } from "../../../context/AppContext";
 import { dispatchTypes } from "../../../context/AppReducer";
 import { useRouter } from "next/router";
 import { LoadingButton } from '@mui/lab';
-import { Box } from '@mui/system';
+import { Box } from "@mui/material";
 
 function AdminCreateOrEditDonasi(props) {
     const router = useRouter();

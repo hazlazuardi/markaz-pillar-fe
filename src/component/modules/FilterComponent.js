@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FilterList } from "@mui/icons-material";
-import { Box } from "@mui/system";
+import { Box } from "@mui/material";
 import Drawer from "./Drawer.js";
 
 export default function FilterComponent(props) {

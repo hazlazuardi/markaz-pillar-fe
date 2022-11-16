@@ -1,6 +1,6 @@
 import { SwipeableDrawer } from "@mui/material";
 import React from "react";
-import { Box } from "@mui/system";
+import { Box } from "@mui/material";
 
 export default function Drawer(props) {
   const { children, open, toggleDrawer } = props;

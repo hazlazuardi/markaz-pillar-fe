@@ -1,7 +1,7 @@
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { Button, Divider, FormControl, FormHelperText, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material'
-import { Box } from '@mui/system'
+import { Box } from "@mui/material"
 import React, { useState } from 'react'
 import Copyright from './Copyright'
 import Link from 'next/link'

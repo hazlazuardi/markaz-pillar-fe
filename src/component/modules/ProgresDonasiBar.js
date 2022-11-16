@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Container, LinearProgress, Typography } from '@mui/material'
-import { Box } from '@mui/system';
+import { Box } from "@mui/material";
 import { useAppContext } from '../../context/AppContext';
 import { useRouter } from 'next/router';
 import { dispatchTypes, enumRoutes } from '../../context/AppReducer';

@@ -2,7 +2,7 @@ import React from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Button from "@mui/material/Button";
 import Link from "next/link";
-import { Box } from "@mui/system";
+import { Box } from "@mui/material";
 import { useRouter } from "next/router";
 
 export default function ArrowBack(props) {

@@ -1,7 +1,7 @@
 import { AppBar, Avatar, Button, IconButton, List, ListItem, ListItemText, SwipeableDrawer, Toolbar, Typography, Container, Stack } from '@mui/material'
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { Box } from '@mui/system'
+import { Box } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu'
 import Link from 'next/link'
 import { useAppContext } from '../../context/AppContext'

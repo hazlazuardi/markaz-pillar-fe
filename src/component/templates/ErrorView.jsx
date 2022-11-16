@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button, Stack, Typography } from '@mui/material'
-import { Box } from '@mui/system'
+import { Box } from "@mui/material"
 import { enumRoutes } from '../../context/AppReducer'
 
 const IMAGE_SIZE = 100

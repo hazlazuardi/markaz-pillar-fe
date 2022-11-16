@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import GridViewCard from "../../modules/GridViewCard";
 import Masonry from "@mui/lab/Masonry";
-import { Box } from "@mui/system";
+import { Box } from "@mui/material";
 import { Container } from "@mui/material";
 
 export default function GridView(props) {
