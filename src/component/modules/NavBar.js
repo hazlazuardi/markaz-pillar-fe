@@ -55,81 +55,83 @@ export default function NavBar() {
         setOpen({ ...open, right: isOpen });
     };
 
-    const list = () => (
-        <Box
-            sx={{
-                width: {
-                    xs: '100%', // theme.breakpoints.up('xs')
-                    sm: '100%', // theme.breakpoints.up('sm')
-                },
-                height: '100%',
-                display: { xs: 'flex', sm: 'flex' },
-                mb: '2em',
-                minWidth: {
-                    xs: 200,
-                    sm: 300
-                }
-            }}
-            p={2}
-            role="presentation"
-            onClick={toggleDrawer(false)}
-            onKeyDown={toggleDrawer(false)}
-            flexDirection='column'
-            justifyContent='space-between'
-        >
-            {currentUser && (
-                <Box width='100%' overflow='hidden' padding='2em'>
-                    <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
-                        <Avatar sx={{ width: 100, height: 100, mb: '1em' }}>{currentUser[0].toUpperCase()}</Avatar>
-                    </Box>
-                    <Typography sx={{ wordWrap: 'break-word' }} textAlign='center' variant='h5'>{currentUser.split('@')[0]}</Typography>
-                    <Typography sx={{ wordWrap: 'break-word' }} textAlign='center'>{currentUserRole.split('_')[1]}</Typography>
-                    <Button fullWidth color='error' sx={{ mt: '2em' }} size='large' variant='text' onClick={handleLogout}>Keluar</Button>
-                </ Box>
-            )}
-            <Box display='flex' flexDirection='column' width='100%' flexGrow={1} justifyContent='flex-end'>
-                <List>
-                    {userPages.map((page, index) => (
-                        <ListItem button key={index}>
-                            <Link href={page.path} passHref >
-                                <ListItemText sx={{ textAlign: 'center' }} primary={page.name} />
-                            </ Link>
-                        </ListItem>
-                    ))}
-                    {!!currentUser && authenticatedPages.map((page, index) => (
-                        <ListItem button key={index}>
-                            <Link href={page.path} passHref >
-                                <ListItemText sx={{ textAlign: 'center' }} primary={page.name} />
-                            </ Link>
-                        </ListItem>
-                    ))}
-                    {isAdmin && drawerAdminPages.map((page, index) => (
-                        <ListItem button key={index}>
-                            <Link href={page.path} passHref >
-                                <ListItemText sx={{ textAlign: 'center' }} primary={page.name} />
-                            </ Link>
-                        </ListItem>
-                    ))}
+    function List() {
+        return (
+            <Box
+                sx={{
+                    width: {
+                        xs: '100%', // theme.breakpoints.up('xs')
+                        sm: '100%', // theme.breakpoints.up('sm')
+                    },
+                    height: '100%',
+                    display: { xs: 'flex', sm: 'flex' },
+                    mb: '2em',
+                    minWidth: {
+                        xs: 200,
+                        sm: 300
+                    }
+                }}
+                p={2}
+                role="presentation"
+                onClick={toggleDrawer(false)}
+                onKeyDown={toggleDrawer(false)}
+                flexDirection='column'
+                justifyContent='space-between'
+            >
+                {currentUser && (
+                    <Box width='100%' overflow='hidden' padding='2em'>
+                        <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
+                            <Avatar sx={{ width: 100, height: 100, mb: '1em' }}>{currentUser[0].toUpperCase()}</Avatar>
+                        </Box>
+                        <Typography sx={{ wordWrap: 'break-word' }} textAlign='center' variant='h5'>{currentUser.split('@')[0]}</Typography>
+                        <Typography sx={{ wordWrap: 'break-word' }} textAlign='center'>{currentUserRole.split('_')[1]}</Typography>
+                        <Button fullWidth color='error' sx={{ mt: '2em' }} size='large' variant='text' onClick={handleLogout}>Keluar</Button>
+                    </ Box>
+                )}
+                <Box display='flex' flexDirection='column' width='100%' flexGrow={1} justifyContent='flex-end'>
+                    <List>
+                        {userPages.map((page, index) => (
+                            <ListItem button key={index}>
+                                <Link href={page.path} passHref >
+                                    <ListItemText sx={{ textAlign: 'center' }} primary={page.name} />
+                                </ Link>
+                            </ListItem>
+                        ))}
+                        {!!currentUser && authenticatedPages.map((page, index) => (
+                            <ListItem button key={index}>
+                                <Link href={page.path} passHref >
+                                    <ListItemText sx={{ textAlign: 'center' }} primary={page.name} />
+                                </ Link>
+                            </ListItem>
+                        ))}
+                        {isAdmin && drawerAdminPages.map((page, index) => (
+                            <ListItem button key={index}>
+                                <Link href={page.path} passHref >
+                                    <ListItemText sx={{ textAlign: 'center' }} primary={page.name} />
+                                </ Link>
+                            </ListItem>
+                        ))}
 
-                </List>
+                    </List>
+                </Box>
+
+                {!currentUser && (
+                    <Stack spacing={1}>
+                        <Link href='/login' passHref>
+                            <Button fullWidth variant="contained" color="primary" size='large'>
+                                Masuk
+                            </Button>
+                        </Link>
+                        <Link href='/registration' passHref>
+                            <Button fullWidth variant="outlined" color="primary" size='large'>
+                                Daftar
+                            </Button>
+                        </Link>
+                    </Stack>
+                )}
             </Box>
-
-            {!currentUser && (
-                <Stack spacing={1}>
-                    <Link href='/login' passHref>
-                        <Button fullWidth variant="contained" color="primary" size='large'>
-                            Masuk
-                        </Button>
-                    </Link>
-                    <Link href='/registration' passHref>
-                        <Button fullWidth variant="outlined" color="primary" size='large'>
-                            Daftar
-                        </Button>
-                    </Link>
-                </Stack>
-            )}
-        </Box>
-    );
+        )
+    }
     return (
         <>
             {/* App Bar */}
@@ -138,10 +140,11 @@ export default function NavBar() {
                     <Container maxWidth="lg">
                         <Toolbar disableGutters>
                             <Link href='/' passHref>
-                                <Box sx={{ flexGrow: 1 }}>
+                                <Box >
                                     <Image src="/logo.png" alt="logo" width={60} height={40} />
                                 </Box>
                             </ Link>
+                            <Box sx={{ flex: 1 }} />
                             {userPages.map((page, index) => (
                                 <Link key={index} href={page.path} passHref >
                                     <Button color="primary" sx={{ display: { xs: 'none', sm: 'block' } }}>{page.name}</Button>
@@ -177,7 +180,7 @@ export default function NavBar() {
                     sx={{ display: { xs: 'block', sm: 'block' } }}
                     disableSwipeToOpen={false}
                 >
-                    {list()}
+                    <List />
                 </SwipeableDrawer>
             </Box>
         </>
